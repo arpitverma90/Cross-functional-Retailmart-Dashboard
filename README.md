@@ -1,13 +1,13 @@
 # Sales, Customer & Operations Analytics Platform (RetailMart V3)
 ## Enterprise BI Engine for Commercial, Customer RFM, Operations, Growth & Governance
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-GitHub%20Pages-brightgreen.svg?logo=github)](https://archanak2810.github.io/sales-customer-operations-analytics/)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-GitHub%20Pages-brightgreen.svg?logo=github)](https://archanak2810.github.io/Cross-functional-Retailmart-Dashboard-/)
 [![Python](https://img.shields.io/badge/Python-3.13.2-blue.svg)](https://www.python.org/)
 [![Django](https://img.shields.io/badge/Django-5.1-green.svg)](https://www.djangoproject.com/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-18.4-336791.svg)](https://www.postgresql.org/)
 [![Status](https://img.shields.io/badge/Status-Production--Ready-success.svg)]()
 
-> **🚀 Live Interactive Dashboard**: [https://archanak2810.github.io/sales-customer-operations-analytics/](https://archanak2810.github.io/sales-customer-operations-analytics/)  
+> **🚀 Live Interactive Dashboard**: [https://archanak2810.github.io/Cross-functional-Retailmart-Dashboard-/](https://archanak2810.github.io/Cross-functional-Retailmart-Dashboard-/)  
 > **💻 Local Full-Stack Server**: `http://127.0.0.1:8000/` (Django 5.1 + PostgreSQL 18 with 2.4M rows)
 
 A high-performance, modular, and secure Enterprise Business Intelligence application built with **Django 5.1** and powered by **PostgreSQL 18** (`accio_retailmart_27`). This platform visualizes and analyzes over **2.4 million rows** across **55 relational tables** within **16 distinct database schemas**, structured into 3 distinct operational domain suites.
@@ -18,7 +18,7 @@ A high-performance, modular, and secure Enterprise Business Intelligence applica
 
 | Environment | URL / Endpoint | Target Engine | Purpose & Capabilities |
 | :--- | :--- | :--- | :--- |
-| **Live Interactive Web App (Production)** | [Launch Live Dashboard](https://archanak2810.github.io/sales-customer-operations-analytics/) | **GitHub Pages** (HTML5 + ApexCharts.js + Pre-computed PostgreSQL Data) | **Zero-setup client-side BI suite** featuring the full dark corporate navy theme (`#0F1F33` / `#183A5F`), left-hand **Global Filter tabs** (Quick Presets, Date Horizons, Geographic Scope, Cost Center), all 3 Domain Suites, interactive ApexCharts, scenario simulator, and one-click downloads of all PDF/Word/HTML domain deliverables. |
+| **Live Interactive Web App (Production)** | [Launch Live Dashboard](https://archanak2810.github.io/Cross-functional-Retailmart-Dashboard-/) | **GitHub Pages** (HTML5 + ApexCharts.js + Pre-computed PostgreSQL Data) | **Zero-setup client-side BI suite** featuring the full dark corporate navy theme (`#0F1F33` / `#183A5F`), left-hand **Global Filter tabs** (Quick Presets, Date Horizons, Geographic Scope, Cost Center), all 3 Domain Suites, interactive ApexCharts, scenario simulator, and one-click downloads of all PDF/Word/HTML domain deliverables. |
 | **Local Full-Stack Enterprise Server** | `http://127.0.0.1:8000/` | **Django 5.1 MTV + PostgreSQL 18** (`accio_retailmart_27`) | **Full relational dynamic query engine**. Executes pushdown SQL aggregation queries, window functions, and live schema inspections directly against the 2.4 million row database across 16 schemas. |
 
 ### Why This Deployment Link Is Appropriate
