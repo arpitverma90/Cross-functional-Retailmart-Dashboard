@@ -1657,6 +1657,22 @@ html_content = r"""<!DOCTYPE html>
                             <div id="chart-traffic-trend"></div>
                         </div>
                     </div>
+                    <div class="charts-grid-2" style="margin-top: 1.25rem;">
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <span class="chart-title"><i class="ti ti-filter" style="color: var(--purple);"></i> E-Commerce Full Conversion Funnel</span>
+                                <span style="font-size: 0.72rem; color: var(--text-muted);">Step Drop-Off Analysis</span>
+                            </div>
+                            <div id="chart-funnel"></div>
+                        </div>
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <span class="chart-title"><i class="ti ti-hand-click" style="color: var(--orange);"></i> Top User Interaction Events</span>
+                                <span style="font-size: 0.72rem; color: var(--text-muted);">Clicks, Scrolls &amp; Submissions</span>
+                            </div>
+                            <div id="chart-element-events"></div>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- ========================================================= -->
@@ -1727,6 +1743,22 @@ html_content = r"""<!DOCTYPE html>
                             <div id="chart-region-sla"></div>
                         </div>
                     </div>
+                    <div class="charts-grid-2" style="margin-top: 1.25rem;">
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <span class="chart-title"><i class="ti ti-clock-hour-4" style="color: var(--pink);"></i> Shipment Transit Lead Time Distribution</span>
+                                <span style="font-size: 0.72rem; color: var(--text-muted);">Delivered Volume by TAT Bracket</span>
+                            </div>
+                            <div id="chart-lead-distribution"></div>
+                        </div>
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <span class="chart-title"><i class="ti ti-package" style="color: var(--purple);"></i> Shipment Pipeline &amp; Delivery Status</span>
+                                <span style="font-size: 0.72rem; color: var(--text-muted);">Active Order Journey Status</span>
+                            </div>
+                            <div id="chart-inbound-status"></div>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- ========================================================= -->
@@ -1782,6 +1814,22 @@ html_content = r"""<!DOCTYPE html>
                                 <span class="chart-title"><i class="ti ti-trending-up" style="color: var(--cyan);"></i> Monthly Net Sales Velocity (₹ Cr)</span>
                             </div>
                             <div id="chart-sales-trend"></div>
+                        </div>
+                    </div>
+                    <div class="charts-grid-2" style="margin-top: 1.25rem;">
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <span class="chart-title"><i class="ti ti-award" style="color: var(--cyan);"></i> Top 8 Brand Partners by Commercial Sales (₹ Cr)</span>
+                                <span style="font-size: 0.72rem; color: var(--text-muted);">Volume Generated Across Brands</span>
+                            </div>
+                            <div id="chart-sales-brands"></div>
+                        </div>
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <span class="chart-title"><i class="ti ti-shopping-bag" style="color: var(--pink);"></i> Order Value Tier Spread &amp; Basket Sizes</span>
+                                <span style="font-size: 0.72rem; color: var(--text-muted);">Delivered Order Volume by Ticket Bracket</span>
+                            </div>
+                            <div id="chart-sales-tiers"></div>
                         </div>
                     </div>
                 </div>
@@ -1841,6 +1889,22 @@ html_content = r"""<!DOCTYPE html>
                             <div id="chart-customer-retention"></div>
                         </div>
                     </div>
+                    <div class="charts-grid-2" style="margin-top: 1.25rem;">
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <span class="chart-title"><i class="ti ti-crown" style="color: var(--purple);"></i> Loyalty Tier Spend (₹ Cr) vs Member Count</span>
+                                <span style="font-size: 0.72rem; color: var(--text-muted);">Membership Headcount vs Delivered Spend</span>
+                            </div>
+                            <div id="chart-cust-tiers"></div>
+                        </div>
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <span class="chart-title"><i class="ti ti-repeat" style="color: var(--cyan);"></i> Customer Purchase Frequency Cohorts</span>
+                                <span style="font-size: 0.72rem; color: var(--text-muted);">Revenue Share by Repurchase Frequency</span>
+                            </div>
+                            <div id="chart-cust-cohorts"></div>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- ========================================================= -->
@@ -1896,6 +1960,22 @@ html_content = r"""<!DOCTYPE html>
                                 <span class="chart-title"><i class="ti ti-activity-heartbeat" style="color: var(--orange);"></i> Manufacturing Floor Scrap Rate by Line (%)</span>
                             </div>
                             <div id="chart-ops-scrap"></div>
+                        </div>
+                    </div>
+                    <div class="charts-grid-2" style="margin-top: 1.25rem;">
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <span class="chart-title"><i class="ti ti-alert-triangle" style="color: var(--orange);"></i> Regional Inventory Risk &amp; Out-of-Stock Exposure (%)</span>
+                                <span style="font-size: 0.72rem; color: var(--text-muted);">Stockout Risk by Macro-Region</span>
+                            </div>
+                            <div id="chart-ops-risk"></div>
+                        </div>
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <span class="chart-title"><i class="ti ti-building-warehouse" style="color: var(--cyan);"></i> Regional Warehouse Hub Storage Utilization (%)</span>
+                                <span style="font-size: 0.72rem; color: var(--text-muted);">Space Utilized vs Capacity</span>
+                            </div>
+                            <div id="chart-ops-capacity"></div>
                         </div>
                     </div>
                 </div>
@@ -1955,6 +2035,22 @@ html_content = r"""<!DOCTYPE html>
                             <div id="chart-hr-payroll"></div>
                         </div>
                     </div>
+                    <div class="charts-grid-2" style="margin-top: 1.25rem;">
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <span class="chart-title"><i class="ti ti-clock-play" style="color: var(--pink);"></i> Shift Roster &amp; Employee Schedule Distribution</span>
+                                <span style="font-size: 0.72rem; color: var(--text-muted);">Headcount Deployment Across Shifts</span>
+                            </div>
+                            <div id="chart-hr-shifts"></div>
+                        </div>
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <span class="chart-title"><i class="ti ti-calendar-check" style="color: var(--cyan);"></i> Monthly Shift Attendance &amp; Punctuality Rate (%)</span>
+                                <span style="font-size: 0.72rem; color: var(--text-muted);">26-Month Attendance Compliance Trajectory</span>
+                            </div>
+                            <div id="chart-hr-attendance"></div>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- ========================================================= -->
@@ -2010,6 +2106,22 @@ html_content = r"""<!DOCTYPE html>
                                 <span class="chart-title"><i class="ti ti-credit-card" style="color: var(--cyan);"></i> Payment Rail Volume Distribution (₹ Cr)</span>
                             </div>
                             <div id="chart-fin-rails"></div>
+                        </div>
+                    </div>
+                    <div class="charts-grid-2" style="margin-top: 1.25rem;">
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <span class="chart-title"><i class="ti ti-receipt-2" style="color: var(--orange);"></i> Top 8 Corporate Expense Categories (₹ Cr)</span>
+                                <span style="font-size: 0.72rem; color: var(--text-muted);">Non-Payroll Operating Expenditures</span>
+                            </div>
+                            <div id="chart-fin-corp"></div>
+                        </div>
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <span class="chart-title"><i class="ti ti-chart-arrows-vertical" style="color: var(--purple);"></i> Product Category Delivered Sales (₹ Cr) &amp; Gross Margin %</span>
+                                <span style="font-size: 0.72rem; color: var(--text-muted);">Category Volume vs Profitability Spread</span>
+                            </div>
+                            <div id="chart-fin-margins"></div>
                         </div>
                     </div>
                 </div>
@@ -3280,6 +3392,8 @@ html_content = r"""<!DOCTYPE html>
 
             // Trigger window resize so ApexCharts correctly size
             window.dispatchEvent(new Event('resize'));
+            setTimeout(function() { window.dispatchEvent(new Event('resize')); }, 60);
+            setTimeout(function() { window.dispatchEvent(new Event('resize')); }, 200);
         }
 
         // Deliverables Dropdown toggle
@@ -4309,6 +4423,271 @@ html_content = r"""<!DOCTYPE html>
                 };
                 window.appCharts['chart-dept-cost'] = new ApexCharts(document.querySelector('#chart-dept-cost'), deptOptions).render();
             }
+
+            
+            // =========================================================
+            // ADDITIONAL DOMAIN CHARTS (DIGITAL, LOGISTICS, SALES, CUST, OPS, HR, FIN)
+            // =========================================================
+
+            // DIGITAL 3: E-Commerce Conversion Funnel
+            window.appCharts['chart-funnel'] = new ApexCharts(document.querySelector("#chart-funnel"), {
+                series: [{ name: 'Step Volume', data: [99320, 74250, 28410, 14205, 10420] }],
+                chart: { type: 'bar', height: 280, background: 'transparent', toolbar: { show: false } },
+                plotOptions: { bar: { horizontal: true, distributed: true, barHeight: '65%', borderRadius: 4 } },
+                colors: ['#2CD4E1', '#A459D0', '#E95B9F', '#FFBD4A', '#34D399'],
+                dataLabels: { enabled: false },
+                xaxis: {
+                    categories: ['1. Total Sessions', '2. Product Views', '3. Cart Additions', '4. Checkout Started', '5. Orders Completed'],
+                    labels: { style: { colors: '#8E9BAE', fontFamily: 'Inter' }, formatter: function(v) { return (v / 1000).toFixed(0) + 'k'; } }
+                },
+                yaxis: { labels: { style: { colors: '#D5DCE5', fontFamily: 'Inter', fontSize: '11px' } } },
+                grid: { borderColor: '#24598A', strokeDashArray: 3 },
+                legend: { show: false },
+                tooltip: { theme: 'dark', y: { formatter: function(v) { return Number(v).toLocaleString('en-IN') + ' Visitors'; } } }
+            });
+            window.appCharts['chart-funnel'].render();
+
+            // DIGITAL 4: Top User Interaction Events
+            window.appCharts['chart-element-events'] = new ApexCharts(document.querySelector("#chart-element-events"), {
+                series: [
+                    { name: 'Clicks', data: [42500, 31200, 28900, 24100, 18200, 14500] },
+                    { name: 'Scrolls', data: [18200, 14500, 22100, 9800, 8400, 11200] },
+                    { name: 'Submissions', data: [8500, 6200, 3100, 14205, 5200, 2900] }
+                ],
+                chart: { type: 'bar', stacked: true, height: 280, background: 'transparent', toolbar: { show: false } },
+                colors: ['#A459D0', '#2CD4E1', '#E88E3E'],
+                dataLabels: { enabled: false },
+                plotOptions: { bar: { columnWidth: '50%', borderRadius: 4 } },
+                xaxis: {
+                    categories: ['Search Bar', 'Category Filter', 'Product Card', 'Add to Cart', 'Wishlist', 'Reviews'],
+                    labels: { style: { colors: '#8E9BAE', fontFamily: 'Inter', fontSize: '11px' } }
+                },
+                yaxis: { labels: { style: { colors: '#8E9BAE', fontFamily: 'Inter' }, formatter: function(v) { return (v / 1000).toFixed(0) + 'k'; } } },
+                grid: { borderColor: '#24598A', strokeDashArray: 3 },
+                legend: { position: 'top', labels: { colors: '#D5DCE5' } },
+                tooltip: { theme: 'dark' }
+            });
+            window.appCharts['chart-element-events'].render();
+
+            // LOGISTICS 3: Transit Lead Time Distribution
+            window.appCharts['chart-lead-distribution'] = new ApexCharts(document.querySelector("#chart-lead-distribution"), {
+                series: [{ name: 'Delivered Shipments', data: [12450, 28540, 26120, 11730, 3700] }],
+                chart: { type: 'bar', height: 280, background: 'transparent', toolbar: { show: false } },
+                plotOptions: { bar: { distributed: true, borderRadius: 4, columnWidth: '55%' } },
+                colors: ['#34D399', '#2CD4E1', '#A459D0', '#FFBD4A', '#F43F5E'],
+                dataLabels: { enabled: false },
+                xaxis: {
+                    categories: ['Same Day (<24h)', 'Next Day (24-48h)', '2-3 Days', '4-5 Days', '6+ Days (Delayed)'],
+                    labels: { style: { colors: '#8E9BAE', fontFamily: 'Inter', fontSize: '11px' } }
+                },
+                yaxis: { labels: { style: { colors: '#8E9BAE', fontFamily: 'Inter' }, formatter: function(v) { return (v / 1000).toFixed(0) + 'k'; } } },
+                grid: { borderColor: '#24598A', strokeDashArray: 3 },
+                legend: { show: false },
+                tooltip: { theme: 'dark', y: { formatter: function(v) { return Number(v).toLocaleString('en-IN') + ' Shipments'; } } }
+            });
+            window.appCharts['chart-lead-distribution'].render();
+
+            // LOGISTICS 4: Shipment Pipeline & Status Distribution (Donut - dataLabels enabled)
+            window.appCharts['chart-inbound-status'] = new ApexCharts(document.querySelector("#chart-inbound-status"), {
+                series: [82540, 14210, 4832, 1840],
+                chart: { type: 'donut', height: 280, background: 'transparent' },
+                labels: ['Delivered (82.5k)', 'In-Transit (14.2k)', 'Out for Delivery (4.8k)', 'RTO / Returned (1.8k)'],
+                colors: ['#34D399', '#2CD4E1', '#FFBD4A', '#F43F5E'],
+                stroke: { colors: ['#183A5F'], width: 2 },
+                dataLabels: { enabled: true, formatter: function(val) { return val.toFixed(1) + '%'; }, style: { fontFamily: 'Inter', fontSize: '11px', fontWeight: 600 } },
+                legend: { position: 'bottom', labels: { colors: '#D5DCE5' } },
+                tooltip: { theme: 'dark', y: { formatter: function(v) { return Number(v).toLocaleString('en-IN') + ' Parcels'; } } }
+            });
+            window.appCharts['chart-inbound-status'].render();
+
+            // SALES 3: Top 8 Brand Partners by Sales Volume
+            window.appCharts['chart-sales-brands'] = new ApexCharts(document.querySelector("#chart-sales-brands"), {
+                series: [{ name: 'Delivered Sales (₹ Cr)', data: [39.59, 38.66, 35.69, 34.82, 33.15, 31.90, 29.45, 27.80] }],
+                chart: { type: 'bar', height: 280, background: 'transparent', toolbar: { show: false } },
+                plotOptions: { bar: { horizontal: true, borderRadius: 4, barHeight: '65%' } },
+                colors: ['#2CD4E1'],
+                dataLabels: { enabled: false },
+                xaxis: {
+                    labels: { style: { colors: '#8E9BAE', fontFamily: 'Inter' }, formatter: function(v) { return '₹' + v + ' Cr'; } }
+                },
+                yaxis: {
+                    categories: ['Lenovo', 'HP', 'Acer', 'Dell', 'Apple', 'Samsung', 'Sony', 'LG'],
+                    labels: { style: { colors: '#D5DCE5', fontFamily: 'Inter', fontSize: '11px' } }
+                },
+                grid: { borderColor: '#24598A', strokeDashArray: 3 },
+                tooltip: { theme: 'dark', y: { formatter: function(v) { return '₹' + v.toFixed(2) + ' Cr'; } } }
+            });
+            window.appCharts['chart-sales-brands'].render();
+
+            // SALES 4: Order Value Tier Spread & Basket Sizes
+            window.appCharts['chart-sales-tiers'] = new ApexCharts(document.querySelector("#chart-sales-tiers"), {
+                series: [{ name: 'Delivered Orders', data: [12480, 24820, 32140, 10850, 2250] }],
+                chart: { type: 'bar', height: 280, background: 'transparent', toolbar: { show: false } },
+                plotOptions: { bar: { borderRadius: 4, columnWidth: '55%', distributed: true } },
+                colors: ['#6F8298', '#2CD4E1', '#A459D0', '#FFBD4A', '#34D399'],
+                dataLabels: { enabled: false },
+                xaxis: {
+                    categories: ['< ₹25k (Entry)', '₹25k - ₹50k (Mid)', '₹50k - ₹100k (Core)', '₹100k - ₹200k (Prem)', '> ₹200k (VIP)'],
+                    labels: { style: { colors: '#8E9BAE', fontFamily: 'Inter', fontSize: '11px' } }
+                },
+                yaxis: { labels: { style: { colors: '#8E9BAE', fontFamily: 'Inter' }, formatter: function(v) { return (v / 1000).toFixed(0) + 'k'; } } },
+                grid: { borderColor: '#24598A', strokeDashArray: 3 },
+                legend: { show: false },
+                tooltip: { theme: 'dark', y: { formatter: function(v) { return Number(v).toLocaleString('en-IN') + ' Orders'; } } }
+            });
+            window.appCharts['chart-sales-tiers'].render();
+
+            // CUSTOMER 3: Loyalty Tier Spend vs Member Count
+            window.appCharts['chart-cust-tiers'] = new ApexCharts(document.querySelector("#chart-cust-tiers"), {
+                series: [
+                    { name: 'Delivered Spend (₹ Cr)', type: 'column', data: [334.35, 204.02, 104.77, 33.81] },
+                    { name: 'Enrolled Members', type: 'line', data: [24831, 14975, 7668, 2526] }
+                ],
+                chart: { height: 280, type: 'line', background: 'transparent', toolbar: { show: false } },
+                colors: ['#2CD4E1', '#A459D0'],
+                stroke: { width: [0, 3], curve: 'smooth' },
+                plotOptions: { bar: { columnWidth: '45%', borderRadius: 4 } },
+                dataLabels: { enabled: false },
+                xaxis: {
+                    categories: ['Bronze Tier', 'Silver Tier', 'Gold Tier', 'Platinum Tier'],
+                    labels: { style: { colors: '#8E9BAE', fontFamily: 'Inter', fontSize: '11px' } }
+                },
+                yaxis: [
+                    { title: { text: 'Delivered Spend (₹ Cr)', style: { color: '#2CD4E1' } }, labels: { style: { colors: '#8E9BAE' }, formatter: function(v) { return '₹' + v.toFixed(0) + ' Cr'; } } },
+                    { opposite: true, title: { text: 'Enrolled Members', style: { color: '#A459D0' } }, labels: { style: { colors: '#8E9BAE' }, formatter: function(v) { return (v / 1000).toFixed(0) + 'k'; } } }
+                ],
+                grid: { borderColor: '#24598A', strokeDashArray: 3 },
+                legend: { position: 'top', labels: { colors: '#D5DCE5' } },
+                tooltip: { theme: 'dark' }
+            });
+            window.appCharts['chart-cust-tiers'].render();
+
+            // CUSTOMER 4: Purchase Frequency Cohorts (Donut - dataLabels enabled)
+            window.appCharts['chart-cust-cohorts'] = new ApexCharts(document.querySelector("#chart-cust-cohorts"), {
+                series: [390.48, 129.09, 137.94, 19.43],
+                chart: { type: 'donut', height: 280, background: 'transparent' },
+                labels: ['2-3 Repeat (₹390.5 Cr)', '1 Single Purchase (₹129.1 Cr)', '4-5 Regular (₹137.9 Cr)', '6+ Power (₹19.4 Cr)'],
+                colors: ['#A459D0', '#6F8298', '#2CD4E1', '#34D399'],
+                stroke: { colors: ['#183A5F'], width: 2 },
+                dataLabels: { enabled: true, formatter: function(val) { return val.toFixed(1) + '%'; }, style: { fontFamily: 'Inter', fontSize: '11px', fontWeight: 600 } },
+                legend: { position: 'bottom', labels: { colors: '#D5DCE5' } },
+                tooltip: { theme: 'dark', y: { formatter: function(v) { return '₹' + v.toFixed(2) + ' Cr'; } } }
+            });
+            window.appCharts['chart-cust-cohorts'].render();
+
+            // OPERATIONS 3: Regional Inventory Risk & Out-of-Stock Exposure
+            window.appCharts['chart-ops-risk'] = new ApexCharts(document.querySelector("#chart-ops-risk"), {
+                series: [{ name: 'At-Risk Inventory Rate (%)', data: [15.54, 15.43, 15.35, 15.12, 14.88, 14.62] }],
+                chart: { type: 'bar', height: 280, background: 'transparent', toolbar: { show: false } },
+                plotOptions: { bar: { horizontal: true, borderRadius: 4, barHeight: '65%' } },
+                colors: ['#E88E3E'],
+                dataLabels: { enabled: false },
+                xaxis: {
+                    labels: { style: { colors: '#8E9BAE', fontFamily: 'Inter' }, formatter: function(v) { return v.toFixed(1) + '%'; } }
+                },
+                yaxis: {
+                    categories: ['West Region', 'South Region', 'North East Region', 'North Region', 'Central Region', 'East Region'],
+                    labels: { style: { colors: '#D5DCE5', fontFamily: 'Inter', fontSize: '11px' } }
+                },
+                grid: { borderColor: '#24598A', strokeDashArray: 3 },
+                tooltip: { theme: 'dark', y: { formatter: function(v) { return v.toFixed(2) + '% of slots at risk'; } } }
+            });
+            window.appCharts['chart-ops-risk'].render();
+
+            // OPERATIONS 4: Regional Warehouse Hub Storage Utilization
+            window.appCharts['chart-ops-capacity'] = new ApexCharts(document.querySelector("#chart-ops-capacity"), {
+                series: [{ name: 'Capacity Utilized (%)', data: [88.4, 82.1, 76.5, 79.2, 71.0] }],
+                chart: { type: 'bar', height: 280, background: 'transparent', toolbar: { show: false } },
+                plotOptions: { bar: { borderRadius: 4, columnWidth: '55%', distributed: true } },
+                colors: ['#F43F5E', '#FFBD4A', '#2CD4E1', '#34D399', '#A459D0'],
+                dataLabels: { enabled: false },
+                xaxis: {
+                    categories: ['North Hub (Delhi)', 'South Hub (BLR)', 'West Hub (MUM)', 'East Hub (KOL)', 'Central Hub (BHO)'],
+                    labels: { style: { colors: '#8E9BAE', fontFamily: 'Inter', fontSize: '11px' } }
+                },
+                yaxis: { max: 100, labels: { style: { colors: '#8E9BAE', fontFamily: 'Inter' }, formatter: function(v) { return v + '%'; } } },
+                grid: { borderColor: '#24598A', strokeDashArray: 3 },
+                legend: { show: false },
+                tooltip: { theme: 'dark', y: { formatter: function(v) { return v.toFixed(1) + '% space utilized'; } } }
+            });
+            window.appCharts['chart-ops-capacity'].render();
+
+            // HR 3: Shift Roster & Employee Schedule Distribution (Donut - dataLabels enabled)
+            window.appCharts['chart-hr-shifts'] = new ApexCharts(document.querySelector("#chart-hr-shifts"), {
+                series: [1275, 852, 558, 315],
+                chart: { type: 'donut', height: 280, background: 'transparent' },
+                labels: ['General Day Shift (42.5%)', 'Morning Shift (28.4%)', 'Evening Shift (18.6%)', 'Night Shift (10.5%)'],
+                colors: ['#2CD4E1', '#A459D0', '#E88E3E', '#6F8298'],
+                stroke: { colors: ['#183A5F'], width: 2 },
+                dataLabels: { enabled: true, formatter: function(val) { return val.toFixed(1) + '%'; }, style: { fontFamily: 'Inter', fontSize: '11px', fontWeight: 600 } },
+                legend: { position: 'bottom', labels: { colors: '#D5DCE5' } },
+                tooltip: { theme: 'dark', y: { formatter: function(v) { return Number(v).toLocaleString('en-IN') + ' Staff'; } } }
+            });
+            window.appCharts['chart-hr-shifts'].render();
+
+            // HR 4: Monthly Shift Attendance & Punctuality Rate (%)
+            window.appCharts['chart-hr-attendance'] = new ApexCharts(document.querySelector("#chart-hr-attendance"), {
+                series: [{
+                    name: 'Attendance Compliance (%)',
+                    data: [94.2, 93.8, 95.1, 94.6, 94.8, 93.9, 94.5, 95.2, 94.1, 94.7, 95.0, 94.4, 94.9, 93.7, 95.3, 94.5, 94.8, 95.1, 95.4, 94.6, 94.5, 95.0, 94.7, 95.2, 94.6, 94.1]
+                }],
+                chart: { type: 'line', height: 280, background: 'transparent', toolbar: { show: false } },
+                stroke: { curve: 'smooth', width: 3 },
+                colors: ['#34D399'],
+                dataLabels: { enabled: false },
+                xaxis: {
+                    categories: ['Jan 2024', 'Feb 2024', 'Mar 2024', 'Apr 2024', 'May 2024', 'Jun 2024', 'Jul 2024', 'Aug 2024', 'Sep 2024', 'Oct 2024', 'Nov 2024', 'Dec 2024', 'Jan 2025', 'Feb 2025', 'Mar 2025', 'Apr 2025', 'May 2025', 'Jun 2025', 'Jul 2025', 'Aug 2025', 'Sep 2025', 'Oct 2025', 'Nov 2025', 'Dec 2025', 'Jan 2026', 'Feb 2026'],
+                    labels: { style: { colors: '#8E9BAE', fontFamily: 'Inter', fontSize: '11px' } }
+                },
+                yaxis: { min: 90, max: 100, labels: { style: { colors: '#8E9BAE', fontFamily: 'Inter' }, formatter: function(v) { return v.toFixed(0) + '%'; } } },
+                grid: { borderColor: '#24598A', strokeDashArray: 3 },
+                tooltip: { theme: 'dark', y: { formatter: function(v) { return v.toFixed(1) + '% Compliance'; } } }
+            });
+            window.appCharts['chart-hr-attendance'].render();
+
+            // FINANCE 3: Top 8 Corporate Expense Categories (₹ Cr)
+            window.appCharts['chart-fin-corp'] = new ApexCharts(document.querySelector("#chart-fin-corp"), {
+                series: [{ name: 'Expenditure (₹ Cr)', data: [108.45, 85.20, 64.12, 58.90, 52.40, 45.10, 38.60, 32.80] }],
+                chart: { type: 'bar', height: 280, background: 'transparent', toolbar: { show: false } },
+                plotOptions: { bar: { horizontal: true, borderRadius: 4, barHeight: '65%' } },
+                colors: ['#E88E3E'],
+                dataLabels: { enabled: false },
+                xaxis: {
+                    labels: { style: { colors: '#8E9BAE', fontFamily: 'Inter' }, formatter: function(v) { return '₹' + v + ' Cr'; } }
+                },
+                yaxis: {
+                    categories: ['Rent & Leases', 'Marketing & Media', 'Enterprise Software', 'Utilities & Power', 'Freight Logistics', 'Corporate Insurance', 'Taxes & Levies', 'Facility Maintenance'],
+                    labels: { style: { colors: '#D5DCE5', fontFamily: 'Inter', fontSize: '11px' } }
+                },
+                grid: { borderColor: '#24598A', strokeDashArray: 3 },
+                tooltip: { theme: 'dark', y: { formatter: function(v) { return '₹' + v.toFixed(2) + ' Cr'; } } }
+            });
+            window.appCharts['chart-fin-corp'].render();
+
+            // FINANCE 4: Product Category Delivered Sales (₹ Cr) & Gross Margin %
+            window.appCharts['chart-fin-margins'] = new ApexCharts(document.querySelector("#chart-fin-margins"), {
+                series: [
+                    { name: 'Delivered Revenue (₹ Cr)', type: 'column', data: [312.45, 148.60, 105.80, 68.40, 41.70] },
+                    { name: 'Gross Margin (%)', type: 'line', data: [26.2, 34.5, 18.2, 31.4, 38.8] }
+                ],
+                chart: { height: 280, type: 'line', background: 'transparent', toolbar: { show: false } },
+                colors: ['#A459D0', '#2CD4E1'],
+                stroke: { width: [0, 3], curve: 'smooth' },
+                plotOptions: { bar: { columnWidth: '45%', borderRadius: 4 } },
+                dataLabels: { enabled: false },
+                xaxis: {
+                    categories: ['Electronics', 'Apparel & Fashion', 'Grocery & FMCG', 'Home & Kitchen', 'Beauty & Health'],
+                    labels: { style: { colors: '#8E9BAE', fontFamily: 'Inter', fontSize: '11px' } }
+                },
+                yaxis: [
+                    { title: { text: 'Delivered Revenue (₹ Cr)', style: { color: '#A459D0' } }, labels: { style: { colors: '#8E9BAE' }, formatter: function(v) { return '₹' + v.toFixed(0) + ' Cr'; } } },
+                    { opposite: true, max: 50, title: { text: 'Gross Margin (%)', style: { color: '#2CD4E1' } }, labels: { style: { colors: '#8E9BAE' }, formatter: function(v) { return v.toFixed(0) + '%'; } } }
+                ],
+                grid: { borderColor: '#24598A', strokeDashArray: 3 },
+                legend: { position: 'top', labels: { colors: '#D5DCE5' } },
+                tooltip: { theme: 'dark' }
+            });
+            window.appCharts['chart-fin-margins'].render();
 
             // Initialize Workforce Simulator
             initSimulator();
