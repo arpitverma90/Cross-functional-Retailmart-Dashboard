@@ -1,0 +1,40 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environments & Secrets
+.env
+.venv/
+venv/
+env/
+ENV/
+
+# Django & Static Files
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+staticfiles/
+
+# Large database dumps & binary backups
+sql.backup
+*.dump
+*.bak
+
+# IDE & OS files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Assistant & Temporary Scratch Files
+.system_generated/
+.tempmediaStorage/
+.user_uploaded/
+scratch/
+*.zip
+csv/

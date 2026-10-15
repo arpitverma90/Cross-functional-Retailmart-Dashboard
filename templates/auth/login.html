@@ -1,0 +1,80 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Executive Login · RetailMart V3 Analytics</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.31.0/dist/tabler-icons.min.css">
+    <link rel="stylesheet" href="{% static 'css/tailwind.css' %}">
+    
+    <style>
+        .login-card {
+            width: 100%;
+            max-width: 440px;
+            background: linear-gradient(180deg, var(--navy-card) 0%, #122c48 100%);
+            border: 1px solid var(--blue-border);
+            border-radius: 16px;
+            padding: 2.5rem 2rem;
+            box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45);
+        }
+    </style>
+</head>
+<body style="display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 1.5rem;">
+    <div class="login-card">
+        <div style="text-align: center; margin-bottom: 2rem;">
+            <div style="width: 54px; height: 54px; border-radius: 14px; background: linear-gradient(135deg, var(--navy-card) 0%, var(--purple) 100%); border: 1px solid var(--blue-border); display: inline-flex; align-items: center; justify-content: center; margin-bottom: 1rem; box-shadow: 0 4px 16px var(--purple-glow);">
+                <i class="ti ti-shield-lock" style="font-size: 1.8rem; color: #fff;"></i>
+            </div>
+            <h1 style="font-size: 1.6rem; font-weight: 800; margin-bottom: 0.35rem;">
+                RetailMart <span style="color: var(--purple);">V3</span>
+            </h1>
+            <p style="font-size: 0.85rem; color: var(--text-muted);">
+                Enterprise Business Intelligence Portal
+            </p>
+        </div>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div style="padding: 0.75rem 1rem; border-radius: 8px; margin-bottom: 1.25rem; font-size: 0.82rem; {% if message.tags == 'error' %}background: rgba(248, 113, 113, 0.15); border: 1px solid #F87171; color: #F87171;{% else %}background: rgba(52, 211, 153, 0.15); border: 1px solid #34D399; color: #34D399;{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="POST" action="">
+            {% csrf_token %}
+            <div style="margin-bottom: 1.25rem;">
+                <label style="display: block; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.4rem;">
+                    Username
+                </label>
+                <input type="text" name="username" class="filter-input" placeholder="Enter executive username" required autofocus 
+                       value="{{ request.POST.username|default:'' }}" style="font-size: 0.9rem; padding: 0.65rem 0.85rem;">
+            </div>
+
+            <div style="margin-bottom: 1.75rem;">
+                <label style="display: block; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.4rem;">
+                    Password
+                </label>
+                <input type="password" name="password" class="filter-input" placeholder="Enter secure password" required 
+                       style="font-size: 0.9rem; padding: 0.65rem 0.85rem;">
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.75rem; font-size: 0.95rem; font-weight: 700;">
+                <i class="ti ti-login"></i> Access Analytics Platform
+            </button>
+        </form>
+
+        <div style="margin-top: 2rem; padding-top: 1.25rem; border-top: 1px solid rgba(36, 89, 138, 0.4); text-align: center; font-size: 0.75rem; color: var(--text-muted);">
+            <div>Default Demo Credentials:</div>
+            <code style="color: var(--cyan); background: rgba(15, 31, 51, 0.6); padding: 0.2rem 0.5rem; border-radius: 4px; display: inline-block; margin-top: 0.4rem;">
+                executive / RetailMart2026!
+            </code>
+        </div>
+    </div>
+</body>
+</html>

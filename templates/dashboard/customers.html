@@ -1,0 +1,189 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h2 class="page-title">Customer Intelligence Dashboard</h2>
+        <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem;">
+            Customer Retention, RFM Behavioral Segments, Loyalty Tier Economics &amp; Churn Risk Mitigation
+        </div>
+    </div>
+</div>
+
+<!-- Customer KPI Cards -->
+<div class="kpi-grid">
+    <div class="kpi-card accent-pink">
+        <div class="kpi-header">
+            <span class="kpi-title">Active Transacting Buyers</span>
+        </div>
+        <div class="kpi-value">{{ data.overview.total_active_customers|default:0 }}</div>
+        <div class="kpi-subtext">Delivered order customers</div>
+    </div>
+
+    <div class="kpi-card accent-purple">
+        <div class="kpi-header">
+            <span class="kpi-title">Average Spend / Customer</span>
+        </div>
+        <div class="kpi-value">₹{{ data.overview.arpu|floatformat:2 }}</div>
+        <div class="kpi-subtext">Realized ARPU</div>
+    </div>
+
+    <div class="kpi-card accent-cyan">
+        <div class="kpi-header">
+            <span class="kpi-title">Average Purchase Frequency</span>
+        </div>
+        <div class="kpi-value">{{ data.overview.avg_frequency|floatformat:2 }}</div>
+        <div class="kpi-subtext">Orders placed per customer</div>
+    </div>
+
+    <div class="kpi-card accent-pink">
+        <div class="kpi-header">
+            <span class="kpi-title">Repeat Purchase Rate</span>
+        </div>
+        <div class="kpi-value">{{ data.overview.repeat_rate_pct|floatformat:1 }}%</div>
+        <div class="kpi-subtext">{{ data.overview.repeat_customers|default:0 }} multi-order buyers</div>
+    </div>
+</div>
+
+<!-- Charts Row 1: RFM Segment Spend Breakdown & Loyalty Tier Enrollment -->
+<div class="charts-grid-2">
+    <div class="chart-card">
+        <div class="chart-header">
+            <span class="chart-title">
+                <i class="ti ti-chart-pie" style="color: var(--pink);"></i>
+                RFM Segment Revenue Contribution (₹ Crores)
+            </span>
+        </div>
+        <div id="chart-customer-rfm"></div>
+    </div>
+
+    <div class="chart-card">
+        <div class="chart-header">
+            <span class="chart-title">
+                <i class="ti ti-crown" style="color: var(--yellow);"></i>
+                Loyalty Club Membership Distribution
+            </span>
+        </div>
+        <div id="chart-customer-loyalty"></div>
+    </div>
+</div>
+
+<!-- Charts Row 2: Customer Satisfaction Ratings & Tier Mix -->
+<div class="charts-grid-2">
+    <div class="chart-card">
+        <div class="chart-header">
+            <span class="chart-title">
+                <i class="ti ti-star" style="color: var(--yellow);"></i>
+                Customer Product Review Ratings Distribution (1 to 5 Stars)
+            </span>
+        </div>
+        <div id="chart-customer-ratings"></div>
+    </div>
+
+    <div class="chart-card">
+        <div class="chart-header">
+            <span class="chart-title">
+                <i class="ti ti-users" style="color: var(--cyan);"></i>
+                Registered Customer Base by Tier
+            </span>
+        </div>
+        <div id="chart-customer-tiers"></div>
+    </div>
+</div>
+
+<!-- High-Priority Churn Risk VIP Customers Action Table -->
+<div class="table-card">
+    <div class="chart-header">
+        <span class="chart-title" style="color: var(--orange);">
+            <i class="ti ti-alert-triangle"></i>
+            High-Priority Churn Risk VIP Customers (Top Spend, Inactive &gt; 90 Days)
+        </span>
+        <span class="kpi-badge badge-negative">Proactive Retention Action Required</span>
+    </div>
+
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Customer ID</th>
+                <th>Customer Name</th>
+                <th>Loyalty Tier</th>
+                <th style="text-align: right;">Days Inactive</th>
+                <th style="text-align: right;">Past Orders</th>
+                <th style="text-align: right;">Lifetime Spend (₹)</th>
+                <th style="text-align: right;">Spend (Lakhs)</th>
+                <th>Prescribed Action Protocol</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for vip in data.churn_risk_vips %}
+                <tr>
+                    <td style="color: var(--text-muted); font-family: monospace;">#{{ vip.customer_id }}</td>
+                    <td style="font-weight: 600; color: var(--text-white);">{{ vip.customer_name }}</td>
+                    <td>
+                        <span class="kpi-badge {% if vip.tier == 'Platinum' %}badge-positive{% elif vip.tier == 'Gold' %}badge-neutral{% else %}badge-neutral{% endif %}">
+                            {{ vip.tier }}
+                        </span>
+                    </td>
+                    <td style="text-align: right; color: var(--orange); font-weight: 600;">{{ vip.recency_days }} days</td>
+                    <td style="text-align: right;">{{ vip.order_frequency }}</td>
+                    <td style="text-align: right; color: var(--purple); font-weight: 600;">₹{{ vip.monetary_value|floatformat:2 }}</td>
+                    <td style="text-align: right;">₹{{ vip.spend_lakhs|floatformat:2 }} L</td>
+                    <td>
+                        <span class="kpi-badge badge-neutral" style="background: rgba(164, 89, 208, 0.15); color: var(--purple); border: 1px solid var(--purple);">
+                            {{ vip.recommended_action }}
+                        </span>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="8" style="text-align: center; color: var(--text-muted); padding: 2rem;">
+                        No high-risk VIP customer accounts identified in this segment.
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // 1. RFM Segments Donut Chart
+    const rfmData = {{ data.rfm_segments|safe }};
+    renderDonutChart('chart-customer-rfm', rfmData.map(r => r.rfm_segment), rfmData.map(r => Math.round(r.total_spend_crores)), {
+        colors: [RM_THEME.purple, RM_THEME.pink, RM_THEME.cyan, RM_THEME.orange, RM_THEME.yellow],
+        height: 280,
+        totalLabel: 'Total Spend (₹ Cr)'
+    });
+
+    // 2. Loyalty Club Members Bar Chart
+    const loyaltyData = {{ data.loyalty_stats|safe }};
+    renderBarChart('chart-customer-loyalty', loyaltyData.map(r => r.tier_name), [{
+        name: 'Enrolled Members',
+        data: loyaltyData.map(r => r.member_count)
+    }], {
+        colors: [RM_THEME.pink],
+        height: 280
+    });
+
+    // 3. Customer Ratings Bar Chart
+    const reviewData = {{ data.reviews|safe }};
+    renderBarChart('chart-customer-ratings', reviewData.map(r => r.rating + ' Stars'), [{
+        name: 'Review Count',
+        data: reviewData.map(r => r.review_count)
+    }], {
+        colors: [RM_THEME.yellow],
+        height: 280
+    });
+
+    // 4. Customer Tiers Bar Chart
+    const tierData = {{ data.tiers|safe }};
+    renderHorizontalBarChart('chart-customer-tiers', tierData.map(r => r.tier), [{
+        name: 'Customers',
+        data: tierData.map(r => r.customer_count)
+    }], {
+        colors: [RM_THEME.cyan],
+        height: 280
+    });
+</script>
+{% endblock %}

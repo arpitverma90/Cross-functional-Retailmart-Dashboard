@@ -1,0 +1,280 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h2 class="page-title">Executive Summary</h2>
+        <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem;">
+            Enterprise Performance Dashboard · Reporting Window: <span style="color: var(--text-white); font-weight: 600;">{{ data.reporting_period }}</span>
+        </div>
+    </div>
+    <div class="freshness-tag">
+        <span class="kpi-badge badge-neutral" style="background: rgba(44, 212, 225, 0.1); color: var(--cyan); border: 1px solid rgba(44, 212, 225, 0.3);">
+            <i class="ti ti-check"></i> Refreshed: {{ data.refresh_timestamp }}
+        </span>
+    </div>
+</div>
+
+<!-- Headline KPI Cards (12 Validated Measures) -->
+<div class="kpi-grid">
+    <!-- 1. Net Revenue -->
+    <div class="kpi-card accent-purple">
+        <div class="kpi-header">
+            <span class="kpi-title">Delivered Net Revenue</span>
+            <span class="kpi-badge {% if data.kpis.net_revenue.var_pct >= 0 %}badge-positive{% else %}badge-negative{% endif %}">
+                {% if data.kpis.net_revenue.var_pct >= 0 %}+{% endif %}{{ data.kpis.net_revenue.var_pct|floatformat:1 }}%
+            </span>
+        </div>
+        <div class="kpi-value" id="val-net-revenue">
+            ₹{{ data.kpis.net_revenue.current|floatformat:0 }}
+        </div>
+        <div class="kpi-subtext">
+            <span>Prior: ₹{{ data.kpis.net_revenue.prior|floatformat:0 }}</span>
+        </div>
+    </div>
+
+    <!-- 2. Order Volume -->
+    <div class="kpi-card accent-cyan">
+        <div class="kpi-header">
+            <span class="kpi-title">Delivered Orders</span>
+            <span class="kpi-badge {% if data.kpis.order_volume.var_pct >= 0 %}badge-positive{% else %}badge-negative{% endif %}">
+                {% if data.kpis.order_volume.var_pct >= 0 %}+{% endif %}{{ data.kpis.order_volume.var_pct|floatformat:1 }}%
+            </span>
+        </div>
+        <div class="kpi-value">{{ data.kpis.order_volume.current|default:0 }}</div>
+        <div class="kpi-subtext">
+            <span>Prior: {{ data.kpis.order_volume.prior|default:0 }}</span>
+        </div>
+    </div>
+
+    <!-- 3. AOV -->
+    <div class="kpi-card accent-purple">
+        <div class="kpi-header">
+            <span class="kpi-title">Average Order Value</span>
+            <span class="kpi-badge {% if data.kpis.aov.var_pct >= 0 %}badge-positive{% else %}badge-negative{% endif %}">
+                {% if data.kpis.aov.var_pct >= 0 %}+{% endif %}{{ data.kpis.aov.var_pct|floatformat:1 }}%
+            </span>
+        </div>
+        <div class="kpi-value">₹{{ data.kpis.aov.current|floatformat:2 }}</div>
+        <div class="kpi-subtext">
+            <span>Prior: ₹{{ data.kpis.aov.prior|floatformat:2 }}</span>
+        </div>
+    </div>
+
+    <!-- 4. Active Customers -->
+    <div class="kpi-card accent-pink">
+        <div class="kpi-header">
+            <span class="kpi-title">Active Buyers</span>
+            <span class="kpi-badge {% if data.kpis.active_customers.var_pct >= 0 %}badge-positive{% else %}badge-negative{% endif %}">
+                {% if data.kpis.active_customers.var_pct >= 0 %}+{% endif %}{{ data.kpis.active_customers.var_pct|floatformat:1 }}%
+            </span>
+        </div>
+        <div class="kpi-value">{{ data.kpis.active_customers.current|default:0 }}</div>
+        <div class="kpi-subtext">
+            <span>Prior: {{ data.kpis.active_customers.prior|default:0 }}</span>
+        </div>
+    </div>
+
+    <!-- 5. Repeat Purchase Rate -->
+    <div class="kpi-card accent-pink">
+        <div class="kpi-header">
+            <span class="kpi-title">Repeat Purchase Rate</span>
+            <span class="kpi-badge badge-neutral">{{ data.kpis.repeat_rate_pct|floatformat:1 }}%</span>
+        </div>
+        <div class="kpi-value">{{ data.kpis.repeat_rate_pct|floatformat:1 }}%</div>
+        <div class="kpi-subtext">Multi-order customer retention</div>
+    </div>
+
+    <!-- 6. Discount Rate -->
+    <div class="kpi-card accent-orange">
+        <div class="kpi-header">
+            <span class="kpi-title">Discount Markdown %</span>
+            <span class="kpi-badge badge-neutral">{{ data.kpis.discount_rate_pct|floatformat:1 }}%</span>
+        </div>
+        <div class="kpi-value">{{ data.kpis.discount_rate_pct|floatformat:1 }}%</div>
+        <div class="kpi-subtext">Of gross commercial revenue</div>
+    </div>
+
+    <!-- 7. Return Rate -->
+    <div class="kpi-card accent-orange">
+        <div class="kpi-header">
+            <span class="kpi-title">Order Return Rate</span>
+            <span class="kpi-badge badge-neutral">{{ data.kpis.return_rate_pct|floatformat:1 }}%</span>
+        </div>
+        <div class="kpi-value">{{ data.kpis.return_rate_pct|floatformat:1 }}%</div>
+        <div class="kpi-subtext">Delivered orders returned</div>
+    </div>
+
+    <!-- 8. Delivery SLA -->
+    <div class="kpi-card accent-cyan">
+        <div class="kpi-header">
+            <span class="kpi-title">On-Time Delivery SLA</span>
+            <span class="kpi-badge {% if data.kpis.on_time_sla_pct >= 90 %}badge-positive{% else %}badge-negative{% endif %}">
+                {{ data.kpis.on_time_sla_pct|floatformat:1 }}%
+            </span>
+        </div>
+        <div class="kpi-value">{{ data.kpis.on_time_sla_pct|floatformat:1 }}%</div>
+        <div class="kpi-subtext">Target: &ge; 90.0% (&le; 5 days)</div>
+    </div>
+
+    <!-- 9. Average Transit Days -->
+    <div class="kpi-card accent-cyan">
+        <div class="kpi-header">
+            <span class="kpi-title">Average Lead Time</span>
+            <span class="kpi-badge badge-neutral">{{ data.kpis.avg_lead_days|floatformat:1 }}d</span>
+        </div>
+        <div class="kpi-value">{{ data.kpis.avg_lead_days|floatformat:1 }} Days</div>
+        <div class="kpi-subtext">Outbound dispatch to delivery</div>
+    </div>
+
+    <!-- 10. Out-of-Stock SKUs -->
+    <div class="kpi-card accent-yellow">
+        <div class="kpi-header">
+            <span class="kpi-title">Out-of-Stock SKUs</span>
+            <span class="kpi-badge badge-negative">Stockout Alert</span>
+        </div>
+        <div class="kpi-value" style="color: var(--yellow);">{{ data.kpis.out_of_stock_skus }}</div>
+        <div class="kpi-subtext">Zero inventory across stores</div>
+    </div>
+
+    <!-- 11. Low-Stock SKUs -->
+    <div class="kpi-card accent-yellow">
+        <div class="kpi-header">
+            <span class="kpi-title">Reorder Risk SKUs</span>
+            <span class="kpi-badge badge-neutral">Inventory Watch</span>
+        </div>
+        <div class="kpi-value">{{ data.kpis.low_stock_skus }}</div>
+        <div class="kpi-subtext">Stock &le; Reorder Level</div>
+    </div>
+
+    <!-- 12. In-Transit Shipments -->
+    <div class="kpi-card accent-cyan">
+        <div class="kpi-header">
+            <span class="kpi-title">Pending In-Transit</span>
+            <span class="kpi-badge badge-neutral">In-Transit</span>
+        </div>
+        <div class="kpi-value">{{ data.kpis.pending_shipments }}</div>
+        <div class="kpi-subtext">Active parcels with couriers</div>
+    </div>
+</div>
+
+<!-- Charts Row 1: Trend & Category Breakdown -->
+<div class="charts-grid-2">
+    <div class="chart-card">
+        <div class="chart-header">
+            <span class="chart-title">
+                <i class="ti ti-chart-area-line" style="color: var(--purple);"></i>
+                Delivered Net Revenue Velocity (26-Month Trailing)
+            </span>
+            <a href="{% url 'sales_dashboard' %}" class="btn btn-secondary" style="padding: 0.25rem 0.6rem; font-size: 0.72rem;">
+                Drill Down <i class="ti ti-arrow-right"></i>
+            </a>
+        </div>
+        <div id="chart-exec-revenue-trend"></div>
+    </div>
+
+    <div class="chart-card">
+        <div class="chart-header">
+            <span class="chart-title">
+                <i class="ti ti-chart-bar" style="color: var(--cyan);"></i>
+                Top Product Categories by Revenue Contribution
+            </span>
+            <a href="{% url 'sales_dashboard' %}" class="btn btn-secondary" style="padding: 0.25rem 0.6rem; font-size: 0.72rem;">
+                Drill Down <i class="ti ti-arrow-right"></i>
+            </a>
+        </div>
+        <div id="chart-exec-category"></div>
+    </div>
+</div>
+
+<!-- Charts Row 2: Regional Performance & Management Attention -->
+<div class="charts-grid-2">
+    <div class="chart-card">
+        <div class="chart-header">
+            <span class="chart-title">
+                <i class="ti ti-map" style="color: var(--cyan);"></i>
+                Regional Revenue Contribution (₹ Crores)
+            </span>
+            <a href="{% url 'sales_dashboard' %}" class="btn btn-secondary" style="padding: 0.25rem 0.6rem; font-size: 0.72rem;">
+                All Regions <i class="ti ti-arrow-right"></i>
+            </a>
+        </div>
+        <div id="chart-exec-region"></div>
+    </div>
+
+    <!-- Management Attention Matrix -->
+    <div class="chart-card" style="display: flex; flex-direction: column;">
+        <div class="chart-header">
+            <span class="chart-title" style="color: var(--yellow);">
+                <i class="ti ti-alert-circle"></i>
+                Management Attention &amp; Action Protocol
+            </span>
+            <span class="kpi-badge badge-neutral">{{ data.attention_items|length }} Exceptions Active</span>
+        </div>
+
+        <div style="flex: 1; overflow-y: auto; max-height: 320px; padding-right: 0.35rem;">
+            {% for item in data.attention_items %}
+                <div class="attention-card {{ item.severity }}">
+                    <div>
+                        <div style="font-size: 0.72rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.2rem;">
+                            {{ item.area }}
+                        </div>
+                        <div style="font-size: 0.85rem; font-weight: 600; color: var(--text-white); margin-bottom: 0.25rem;">
+                            {{ item.issue }}
+                        </div>
+                        <div style="font-size: 0.78rem; color: var(--text-light);">
+                            <strong>Recommended Action:</strong> {{ item.action }}
+                        </div>
+                    </div>
+                    <a href="{{ item.drill_url }}" class="btn btn-secondary" style="padding: 0.3rem 0.6rem; font-size: 0.72rem; flex-shrink: 0;">
+                        Action <i class="ti ti-chevron-right"></i>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Format primary revenue value in Indian notation
+    document.getElementById('val-net-revenue').textContent = formatINR({{ data.kpis.net_revenue.current|default:0 }});
+
+    // 1. Monthly Revenue Trend Area Chart
+    const trendMonths = {{ data.monthly_trend|safe }}.map(r => r.month_label);
+    const trendRevCrores = {{ data.monthly_trend|safe }}.map(r => r.revenue_crores);
+    renderAreaChart('chart-exec-revenue-trend', trendMonths, [{
+        name: 'Delivered Revenue (₹ Cr)',
+        data: trendRevCrores
+    }], {
+        colors: [RM_THEME.purple],
+        height: 280,
+        yFormatter: v => '₹' + v + ' Cr'
+    });
+
+    // 2. Category Performance Bar Chart
+    const catNames = {{ data.top_categories|safe }}.map(r => r.category_name);
+    const catRevCrores = {{ data.top_categories|safe }}.map(r => r.revenue_crores);
+    renderBarChart('chart-exec-category', catNames, [{
+        name: 'Net Revenue (₹ Cr)',
+        data: catRevCrores
+    }], {
+        colors: [RM_THEME.cyan],
+        height: 280,
+        yFormatter: v => '₹' + v + ' Cr'
+    });
+
+    // 3. Regional Performance Horizontal Bar Chart
+    const regNames = {{ data.regional_performance|safe }}.slice(0, 8).map(r => r.region_name);
+    const regRevCrores = {{ data.regional_performance|safe }}.slice(0, 8).map(r => r.revenue_crores);
+    renderHorizontalBarChart('chart-exec-region', regNames, [{
+        name: 'Net Revenue (₹ Cr)',
+        data: regRevCrores
+    }], {
+        colors: [RM_THEME.purple],
+        height: 280,
+        xFormatter: v => '₹' + v + ' Cr'
+    });
+</script>
+{% endblock %}

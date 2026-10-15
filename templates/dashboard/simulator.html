@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h2 class="page-title">Contribution Margin Scenario Simulator</h2>
+        <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem;">
+            Interactive What-If Sensitivity Tool · Baseline Reconciled from PostgreSQL Live Actuals
+        </div>
+    </div>
+    <div>
+        <button id="btn-reset-sim" class="btn btn-secondary">
+            <i class="ti ti-rotate-clockwise"></i> Reset Simulator
+        </button>
+    </div>
+</div>
+
+<!-- Formula & Analytical Guardrails Banner -->
+<div class="attention-card info" style="margin-bottom: 1.5rem;">
+    <div>
+        <div style="font-size: 0.72rem; font-weight: 700; text-transform: uppercase; color: var(--cyan); margin-bottom: 0.25rem;">
+            Approved Feasible Analytical Formula
+        </div>
+        <div style="font-size: 0.85rem; color: var(--text-light);">
+            <strong>Net Contribution Margin</strong> = Delivered Net Revenue - Product COGS - Return Refunds - Store Operating Expenses.
+        </div>
+        <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem;">
+            <em>Note: This tool models contribution sensitivity. It does not calculate corporate EBITDA or net profit due to absence of Capex, interest, and corporate tax schedules.</em>
+        </div>
+    </div>
+</div>
+
+<!-- Simulator Layout: Sliders on Left, Results on Right -->
+<div class="charts-grid-2">
+    <!-- Left Column: Interactive Levers -->
+    <div class="chart-card">
+        <div class="chart-header">
+            <span class="chart-title" style="color: var(--cyan);">
+                <i class="ti ti-adjustments-horizontal"></i>
+                Scenario Adjustment Levers (Bounded Ranges)
+            </span>
+            <span class="kpi-badge badge-neutral">Client-Side Calculation</span>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 1.5rem; padding: 0.5rem 0;">
+            <!-- Lever 1: Sales Volume -->
+            <div>
+                <div style="display: flex; justify-content: space-between; font-size: 0.82rem; margin-bottom: 0.4rem;">
+                    <span style="font-weight: 600; color: var(--text-white);">1. Sales Order Volume Shift</span>
+                    <span id="val-volume" style="font-weight: 700; color: var(--cyan);">0%</span>
+                </div>
+                <input type="range" id="sim-volume" min="-30" max="30" step="1" value="0" style="width: 100%; accent-color: var(--cyan);">
+                <div style="display: flex; justify-content: space-between; font-size: 0.68rem; color: var(--text-muted); margin-top: 0.2rem;">
+                    <span>-30% (Severe Slump)</span>
+                    <span>Baseline (0%)</span>
+                    <span>+30% (Rapid Expansion)</span>
+                </div>
+            </div>
+
+            <!-- Lever 2: Pricing / Discount Markdown -->
+            <div>
+                <div style="display: flex; justify-content: space-between; font-size: 0.82rem; margin-bottom: 0.4rem;">
+                    <span style="font-weight: 600; color: var(--text-white);">2. Price Realization / Markdown Delta</span>
+                    <span id="val-price" style="font-weight: 700; color: var(--purple);">0.0%</span>
+                </div>
+                <input type="range" id="sim-price" min="-10" max="10" step="0.5" value="0" style="width: 100%; accent-color: var(--purple);">
+                <div style="display: flex; justify-content: space-between; font-size: 0.68rem; color: var(--text-muted); margin-top: 0.2rem;">
+                    <span>-10% (Heavy Discounts)</span>
+                    <span>Baseline (0%)</span>
+                    <span>+10% (Price Premium)</span>
+                </div>
+            </div>
+
+            <!-- Lever 3: Defect / Return Rate Reduction -->
+            <div>
+                <div style="display: flex; justify-content: space-between; font-size: 0.82rem; margin-bottom: 0.4rem;">
+                    <span style="font-weight: 600; color: var(--text-white);">3. Customer Return Rate Change</span>
+                    <span id="val-return" style="font-weight: 700; color: var(--orange);">0%</span>
+                </div>
+                <input type="range" id="sim-return" min="-50" max="50" step="5" value="0" style="width: 100%; accent-color: var(--orange);">
+                <div style="display: flex; justify-content: space-between; font-size: 0.68rem; color: var(--text-muted); margin-top: 0.2rem;">
+                    <span>-50% (Strict QA Halves Returns)</span>
+                    <span>Baseline (0%)</span>
+                    <span>+50% (Quality Failure Spike)</span>
+                </div>
+            </div>
+
+            <!-- Lever 4: Store Operational Expenses -->
+            <div>
+                <div style="display: flex; justify-content: space-between; font-size: 0.82rem; margin-bottom: 0.4rem;">
+                    <span style="font-weight: 600; color: var(--text-white);">4. Store Operating Cost Efficiency</span>
+                    <span id="val-cost" style="font-weight: 700; color: var(--yellow);">0%</span>
+                </div>
+                <input type="range" id="sim-cost" min="-20" max="20" step="1" value="0" style="width: 100%; accent-color: var(--yellow);">
+                <div style="display: flex; justify-content: space-between; font-size: 0.68rem; color: var(--text-muted); margin-top: 0.2rem;">
+                    <span>-20% (Operational Cost Cut)</span>
+                    <span>Baseline (0%)</span>
+                    <span>+20% (Expense Overrun)</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right Column: Simulated Financial Outcomes -->
+    <div class="chart-card">
+        <div class="chart-header">
+            <span class="chart-title" style="color: var(--purple);">
+                <i class="ti ti-calculator"></i>
+                Simulated Financial Outcomes vs Baseline
+            </span>
+            <span id="sim-var" class="kpi-badge badge-neutral">₹0 (0.0%)</span>
+        </div>
+
+        <div class="kpi-grid" style="grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.25rem;">
+            <div class="kpi-card accent-purple" style="padding: 1rem;">
+                <div class="kpi-title">Simulated Net Revenue</div>
+                <div class="kpi-value" id="sim-rev" style="font-size: 1.45rem;">--</div>
+                <div class="kpi-subtext">Baseline: ₹{{ baseline.base_net_revenue|floatformat:0 }}</div>
+            </div>
+
+            <div class="kpi-card accent-cyan" style="padding: 1rem;">
+                <div class="kpi-title">Contribution Margin</div>
+                <div class="kpi-value" id="sim-margin" style="font-size: 1.45rem;">--</div>
+                <div class="kpi-subtext">Baseline: ₹{{ baseline.base_contribution_margin|floatformat:0 }}</div>
+            </div>
+        </div>
+
+        <div style="background-color: rgba(15, 31, 51, 0.6); padding: 0.85rem 1rem; border-radius: 8px; border: 1px solid var(--blue-border); margin-bottom: 1.25rem;">
+            <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.35rem;">
+                <span style="color: var(--text-muted);">Simulated Contribution Margin Ratio:</span>
+                <strong id="sim-margin-pct" style="color: var(--cyan);">{{ baseline.base_contribution_margin_pct }}%</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 0.85rem;">
+                <span style="color: var(--text-muted);">Baseline Margin Ratio:</span>
+                <span style="color: var(--text-light);">{{ baseline.base_contribution_margin_pct }}%</span>
+            </div>
+        </div>
+
+        <!-- Comparative Bar Chart -->
+        <div id="sim-comparison-chart"></div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/scenario_simulator.js' %}"></script>
+<script>
+    const baselineData = {{ baseline|safe }};
+    initSimulator(baselineData);
+</script>
+{% endblock %}

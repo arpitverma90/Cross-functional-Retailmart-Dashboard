@@ -1,0 +1,190 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h2 class="page-title">Sales Intelligence Dashboard</h2>
+        <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem;">
+            Commercial Performance, Category Economics, Channel &amp; Geographic Distribution
+        </div>
+    </div>
+</div>
+
+<!-- Sales KPI Cards -->
+<div class="kpi-grid">
+    <div class="kpi-card accent-purple">
+        <div class="kpi-header">
+            <span class="kpi-title">Delivered Net Revenue</span>
+        </div>
+        <div class="kpi-value" id="sales-rev">₹{{ data.headline.total_net_revenue|floatformat:0 }}</div>
+        <div class="kpi-subtext">Recognized Delivered Income</div>
+    </div>
+
+    <div class="kpi-card accent-cyan">
+        <div class="kpi-header">
+            <span class="kpi-title">Delivered Orders</span>
+        </div>
+        <div class="kpi-value">{{ data.headline.total_orders|default:0 }}</div>
+        <div class="kpi-subtext">Purchase transactions</div>
+    </div>
+
+    <div class="kpi-card accent-purple">
+        <div class="kpi-header">
+            <span class="kpi-title">Average Order Value</span>
+        </div>
+        <div class="kpi-value">₹{{ data.headline.avg_order_value|floatformat:2 }}</div>
+        <div class="kpi-subtext">Net basket size per order</div>
+    </div>
+
+    <div class="kpi-card accent-orange">
+        <div class="kpi-header">
+            <span class="kpi-title">Discounts Conceded</span>
+        </div>
+        <div class="kpi-value" id="sales-disc">₹{{ data.headline.total_discount|floatformat:0 }}</div>
+        <div class="kpi-subtext">Total markdown promotions</div>
+    </div>
+
+    <div class="kpi-card accent-pink">
+        <div class="kpi-header">
+            <span class="kpi-title">Unique Active Buyers</span>
+        </div>
+        <div class="kpi-value">{{ data.headline.total_customers|default:0 }}</div>
+        <div class="kpi-subtext">Transacting customer accounts</div>
+    </div>
+</div>
+
+<!-- Charts Row 1: Monthly Sales Velocity with MoM Growth & Payment Modes -->
+<div class="charts-grid-2">
+    <div class="chart-card">
+        <div class="chart-header">
+            <span class="chart-title">
+                <i class="ti ti-chart-line" style="color: var(--purple);"></i>
+                Monthly Net Revenue Velocity &amp; MoM Trajectory
+            </span>
+        </div>
+        <div id="chart-sales-trend"></div>
+    </div>
+
+    <div class="chart-card">
+        <div class="chart-header">
+            <span class="chart-title">
+                <i class="ti ti-credit-card" style="color: var(--cyan);"></i>
+                Revenue Share by Payment Tender
+            </span>
+        </div>
+        <div id="chart-sales-payment"></div>
+    </div>
+</div>
+
+<!-- Charts Row 2: Category Revenue Breakdown & Top Store Productivity -->
+<div class="charts-grid-2">
+    <div class="chart-card">
+        <div class="chart-header">
+            <span class="chart-title">
+                <i class="ti ti-package" style="color: var(--cyan);"></i>
+                Product Category Net Revenue (₹ Crores)
+            </span>
+        </div>
+        <div id="chart-sales-category"></div>
+    </div>
+
+    <div class="chart-card">
+        <div class="chart-header">
+            <span class="chart-title">
+                <i class="ti ti-building-store" style="color: var(--purple);"></i>
+                Top 10 Stores by Sales per Square Foot (₹/sqft)
+            </span>
+        </div>
+        <div id="chart-sales-stores"></div>
+    </div>
+</div>
+
+<!-- Top 10 Best-Selling SKUs Table -->
+<div class="table-card">
+    <div class="chart-header">
+        <span class="chart-title">
+            <i class="ti ti-trophy" style="color: var(--yellow);"></i>
+            Top 10 Products by Net Revenue Contribution
+        </span>
+        <span class="kpi-badge badge-neutral">Class-A Commercial Drivers</span>
+    </div>
+
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Product SKU Name</th>
+                <th>Category</th>
+                <th style="text-align: right;">Units Sold</th>
+                <th style="text-align: right;">Total Net Revenue</th>
+                <th style="text-align: right;">Revenue (Lakhs)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for sku in data.top_skus %}
+                <tr>
+                    <td style="color: var(--text-muted); font-weight: 600;">{{ forloop.counter }}</td>
+                    <td style="font-weight: 600; color: var(--text-white);">{{ sku.product_name }}</td>
+                    <td><span class="kpi-badge badge-neutral">{{ sku.category_name }}</span></td>
+                    <td style="text-align: right;">{{ sku.total_units|default:0 }}</td>
+                    <td style="text-align: right; color: var(--purple); font-weight: 600;">₹{{ sku.total_revenue|floatformat:2 }}</td>
+                    <td style="text-align: right;">₹{{ sku.revenue_lakhs|floatformat:2 }} L</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="6" style="text-align: center; color: var(--text-muted); padding: 2rem;">
+                        No product records match the active filter criteria.
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.getElementById('sales-rev').textContent = formatINR({{ data.headline.total_net_revenue|default:0 }});
+    document.getElementById('sales-disc').textContent = formatINR({{ data.headline.total_discount|default:0 }});
+
+    // 1. Monthly Revenue Trend
+    const trendData = {{ data.monthly_trend|safe }};
+    renderAreaChart('chart-sales-trend', trendData.map(r => r.month_name), [{
+        name: 'Delivered Net Revenue (₹ Cr)',
+        data: trendData.map(r => r.revenue_crores)
+    }], {
+        colors: [RM_THEME.purple],
+        height: 280,
+        yFormatter: v => '₹' + v + ' Cr'
+    });
+
+    // 2. Payment Modes Donut Chart
+    const payData = {{ data.payment_modes|safe }};
+    renderDonutChart('chart-sales-payment', payData.map(r => r.mode_name), payData.map(r => Math.round(r.total_revenue)), {
+        height: 280,
+        totalLabel: 'Net Revenue'
+    });
+
+    // 3. Category Bar Chart
+    const catData = {{ data.categories|safe }};
+    renderBarChart('chart-sales-category', catData.map(r => r.category_name), [{
+        name: 'Revenue (₹ Cr)',
+        data: catData.map(r => r.revenue_crores)
+    }], {
+        colors: [RM_THEME.cyan],
+        height: 280,
+        yFormatter: v => '₹' + v + ' Cr'
+    });
+
+    // 4. Store Productivity Horizontal Bar Chart
+    const storeData = {{ data.top_stores|safe }};
+    renderHorizontalBarChart('chart-sales-stores', storeData.map(r => `${r.store_name} (${r.city})`), [{
+        name: 'Sales / Sqft (₹)',
+        data: storeData.map(r => r.sales_per_sqft)
+    }], {
+        colors: [RM_THEME.purple],
+        height: 280,
+        xFormatter: v => '₹' + v + '/sqft'
+    });
+</script>
+{% endblock %}

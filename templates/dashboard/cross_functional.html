@@ -1,0 +1,179 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h2 class="page-title">Cross-Functional Analytics</h2>
+        <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem;">
+            End-to-End Interdependencies: Delivery SLAs vs Review Ratings, Factory Alignment, Return Causes &amp; Revenue at Risk
+        </div>
+    </div>
+</div>
+
+<!-- Cross-Functional KPI Cards -->
+<div class="kpi-grid">
+    <div class="kpi-card accent-cyan">
+        <div class="kpi-header">
+            <span class="kpi-title">Perfect Order Rate</span>
+            <span class="kpi-badge badge-positive">Quality SLA</span>
+        </div>
+        <div class="kpi-value">{{ data.perfect_order.perfect_order_rate_pct|floatformat:1 }}%</div>
+        <div class="kpi-subtext">Delivered on-time, zero returns</div>
+    </div>
+
+    <div class="kpi-card accent-orange">
+        <div class="kpi-header">
+            <span class="kpi-title">Gross Revenue at Risk</span>
+            <span class="kpi-badge badge-negative">[PROXY]</span>
+        </div>
+        <div class="kpi-value" id="val-risk">₹{{ data.total_revenue_at_risk|floatformat:0 }}</div>
+        <div class="kpi-subtext">Cancellations, failures &amp; returns</div>
+    </div>
+
+    <div class="kpi-card accent-purple">
+        <div class="kpi-header">
+            <span class="kpi-title">Evaluated Delivered Orders</span>
+        </div>
+        <div class="kpi-value">{{ data.perfect_order.total_delivered_orders|default:0 }}</div>
+        <div class="kpi-subtext">Delivered order base</div>
+    </div>
+
+    <div class="kpi-card accent-yellow">
+        <div class="kpi-header">
+            <span class="kpi-title">Fast Delivery CSAT</span>
+        </div>
+        <div class="kpi-value" style="color: var(--yellow);">
+            {% for b in data.lead_time_impact %}{% if forloop.first %}{{ b.avg_customer_rating }} / 5.0{% endif %}{% endfor %}
+        </div>
+        <div class="kpi-subtext">1-2 Day delivery rating</div>
+    </div>
+</div>
+
+<!-- Charts Row 1: Delivery Lead Time Impact on CSAT & Revenue at Risk Breakdown -->
+<div class="charts-grid-2">
+    <div class="chart-card">
+        <div class="chart-header">
+            <span class="chart-title">
+                <i class="ti ti-star" style="color: var(--yellow);"></i>
+                Delivery Transit Duration vs Average Customer Rating (CSAT)
+            </span>
+            <span class="kpi-badge badge-neutral">SLA Correlation</span>
+        </div>
+        <div id="chart-cross-csat"></div>
+    </div>
+
+    <div class="chart-card">
+        <div class="chart-header">
+            <span class="chart-title">
+                <i class="ti ti-shield-alert" style="color: var(--orange);"></i>
+                Revenue at Risk by Operational Leakage Source
+            </span>
+            <span class="kpi-badge badge-neutral">[PROXY] Heuristic</span>
+        </div>
+        <div id="chart-cross-risk"></div>
+    </div>
+</div>
+
+<!-- Section: Production vs Sales Alignment -->
+<div class="table-card">
+    <div class="chart-header">
+        <span class="chart-title">
+            <i class="ti ti-arrows-exchange" style="color: var(--cyan);"></i>
+            Manufacturing Production vs Realized Commercial Sales Alignment
+        </span>
+        <span class="kpi-badge badge-neutral">Supply-Demand Balancing</span>
+    </div>
+
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Product Category</th>
+                <th style="text-align: right;">Units Sold (Delivered)</th>
+                <th style="text-align: right;">Factory Produced Units</th>
+                <th style="text-align: right;">Production Balance (+/-)</th>
+                <th>Supply Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in data.mfg_sales_alignment %}
+                <tr>
+                    <td style="font-weight: 600; color: var(--text-white);">{{ row.category_name }}</td>
+                    <td style="text-align: right;">{{ row.total_units_sold|default:0 }}</td>
+                    <td style="text-align: right; color: var(--cyan);">{{ row.total_units_manufactured|default:0 }}</td>
+                    <td style="text-align: right; font-weight: 700; {% if row.production_surplus_deficit >= 0 %}color: #34D399;{% else %}color: #F87171;{% endif %}">
+                        {% if row.production_surplus_deficit >= 0 %}+{% endif %}{{ row.production_surplus_deficit }}
+                    </td>
+                    <td>
+                        <span class="kpi-badge {% if row.production_surplus_deficit >= 0 %}badge-positive{% else %}badge-negative{% endif %}">
+                            {% if row.production_surplus_deficit >= 0 %}Surplus Buffer{% else %}Production Deficit{% endif %}
+                        </span>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Return Cost Impact by Reason & Category -->
+<div class="table-card">
+    <div class="chart-header">
+        <span class="chart-title" style="color: var(--orange);">
+            <i class="ti ti-receipt-refund"></i>
+            Customer Return Cost Impact (Category × Root Cause Reason)
+        </span>
+        <span class="kpi-badge badge-neutral">Refund Leakage Analysis</span>
+    </div>
+
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Category</th>
+                <th>Return Reason</th>
+                <th style="text-align: right;">Return Count</th>
+                <th style="text-align: right;">Refund Amount (₹)</th>
+                <th style="text-align: right;">Refund (Lakhs)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ret in data.returns_by_reason %}
+                <tr>
+                    <td style="font-weight: 600; color: var(--text-white);">{{ ret.category_name }}</td>
+                    <td>
+                        <span class="kpi-badge badge-neutral" style="{% if ret.reason == 'Defective' %}border-color: var(--orange); color: var(--orange);{% endif %}">
+                            {{ ret.reason }}
+                        </span>
+                    </td>
+                    <td style="text-align: right;">{{ ret.return_count }}</td>
+                    <td style="text-align: right; color: var(--orange); font-weight: 600;">₹{{ ret.total_refund_cost|floatformat:2 }}</td>
+                    <td style="text-align: right; font-weight: 700;">₹{{ ret.refund_lakhs|floatformat:2 }} L</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.getElementById('val-risk').textContent = formatINR({{ data.total_revenue_at_risk|default:0 }});
+
+    // 1. Delivery Time vs CSAT Rating Bar Chart
+    const csatData = {{ data.lead_time_impact|safe }};
+    renderBarChart('chart-cross-csat', csatData.map(r => r.transit_bucket), [{
+        name: 'Average Rating (1-5)',
+        data: csatData.map(r => r.avg_customer_rating)
+    }], {
+        colors: [RM_THEME.yellow],
+        height: 280,
+        yFormatter: v => v + ' ★'
+    });
+
+    // 2. Revenue at Risk Donut Chart
+    const riskData = {{ data.revenue_at_risk_breakdown|safe }};
+    renderDonutChart('chart-cross-risk', riskData.map(r => r.risk_source), riskData.map(r => Math.round(r.revenue_at_risk)), {
+        colors: [RM_THEME.orange, RM_THEME.yellow, '#F87171'],
+        height: 280,
+        totalLabel: 'Revenue at Risk'
+    });
+</script>
+{% endblock %}

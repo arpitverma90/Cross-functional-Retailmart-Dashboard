@@ -1,0 +1,173 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ page_title }} · RetailMart V3 Enterprise Analytics</title>
+    
+    <!-- Fonts: Outfit (Headings) & Inter (Body & Data) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tabler Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.31.0/dist/tabler-icons.min.css">
+    
+    <!-- ApexCharts.js -->
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    
+    <!-- Tailwind Design System -->
+    <link rel="stylesheet" href="{% static 'css/tailwind.css' %}">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Top Corporate Navigation -->
+        <header class="top-navbar">
+            <div class="brand-wrapper">
+                <div class="brand-icon">
+                    <i class="ti ti-building-store" style="color: #fff;"></i>
+                </div>
+                <div>
+                    <h1 style="font-size: 1.15rem; font-weight: 700; line-height: 1.2;">
+                        RetailMart <span style="color: var(--purple);">V3</span>
+                    </h1>
+                    <div style="font-size: 0.72rem; color: var(--text-muted);">
+                        Enterprise Business Intelligence
+                    </div>
+                </div>
+            </div>
+
+            <!-- Unified Dashboard Area Navigation -->
+            <nav class="nav-tabs">
+                <!-- Area 1: Executive Summary -->
+                <a href="{% url 'executive_summary' %}" class="nav-tab-link {% if active_tab == 'executive' %}active{% endif %}">
+                    <i class="ti ti-layout-dashboard"></i> Executive Summary
+                </a>
+                
+                <!-- Area 2: Detailed Business Dashboard -->
+                <a href="{% url 'sales_dashboard' %}" class="nav-tab-link {% if active_tab == 'sales' %}active{% endif %}">
+                    <i class="ti ti-chart-line"></i> Sales
+                </a>
+                <a href="{% url 'customer_dashboard' %}" class="nav-tab-link {% if active_tab == 'customers' %}active{% endif %}">
+                    <i class="ti ti-users"></i> Customers
+                </a>
+                <a href="{% url 'operations_dashboard' %}" class="nav-tab-link {% if active_tab == 'operations' %}active{% endif %}">
+                    <i class="ti ti-truck-delivery"></i> Operations
+                </a>
+                <a href="{% url 'cross_functional_dashboard' %}" class="nav-tab-link {% if active_tab == 'cross_functional' %}active{% endif %}">
+                    <i class="ti ti-arrows-cross"></i> Cross-Functional
+                </a>
+                <a href="{% url 'scenario_simulator' %}" class="nav-tab-link {% if active_tab == 'simulator' %}active{% endif %}">
+                    <i class="ti ti-calculator"></i> Simulator
+                </a>
+            </nav>
+
+            <!-- User Status & Quick Actions -->
+            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                <!-- Comprehensive Reports & Downloads Dropdown -->
+                <div style="position: relative; display: inline-block;">
+                    <button id="reports-dropdown-btn" type="button" class="btn" style="background: rgba(37, 99, 235, 0.25); border: 1px solid rgba(37, 99, 235, 0.6); color: #93C5FD; padding: 0.38rem 0.75rem; font-size: 0.75rem; border-radius: 6px; display: inline-flex; align-items: center; gap: 0.4rem; font-weight: 600; cursor: pointer;">
+                        <i class="ti ti-download"></i> Download Reports <i class="ti ti-chevron-down" style="font-size: 0.7rem;"></i>
+                    </button>
+                    
+                    <div id="reports-dropdown-menu" style="display: none; position: absolute; right: 0; top: calc(100% + 6px); width: 270px; background: #1E293B; border: 1px solid #334155; border-radius: 8px; box-shadow: 0 12px 30px rgba(0,0,0,0.6); z-index: 1050; padding: 6px 0; text-align: left;">
+                        <div style="padding: 6px 14px; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; color: #94A3B8; letter-spacing: 0.5px; border-bottom: 1px solid #334155;">
+                            Executive Insights Reports
+                        </div>
+                        <a href="{% url 'download_insights_pdf' %}" style="display: flex; align-items: center; gap: 10px; padding: 8px 14px; color: #F1F5F9; font-size: 0.75rem; text-decoration: none; transition: background 0.15s;" onmouseover="this.style.background='#334155'" onmouseout="this.style.background='transparent'">
+                            <i class="ti ti-file-type-pdf" style="color: #F43F5E; font-size: 1.15rem;"></i>
+                            <div>
+                                <div style="font-weight: 600;">Executive Insights (PDF)</div>
+                                <div style="font-size: 0.65rem; color: #94A3B8;">Print-ready decision dossier</div>
+                            </div>
+                        </a>
+                        <a href="{% url 'download_insights_word' %}" style="display: flex; align-items: center; gap: 10px; padding: 8px 14px; color: #F1F5F9; font-size: 0.75rem; text-decoration: none; transition: background 0.15s;" onmouseover="this.style.background='#334155'" onmouseout="this.style.background='transparent'">
+                            <i class="ti ti-file-type-docx" style="color: #3B82F6; font-size: 1.15rem;"></i>
+                            <div>
+                                <div style="font-weight: 600;">Executive Insights (Word)</div>
+                                <div style="font-size: 0.65rem; color: #94A3B8;">Editable .docx report with tables</div>
+                            </div>
+                        </a>
+                        <a href="{% url 'download_insights_html' %}" target="_blank" style="display: flex; align-items: center; gap: 10px; padding: 8px 14px; color: #F1F5F9; font-size: 0.75rem; text-decoration: none; transition: background 0.15s;" onmouseover="this.style.background='#334155'" onmouseout="this.style.background='transparent'">
+                            <i class="ti ti-file-type-html" style="color: #0D9488; font-size: 1.15rem;"></i>
+                            <div>
+                                <div style="font-weight: 600;">Interactive Insights (HTML)</div>
+                                <div style="font-size: 0.65rem; color: #94A3B8;">Standalone offline web report</div>
+                            </div>
+                        </a>
+                        <div style="padding: 6px 14px; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; color: #94A3B8; letter-spacing: 0.5px; border-top: 1px solid #334155; border-bottom: 1px solid #334155; margin-top: 4px;">
+                            Technical Deliverables
+                        </div>
+                        <a href="{% url 'download_word_doc' %}" style="display: flex; align-items: center; gap: 10px; padding: 8px 14px; color: #F1F5F9; font-size: 0.75rem; text-decoration: none; transition: background 0.15s;" onmouseover="this.style.background='#334155'" onmouseout="this.style.background='transparent'">
+                            <i class="ti ti-database" style="color: #A855F7; font-size: 1.15rem;"></i>
+                            <div>
+                                <div style="font-weight: 600;">SQL Query Catalogue (.docx)</div>
+                                <div style="font-size: 0.65rem; color: #94A3B8;">All 39 KPI & EDA queries</div>
+                            </div>
+                        </a>
+                        <a href="{% url 'download_github_zip' %}" style="display: flex; align-items: center; gap: 10px; padding: 8px 14px; color: #F1F5F9; font-size: 0.75rem; text-decoration: none; transition: background 0.15s;" onmouseover="this.style.background='#334155'" onmouseout="this.style.background='transparent'">
+                            <i class="ti ti-brand-github" style="color: #E2E8F0; font-size: 1.15rem;"></i>
+                            <div>
+                                <div style="font-weight: 600;">GitHub Repository (.zip)</div>
+                                <div style="font-size: 0.65rem; color: #94A3B8;">Complete clean codebase</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div style="text-align: right; display: none; md:block; margin-left: 0.25rem;">
+                    <div style="font-size: 0.78rem; font-weight: 600; color: var(--text-white);">
+                        {{ request.user.username|default:"Executive User" }}
+                    </div>
+                    <div style="font-size: 0.68rem; color: var(--cyan);">
+                        PostgreSQL 18 · Live
+                    </div>
+                </div>
+                <a href="{% url 'logout' %}" class="btn btn-secondary" title="Logout" style="padding: 0.38rem 0.7rem; font-size: 0.75rem;">
+                    <i class="ti ti-logout"></i> Logout
+                </a>
+            </div>
+        </header>
+
+        <!-- Main Application Body: Left Hand Sidebar + Content Area -->
+        <div class="app-body">
+            <!-- Left Hand Corner Filter Sidebar -->
+            {% if filter_options %}
+                <aside class="sidebar-filters" id="sidebar-filters">
+                    {% include 'components/filter_bar.html' %}
+                </aside>
+            {% endif %}
+
+            <!-- Main Dashboard Surface -->
+            <main class="main-content {% if not filter_options %}full-width{% endif %}">
+                <!-- Dynamic Page Content -->
+                {% block content %}{% endblock %}
+            </main>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="{% static 'js/apexcharts_helpers.js' %}"></script>
+    <script src="{% static 'js/filter_controller.js' %}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const btn = document.getElementById('reports-dropdown-btn');
+            const menu = document.getElementById('reports-dropdown-menu');
+            if (btn && menu) {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const isVisible = menu.style.display === 'block';
+                    menu.style.display = isVisible ? 'none' : 'block';
+                });
+                document.addEventListener('click', function(e) {
+                    if (!btn.contains(e.target) && !menu.contains(e.target)) {
+                        menu.style.display = 'none';
+                    }
+                });
+            }
+        });
+    </script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

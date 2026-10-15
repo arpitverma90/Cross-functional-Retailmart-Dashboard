@@ -1,0 +1,131 @@
+<div class="sidebar-filter-wrapper">
+    <div class="sidebar-filter-header">
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <i class="ti ti-adjustments-horizontal" style="color: var(--cyan); font-size: 1.15rem;"></i>
+            <span style="font-weight: 700; font-size: 0.95rem; color: var(--text-white);">Global Filters</span>
+        </div>
+        <span class="kpi-badge badge-neutral" style="font-size: 0.65rem; padding: 0.15rem 0.45rem;">PostgreSQL Live</span>
+    </div>
+
+    <form id="global-filter-form" method="GET" action="" class="sidebar-filter-form">
+        <!-- Top Action Buttons -->
+        <div class="filter-actions-top">
+            <button type="submit" class="btn btn-primary" style="flex: 1; padding: 0.5rem 0.6rem; font-size: 0.8rem;">
+                <i class="ti ti-filter"></i> Apply
+            </button>
+            <button type="button" id="btn-reset-filters" class="btn btn-reset" title="Reset to defaults" style="padding: 0.5rem 0.65rem; font-size: 0.8rem;">
+                <i class="ti ti-rotate-clockwise"></i> Reset
+            </button>
+        </div>
+
+        <!-- Quick Presets -->
+        <div class="filter-section-title">
+            <i class="ti ti-history"></i> Quick Presets
+        </div>
+        <div class="filter-presets-grid">
+            <button type="button" onclick="applyDatePreset('all')" class="preset-btn">Full Horizon</button>
+            <button type="button" onclick="applyDatePreset('2025')" class="preset-btn">CY 2025</button>
+            <button type="button" onclick="applyDatePreset('90d')" class="preset-btn">90 Days</button>
+            <button type="button" onclick="applyDatePreset('30d')" class="preset-btn">30 Days</button>
+        </div>
+
+        <div class="filter-divider"></div>
+
+        <!-- Date Range -->
+        <div class="filter-section-title">
+            <i class="ti ti-calendar"></i> Date Horizon
+        </div>
+        <div class="filter-field">
+            <label for="filter-start-date">Start Date</label>
+            <input type="date" id="filter-start-date" name="start_date" class="filter-input" 
+                   value="{{ filters.start_date|default:filter_options.min_date }}" 
+                   min="{{ filter_options.min_date }}" max="{{ filter_options.max_date }}">
+        </div>
+
+        <div class="filter-field">
+            <label for="filter-end-date">End Date</label>
+            <input type="date" id="filter-end-date" name="end_date" class="filter-input" 
+                   value="{{ filters.end_date|default:filter_options.max_date }}" 
+                   min="{{ filter_options.min_date }}" max="{{ filter_options.max_date }}">
+        </div>
+
+        <div class="filter-divider"></div>
+
+        <!-- Geography -->
+        <div class="filter-section-title">
+            <i class="ti ti-map-pin"></i> Geographic Scope
+        </div>
+        <div class="filter-field">
+            <label for="filter-region">Region</label>
+            <select id="filter-region" name="region_id" class="filter-select">
+                <option value="">All Regions ({{ filter_options.regions|length }})</option>
+                {% for r in filter_options.regions %}
+                    <option value="{{ r.region_id }}" {% if filters.region_id == r.region_id %}selected{% endif %}>
+                        {{ r.region_name }} ({{ r.state }})
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="filter-field">
+            <label for="filter-store">Store (Cascading)</label>
+            <select id="filter-store" name="store_id" class="filter-select">
+                <option value="">All Stores ({{ filter_options.stores|length }})</option>
+                {% for s in filter_options.stores %}
+                    <option value="{{ s.store_id }}" {% if filters.store_id == s.store_id %}selected{% endif %}>
+                        {{ s.store_name }} ({{ s.city }})
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="filter-divider"></div>
+
+        <!-- Category & Tier -->
+        <div class="filter-section-title">
+            <i class="ti ti-layers-intersect"></i> Segmentation
+        </div>
+        <div class="filter-field">
+            <label for="filter-category">Product Category</label>
+            <select id="filter-category" name="category_id" class="filter-select">
+                <option value="">All Categories ({{ filter_options.categories|length }})</option>
+                {% for c in filter_options.categories %}
+                    <option value="{{ c.category_id }}" {% if filters.category_id == c.category_id %}selected{% endif %}>
+                        {{ c.category_name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="filter-field">
+            <label for="filter-tier">Customer Tier</label>
+            <select id="filter-tier" name="customer_tier" class="filter-select">
+                <option value="">All Tiers</option>
+                {% for t in filter_options.tiers %}
+                    <option value="{{ t.tier_name }}" {% if filters.customer_tier == t.tier_name %}selected{% endif %}>
+                        {{ t.tier_name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- Bottom Apply Button -->
+        <div style="margin-top: 0.85rem;">
+            <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.6rem; font-size: 0.85rem; font-weight: 600;">
+                <i class="ti ti-filter"></i> Apply Filters
+            </button>
+        </div>
+
+        <!-- Data Freshness -->
+        <div class="sidebar-freshness">
+            <div style="display: flex; align-items: center; gap: 0.35rem;">
+                <i class="ti ti-database" style="color: var(--cyan);"></i>
+                <span>Database: <strong>PostgreSQL 18.4</strong></span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.35rem;">
+                <i class="ti ti-clock" style="color: var(--text-muted);"></i>
+                <span>Freshness: <strong>2026-02-26 23:59</strong></span>
+            </div>
+        </div>
+    </form>
+</div>

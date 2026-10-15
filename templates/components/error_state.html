@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 50vh; text-align: center; padding: 2rem;">
+    <div style="width: 72px; height: 72px; border-radius: 50%; background-color: rgba(232, 142, 62, 0.15); display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; border: 2px solid var(--orange);">
+        <i class="ti ti-alert-triangle" style="font-size: 2.2rem; color: var(--orange);"></i>
+    </div>
+    <h2 style="font-size: 1.8rem; font-weight: 700; margin-bottom: 0.5rem;">{{ error_title|default:"Analytical Query Error" }}</h2>
+    <p style="color: var(--text-muted); max-width: 500px; margin-bottom: 1.5rem; font-size: 0.95rem;">
+        {{ error_message|default:"The requested calculation could not be processed due to a transient database condition or invalid filter parameter." }}
+    </p>
+    <div style="display: flex; gap: 1rem;">
+        <a href="{% url 'executive_summary' %}" class="btn btn-primary">
+            <i class="ti ti-arrow-left"></i> Return to Executive Summary
+        </a>
+        <button onclick="window.location.reload();" class="btn btn-secondary">
+            <i class="ti ti-refresh"></i> Retry Query
+        </button>
+    </div>
+</div>
+{% endblock %}
