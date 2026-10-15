@@ -1725,28 +1725,714 @@
                 <!-- ========================================================= -->
                 <!-- 9. CROSS-FUNCTIONAL HEALTH SCORECARD                      -->
                 <!-- ========================================================= -->
+                                <!-- ========================================================= -->
+                <!-- 9. CROSS-FUNCTIONAL WORKFORCE & FINANCIAL INSIGHTS         -->
+                <!-- ========================================================= -->
                 <div id="tab-cross" class="tab-pane">
                     <div class="page-header">
                         <div>
-                            <h2 class="page-title">Cross-Functional Health Scorecard</h2>
+                            <h2 class="page-title">Cross-Functional Workforce &amp; Financial Insights</h2>
                             <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem;">
-                                Cross-Domain Efficiency Ratios, Marketing-Sales Velocity &amp; Fulfillment Equilibrium
+                                Workforce Productivity (Revenue/Employee), Labor Cost Ratio, Store Staffing Efficiency &amp; Regional Contribution
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 0.75rem;">
+                            <span class="status-badge badge-neutral" style="font-size: 0.72rem; padding: 0.35rem 0.75rem;">
+                                <i class="ti ti-arrows-cross"></i> HR-Finance Unified
+                            </span>
+                            <span class="status-badge badge-success" style="font-size: 0.72rem; padding: 0.35rem 0.75rem;">
+                                <i class="ti ti-chart-arrows"></i> CTE Pre-Aggregated
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Cross-Functional Headline KPI Cards -->
+                    <div class="kpi-grid">
+                        <!-- Card 1: Revenue Per Employee -->
+                        <div class="kpi-card accent-purple">
+                            <div class="kpi-header">
+                                <span class="kpi-title">Revenue Per Employee</span>
+                                <span class="status-badge badge-success">Productivity</span>
+                            </div>
+                            <div class="kpi-value">₹22.57 Lakhs</div>
+                            <div class="kpi-subtext">
+                                <span>Delivered Revenue / 3,000 Headcount</span>
+                            </div>
+                        </div>
+
+                        <!-- Card 2: Labor Cost to Revenue Ratio -->
+                        <div class="kpi-card accent-pink">
+                            <div class="kpi-header">
+                                <span class="kpi-title">Labor Cost to Revenue Ratio</span>
+                                <span class="status-badge badge-neutral">Intensity</span>
+                            </div>
+                            <div class="kpi-value">2.66%</div>
+                            <div class="kpi-subtext">
+                                <span>Processed Payroll / Delivered Revenue</span>
+                            </div>
+                        </div>
+
+                        <!-- Card 3: Delivered Net Revenue -->
+                        <div class="kpi-card accent-cyan">
+                            <div class="kpi-header">
+                                <span class="kpi-title">Commercial Delivered Sales</span>
+                                <span class="status-badge badge-success">Top-Line</span>
+                            </div>
+                            <div class="kpi-value">₹676.95 Cr</div>
+                            <div class="kpi-subtext">
+                                <span>Fulfilled Sales Volume</span>
+                            </div>
+                        </div>
+
+                        <!-- Card 4: Processed Payroll Outflow -->
+                        <div class="kpi-card accent-pink">
+                            <div class="kpi-header">
+                                <span class="kpi-title">Processed Cash Payroll</span>
+                                <span class="status-badge badge-neutral">LTM Payouts</span>
+                            </div>
+                            <div class="kpi-value">₹18.03 Cr</div>
+                            <div class="kpi-subtext">
+                                <span>Bank Cleared Compensation</span>
+                            </div>
+                        </div>
+
+                        <!-- Card 5: Staffing Density -->
+                        <div class="kpi-card accent-orange">
+                            <div class="kpi-header">
+                                <span class="kpi-title">Store Staffing Density</span>
+                                <span class="status-badge badge-neutral">Deployment</span>
+                            </div>
+                            <div class="kpi-value">15.0 Staff</div>
+                            <div class="kpi-subtext">
+                                <span>Average Employees per Branch</span>
+                            </div>
+                        </div>
+
+                        <!-- Card 6: Store Operating Expenses -->
+                        <div class="kpi-card accent-orange">
+                            <div class="kpi-header">
+                                <span class="kpi-title">Store Branch OPEX</span>
+                                <span class="status-badge badge-neutral">Operating</span>
+                            </div>
+                            <div class="kpi-value">₹10.04 Cr</div>
+                            <div class="kpi-subtext">
+                                <span>Branch Non-Payroll Expenses</span>
                             </div>
                         </div>
                     </div>
 
-                    <div class="charts-grid-2">
+                    <!-- Charts Row: Monthly Cross-Functional Trajectory & Department Cost Allocation -->
+                    <div class="charts-grid-2" style="margin-top: 1.5rem;">
+                        <!-- Chart 1: Revenue vs Payroll vs Store OPEX -->
                         <div class="chart-card">
                             <div class="chart-header">
-                                <span class="chart-title"><i class="ti ti-radar" style="color: var(--purple);"></i> Cross-Domain Performance Index (100 Base)</span>
+                                <span class="chart-title">
+                                    <i class="ti ti-chart-line" style="color: var(--purple);"></i>
+                                    Monthly Commercial Revenue vs Processed Payroll &amp; Store Costs (₹ Crores)
+                                </span>
+                                <span style="font-size: 0.72rem; color: var(--text-muted);">
+                                    Cross-Domain Monthly Pacing
+                                </span>
                             </div>
-                            <div id="chart-cross-radar"></div>
+                            <div id="chart-cross-trajectory" style="min-height: 320px;"></div>
                         </div>
+
+                        <!-- Chart 2: Department Payroll Burden vs Staff Count -->
                         <div class="chart-card">
                             <div class="chart-header">
-                                <span class="chart-title"><i class="ti ti-arrows-exchange" style="color: var(--cyan);"></i> Domain Spending vs Net Value Generated</span>
+                                <span class="chart-title">
+                                    <i class="ti ti-chart-bar" style="color: var(--pink);"></i>
+                                    Department Headcount vs Monthly Compensation Outflow (₹ Crores)
+                                </span>
+                                <span style="font-size: 0.72rem; color: var(--text-muted);">
+                                    Organizational Burden
+                                </span>
                             </div>
-                            <div id="chart-cross-scatter"></div>
+                            <div id="chart-dept-cost" style="min-height: 320px;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Table 1: Store Staffing Density vs Delivered Revenue & Contribution -->
+                    <div class="table-card" style="margin-top: 1.5rem;">
+                        <div class="table-header">
+                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                <i class="ti ti-building-store" style="color: var(--cyan); font-size: 1.15rem;"></i>
+                                <h3 class="table-title">Store Staffing Efficiency: Delivered Sales vs Branch OPEX &amp; Annual Contribution</h3>
+                            </div>
+                            <span class="kpi-badge badge-neutral" style="font-size: 0.7rem;">Top 25 Representative Branches</span>
+                        </div>
+                        <div style="overflow-x: auto;">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Store Name</th>
+                                        <th>City</th>
+                                        <th>Region</th>
+                                        <th style="text-align: right;">Staff Headcount</th>
+                                        <th style="text-align: right;">Delivered Sales (₹ Cr)</th>
+                                        <th style="text-align: right;">Revenue / Staff (₹ L)</th>
+                                        <th style="text-align: right;">Store OPEX (₹)</th>
+                                        <th style="text-align: right;">Annual Payroll (₹)</th>
+                                        <th style="text-align: right;">Annual Contribution (₹ Cr)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                <tr>
+                    <td style="font-weight: 600; color: var(--text-white);">RetailMart Raipur</td>
+                    <td>Raipur</td>
+                    <td><span class="status-badge badge-neutral">South</span></td>
+                    <td style="text-align: right; font-weight: 600; color: var(--pink);">17 Staff</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--purple);">₹4.26 Cr</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">₹25.06 L</td>
+                    <td style="text-align: right; color: var(--orange);">₹459,191</td>
+                    <td style="text-align: right; color: var(--text-light);">₹770,589</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">
+                        ₹3.29 Cr
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-weight: 600; color: var(--text-white);">RetailMart Prayagraj</td>
+                    <td>Prayagraj</td>
+                    <td><span class="status-badge badge-neutral">North East</span></td>
+                    <td style="text-align: right; font-weight: 600; color: var(--pink);">17 Staff</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--purple);">₹4.08 Cr</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">₹24.00 L</td>
+                    <td style="text-align: right; color: var(--orange);">₹430,822</td>
+                    <td style="text-align: right; color: var(--text-light);">₹922,812</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">
+                        ₹2.93 Cr
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-weight: 600; color: var(--text-white);">RetailMart Rourkela</td>
+                    <td>Rourkela</td>
+                    <td><span class="status-badge badge-neutral">North East</span></td>
+                    <td style="text-align: right; font-weight: 600; color: var(--pink);">13 Staff</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--purple);">₹4.06 Cr</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">₹31.25 L</td>
+                    <td style="text-align: right; color: var(--orange);">₹582,837</td>
+                    <td style="text-align: right; color: var(--text-light);">₹976,847</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">
+                        ₹2.83 Cr
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-weight: 600; color: var(--text-white);">RetailMart Salem</td>
+                    <td>Salem</td>
+                    <td><span class="status-badge badge-neutral">North</span></td>
+                    <td style="text-align: right; font-weight: 600; color: var(--pink);">12 Staff</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--purple);">₹4.05 Cr</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">₹33.71 L</td>
+                    <td style="text-align: right; color: var(--orange);">₹443,022</td>
+                    <td style="text-align: right; color: var(--text-light);">₹850,115</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">
+                        ₹2.98 Cr
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-weight: 600; color: var(--text-white);">RetailMart Amritsar</td>
+                    <td>Amritsar</td>
+                    <td><span class="status-badge badge-neutral">South</span></td>
+                    <td style="text-align: right; font-weight: 600; color: var(--pink);">18 Staff</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--purple);">₹4.02 Cr</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">₹22.36 L</td>
+                    <td style="text-align: right; color: var(--orange);">₹485,874</td>
+                    <td style="text-align: right; color: var(--text-light);">₹1,490,041</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">
+                        ₹2.19 Cr
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-weight: 600; color: var(--text-white);">RetailMart Kanpur</td>
+                    <td>Kanpur</td>
+                    <td><span class="status-badge badge-neutral">South</span></td>
+                    <td style="text-align: right; font-weight: 600; color: var(--pink);">17 Staff</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--purple);">₹4.00 Cr</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">₹23.54 L</td>
+                    <td style="text-align: right; color: var(--orange);">₹582,382</td>
+                    <td style="text-align: right; color: var(--text-light);">₹779,142</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">
+                        ₹3.01 Cr
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-weight: 600; color: var(--text-white);">RetailMart Surat</td>
+                    <td>Surat</td>
+                    <td><span class="status-badge badge-neutral">Central</span></td>
+                    <td style="text-align: right; font-weight: 600; color: var(--pink);">10 Staff</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--purple);">₹4.00 Cr</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">₹40.01 L</td>
+                    <td style="text-align: right; color: var(--orange);">₹487,999</td>
+                    <td style="text-align: right; color: var(--text-light);">₹641,461</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">
+                        ₹3.18 Cr
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-weight: 600; color: var(--text-white);">RetailMart Gaya</td>
+                    <td>Gaya</td>
+                    <td><span class="status-badge badge-neutral">Central</span></td>
+                    <td style="text-align: right; font-weight: 600; color: var(--pink);">17 Staff</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--purple);">₹3.98 Cr</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">₹23.42 L</td>
+                    <td style="text-align: right; color: var(--orange);">₹410,785</td>
+                    <td style="text-align: right; color: var(--text-light);">₹1,150,499</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">
+                        ₹2.56 Cr
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-weight: 600; color: var(--text-white);">RetailMart Surat</td>
+                    <td>Surat</td>
+                    <td><span class="status-badge badge-neutral">South</span></td>
+                    <td style="text-align: right; font-weight: 600; color: var(--pink);">17 Staff</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--purple);">₹3.93 Cr</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">₹23.11 L</td>
+                    <td style="text-align: right; color: var(--orange);">₹380,040</td>
+                    <td style="text-align: right; color: var(--text-light);">₹900,528</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">
+                        ₹2.81 Cr
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-weight: 600; color: var(--text-white);">RetailMart Pune</td>
+                    <td>Pune</td>
+                    <td><span class="status-badge badge-neutral">North East</span></td>
+                    <td style="text-align: right; font-weight: 600; color: var(--pink);">18 Staff</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--purple);">₹3.92 Cr</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">₹21.77 L</td>
+                    <td style="text-align: right; color: var(--orange);">₹481,096</td>
+                    <td style="text-align: right; color: var(--text-light);">₹1,014,507</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">
+                        ₹2.65 Cr
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-weight: 600; color: var(--text-white);">RetailMart Panaji</td>
+                    <td>Panaji</td>
+                    <td><span class="status-badge badge-neutral">North</span></td>
+                    <td style="text-align: right; font-weight: 600; color: var(--pink);">14 Staff</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--purple);">₹3.91 Cr</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">₹27.92 L</td>
+                    <td style="text-align: right; color: var(--orange);">₹564,207</td>
+                    <td style="text-align: right; color: var(--text-light);">₹1,067,366</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">
+                        ₹2.57 Cr
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-weight: 600; color: var(--text-white);">RetailMart Mangalore</td>
+                    <td>Mangalore</td>
+                    <td><span class="status-badge badge-neutral">South</span></td>
+                    <td style="text-align: right; font-weight: 600; color: var(--pink);">17 Staff</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--purple);">₹3.90 Cr</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">₹22.95 L</td>
+                    <td style="text-align: right; color: var(--orange);">₹492,132</td>
+                    <td style="text-align: right; color: var(--text-light);">₹1,538,360</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">
+                        ₹2.01 Cr
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-weight: 600; color: var(--text-white);">RetailMart Cuttack</td>
+                    <td>Cuttack</td>
+                    <td><span class="status-badge badge-neutral">South</span></td>
+                    <td style="text-align: right; font-weight: 600; color: var(--pink);">11 Staff</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--purple);">₹3.88 Cr</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">₹35.23 L</td>
+                    <td style="text-align: right; color: var(--orange);">₹600,056</td>
+                    <td style="text-align: right; color: var(--text-light);">₹450,552</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">
+                        ₹3.27 Cr
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-weight: 600; color: var(--text-white);">RetailMart Jamshedpur</td>
+                    <td>Jamshedpur</td>
+                    <td><span class="status-badge badge-neutral">North East</span></td>
+                    <td style="text-align: right; font-weight: 600; color: var(--pink);">12 Staff</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--purple);">₹3.82 Cr</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">₹31.84 L</td>
+                    <td style="text-align: right; color: var(--orange);">₹530,584</td>
+                    <td style="text-align: right; color: var(--text-light);">₹1,105,318</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">
+                        ₹2.44 Cr
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-weight: 600; color: var(--text-white);">RetailMart Chandigarh</td>
+                    <td>Chandigarh</td>
+                    <td><span class="status-badge badge-neutral">North East</span></td>
+                    <td style="text-align: right; font-weight: 600; color: var(--pink);">16 Staff</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--purple);">₹3.81 Cr</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">₹23.84 L</td>
+                    <td style="text-align: right; color: var(--orange);">₹502,108</td>
+                    <td style="text-align: right; color: var(--text-light);">₹1,133,800</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">
+                        ₹2.40 Cr
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-weight: 600; color: var(--text-white);">RetailMart Howrah</td>
+                    <td>Howrah</td>
+                    <td><span class="status-badge badge-neutral">South</span></td>
+                    <td style="text-align: right; font-weight: 600; color: var(--pink);">13 Staff</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--purple);">₹3.80 Cr</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">₹29.20 L</td>
+                    <td style="text-align: right; color: var(--orange);">₹522,508</td>
+                    <td style="text-align: right; color: var(--text-light);">₹683,953</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">
+                        ₹2.92 Cr
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-weight: 600; color: var(--text-white);">RetailMart Coimbatore</td>
+                    <td>Coimbatore</td>
+                    <td><span class="status-badge badge-neutral">North East</span></td>
+                    <td style="text-align: right; font-weight: 600; color: var(--pink);">16 Staff</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--purple);">₹3.77 Cr</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">₹23.59 L</td>
+                    <td style="text-align: right; color: var(--orange);">₹447,998</td>
+                    <td style="text-align: right; color: var(--text-light);">₹1,004,481</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">
+                        ₹2.52 Cr
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-weight: 600; color: var(--text-white);">RetailMart Agartala</td>
+                    <td>Agartala</td>
+                    <td><span class="status-badge badge-neutral">Central</span></td>
+                    <td style="text-align: right; font-weight: 600; color: var(--pink);">17 Staff</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--purple);">₹3.77 Cr</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">₹22.19 L</td>
+                    <td style="text-align: right; color: var(--orange);">₹518,551</td>
+                    <td style="text-align: right; color: var(--text-light);">₹934,371</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">
+                        ₹2.60 Cr
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-weight: 600; color: var(--text-white);">RetailMart Gwalior</td>
+                    <td>Gwalior</td>
+                    <td><span class="status-badge badge-neutral">Central</span></td>
+                    <td style="text-align: right; font-weight: 600; color: var(--pink);">10 Staff</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--purple);">₹3.76 Cr</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">₹37.64 L</td>
+                    <td style="text-align: right; color: var(--orange);">₹500,369</td>
+                    <td style="text-align: right; color: var(--text-light);">₹387,865</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">
+                        ₹3.25 Cr
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-weight: 600; color: var(--text-white);">RetailMart Mysuru</td>
+                    <td>Mysuru</td>
+                    <td><span class="status-badge badge-neutral">North</span></td>
+                    <td style="text-align: right; font-weight: 600; color: var(--pink);">17 Staff</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--purple);">₹3.76 Cr</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">₹22.13 L</td>
+                    <td style="text-align: right; color: var(--orange);">₹516,750</td>
+                    <td style="text-align: right; color: var(--text-light);">₹1,146,003</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">
+                        ₹2.33 Cr
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-weight: 600; color: var(--text-white);">RetailMart Jamshedpur</td>
+                    <td>Jamshedpur</td>
+                    <td><span class="status-badge badge-neutral">North East</span></td>
+                    <td style="text-align: right; font-weight: 600; color: var(--pink);">18 Staff</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--purple);">₹3.76 Cr</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">₹20.88 L</td>
+                    <td style="text-align: right; color: var(--orange);">₹566,286</td>
+                    <td style="text-align: right; color: var(--text-light);">₹1,172,917</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">
+                        ₹2.29 Cr
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-weight: 600; color: var(--text-white);">RetailMart Kanpur</td>
+                    <td>Kanpur</td>
+                    <td><span class="status-badge badge-neutral">North</span></td>
+                    <td style="text-align: right; font-weight: 600; color: var(--pink);">13 Staff</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--purple);">₹3.73 Cr</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">₹28.70 L</td>
+                    <td style="text-align: right; color: var(--orange);">₹449,486</td>
+                    <td style="text-align: right; color: var(--text-light);">₹1,001,871</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">
+                        ₹2.48 Cr
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-weight: 600; color: var(--text-white);">RetailMart Ludhiana</td>
+                    <td>Ludhiana</td>
+                    <td><span class="status-badge badge-neutral">West</span></td>
+                    <td style="text-align: right; font-weight: 600; color: var(--pink);">11 Staff</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--purple);">₹3.73 Cr</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">₹33.89 L</td>
+                    <td style="text-align: right; color: var(--orange);">₹498,716</td>
+                    <td style="text-align: right; color: var(--text-light);">₹786,065</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">
+                        ₹2.74 Cr
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-weight: 600; color: var(--text-white);">RetailMart Madurai</td>
+                    <td>Madurai</td>
+                    <td><span class="status-badge badge-neutral">South</span></td>
+                    <td style="text-align: right; font-weight: 600; color: var(--pink);">23 Staff</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--purple);">₹3.72 Cr</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">₹16.15 L</td>
+                    <td style="text-align: right; color: var(--orange);">₹467,928</td>
+                    <td style="text-align: right; color: var(--text-light);">₹1,276,110</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">
+                        ₹2.14 Cr
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-weight: 600; color: var(--text-white);">RetailMart Noida</td>
+                    <td>Noida</td>
+                    <td><span class="status-badge badge-neutral">North</span></td>
+                    <td style="text-align: right; font-weight: 600; color: var(--pink);">13 Staff</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--purple);">₹3.71 Cr</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">₹28.50 L</td>
+                    <td style="text-align: right; color: var(--orange);">₹507,487</td>
+                    <td style="text-align: right; color: var(--text-light);">₹837,808</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">
+                        ₹2.65 Cr
+                    </td>
+                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Table 2: Regional Cross-Functional Synthesis -->
+                    <div class="table-card" style="margin-top: 1.5rem;">
+                        <div class="table-header">
+                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                <i class="ti ti-map-pin" style="color: var(--purple); font-size: 1.15rem;"></i>
+                                <h3 class="table-title">Regional Synthesis: Workforce Deployment vs Financial Spread</h3>
+                            </div>
+                            <span class="kpi-badge badge-neutral" style="font-size: 0.7rem;">Geographic Aggregation</span>
+                        </div>
+                        <div style="overflow-x: auto;">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Region</th>
+                                        <th style="text-align: right;">Stores</th>
+                                        <th style="text-align: right;">Total Staff</th>
+                                        <th style="text-align: right;">Avg Staff / Store</th>
+                                        <th style="text-align: right;">Delivered Sales (₹ Cr)</th>
+                                        <th style="text-align: right;">Rev / Staff (₹)</th>
+                                        <th style="text-align: right;">Store Costs (₹ Cr)</th>
+                                        <th style="text-align: right;">Regional Spread (₹ Cr)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                <tr>
+                    <td style="font-weight: 600; color: var(--text-white);">South</td>
+                    <td style="text-align: right;">14</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--pink);">195</td>
+                    <td style="text-align: right;">13.9</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--purple);">₹47.24 Cr</td>
+                    <td style="text-align: right; color: var(--cyan);">₹2,422,467</td>
+                    <td style="text-align: right; color: var(--orange);">₹0.68 Cr</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">₹46.55 Cr</td>
+                </tr>
+                <tr>
+                    <td style="font-weight: 600; color: var(--text-white);">North</td>
+                    <td style="text-align: right;">14</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--pink);">199</td>
+                    <td style="text-align: right;">14.2</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--purple);">₹46.29 Cr</td>
+                    <td style="text-align: right; color: var(--cyan);">₹2,326,215</td>
+                    <td style="text-align: right; color: var(--orange);">₹0.70 Cr</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">₹45.59 Cr</td>
+                </tr>
+                <tr>
+                    <td style="font-weight: 600; color: var(--text-white);">North East</td>
+                    <td style="text-align: right;">13</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--pink);">179</td>
+                    <td style="text-align: right;">13.8</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--purple);">₹45.04 Cr</td>
+                    <td style="text-align: right; color: var(--cyan);">₹2,516,307</td>
+                    <td style="text-align: right; color: var(--orange);">₹0.64 Cr</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">₹44.40 Cr</td>
+                </tr>
+                <tr>
+                    <td style="font-weight: 600; color: var(--text-white);">North</td>
+                    <td style="text-align: right;">13</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--pink);">181</td>
+                    <td style="text-align: right;">13.9</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--purple);">₹44.89 Cr</td>
+                    <td style="text-align: right; color: var(--cyan);">₹2,479,911</td>
+                    <td style="text-align: right; color: var(--orange);">₹0.65 Cr</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">₹44.24 Cr</td>
+                </tr>
+                <tr>
+                    <td style="font-weight: 600; color: var(--text-white);">North East</td>
+                    <td style="text-align: right;">12</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--pink);">179</td>
+                    <td style="text-align: right;">14.9</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--purple);">₹42.06 Cr</td>
+                    <td style="text-align: right; color: var(--cyan);">₹2,349,611</td>
+                    <td style="text-align: right; color: var(--orange);">₹0.62 Cr</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">₹41.43 Cr</td>
+                </tr>
+                <tr>
+                    <td style="font-weight: 600; color: var(--text-white);">East</td>
+                    <td style="text-align: right;">12</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--pink);">179</td>
+                    <td style="text-align: right;">14.9</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--purple);">₹40.21 Cr</td>
+                    <td style="text-align: right; color: var(--cyan);">₹2,246,296</td>
+                    <td style="text-align: right; color: var(--orange);">₹0.61 Cr</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">₹39.60 Cr</td>
+                </tr>
+                <tr>
+                    <td style="font-weight: 600; color: var(--text-white);">North</td>
+                    <td style="text-align: right;">12</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--pink);">172</td>
+                    <td style="text-align: right;">14.3</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--purple);">₹39.86 Cr</td>
+                    <td style="text-align: right; color: var(--cyan);">₹2,317,417</td>
+                    <td style="text-align: right; color: var(--orange);">₹0.63 Cr</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">₹39.23 Cr</td>
+                </tr>
+                <tr>
+                    <td style="font-weight: 600; color: var(--text-white);">North East</td>
+                    <td style="text-align: right;">11</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--pink);">182</td>
+                    <td style="text-align: right;">16.5</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--purple);">₹37.44 Cr</td>
+                    <td style="text-align: right; color: var(--cyan);">₹2,057,412</td>
+                    <td style="text-align: right; color: var(--orange);">₹0.52 Cr</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">₹36.92 Cr</td>
+                </tr>
+                <tr>
+                    <td style="font-weight: 600; color: var(--text-white);">North</td>
+                    <td style="text-align: right;">11</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--pink);">169</td>
+                    <td style="text-align: right;">15.4</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--purple);">₹37.11 Cr</td>
+                    <td style="text-align: right; color: var(--cyan);">₹2,196,107</td>
+                    <td style="text-align: right; color: var(--orange);">₹0.54 Cr</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">₹36.57 Cr</td>
+                </tr>
+                <tr>
+                    <td style="font-weight: 600; color: var(--text-white);">South</td>
+                    <td style="text-align: right;">11</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--pink);">174</td>
+                    <td style="text-align: right;">15.8</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--purple);">₹37.00 Cr</td>
+                    <td style="text-align: right; color: var(--cyan);">₹2,126,669</td>
+                    <td style="text-align: right; color: var(--orange);">₹0.55 Cr</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">₹36.46 Cr</td>
+                </tr>
+                <tr>
+                    <td style="font-weight: 600; color: var(--text-white);">West</td>
+                    <td style="text-align: right;">11</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--pink);">156</td>
+                    <td style="text-align: right;">14.2</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--purple);">₹35.56 Cr</td>
+                    <td style="text-align: right; color: var(--cyan);">₹2,279,259</td>
+                    <td style="text-align: right; color: var(--orange);">₹0.54 Cr</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">₹35.02 Cr</td>
+                </tr>
+                <tr>
+                    <td style="font-weight: 600; color: var(--text-white);">Central</td>
+                    <td style="text-align: right;">10</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--pink);">145</td>
+                    <td style="text-align: right;">14.5</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--purple);">₹34.90 Cr</td>
+                    <td style="text-align: right; color: var(--cyan);">₹2,407,141</td>
+                    <td style="text-align: right; color: var(--orange);">₹0.49 Cr</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">₹34.42 Cr</td>
+                </tr>
+                <tr>
+                    <td style="font-weight: 600; color: var(--text-white);">South</td>
+                    <td style="text-align: right;">10</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--pink);">158</td>
+                    <td style="text-align: right;">15.8</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--purple);">₹34.12 Cr</td>
+                    <td style="text-align: right; color: var(--cyan);">₹2,159,488</td>
+                    <td style="text-align: right; color: var(--orange);">₹0.49 Cr</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">₹33.63 Cr</td>
+                </tr>
+                <tr>
+                    <td style="font-weight: 600; color: var(--text-white);">South</td>
+                    <td style="text-align: right;">9</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--pink);">138</td>
+                    <td style="text-align: right;">15.3</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--purple);">₹30.92 Cr</td>
+                    <td style="text-align: right; color: var(--cyan);">₹2,240,365</td>
+                    <td style="text-align: right; color: var(--orange);">₹0.48 Cr</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">₹30.44 Cr</td>
+                </tr>
+                <tr>
+                    <td style="font-weight: 600; color: var(--text-white);">Central</td>
+                    <td style="text-align: right;">7</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--pink);">122</td>
+                    <td style="text-align: right;">17.4</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--purple);">₹24.37 Cr</td>
+                    <td style="text-align: right; color: var(--cyan);">₹1,997,852</td>
+                    <td style="text-align: right; color: var(--orange);">₹0.37 Cr</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">₹24.01 Cr</td>
+                </tr>
+                <tr>
+                    <td style="font-weight: 600; color: var(--text-white);">North</td>
+                    <td style="text-align: right;">7</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--pink);">107</td>
+                    <td style="text-align: right;">15.3</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--purple);">₹23.91 Cr</td>
+                    <td style="text-align: right; color: var(--cyan);">₹2,234,931</td>
+                    <td style="text-align: right; color: var(--orange);">₹0.38 Cr</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">₹23.54 Cr</td>
+                </tr>
+                <tr>
+                    <td style="font-weight: 600; color: var(--text-white);">North</td>
+                    <td style="text-align: right;">7</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--pink);">122</td>
+                    <td style="text-align: right;">17.4</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--purple);">₹22.73 Cr</td>
+                    <td style="text-align: right; color: var(--cyan);">₹1,863,300</td>
+                    <td style="text-align: right; color: var(--orange);">₹0.32 Cr</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">₹22.41 Cr</td>
+                </tr>
+                <tr>
+                    <td style="font-weight: 600; color: var(--text-white);">North East</td>
+                    <td style="text-align: right;">6</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--pink);">85</td>
+                    <td style="text-align: right;">14.2</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--purple);">₹20.53 Cr</td>
+                    <td style="text-align: right; color: var(--cyan);">₹2,415,375</td>
+                    <td style="text-align: right; color: var(--orange);">₹0.31 Cr</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">₹20.22 Cr</td>
+                </tr>
+                <tr>
+                    <td style="font-weight: 600; color: var(--text-white);">North</td>
+                    <td style="text-align: right;">5</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--pink);">80</td>
+                    <td style="text-align: right;">16.0</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--purple);">₹17.56 Cr</td>
+                    <td style="text-align: right; color: var(--cyan);">₹2,195,172</td>
+                    <td style="text-align: right; color: var(--orange);">₹0.27 Cr</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">₹17.29 Cr</td>
+                </tr>
+                <tr>
+                    <td style="font-weight: 600; color: var(--text-white);">North East</td>
+                    <td style="text-align: right;">5</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--pink);">78</td>
+                    <td style="text-align: right;">15.6</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--purple);">₹15.20 Cr</td>
+                    <td style="text-align: right; color: var(--cyan);">₹1,948,365</td>
+                    <td style="text-align: right; color: var(--orange);">₹0.25 Cr</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">₹14.95 Cr</td>
+                </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -2116,97 +2802,163 @@
                 <!-- ========================================================= -->
                 <!-- 11. SCENARIO SIMULATOR (WHAT-IF LEVERS)                   -->
                 <!-- ========================================================= -->
+                                <!-- ========================================================= -->
+                <!-- 11. SCENARIO SIMULATOR (WHAT-IF SENSITIVITY MODELING)       -->
+                <!-- ========================================================= -->
                 <div id="tab-simulator" class="tab-pane">
                     <div class="page-header">
                         <div>
-                            <h2 class="page-title">Enterprise Scenario Simulator (What-If Levers)</h2>
+                            <h2 class="page-title">Workforce, Compensation &amp; Store Expense Scenario Simulator</h2>
                             <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem;">
-                                Real-Time Financial Sensitivity Analysis, Price Realization, Returns Reduction &amp; Working Capital Modeling
+                                Real-Time What-If Sensitivity Modeling · PostgreSQL 18 Live Actuals Baseline
                             </div>
+                        </div>
+                        <div>
+                            <button id="btn-reset-sim" class="btn btn-secondary">
+                                <i class="ti ti-rotate-clockwise-2"></i> Reset Levers to Baseline
+                            </button>
                         </div>
                     </div>
 
-                    <!-- Simulator Levers -->
-                    <div class="slider-grid">
-                        <div class="slider-group">
-                            <div class="slider-label">
-                                <span>Price Realization Rate</span>
-                                <span id="label-price" style="color: var(--purple);">+0.0%</span>
-                            </div>
-                            <input type="range" id="sim-price" min="-5" max="10" step="0.5" value="0" oninput="runSimulation()">
-                            <div style="display: flex; justify-content: space-between; font-size: 0.68rem; color: var(--text-muted); margin-top: 0.3rem;">
-                                <span>-5%</span><span>Baseline (0%)</span><span>+10%</span>
-                            </div>
+                    <!-- Analytical Governance & Mathematical Logic Banner -->
+                    <div style="background: rgba(44, 212, 225, 0.05); border: 1px solid rgba(44, 212, 225, 0.25); border-radius: 10px; padding: 0.85rem 1.25rem; margin-bottom: 1.5rem;">
+                        <div style="display: flex; align-items: center; gap: 0.5rem; font-weight: 700; color: var(--cyan); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.05em;">
+                            <i class="ti ti-shield-check" style="font-size: 1.1rem;"></i>
+                            <span>Analytical Governance &amp; Mathematical Logic</span>
                         </div>
-
-                        <div class="slider-group">
-                            <div class="slider-label">
-                                <span>Return Rate Reduction</span>
-                                <span id="label-returns" style="color: var(--cyan);">0%</span>
-                            </div>
-                            <input type="range" id="sim-returns" min="-50" max="0" step="5" value="0" oninput="runSimulation()">
-                            <div style="display: flex; justify-content: space-between; font-size: 0.68rem; color: var(--text-muted); margin-top: 0.3rem;">
-                                <span>-50% (Max Quality)</span><span>Baseline</span><span>0%</span>
-                            </div>
+                        <div style="font-size: 0.8rem; color: var(--text-light); margin-top: 0.4rem; line-height: 1.45;">
+                            <strong>Store Contribution Profit</strong> = Projected Delivered Revenue &minus; Projected COGS &minus; Projected Store OPEX &minus; Projected Annual Store Payroll.
                         </div>
-
-                        <div class="slider-group">
-                            <div class="slider-label">
-                                <span>Volume Expansion</span>
-                                <span id="label-volume" style="color: var(--pink);">+0.0%</span>
-                            </div>
-                            <input type="range" id="sim-volume" min="-20" max="25" step="1" value="0" oninput="runSimulation()">
-                            <div style="display: flex; justify-content: space-between; font-size: 0.68rem; color: var(--text-muted); margin-top: 0.3rem;">
-                                <span>-20%</span><span>Baseline</span><span>+25%</span>
-                            </div>
-                        </div>
-
-                        <div class="slider-group">
-                            <div class="slider-label">
-                                <span>Store OpEx Rationalization</span>
-                                <span id="label-opex" style="color: var(--orange);">0%</span>
-                            </div>
-                            <input type="range" id="sim-opex" min="-15" max="15" step="1" value="0" oninput="runSimulation()">
-                            <div style="display: flex; justify-content: space-between; font-size: 0.68rem; color: var(--text-muted); margin-top: 0.3rem;">
-                                <span>-15% (Lean)</span><span>Baseline</span><span>+15%</span>
-                            </div>
+                        <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem;">
+                            Baseline figures reconcile directly against verified PostgreSQL actuals: 3,000 active staff, ₹18.98 Cr monthly base payroll, ₹10.04 Cr store operating expenses, and ₹676.95 Cr delivered revenue.
                         </div>
                     </div>
 
-                    <!-- Simulation Result Table -->
-                    <div class="action-card">
-                        <div class="action-header">
-                            <h3 style="font-size: 1rem; font-weight: 600; color: var(--text-white);">
-                                <i class="ti ti-calculator" style="color: var(--purple);"></i> Simulated Enterprise Financial Impact
-                            </h3>
+                    <!-- Simulator Layout: Interactive Levers on Left, Real-Time Outcomes on Right -->
+                    <div class="charts-grid-2">
+                        <!-- Left Column: Interactive Scenario Levers -->
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <span class="chart-title" style="color: var(--cyan);">
+                                    <i class="ti ti-adjustments-horizontal"></i>
+                                    Scenario Levers (Bounded Simulation Parameters)
+                                </span>
+                                <span class="kpi-badge badge-neutral">Client-Side Calculation</span>
+                            </div>
+
+                            <div style="display: flex; flex-direction: column; gap: 1.5rem; padding: 0.75rem 0;">
+                                <!-- Lever 1: Headcount Adjustment -->
+                                <div>
+                                    <div style="display: flex; justify-content: space-between; font-size: 0.82rem; margin-bottom: 0.4rem;">
+                                        <span style="font-weight: 600; color: var(--text-white);">1. Workforce Headcount Delta</span>
+                                        <span id="val-headcount" style="font-weight: 700; color: var(--pink);">0%</span>
+                                    </div>
+                                    <input type="range" id="sim-headcount" min="-25" max="30" step="1" value="0" style="width: 100%; accent-color: var(--pink);">
+                                    <div style="display: flex; justify-content: space-between; font-size: 0.68rem; color: var(--text-muted); margin-top: 0.2rem;">
+                                        <span>-25% (Rightsizing: 2,250 Staff)</span>
+                                        <span>Baseline (3,000 Staff)</span>
+                                        <span>+30% (Expansion: 3,900 Staff)</span>
+                                    </div>
+                                </div>
+
+                                <!-- Lever 2: Salary Increment Delta -->
+                                <div>
+                                    <div style="display: flex; justify-content: space-between; font-size: 0.82rem; margin-bottom: 0.4rem;">
+                                        <span style="font-weight: 600; color: var(--text-white);">2. Salary Increment / Comp Review (%)</span>
+                                        <span id="val-salary" style="font-weight: 700; color: var(--cyan);">0%</span>
+                                    </div>
+                                    <input type="range" id="sim-salary" min="-10" max="30" step="1" value="0" style="width: 100%; accent-color: var(--cyan);">
+                                    <div style="display: flex; justify-content: space-between; font-size: 0.68rem; color: var(--text-muted); margin-top: 0.2rem;">
+                                        <span>-10% (Cost Freeze)</span>
+                                        <span>Baseline (₹63,274 avg)</span>
+                                        <span>+30% (Market Hike)</span>
+                                    </div>
+                                </div>
+
+                                <!-- Lever 3: Store Expense Sensitivity -->
+                                <div>
+                                    <div style="display: flex; justify-content: space-between; font-size: 0.82rem; margin-bottom: 0.4rem;">
+                                        <span style="font-weight: 600; color: var(--text-white);">3. Store Branch OPEX Sensitivity (%)</span>
+                                        <span id="val-store-exp" style="font-weight: 700; color: var(--orange);">0%</span>
+                                    </div>
+                                    <input type="range" id="sim-store-exp" min="-30" max="30" step="1" value="0" style="width: 100%; accent-color: var(--orange);">
+                                    <div style="display: flex; justify-content: space-between; font-size: 0.68rem; color: var(--text-muted); margin-top: 0.2rem;">
+                                        <span>-30% (Rent / Utility Cut)</span>
+                                        <span>Baseline (₹10.04 Cr)</span>
+                                        <span>+30% (Inflationary Shock)</span>
+                                    </div>
+                                </div>
+
+                                <!-- Lever 4: Commercial Sales Growth -->
+                                <div>
+                                    <div style="display: flex; justify-content: space-between; font-size: 0.82rem; margin-bottom: 0.4rem;">
+                                        <span style="font-weight: 600; color: var(--text-white);">4. Delivered Commercial Sales Growth (%)</span>
+                                        <span id="val-sales" style="font-weight: 700; color: var(--purple);">0%</span>
+                                    </div>
+                                    <input type="range" id="sim-sales" min="-20" max="30" step="1" value="0" style="width: 100%; accent-color: var(--purple);">
+                                    <div style="display: flex; justify-content: space-between; font-size: 0.68rem; color: var(--text-muted); margin-top: 0.2rem;">
+                                        <span>-20% (Macro Contraction)</span>
+                                        <span>Baseline (₹676.95 Cr)</span>
+                                        <span>+30% (Store Scale)</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <table class="action-table">
-                            <thead>
-                                <tr>
-                                    <th>Financial Metric</th>
-                                    <th>Baseline Actuals</th>
-                                    <th>Simulated Forecast</th>
-                                    <th>Variance (₹ Shift)</th>
-                                    <th>Strategic Value</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><strong>Delivered Commercial Revenue</strong></td>
-                                    <td>₹676.95 Cr</td>
-                                    <td id="res-rev" style="color: var(--cyan); font-weight: 700;">₹676.95 Cr</td>
-                                    <td id="res-rev-var" style="color: var(--text-muted);">₹0.00 Cr</td>
-                                    <td><span class="status-badge badge-neutral">Parity</span></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Delivered Contribution Margin</strong></td>
-                                    <td>₹206.24 Cr (30.47%)</td>
-                                    <td id="res-margin" style="color: #34D399; font-weight: 700;">₹206.24 Cr (30.47%)</td>
-                                    <td id="res-margin-var" style="color: #34D399; font-weight: 600;">+₹0.00 Cr</td>
-                                    <td><span class="status-badge badge-success">Optimized</span></td>
-                                </tr>
-                            </tbody>
-                        </table>
+
+                        <!-- Right Column: Simulated Financial & Workforce Outcomes -->
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <span class="chart-title" style="color: var(--purple);">
+                                    <i class="ti ti-calculator"></i>
+                                    Simulated Operational &amp; Financial Outcomes
+                                </span>
+                                <span id="sim-var" class="status-badge badge-neutral">Baseline (0.0%)</span>
+                            </div>
+
+                            <div class="kpi-grid" style="grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.25rem;">
+                                <!-- Projected Headcount -->
+                                <div class="kpi-card accent-pink" style="padding: 1rem;">
+                                    <div class="kpi-title">Projected Workforce</div>
+                                    <div class="kpi-value" id="sim-headcount-val" style="font-size: 1.35rem;">3,000 Staff</div>
+                                    <div class="kpi-subtext">Baseline: 3000 Staff</div>
+                                </div>
+
+                                <!-- Projected Monthly Payroll -->
+                                <div class="kpi-card accent-pink" style="padding: 1rem;">
+                                    <div class="kpi-title">Monthly Payroll Outflow</div>
+                                    <div class="kpi-value" id="sim-payroll-val" style="font-size: 1.35rem;">₹18.98 Cr / mo</div>
+                                    <div class="kpi-subtext">Baseline: ₹18.98 Cr / mo</div>
+                                </div>
+
+                                <!-- Projected Sales Revenue -->
+                                <div class="kpi-card accent-purple" style="padding: 1rem;">
+                                    <div class="kpi-title">Projected Delivered Sales</div>
+                                    <div class="kpi-value" id="sim-rev-val" style="font-size: 1.35rem;">₹676.95 Cr</div>
+                                    <div class="kpi-subtext">Baseline: ₹676.95 Cr</div>
+                                </div>
+
+                                <!-- Projected Contribution -->
+                                <div class="kpi-card accent-cyan" style="padding: 1rem;">
+                                    <div class="kpi-title">Store Contribution Profit</div>
+                                    <div class="kpi-value" id="sim-margin-val" style="font-size: 1.35rem;">₹-51.73 Cr</div>
+                                    <div class="kpi-subtext">Baseline: ₹-51.73 Cr</div>
+                                </div>
+                            </div>
+
+                            <div style="background-color: rgba(15, 31, 51, 0.6); padding: 0.85rem 1rem; border-radius: 8px; border: 1px solid var(--blue-border); margin-bottom: 1.25rem; display: flex; justify-content: space-between;">
+                                <div>
+                                    <span style="font-size: 0.72rem; color: var(--text-muted);">Store OPEX Outflow:</span>
+                                    <div id="sim-store-exp-val" style="font-weight: 700; color: var(--orange); font-size: 0.95rem;">₹10.04 Cr</div>
+                                </div>
+                                <div>
+                                    <span style="font-size: 0.72rem; color: var(--text-muted);">Annual Labor-to-Sales:</span>
+                                    <div id="sim-labor-ratio-val" style="font-weight: 700; color: var(--cyan); font-size: 0.95rem;">33.6% of Sales</div>
+                                </div>
+                            </div>
+
+                            <!-- Comparative Bar Chart -->
+                            <div id="sim-comparison-chart"></div>
+                        </div>
                     </div>
                 </div>
 
@@ -2334,33 +3086,190 @@
             showToast('Session preserved · Standing in Demo Mode');
         }
 
-        // What-if scenario calculator
-        function runSimulation() {
-            const price = parseFloat(document.getElementById('sim-price').value);
-            const returns = parseFloat(document.getElementById('sim-returns').value);
-            const volume = parseFloat(document.getElementById('sim-volume').value);
-            const opex = parseFloat(document.getElementById('sim-opex').value);
+                // =========================================================
+        // WORKFORCE, COMPENSATION & OPEX SCENARIO SIMULATOR
+        // =========================================================
+        const simBaseline = {"base_net_revenue": 6769536004.48, "base_revenue_crores": 676.95, "base_cogs": 4908577904.87, "base_cogs_crores": 490.86, "base_cogs_rate_pct": 72.51, "base_gross_margin": 1860958099.6099997, "base_gross_margin_crores": 186.1, "base_gross_margin_pct": 27.49, "base_headcount": 3000, "base_avg_salary": 63273.6, "base_monthly_payroll": 189820814.0, "base_monthly_payroll_crores": 18.98, "base_annual_payroll": 2277849768.0, "base_annual_payroll_crores": 227.78, "base_store_expenses": 100369598.57, "base_store_expenses_crores": 10.04, "base_corp_expenses": 8015031384.29, "base_corp_expenses_crores": 801.5, "base_delivered_orders": 82540, "base_store_contribution": -517261266.9600003, "base_store_contribution_crores": -51.73, "base_net_operating_spread": -1345864978.38, "base_net_spread_crores": -134.59};
+        let simChart = null;
 
-            document.getElementById('label-price').innerText = (price >= 0 ? '+' : '') + price.toFixed(1) + '%';
-            document.getElementById('label-returns').innerText = returns.toFixed(0) + '%';
-            document.getElementById('label-volume').innerText = (volume >= 0 ? '+' : '') + volume.toFixed(1) + '%';
-            document.getElementById('label-opex').innerText = (opex >= 0 ? '+' : '') + opex.toFixed(1) + '%';
+        function formatSimINR(val) {
+            if (Math.abs(val) >= 10000000) {
+                return '₹' + (val / 10000000).toFixed(2) + ' Cr';
+            } else if (Math.abs(val) >= 100000) {
+                return '₹' + (val / 100000).toFixed(2) + ' L';
+            } else {
+                return '₹' + Number(val).toLocaleString('en-IN', { maximumFractionDigits: 0 });
+            }
+        }
 
-            const baseRev = 676.95;
-            const baseMargin = 206.24;
+        function initSimulator() {
+            const sliderHeadcount = document.getElementById('sim-headcount');
+            const sliderSalary = document.getElementById('sim-salary');
+            const sliderStoreExp = document.getElementById('sim-store-exp');
+            const sliderSales = document.getElementById('sim-sales');
 
-            const simRev = baseRev * (1 + volume/100) * (1 + price/100);
-            const incrementalMargin = (simRev - baseRev) * 0.40 - (returns * 0.4) - (opex * 0.3);
-            const simMargin = baseMargin + incrementalMargin;
-            const marginPct = (simMargin / simRev) * 100;
+            const valHeadcount = document.getElementById('val-headcount');
+            const valSalary = document.getElementById('val-salary');
+            const valStoreExp = document.getElementById('val-store-exp');
+            const valSales = document.getElementById('val-sales');
 
-            document.getElementById('res-rev').innerText = '₹' + simRev.toFixed(2) + ' Cr';
-            const revVar = simRev - baseRev;
-            document.getElementById('res-rev-var').innerText = (revVar >= 0 ? '+' : '') + '₹' + revVar.toFixed(2) + ' Cr';
+            const simHeadcountEl = document.getElementById('sim-headcount-val');
+            const simPayrollEl = document.getElementById('sim-payroll-val');
+            const simRevEl = document.getElementById('sim-rev-val');
+            const simMarginEl = document.getElementById('sim-margin-val');
+            const simStoreExpEl = document.getElementById('sim-store-exp-val');
+            const simLaborRatioEl = document.getElementById('sim-labor-ratio-val');
+            const simVarEl = document.getElementById('sim-var');
 
-            document.getElementById('res-margin').innerText = '₹' + simMargin.toFixed(2) + ' Cr (' + marginPct.toFixed(2) + '%)';
-            const marginVar = simMargin - baseMargin;
-            document.getElementById('res-margin-var').innerText = (marginVar >= 0 ? '+' : '') + '₹' + marginVar.toFixed(2) + ' Cr';
+            if (!sliderHeadcount) return;
+
+            function recalculate() {
+                const hcPct = parseFloat(sliderHeadcount.value) / 100;
+                const salPct = parseFloat(sliderSalary.value) / 100;
+                const expPct = parseFloat(sliderStoreExp.value) / 100;
+                const salesPct = parseFloat(sliderSales.value) / 100;
+
+                valHeadcount.textContent = (hcPct >= 0 ? '+' : '') + (hcPct * 100).toFixed(0) + '%';
+                valSalary.textContent = (salPct >= 0 ? '+' : '') + (salPct * 100).toFixed(0) + '%';
+                valStoreExp.textContent = (expPct >= 0 ? '+' : '') + (expPct * 100).toFixed(0) + '%';
+                valSales.textContent = (salesPct >= 0 ? '+' : '') + (salesPct * 100).toFixed(0) + '%';
+
+                // Model Calculations
+                const simHeadcount = Math.round(simBaseline.base_headcount * (1 + hcPct));
+                const simAvgSalary = simBaseline.base_avg_salary * (1 + salPct);
+                const simMonthlyPayroll = simHeadcount * simAvgSalary;
+                const simAnnualPayroll = simMonthlyPayroll * 12;
+
+                const simRevenue = simBaseline.base_net_revenue * (1 + salesPct);
+                const simCogs = simBaseline.base_cogs * (1 + salesPct);
+                const simGrossMargin = simRevenue - simCogs;
+                const simStoreExpenses = simBaseline.base_store_expenses * (1 + expPct);
+
+                const simContribution = simGrossMargin - simStoreExpenses - simAnnualPayroll;
+                const simLaborRatio = (simAnnualPayroll / simRevenue) * 100;
+
+                const variance = simContribution - simBaseline.base_store_contribution;
+                const varPct = simBaseline.base_store_contribution !== 0 
+                    ? (variance / Math.abs(simBaseline.base_store_contribution)) * 100 
+                    : 0;
+
+                // Update UI elements
+                simHeadcountEl.textContent = Number(simHeadcount).toLocaleString('en-IN') + ' Staff';
+                simPayrollEl.textContent = formatSimINR(simMonthlyPayroll) + ' / mo';
+                simRevEl.textContent = formatSimINR(simRevenue);
+                simMarginEl.textContent = formatSimINR(simContribution);
+                simStoreExpEl.textContent = formatSimINR(simStoreExpenses);
+                simLaborRatioEl.textContent = simLaborRatio.toFixed(1) + '% of Sales';
+
+                simVarEl.textContent = (variance >= 0 ? '+' : '') + formatSimINR(variance) + ' (' + (varPct >= 0 ? '+' : '') + varPct.toFixed(1) + '%)';
+                simVarEl.className = 'status-badge ' + (variance >= 0 ? 'badge-success' : 'badge-danger');
+
+                // Update Comparison Chart
+                if (simChart) {
+                    simChart.updateSeries([
+                        {
+                            name: 'Baseline Actuals (₹ Cr)',
+                            data: [
+                                Math.round(simBaseline.base_net_revenue / 10000000),
+                                Math.round(simBaseline.base_gross_margin / 10000000),
+                                Math.round(simBaseline.base_annual_payroll / 10000000),
+                                Math.round(simBaseline.base_store_expenses / 10000000),
+                                Math.round(simBaseline.base_store_contribution / 10000000)
+                            ]
+                        },
+                        {
+                            name: 'Simulated Scenario (₹ Cr)',
+                            data: [
+                                Math.round(simRevenue / 10000000),
+                                Math.round(simGrossMargin / 10000000),
+                                Math.round(simAnnualPayroll / 10000000),
+                                Math.round(simStoreExpenses / 10000000),
+                                Math.round(simContribution / 10000000)
+                            ]
+                        }
+                    ]);
+                }
+            }
+
+            [sliderHeadcount, sliderSalary, sliderStoreExp, sliderSales].forEach(slider => {
+                slider.addEventListener('input', recalculate);
+            });
+
+            const resetBtn = document.getElementById('btn-reset-sim');
+            if (resetBtn) {
+                resetBtn.addEventListener('click', () => {
+                    sliderHeadcount.value = 0;
+                    sliderSalary.value = 0;
+                    sliderStoreExp.value = 0;
+                    sliderSales.value = 0;
+                    recalculate();
+                });
+            }
+
+            // Render Initial ApexChart
+            const chartOptions = {
+                series: [
+                    {
+                        name: 'Baseline Actuals (₹ Cr)',
+                        data: [
+                            Math.round(simBaseline.base_net_revenue / 10000000),
+                            Math.round(simBaseline.base_gross_margin / 10000000),
+                            Math.round(simBaseline.base_annual_payroll / 10000000),
+                            Math.round(simBaseline.base_store_expenses / 10000000),
+                            Math.round(simBaseline.base_store_contribution / 10000000)
+                        ],
+                        color: '#6F8298'
+                    },
+                    {
+                        name: 'Simulated Scenario (₹ Cr)',
+                        data: [
+                            Math.round(simBaseline.base_net_revenue / 10000000),
+                            Math.round(simBaseline.base_gross_margin / 10000000),
+                            Math.round(simBaseline.base_annual_payroll / 10000000),
+                            Math.round(simBaseline.base_store_expenses / 10000000),
+                            Math.round(simBaseline.base_store_contribution / 10000000)
+                        ],
+                        color: '#2CD4E1'
+                    }
+                ],
+                chart: {
+                    type: 'bar',
+                    height: 330,
+                    background: 'transparent',
+                    toolbar: { show: false }
+                },
+                dataLabels: { enabled: false },
+                plotOptions: {
+                    bar: {
+                        horizontal: false,
+                        columnWidth: '55%',
+                        borderRadius: 4
+                    }
+                },
+                grid: { borderColor: '#24598A', strokeDashArray: 3 },
+                xaxis: {
+                    categories: ['Delivered Sales', 'Gross Margin', 'Annual Payroll', 'Store OPEX', 'Store Contribution'],
+                    labels: { style: { colors: '#8E9BAE', fontSize: '11px' } }
+                },
+                yaxis: {
+                    labels: {
+                        style: { colors: '#8E9BAE' },
+                        formatter: function(val) { return '₹' + val + ' Cr'; }
+                    }
+                },
+                tooltip: {
+                    theme: 'dark',
+                    y: { formatter: function(val) { return '₹' + val + ' Crores'; } }
+                },
+                legend: {
+                    labels: { colors: '#D5DCE5' },
+                    position: 'top'
+                }
+            };
+
+            simChart = new ApexCharts(document.querySelector("#sim-comparison-chart"), chartOptions);
+            simChart.render();
+            recalculate();
         }
 
         // Initialize ApexCharts on DOM load
@@ -2643,33 +3552,96 @@
                 tooltip: { theme: 'dark' }
             }).render();
 
-            // 19. Cross Functional Radar
-            new ApexCharts(document.querySelector("#chart-cross-radar"), {
-                series: [{ name: 'Enterprise Domain Index', data: [92, 85, 80, 88, 95, 91] }],
-                chart: { height: 280, type: 'radar', background: 'transparent', toolbar: { show: false } },
-                dataLabels: { enabled: false },
-                colors: ['#A459D0'],
-                xaxis: { categories: ['Sales Velocity', 'Customer Loyalty', 'Logistics SLA', 'Inventory Health', 'Financial Health', 'Workforce Staffing'], labels: { style: { colors: '#D5DCE5' } } },
-                yaxis: { max: 100, labels: { style: { colors: '#6F8298' } } }
-            }).render();
+                        // 19. Monthly Cross-Functional Trajectory Chart
+            const trajData = [{"month_date": "2024-01-01", "month_name": "Jan 2024", "total_revenue": 267185168.02, "revenue_crores": 26.72, "payroll_amount": 0.0, "payroll_crores": 0.0, "store_expenses": 0.0, "store_exp_crores": 0.0, "total_expenses": 309661705.8, "total_exp_crores": 30.97, "labor_to_rev_pct": 0.0}, {"month_date": "2024-02-01", "month_name": "Feb 2024", "total_revenue": 244549940.56, "revenue_crores": 24.45, "payroll_amount": 0.0, "payroll_crores": 0.0, "store_expenses": 0.0, "store_exp_crores": 0.0, "total_expenses": 298309394.91, "total_exp_crores": 29.83, "labor_to_rev_pct": 0.0}, {"month_date": "2024-03-01", "month_name": "Mar 2024", "total_revenue": 278998373.13, "revenue_crores": 27.9, "payroll_amount": 0.0, "payroll_crores": 0.0, "store_expenses": 0.0, "store_exp_crores": 0.0, "total_expenses": 297388779.17, "total_exp_crores": 29.74, "labor_to_rev_pct": 0.0}, {"month_date": "2024-04-01", "month_name": "Apr 2024", "total_revenue": 259246085.05, "revenue_crores": 25.92, "payroll_amount": 0.0, "payroll_crores": 0.0, "store_expenses": 0.0, "store_exp_crores": 0.0, "total_expenses": 313874364.49, "total_exp_crores": 31.39, "labor_to_rev_pct": 0.0}, {"month_date": "2024-05-01", "month_name": "May 2024", "total_revenue": 267418660.55, "revenue_crores": 26.74, "payroll_amount": 0.0, "payroll_crores": 0.0, "store_expenses": 0.0, "store_exp_crores": 0.0, "total_expenses": 334871037.53, "total_exp_crores": 33.49, "labor_to_rev_pct": 0.0}, {"month_date": "2024-06-01", "month_name": "Jun 2024", "total_revenue": 244424928.67, "revenue_crores": 24.44, "payroll_amount": 0.0, "payroll_crores": 0.0, "store_expenses": 0.0, "store_exp_crores": 0.0, "total_expenses": 308627528.54, "total_exp_crores": 30.86, "labor_to_rev_pct": 0.0}, {"month_date": "2024-07-01", "month_name": "Jul 2024", "total_revenue": 265343771.94, "revenue_crores": 26.53, "payroll_amount": 0.0, "payroll_crores": 0.0, "store_expenses": 0.0, "store_exp_crores": 0.0, "total_expenses": 340904401.71, "total_exp_crores": 34.09, "labor_to_rev_pct": 0.0}, {"month_date": "2024-08-01", "month_name": "Aug 2024", "total_revenue": 273762352.86, "revenue_crores": 27.38, "payroll_amount": 0.0, "payroll_crores": 0.0, "store_expenses": 0.0, "store_exp_crores": 0.0, "total_expenses": 323002806.22, "total_exp_crores": 32.3, "labor_to_rev_pct": 0.0}, {"month_date": "2024-09-01", "month_name": "Sep 2024", "total_revenue": 251186458.3, "revenue_crores": 25.12, "payroll_amount": 0.0, "payroll_crores": 0.0, "store_expenses": 0.0, "store_exp_crores": 0.0, "total_expenses": 300278035.11, "total_exp_crores": 30.03, "labor_to_rev_pct": 0.0}, {"month_date": "2024-10-01", "month_name": "Oct 2024", "total_revenue": 263748922.2, "revenue_crores": 26.37, "payroll_amount": 0.0, "payroll_crores": 0.0, "store_expenses": 0.0, "store_exp_crores": 0.0, "total_expenses": 294131870.72, "total_exp_crores": 29.41, "labor_to_rev_pct": 0.0}, {"month_date": "2024-11-01", "month_name": "Nov 2024", "total_revenue": 257482187.49, "revenue_crores": 25.75, "payroll_amount": 0.0, "payroll_crores": 0.0, "store_expenses": 0.0, "store_exp_crores": 0.0, "total_expenses": 301667464.48, "total_exp_crores": 30.17, "labor_to_rev_pct": 0.0}, {"month_date": "2024-12-01", "month_name": "Dec 2024", "total_revenue": 255786204.05, "revenue_crores": 25.58, "payroll_amount": 0.0, "payroll_crores": 0.0, "store_expenses": 0.0, "store_exp_crores": 0.0, "total_expenses": 288388760.23, "total_exp_crores": 28.84, "labor_to_rev_pct": 0.0}, {"month_date": "2025-01-01", "month_name": "Jan 2025", "total_revenue": 257852068.67, "revenue_crores": 25.79, "payroll_amount": 0.0, "payroll_crores": 0.0, "store_expenses": 0.0, "store_exp_crores": 0.0, "total_expenses": 332368553.37, "total_exp_crores": 33.24, "labor_to_rev_pct": 0.0}, {"month_date": "2025-02-01", "month_name": "Feb 2025", "total_revenue": 245739240.79, "revenue_crores": 24.57, "payroll_amount": 0.0, "payroll_crores": 0.0, "store_expenses": 977246.32, "store_exp_crores": 0.1, "total_expenses": 280830505.4, "total_exp_crores": 28.08, "labor_to_rev_pct": 0.0}, {"month_date": "2025-03-01", "month_name": "Mar 2025", "total_revenue": 274164232.1, "revenue_crores": 27.42, "payroll_amount": 14867539.68, "payroll_crores": 1.49, "store_expenses": 8732661.35, "store_exp_crores": 0.87, "total_expenses": 333110984.97, "total_exp_crores": 33.31, "labor_to_rev_pct": 5.42}, {"month_date": "2025-04-01", "month_name": "Apr 2025", "total_revenue": 254886719.83, "revenue_crores": 25.49, "payroll_amount": 14794919.46, "payroll_crores": 1.48, "store_expenses": 8152127.42, "store_exp_crores": 0.82, "total_expenses": 321401662.13, "total_exp_crores": 32.14, "labor_to_rev_pct": 5.8}, {"month_date": "2025-05-01", "month_name": "May 2025", "total_revenue": 265567636.1, "revenue_crores": 26.56, "payroll_amount": 14747086.16, "payroll_crores": 1.47, "store_expenses": 8896985.4, "store_exp_crores": 0.89, "total_expenses": 338421434.27, "total_exp_crores": 33.84, "labor_to_rev_pct": 5.55}, {"month_date": "2025-06-01", "month_name": "Jun 2025", "total_revenue": 269997070.46, "revenue_crores": 27.0, "payroll_amount": 14948211.8, "payroll_crores": 1.49, "store_expenses": 8339924.44, "store_exp_crores": 0.83, "total_expenses": 304526367.17, "total_exp_crores": 30.45, "labor_to_rev_pct": 5.54}, {"month_date": "2025-07-01", "month_name": "Jul 2025", "total_revenue": 274367607.37, "revenue_crores": 27.44, "payroll_amount": 14722548.82, "payroll_crores": 1.47, "store_expenses": 8223501.33, "store_exp_crores": 0.82, "total_expenses": 310753107.36, "total_exp_crores": 31.08, "labor_to_rev_pct": 5.37}, {"month_date": "2025-08-01", "month_name": "Aug 2025", "total_revenue": 262457191.24, "revenue_crores": 26.25, "payroll_amount": 14774856.92, "payroll_crores": 1.48, "store_expenses": 8020936.48, "store_exp_crores": 0.8, "total_expenses": 350794314.42, "total_exp_crores": 35.08, "labor_to_rev_pct": 5.63}, {"month_date": "2025-09-01", "month_name": "Sep 2025", "total_revenue": 261491618.36, "revenue_crores": 26.15, "payroll_amount": 14994540.54, "payroll_crores": 1.5, "store_expenses": 8079625.54, "store_exp_crores": 0.81, "total_expenses": 283616317.32, "total_exp_crores": 28.36, "labor_to_rev_pct": 5.73}, {"month_date": "2025-10-01", "month_name": "Oct 2025", "total_revenue": 270411847.4, "revenue_crores": 27.04, "payroll_amount": 14813324.96, "payroll_crores": 1.48, "store_expenses": 8408593.91, "store_exp_crores": 0.84, "total_expenses": 332460513.11, "total_exp_crores": 33.25, "labor_to_rev_pct": 5.48}, {"month_date": "2025-11-01", "month_name": "Nov 2025", "total_revenue": 258434391.33, "revenue_crores": 25.84, "payroll_amount": 14923880.87, "payroll_crores": 1.49, "store_expenses": 8227347.98, "store_exp_crores": 0.82, "total_expenses": 308550876.67, "total_exp_crores": 30.86, "labor_to_rev_pct": 5.77}, {"month_date": "2025-12-01", "month_name": "Dec 2025", "total_revenue": 269918314.59, "revenue_crores": 26.99, "payroll_amount": 14950070.62, "payroll_crores": 1.5, "store_expenses": 8551967.83, "store_exp_crores": 0.86, "total_expenses": 321159483.48, "total_exp_crores": 32.12, "labor_to_rev_pct": 5.54}, {"month_date": "2026-01-01", "month_name": "Jan 2026", "total_revenue": 256136553.02, "revenue_crores": 25.61, "payroll_amount": 15809749.29, "payroll_crores": 1.58, "store_expenses": 8723296.44, "store_exp_crores": 0.87, "total_expenses": 316220797.41, "total_exp_crores": 31.62, "labor_to_rev_pct": 6.17}, {"month_date": "2026-02-01", "month_name": "Feb 2026", "total_revenue": 218978460.4, "revenue_crores": 21.9, "payroll_amount": 16000462.78, "payroll_crores": 1.6, "store_expenses": 7035384.13, "store_exp_crores": 0.7, "total_expenses": 270079916.87, "total_exp_crores": 27.01, "labor_to_rev_pct": 7.31}];
+            if (trajData && trajData.length > 0) {
+                const months = trajData.map(d => d.month_name);
+                const revenue = trajData.map(d => d.revenue_crores);
+                const payroll = trajData.map(d => d.payroll_crores);
+                const storeCosts = trajData.map(d => d.store_exp_crores);
 
-            // 20. Cross Functional Scatter
-            new ApexCharts(document.querySelector("#chart-cross-scatter"), {
-                series: [
-                    { name: 'Marketing ROI', data: [[10.3, 85.4], [12.1, 98.2], [14.5, 112.5], [16.8, 128.9]] },
-                    { name: 'Logistics SLA Yield', data: [[8.5, 78.4], [9.2, 81.2], [11.4, 84.5], [13.2, 89.2]] }
-                ],
-                chart: { height: 280, type: 'scatter', background: 'transparent', toolbar: { show: false } },
-                dataLabels: { enabled: false },
-                colors: ['#E88E3E', '#2CD4E1'],
-                xaxis: { title: { text: 'Domain Operating Spend (₹ Cr)', style: { color: '#8E9BAE' } }, labels: { style: { colors: '#6F8298' } } },
-                yaxis: { title: { text: 'Delivered Commercial Yield (₹ Cr)', style: { color: '#8E9BAE' } }, labels: { style: { colors: '#6F8298' } } },
-                grid: { borderColor: '#24598A', strokeDashArray: 3 },
-                legend: { position: 'top', labels: { colors: '#D5DCE5' } },
-                tooltip: { theme: 'dark' }
-            }).render();
+                const trajOptions = {
+                    series: [
+                        { name: 'Delivered Revenue (₹ Cr)', type: 'line', data: revenue, color: '#A459D0' },
+                        { name: 'Processed Payroll (₹ Cr)', type: 'column', data: payroll, color: '#E95B9F' },
+                        { name: 'Store OPEX (₹ Cr)', type: 'column', data: storeCosts, color: '#E88E3E' }
+                    ],
+                    chart: {
+                        height: 320,
+                        type: 'line',
+                        background: 'transparent',
+                        toolbar: { show: false }
+                    },
+                    dataLabels: { enabled: false },
+                    stroke: { width: [3, 0, 0], curve: 'smooth' },
+                    grid: { borderColor: '#24598A', strokeDashArray: 3 },
+                    xaxis: {
+                        categories: months,
+                        labels: { style: { colors: '#8E9BAE', fontSize: '11px' } }
+                    },
+                    yaxis: [
+                        {
+                            title: { text: 'Delivered Revenue (₹ Cr)', style: { color: '#A459D0' } },
+                            labels: {
+                                style: { colors: '#8E9BAE' },
+                                formatter: function(val) { return '₹' + val.toFixed(0) + ' Cr'; }
+                            }
+                        },
+                        {
+                            opposite: true,
+                            title: { text: 'Monthly Outflows (₹ Cr)', style: { color: '#2CD4E1' } },
+                            labels: {
+                                style: { colors: '#8E9BAE' },
+                                formatter: function(val) { return '₹' + val.toFixed(1) + ' Cr'; }
+                            }
+                        }
+                    ],
+                    tooltip: { theme: 'dark' },
+                    legend: { labels: { colors: '#D5DCE5' }, position: 'top' }
+                };
+                new ApexCharts(document.querySelector("#chart-cross-trajectory"), trajOptions).render();
+            }
 
-            // 21. Executive 26-Month Trajectory
+            // 20. Department Cost Allocation Chart
+            const deptData = [{"dept_name": "IT", "staff_count": 310, "avg_salary": 71392.9, "monthly_payroll": 22131800.0, "payroll_crores": 2.21, "payroll_share_pct": 11.66}, {"dept_name": "Legal", "staff_count": 339, "avg_salary": 61119.09, "monthly_payroll": 20719373.0, "payroll_crores": 2.07, "payroll_share_pct": 10.92}, {"dept_name": "Sales", "staff_count": 300, "avg_salary": 67489.22, "monthly_payroll": 20246765.0, "payroll_crores": 2.02, "payroll_share_pct": 10.67}, {"dept_name": "Finance", "staff_count": 298, "avg_salary": 67496.4, "monthly_payroll": 20113926.0, "payroll_crores": 2.01, "payroll_share_pct": 10.6}, {"dept_name": "HR", "staff_count": 302, "avg_salary": 66320.72, "monthly_payroll": 20028857.0, "payroll_crores": 2.0, "payroll_share_pct": 10.55}, {"dept_name": "Logistics", "staff_count": 299, "avg_salary": 65170.66, "monthly_payroll": 19486027.0, "payroll_crores": 1.95, "payroll_share_pct": 10.27}, {"dept_name": "Operations", "staff_count": 301, "avg_salary": 59777.06, "monthly_payroll": 17992896.0, "payroll_crores": 1.8, "payroll_share_pct": 9.48}, {"dept_name": "Marketing", "staff_count": 307, "avg_salary": 56633.43, "monthly_payroll": 17386464.0, "payroll_crores": 1.74, "payroll_share_pct": 9.16}, {"dept_name": "Procurement", "staff_count": 266, "avg_salary": 62694.11, "monthly_payroll": 16676633.0, "payroll_crores": 1.67, "payroll_share_pct": 8.79}, {"dept_name": "Customer Support", "staff_count": 278, "avg_salary": 54093.79, "monthly_payroll": 15038073.0, "payroll_crores": 1.5, "payroll_share_pct": 7.92}];
+            if (deptData && deptData.length > 0) {
+                const depts = deptData.map(d => d.dept_name);
+                const payrollCrores = deptData.map(d => d.payroll_crores);
+                const staff = deptData.map(d => d.staff_count);
+
+                const deptOptions = {
+                    series: [
+                        { name: 'Monthly Payroll (₹ Cr)', data: payrollCrores, color: '#2CD4E1' },
+                        { name: 'Staff Headcount', data: staff, color: '#E95B9F' }
+                    ],
+                    chart: {
+                        type: 'bar',
+                        height: 320,
+                        background: 'transparent',
+                        toolbar: { show: false }
+                    },
+                    dataLabels: { enabled: false },
+                    plotOptions: {
+                        bar: { horizontal: true, borderRadius: 4, barHeight: '70%' }
+                    },
+                    grid: { borderColor: '#24598A', strokeDashArray: 3 },
+                    xaxis: {
+                        labels: { style: { colors: '#8E9BAE' } }
+                    },
+                    yaxis: {
+                        labels: { style: { colors: '#D5DCE5', fontSize: '11px' } }
+                    },
+                    tooltip: { theme: 'dark' },
+                    legend: { labels: { colors: '#D5DCE5' }, position: 'top' }
+                };
+                new ApexCharts(document.querySelector("#chart-dept-cost"), deptOptions).render();
+            }
+
+            // Initialize Workforce Simulator
+            initSimulator();
+
+
+// 21. Executive 26-Month Trajectory
             new ApexCharts(document.querySelector("#chart-exec-trajectory"), {
                 series: [
                     { name: 'Delivered Revenue (₹ Cr)', data: [26.72, 24.45, 27.90, 25.92, 26.74, 24.44, 26.53, 27.38, 25.12, 26.37, 25.75, 25.58, 25.79, 24.57, 27.42, 25.49, 26.56, 27.00, 27.44, 26.25, 26.15, 27.04, 25.84, 26.99, 25.61, 21.90] },
