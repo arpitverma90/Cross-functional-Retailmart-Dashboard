@@ -997,9 +997,9 @@ html_content = r"""<!DOCTYPE html>
                     </div>
                 </div>
 
-                <button class="btn btn-secondary" onclick="simulateLogout()" title="Logout" style="padding: 0.38rem 0.7rem; font-size: 0.75rem;">
+                <a href="login.html?logout=true" class="btn btn-secondary" title="Logout" style="padding: 0.38rem 0.7rem; font-size: 0.75rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.35rem;">
                     <i class="ti ti-logout"></i> Logout
-                </button>
+                </a>
             </div>
         </header>
 
@@ -4197,7 +4197,7 @@ html_content = r"""<!DOCTYPE html>
         }
 
         function simulateLogout() {
-            showToast('Session preserved · Standing in Demo Mode');
+            window.location.href = 'login.html?logout=true';
         }
 
         // WORKFORCE, COMPENSATION & OPEX SCENARIO SIMULATOR
@@ -4387,6 +4387,13 @@ html_content = r"""<!DOCTYPE html>
 
         // Initialize ApexCharts on DOM load
         document.addEventListener('DOMContentLoaded', function() {
+            // Check for login redirect alert
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('login') === 'success') {
+                showToast('Authenticated as Executive Admin · Welcome to RetailMart V3!');
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }
+
             // 1. Marketing Platform Spend Donut
             window.appCharts['chart-platform-spend'] = new ApexCharts(document.querySelector('#chart-platform-spend'), {
                 series: [2194510.82, 2070878.68, 2019363.38, 1957549.14, 2060572.39],
