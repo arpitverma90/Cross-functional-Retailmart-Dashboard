@@ -2266,7 +2266,7 @@ html_content = r"""<!DOCTYPE html>
                 labels: ['Operations', 'Sales', 'Logistics', 'Customer Support', 'IT & Tech', 'Marketing', 'Finance', 'Procurement', 'HR', 'Legal'],
                 colors: ['#2CD4E1', '#A459D0', '#34D399', '#E88E3E', '#E95B9F', '#FFBD4A', '#38BDF8', '#C084FC', '#F43F5E', '#94A3B8'],
                 stroke: { colors: ['#183A5F'], width: 2 },
-                dataLabels: { enabled: true, formatter: function(val) { return val.toFixed(1) + '%'; }, style: { fontFamily: 'Inter', fontSize: '11px', fontWeight: 600 } },
+                dataLabels: { enabled: false },
                 legend: { position: 'bottom', labels: { colors: '#D5DCE5' } },
                 tooltip: { theme: 'dark' }
             }).render();
