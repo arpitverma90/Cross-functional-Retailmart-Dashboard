@@ -33,6 +33,12 @@ html_content = r"""<!DOCTYPE html>
     
     <!-- ApexCharts.js -->
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script>
+        // Disable dataLabels globally across all non-pie charts
+        window.Apex = {
+            dataLabels: { enabled: false }
+        };
+    </script>
 
     <style>
         /* Exact RetailMart V3 - Dark Corporate Design System */
@@ -2059,6 +2065,7 @@ html_content = r"""<!DOCTYPE html>
                     { name: 'Instagram', data: [76500, 81200, 79500, 84200, 78900, 89400, 71200, 76500, 81200, 88900, 74500, 82100, 78900, 84200] }
                 ],
                 chart: { type: 'bar', stacked: true, height: 280, background: 'transparent', toolbar: { show: false } },
+                dataLabels: { enabled: false },
                 colors: ['#A459D0', '#2CD4E1', '#E88E3E', '#FFBD4A', '#E95B9F'],
                 xaxis: {
                     categories: ['Jan 24', 'Mar 24', 'May 24', 'Jul 24', 'Sep 24', 'Nov 24', 'Jan 25', 'Mar 25', 'May 25', 'Jul 25', 'Sep 25', 'Nov 25', 'Jan 26', 'Feb 26'],
@@ -2079,6 +2086,7 @@ html_content = r"""<!DOCTYPE html>
                     { name: 'Click Rate (%)', data: [23.5, 22.1, 22.8, 24.2, 21.9, 23.1, 23.8, 22.9, 21.8, 23.4, 23.9, 22.4, 22.7, 22.9] }
                 ],
                 chart: { type: 'line', height: 280, background: 'transparent', toolbar: { show: false } },
+                dataLabels: { enabled: false },
                 stroke: { width: [3, 3], curve: 'smooth' },
                 colors: ['#2CD4E1', '#A459D0'],
                 xaxis: {
@@ -2098,6 +2106,7 @@ html_content = r"""<!DOCTYPE html>
                     { name: 'Authorized Budget', data: [1850000, 1500000, 1200000, 950000, 800000, 750000, 650000, 600000, 550000, 500000] }
                 ],
                 chart: { type: 'bar', height: 280, background: 'transparent', toolbar: { show: false } },
+                dataLabels: { enabled: false },
                 plotOptions: { bar: { horizontal: true, barHeight: '55%' } },
                 colors: ['#E88E3E', '#24598A'],
                 xaxis: { labels: { style: { colors: '#6F8298', fontFamily: 'Inter' }, formatter: function(v) { return '₹' + (v/1000).toFixed(0) + 'k'; } } },
@@ -2117,6 +2126,7 @@ html_content = r"""<!DOCTYPE html>
                 labels: ['Mobile (Android & iOS)', 'Desktop (Windows & macOS)', 'Tablet (iPad & Other)'],
                 colors: ['#2CD4E1', '#A459D0', '#FFBD4A'],
                 stroke: { colors: ['#183A5F'], width: 2 },
+                dataLabels: { enabled: true, formatter: function(val) { return val.toFixed(1) + '%'; }, style: { fontFamily: 'Inter', fontSize: '11px', fontWeight: 600 } },
                 legend: { position: 'bottom', labels: { colors: '#D5DCE5' }, fontFamily: 'Inter' },
                 tooltip: { theme: 'dark' }
             }).render();
@@ -2128,6 +2138,7 @@ html_content = r"""<!DOCTYPE html>
                     { name: 'Sessions', data: [6800, 7200, 7600, 8100, 7900, 8400, 8700, 8200, 7900, 8600, 8900, 8300, 8400, 8800] }
                 ],
                 chart: { type: 'area', height: 280, background: 'transparent', toolbar: { show: false } },
+                dataLabels: { enabled: false },
                 colors: ['#E95B9F', '#2CD4E1'],
                 stroke: { width: [2, 2], curve: 'smooth' },
                 xaxis: {
@@ -2147,6 +2158,7 @@ html_content = r"""<!DOCTYPE html>
                     { name: 'On-Time SLA %', type: 'line', data: [84.2, 81.5, 78.9, 74.2, 71.8] }
                 ],
                 chart: { height: 280, background: 'transparent', toolbar: { show: false } },
+                dataLabels: { enabled: false },
                 colors: ['#2CD4E1', '#A459D0'],
                 stroke: { width: [0, 3] },
                 xaxis: { categories: ['BlueDart', 'Delhivery', 'EcomExpress', 'Shadowfax', 'XpressBees'], labels: { style: { colors: '#D5DCE5' } } },
@@ -2163,6 +2175,7 @@ html_content = r"""<!DOCTYPE html>
             new ApexCharts(document.querySelector("#chart-region-sla"), {
                 series: [{ name: 'On-Time SLA %', data: [83.4, 81.8, 80.2, 77.5, 76.1] }],
                 chart: { type: 'bar', height: 280, background: 'transparent', toolbar: { show: false } },
+                dataLabels: { enabled: false },
                 colors: ['#38BDF8'],
                 xaxis: { categories: ['Western Hub', 'Northern NCR', 'Southern Tech', 'Central Hub', 'Eastern Coastal'], labels: { style: { colors: '#D5DCE5' } } },
                 yaxis: { max: 100, labels: { style: { colors: '#6F8298' }, formatter: function(v) { return v + '%'; } } },
@@ -2174,6 +2187,7 @@ html_content = r"""<!DOCTYPE html>
             new ApexCharts(document.querySelector("#chart-sales-category"), {
                 series: [{ name: 'Net Revenue (₹ Cr)', data: [284.15, 148.90, 115.40, 82.50, 46.00] }],
                 chart: { type: 'bar', height: 280, background: 'transparent', toolbar: { show: false } },
+                dataLabels: { enabled: false },
                 colors: ['#A459D0'],
                 xaxis: { categories: ['Electronics', 'Fashion & Apparel', 'Home & Kitchen', 'Grocery & Staples', 'Beauty & Personal'], labels: { style: { colors: '#D5DCE5' } } },
                 yaxis: { labels: { style: { colors: '#6F8298' }, formatter: function(v) { return '₹' + v + 'Cr'; } } },
@@ -2185,6 +2199,7 @@ html_content = r"""<!DOCTYPE html>
             new ApexCharts(document.querySelector("#chart-sales-trend"), {
                 series: [{ name: 'Delivered Net Sales', data: [42.1, 45.8, 48.3, 51.2, 49.6, 53.4, 55.8, 52.1, 50.4, 54.2, 57.1, 52.9, 53.8, 56.2] }],
                 chart: { type: 'line', height: 280, background: 'transparent', toolbar: { show: false } },
+                dataLabels: { enabled: false },
                 colors: ['#2CD4E1'],
                 stroke: { width: 3, curve: 'smooth' },
                 xaxis: {
@@ -2203,6 +2218,7 @@ html_content = r"""<!DOCTYPE html>
                 labels: ['Champions (₹234.8 Cr)', 'Loyal Customers (₹189.2 Cr)', 'Potential Loyalists (₹84.1 Cr)', 'At Risk (₹128.2 Cr)', 'Hibernating (₹40.6 Cr)'],
                 colors: ['#34D399', '#2CD4E1', '#A459D0', '#FFBD4A', '#E88E3E'],
                 stroke: { colors: ['#183A5F'], width: 2 },
+                dataLabels: { enabled: true, formatter: function(val) { return val.toFixed(1) + '%'; }, style: { fontFamily: 'Inter', fontSize: '11px', fontWeight: 600 } },
                 legend: { position: 'bottom', labels: { colors: '#D5DCE5' }, fontFamily: 'Inter' },
                 tooltip: { theme: 'dark' }
             }).render();
@@ -2211,6 +2227,7 @@ html_content = r"""<!DOCTYPE html>
             new ApexCharts(document.querySelector("#chart-customer-retention"), {
                 series: [{ name: 'Repeat Order Retention %', data: [100, 78.4, 69.2, 64.2, 59.8, 55.4] }],
                 chart: { type: 'area', height: 280, background: 'transparent', toolbar: { show: false } },
+                dataLabels: { enabled: false },
                 colors: ['#E95B9F'],
                 xaxis: { categories: ['Month 0', 'Month 1', 'Month 2', 'Month 3', 'Month 4', 'Month 5'], labels: { style: { colors: '#D5DCE5' } } },
                 yaxis: { max: 100, labels: { style: { colors: '#6F8298' }, formatter: function(v) { return v + '%'; } } },
@@ -2225,6 +2242,7 @@ html_content = r"""<!DOCTYPE html>
                 labels: ['Optimal Stock (96,678 slots)', 'Low Stock Trigger (16,880 slots)', 'Zero-Stock Stockout (595 slots)'],
                 colors: ['#10B981', '#FFBD4A', '#F43F5E'],
                 stroke: { colors: ['#183A5F'], width: 2 },
+                dataLabels: { enabled: true, formatter: function(val) { return val.toFixed(1) + '%'; }, style: { fontFamily: 'Inter', fontSize: '11px', fontWeight: 600 } },
                 legend: { position: 'bottom', labels: { colors: '#D5DCE5' } },
                 tooltip: { theme: 'dark' }
             }).render();
@@ -2233,6 +2251,7 @@ html_content = r"""<!DOCTYPE html>
             new ApexCharts(document.querySelector("#chart-ops-scrap"), {
                 series: [{ name: 'Scrap Rate %', data: [1.8, 2.1, 1.9, 2.4, 3.8, 2.2, 1.7, 2.3, 3.6, 2.0] }],
                 chart: { type: 'bar', height: 280, background: 'transparent', toolbar: { show: false } },
+                dataLabels: { enabled: false },
                 colors: ['#E88E3E'],
                 xaxis: { categories: ['Line 1', 'Line 2', 'Line 3', 'Line 4', 'Line 5 (QA)', 'Line 6', 'Line 7', 'Line 8', 'Line 9 (QA)', 'Line 10'], labels: { style: { colors: '#D5DCE5' } } },
                 yaxis: { labels: { style: { colors: '#6F8298' }, formatter: function(v) { return v + '%'; } } },
@@ -2247,6 +2266,7 @@ html_content = r"""<!DOCTYPE html>
                 labels: ['Operations', 'Sales', 'Logistics', 'Customer Support', 'IT & Tech', 'Marketing', 'Finance', 'Procurement', 'HR', 'Legal'],
                 colors: ['#2CD4E1', '#A459D0', '#34D399', '#E88E3E', '#E95B9F', '#FFBD4A', '#38BDF8', '#C084FC', '#F43F5E', '#94A3B8'],
                 stroke: { colors: ['#183A5F'], width: 2 },
+                dataLabels: { enabled: true, formatter: function(val) { return val.toFixed(1) + '%'; }, style: { fontFamily: 'Inter', fontSize: '11px', fontWeight: 600 } },
                 legend: { position: 'bottom', labels: { colors: '#D5DCE5' } },
                 tooltip: { theme: 'dark' }
             }).render();
@@ -2255,6 +2275,7 @@ html_content = r"""<!DOCTYPE html>
             new ApexCharts(document.querySelector("#chart-hr-payroll"), {
                 series: [{ name: 'Monthly Payroll (₹ Lakhs)', data: [485, 392, 315, 218, 198, 142, 98, 62, 38, 32] }],
                 chart: { type: 'bar', height: 280, background: 'transparent', toolbar: { show: false } },
+                dataLabels: { enabled: false },
                 colors: ['#A459D0'],
                 xaxis: { categories: ['Operations', 'Sales', 'Logistics', 'IT & Tech', 'Support', 'Marketing', 'Finance', 'Procurement', 'HR', 'Legal'], labels: { style: { colors: '#D5DCE5', fontSize: '10px' } } },
                 yaxis: { labels: { style: { colors: '#6F8298' } } },
@@ -2275,6 +2296,7 @@ html_content = r"""<!DOCTYPE html>
                     ]
                 }],
                 chart: { type: 'bar', height: 280, background: 'transparent', toolbar: { show: false } },
+                dataLabels: { enabled: false },
                 plotOptions: { bar: { columnWidth: '55%' } },
                 colors: ['#2CD4E1'],
                 xaxis: { labels: { style: { colors: '#D5DCE5', fontSize: '10px' } } },
@@ -2290,6 +2312,7 @@ html_content = r"""<!DOCTYPE html>
                 labels: ['UPI Rails (₹312.4 Cr)', 'Card Gateways (₹241.1 Cr)', 'Net Banking (₹92.5 Cr)', 'Cash on Delivery (₹55.2 Cr)'],
                 colors: ['#34D399', '#A459D0', '#2CD4E1', '#E88E3E'],
                 stroke: { colors: ['#183A5F'], width: 2 },
+                dataLabels: { enabled: true, formatter: function(val) { return val.toFixed(1) + '%'; }, style: { fontFamily: 'Inter', fontSize: '11px', fontWeight: 600 } },
                 legend: { position: 'bottom', labels: { colors: '#D5DCE5' } },
                 tooltip: { theme: 'dark' }
             }).render();
@@ -2298,6 +2321,7 @@ html_content = r"""<!DOCTYPE html>
             new ApexCharts(document.querySelector("#chart-cross-radar"), {
                 series: [{ name: 'Enterprise Domain Index', data: [92, 85, 80, 88, 95, 91] }],
                 chart: { height: 280, type: 'radar', background: 'transparent', toolbar: { show: false } },
+                dataLabels: { enabled: false },
                 colors: ['#A459D0'],
                 xaxis: { categories: ['Sales Velocity', 'Customer Loyalty', 'Logistics SLA', 'Inventory Health', 'Financial Health', 'Workforce Staffing'], labels: { style: { colors: '#D5DCE5' } } },
                 yaxis: { max: 100, labels: { style: { colors: '#6F8298' } } }
@@ -2310,6 +2334,7 @@ html_content = r"""<!DOCTYPE html>
                     { name: 'Logistics SLA Yield', data: [[8.5, 78.4], [9.2, 81.2], [11.4, 84.5], [13.2, 89.2]] }
                 ],
                 chart: { height: 280, type: 'scatter', background: 'transparent', toolbar: { show: false } },
+                dataLabels: { enabled: false },
                 colors: ['#E88E3E', '#2CD4E1'],
                 xaxis: { title: { text: 'Domain Operating Spend (₹ Cr)', style: { color: '#8E9BAE' } }, labels: { style: { colors: '#6F8298' } } },
                 yaxis: { title: { text: 'Delivered Commercial Yield (₹ Cr)', style: { color: '#8E9BAE' } }, labels: { style: { colors: '#6F8298' } } },
