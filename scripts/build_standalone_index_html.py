@@ -593,6 +593,28 @@ html_content = r"""<!DOCTYPE html>
             color: #34D399;
             border: 1px solid rgba(16, 185, 129, 0.3);
         }
+        .badge-danger {
+            background: rgba(244, 63, 94, 0.15);
+            color: #F43F5E;
+            border: 1px solid rgba(244, 63, 94, 0.3);
+        }
+        .badge-warning {
+            background: rgba(232, 142, 62, 0.15);
+            color: #E88E3E;
+            border: 1px solid rgba(232, 142, 62, 0.3);
+        }
+
+        .kpi-grid-5 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.25rem;
+            margin-bottom: 1.75rem;
+        }
+        @media (min-width: 1200px) {
+            .kpi-grid-5 {
+                grid-template-columns: repeat(5, 1fr);
+            }
+        }
 
         /* Charts */
         .charts-grid-2 {
@@ -785,14 +807,14 @@ html_content = r"""<!DOCTYPE html>
             <!-- Unified Domain Suites Navigation -->
             <nav class="nav-tabs">
                 <!-- Area 1: Executive Summary -->
-                <button class="nav-tab-link" id="nav-executive" onclick="switchTab('executive')">
+                <button class="nav-tab-link active" id="nav-executive" onclick="switchTab('executive')">
                     <i class="ti ti-layout-dashboard"></i> Executive
                 </button>
 
                 <!-- Domain Suite 1: Growth & Supply Chain -->
                 <div class="suite-pill suite-1">
                     <span class="suite-tag tag-1">Suite 1</span>
-                    <button class="nav-tab-link active" id="nav-marketing" onclick="switchTab('marketing')">
+                    <button class="nav-tab-link" id="nav-marketing" onclick="switchTab('marketing')">
                         <i class="ti ti-target"></i> Marketing
                     </button>
                     <button class="nav-tab-link" id="nav-digital" onclick="switchTab('digital')">
@@ -1086,9 +1108,9 @@ html_content = r"""<!DOCTYPE html>
             <main class="main-content">
 
                 <!-- ========================================================= -->
-                <!-- 1. MARKETING INTELLIGENCE DASHBOARD (Default Active View) -->
+                <!-- 1. MARKETING INTELLIGENCE DASHBOARD                       -->
                 <!-- ========================================================= -->
-                <div id="tab-marketing" class="tab-pane active">
+                <div id="tab-marketing" class="tab-pane">
                     <div class="page-header">
                         <div>
                             <h2 class="page-title">Marketing Intelligence Dashboard</h2>
@@ -1748,41 +1770,363 @@ html_content = r"""<!DOCTYPE html>
                 </div>
 
                 <!-- ========================================================= -->
-                <!-- 10. EXECUTIVE SYNTHESIS & SCORECARD                       -->
+                <!-- 10. EXECUTIVE SUMMARY DASHBOARD                           -->
                 <!-- ========================================================= -->
-                <div id="tab-executive" class="tab-pane">
+                <div id="tab-executive" class="tab-pane active">
                     <div class="page-header">
                         <div>
-                            <h2 class="page-title">Executive Summary &amp; Enterprise Governance</h2>
+                            <h2 class="page-title">Executive Summary Dashboard</h2>
                             <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem;">
-                                Cross-Domain KPI Scorecard, Strategic Synthesis &amp; 90-Day Action Directives
+                                Enterprise C-Suite Dossier · Validated Human Resources, Financial Health &amp; Cross-Functional Margins
                             </div>
                         </div>
-                        <a href="./project_documents/documentation/RetailMart_V3_Executive_Insights_Report.pdf" target="_blank" class="status-badge badge-success" style="font-size: 0.72rem; padding: 0.35rem 0.75rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.3rem;">
-                            <i class="ti ti-file-type-pdf"></i> Executive Insights Report (PDF)
-                        </a>
+                        <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
+                            <div style="font-size: 0.72rem; color: var(--cyan); background: rgba(44, 212, 225, 0.1); padding: 0.35rem 0.75rem; border-radius: 6px; border: 1px solid rgba(44, 212, 225, 0.3); display: inline-flex; align-items: center; gap: 0.35rem;">
+                                <i class="ti ti-database"></i> PostgreSQL 18.4 Verified
+                            </div>
+                            <div style="font-size: 0.72rem; color: var(--purple); background: rgba(164, 89, 208, 0.1); padding: 0.35rem 0.75rem; border-radius: 6px; border: 1px solid rgba(164, 89, 208, 0.3); display: inline-flex; align-items: center; gap: 0.35rem;">
+                                <i class="ti ti-calendar"></i> Current: Feb 2026
+                            </div>
+                            <a href="./project_documents/documentation/RetailMart_V3_Executive_Insights_Report.pdf" target="_blank" class="status-badge badge-success" style="font-size: 0.72rem; padding: 0.35rem 0.75rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.3rem;">
+                                <i class="ti ti-file-type-pdf"></i> Executive Insights Report (PDF)
+                            </a>
+                        </div>
                     </div>
 
-                    <div class="kpi-grid">
+                    <!-- 10 Validated Headline KPI Cards (5 Per Row) -->
+                    <div class="kpi-grid-5">
+                        <!-- Card 1: Delivered Net Revenue -->
                         <div class="kpi-card accent-purple">
-                            <div class="kpi-header"><span class="kpi-title">Total Enterprise Sales</span><i class="ti ti-cash" style="color: var(--purple);"></i></div>
+                            <div class="kpi-header">
+                                <span class="kpi-title">DELIVERED NET REVENUE</span>
+                                <span class="status-badge badge-danger">-14.51% MoM</span>
+                            </div>
                             <div class="kpi-value">₹676.95 Cr</div>
-                            <div class="kpi-subtext">82,540 fulfilled invoices</div>
+                            <div class="kpi-subtext" style="display: flex; justify-content: space-between; align-items: center;">
+                                <span>82540 Fulfilled Orders</span>
+                                <a href="javascript:void(0)" onclick="switchTab('finance')" style="color: var(--purple); text-decoration: none; font-size: 0.75rem; font-weight: 600; cursor: pointer;">Finance &gt;</a>
+                            </div>
                         </div>
+
+                        <!-- Card 2: Gross Contribution Margin -->
                         <div class="kpi-card accent-cyan">
-                            <div class="kpi-header"><span class="kpi-title">Active Transacting Buyers</span><i class="ti ti-user-check" style="color: var(--cyan);"></i></div>
-                            <div class="kpi-value">40,380</div>
-                            <div class="kpi-subtext">80.8% buyer penetration</div>
+                            <div class="kpi-header">
+                                <span class="kpi-title">GROSS CONTRIBUTION MARGIN</span>
+                                <span class="status-badge badge-success">Markup</span>
+                            </div>
+                            <div class="kpi-value">27.49%</div>
+                            <div class="kpi-subtext" style="display: flex; justify-content: space-between; align-items: center;">
+                                <span>₹186.1 Cr Gross Profit</span>
+                                <span style="color: var(--cyan); font-size: 0.72rem;">COGS: ₹490.86 Cr</span>
+                            </div>
                         </div>
-                        <div class="kpi-card accent-pink">
-                            <div class="kpi-header"><span class="kpi-title">Carrier On-Time SLA</span><i class="ti ti-truck" style="color: var(--pink);"></i></div>
-                            <div class="kpi-value">79.8%</div>
-                            <div class="kpi-subtext">4.00 days mean transit</div>
-                        </div>
+
+                        <!-- Card 3: Total Operating Outflows -->
                         <div class="kpi-card accent-orange">
-                            <div class="kpi-header"><span class="kpi-title">Total Operating OPEX</span><i class="ti ti-building" style="color: var(--orange);"></i></div>
-                            <div class="kpi-value">₹80.95 Cr</div>
-                            <div class="kpi-subtext">Store leases, corporate &amp; payroll</div>
+                            <div class="kpi-header">
+                                <span class="kpi-title">TOTAL OPERATING OUTFLOWS</span>
+                                <span class="status-badge badge-success">-14.59% MoM</span>
+                            </div>
+                            <div class="kpi-value">₹811.54 Cr</div>
+                            <div class="kpi-subtext" style="display: flex; justify-content: space-between; align-items: center;">
+                                <span>Corp: ₹801.5 Cr | Store: ₹10.0 Cr</span>
+                                <a href="javascript:void(0)" onclick="switchTab('finance')" style="color: var(--orange); text-decoration: none; font-size: 0.75rem; font-weight: 600; cursor: pointer;">Expenses &gt;</a>
+                            </div>
+                        </div>
+
+                        <!-- Card 4: Net Operating Spread -->
+                        <div class="kpi-card accent-orange">
+                            <div class="kpi-header">
+                                <span class="kpi-title">NET OPERATING SPREAD</span>
+                                <span class="status-badge badge-danger">Deficit Alert</span>
+                            </div>
+                            <div class="kpi-value">₹-134.59 Cr</div>
+                            <div class="kpi-subtext">
+                                <span>Delivered Revenue - Total Expenses</span>
+                            </div>
+                        </div>
+
+                        <!-- Card 5: Total Active Workforce -->
+                        <div class="kpi-card accent-pink">
+                            <div class="kpi-header">
+                                <span class="kpi-title">TOTAL ACTIVE WORKFORCE</span>
+                                <span class="status-badge badge-neutral">100% Active</span>
+                            </div>
+                            <div class="kpi-value">3000 Staff</div>
+                            <div class="kpi-subtext" style="display: flex; justify-content: space-between; align-items: center;">
+                                <span>Deployed Across 200 Stores</span>
+                                <a href="javascript:void(0)" onclick="switchTab('hr')" style="color: var(--pink); text-decoration: none; font-size: 0.75rem; font-weight: 600; cursor: pointer;">HR Domain &gt;</a>
+                            </div>
+                        </div>
+
+                        <!-- Card 6: Monthly Base Payroll -->
+                        <div class="kpi-card accent-pink">
+                            <div class="kpi-header">
+                                <span class="kpi-title">MONTHLY BASE PAYROLL</span>
+                                <span class="status-badge badge-neutral">Fixed</span>
+                            </div>
+                            <div class="kpi-value">₹18.98 Cr</div>
+                            <div class="kpi-subtext">
+                                <span>Annualized: ₹227.78 Cr Base</span>
+                            </div>
+                        </div>
+
+                        <!-- Card 7: Average Base Compensation -->
+                        <div class="kpi-card accent-cyan">
+                            <div class="kpi-header">
+                                <span class="kpi-title">AVERAGE BASE COMPENSATION</span>
+                                <span class="status-badge badge-neutral">Monthly</span>
+                            </div>
+                            <div class="kpi-value">₹63274</div>
+                            <div class="kpi-subtext">
+                                <span>Median: ₹43959 / month</span>
+                            </div>
+                        </div>
+
+                        <!-- Card 8: Attendance Compliance -->
+                        <div class="kpi-card accent-purple">
+                            <div class="kpi-header">
+                                <span class="kpi-title">ATTENDANCE COMPLIANCE</span>
+                                <span class="status-badge badge-neutral" style="font-size: 0.65rem;">[PROXY]</span>
+                            </div>
+                            <div class="kpi-value">7.5%</div>
+                            <div class="kpi-subtext">
+                                <span>Avg Shift: 9.0 hrs / day</span>
+                            </div>
+                        </div>
+
+                        <!-- Card 9: Revenue Per Employee -->
+                        <div class="kpi-card accent-purple">
+                            <div class="kpi-header">
+                                <span class="kpi-title">REVENUE PER EMPLOYEE</span>
+                                <span class="status-badge badge-success">Productivity</span>
+                            </div>
+                            <div class="kpi-value">₹22.57 L</div>
+                            <div class="kpi-subtext" style="display: flex; justify-content: space-between; align-items: center;">
+                                <span>Total Top-Line Efficiency</span>
+                                <a href="javascript:void(0)" onclick="switchTab('cross')" style="color: var(--purple); text-decoration: none; font-size: 0.75rem; font-weight: 600; cursor: pointer;">Cross-Func &gt;</a>
+                            </div>
+                        </div>
+
+                        <!-- Card 10: Settlement Clearance Rate -->
+                        <div class="kpi-card accent-cyan">
+                            <div class="kpi-header">
+                                <span class="kpi-title">SETTLEMENT CLEARANCE RATE</span>
+                                <span class="status-badge badge-success">High Health</span>
+                            </div>
+                            <div class="kpi-value">84.91%</div>
+                            <div class="kpi-subtext">
+                                <span>Reserves: ₹4.89 Cr Liquid</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Charts Row: 26-Month Trajectory & Operating Expense Distribution -->
+                    <div class="charts-grid-2" style="margin-top: 1.5rem;">
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <span class="chart-title">
+                                    <i class="ti ti-chart-line" style="color: var(--purple);"></i>
+                                    26-Month Enterprise Trajectory: Net Revenue vs Total OPEX (₹ Crores)
+                                </span>
+                                <span style="font-size: 0.72rem; color: var(--text-muted);">
+                                    PostgreSQL Aggregated Monthly Series
+                                </span>
+                            </div>
+                            <div id="chart-exec-trajectory" style="min-height: 320px;"></div>
+                        </div>
+
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <span class="chart-title">
+                                    <i class="ti ti-pie-2" style="color: var(--orange);"></i>
+                                    Operating Expense Distribution (Corporate vs Store Branches)
+                                </span>
+                                <span style="font-size: 0.72rem; color: var(--text-muted);">
+                                    Total OPEX: ₹811.54 Cr
+                                </span>
+                            </div>
+                            <div id="chart-exec-expense-mix" style="min-height: 320px;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Drivers & Critical Risk Section -->
+                    <div class="charts-grid-2" style="margin-top: 1.5rem;">
+                        <!-- Left Column: Positive Operational & Financial Drivers -->
+                        <div class="table-card" style="margin-bottom: 0;">
+                            <div class="table-header">
+                                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <i class="ti ti-trending-up" style="color: var(--cyan); font-size: 1.15rem;"></i>
+                                    <h3 class="table-title">Positive Operational &amp; Financial Drivers</h3>
+                                </div>
+                                <span class="kpi-badge badge-success" style="font-size: 0.7rem;">4 Verified Strengths</span>
+                            </div>
+                            <div style="padding: 1rem 0; display: flex; flex-direction: column; gap: 0.85rem;">
+                                <div style="background: rgba(15, 31, 51, 0.7); border: 1px solid var(--blue-border); border-left: 4px solid var(--cyan); border-radius: 6px; padding: 0.85rem;">
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+                                        <span style="font-weight: 700; font-size: 0.88rem; color: var(--text-white);">High Payment Settlement Integrity</span>
+                                        <span class="status-badge badge-success">84.9% Success</span>
+                                    </div>
+                                    <p style="font-size: 0.75rem; color: var(--text-light); line-height: 1.45; margin: 0;">Electronic bank transfers, credit card, and UPI tenders achieve an 84.9% completion rate with 120,949 successfully completed transactions across 200 retail stores.</p>
+                                    <div style="font-size: 0.68rem; color: var(--text-muted); margin-top: 0.35rem;">Pillar: Finance &amp; Cash Flow</div>
+                                </div>
+
+                                <div style="background: rgba(15, 31, 51, 0.7); border: 1px solid var(--blue-border); border-left: 4px solid var(--cyan); border-radius: 6px; padding: 0.85rem;">
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+                                        <span style="font-weight: 700; font-size: 0.88rem; color: var(--text-white);">Healthy Retail Gross Margin</span>
+                                        <span class="status-badge badge-success">27.5% Mark-Up</span>
+                                    </div>
+                                    <p style="font-size: 0.75rem; color: var(--text-light); line-height: 1.45; margin: 0;">Delivered net revenue of ₹676.95 Cr generates ₹186.10 Cr in gross contribution over unit product cost price across all product lines.</p>
+                                    <div style="font-size: 0.68rem; color: var(--text-muted); margin-top: 0.35rem;">Pillar: Commercial Margins</div>
+                                </div>
+
+                                <div style="background: rgba(15, 31, 51, 0.7); border: 1px solid var(--blue-border); border-left: 4px solid var(--cyan); border-radius: 6px; padding: 0.85rem;">
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+                                        <span style="font-weight: 700; font-size: 0.88rem; color: var(--text-white);">Consistent Work Shift Duration</span>
+                                        <span class="status-badge badge-success">9.0 hrs / day</span>
+                                    </div>
+                                    <p style="font-size: 0.75rem; color: var(--text-light); line-height: 1.45; margin: 0;">Store retail employees maintain an average shift duration of 9.0 hours per logged clock-in day across 88,310 attendance records.</p>
+                                    <div style="font-size: 0.68rem; color: var(--text-muted); margin-top: 0.35rem;">Pillar: HR &amp; Operations</div>
+                                </div>
+
+                                <div style="background: rgba(15, 31, 51, 0.7); border: 1px solid var(--blue-border); border-left: 4px solid var(--cyan); border-radius: 6px; padding: 0.85rem;">
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+                                        <span style="font-weight: 700; font-size: 0.88rem; color: var(--text-white);">Strong Top-Line Revenue per Head</span>
+                                        <span class="status-badge badge-success">₹22.57 Lakhs / Staff</span>
+                                    </div>
+                                    <p style="font-size: 0.75rem; color: var(--text-light); line-height: 1.45; margin: 0;">With 3,000 staff members driving ₹6,769.5M in net delivered sales, average productivity stands at ₹2.26M per employee across the retail store network.</p>
+                                    <div style="font-size: 0.68rem; color: var(--text-muted); margin-top: 0.35rem;">Pillar: Workforce Productivity</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Column: Critical Risks & Material Exceptions -->
+                        <div class="table-card" style="margin-bottom: 0;">
+                            <div class="table-header">
+                                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <i class="ti ti-alert-triangle" style="color: var(--orange); font-size: 1.15rem;"></i>
+                                    <h3 class="table-title">Critical Risks &amp; Material Exceptions</h3>
+                                </div>
+                                <span class="kpi-badge badge-danger" style="font-size: 0.7rem;">Action Required</span>
+                            </div>
+                            <div style="padding: 1rem 0; display: flex; flex-direction: column; gap: 0.85rem;">
+                                <div style="background: rgba(15, 31, 51, 0.7); border: 1px solid var(--blue-border); border-left: 4px solid #F43F5E; border-radius: 6px; padding: 0.85rem;">
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+                                        <span style="font-weight: 700; font-size: 0.88rem; color: var(--text-white);">Operating Cash Flow Deficit</span>
+                                        <span class="status-badge badge-danger">-₹134.59 Cr Spread</span>
+                                    </div>
+                                    <p style="font-size: 0.75rem; color: var(--text-light); line-height: 1.45; margin: 0;">Total non-store corporate expenses (₹801.50 Cr) and branch operating costs (₹10.04 Cr) exceed total delivered commercial sales (₹676.95 Cr), resulting in an operating cash deficit.</p>
+                                    <div style="font-size: 0.68rem; color: var(--text-muted); margin-top: 0.35rem;">Scope: Critical Risk</div>
+                                </div>
+
+                                <div style="background: rgba(15, 31, 51, 0.7); border: 1px solid var(--blue-border); border-left: 4px solid var(--orange); border-radius: 6px; padding: 0.85rem;">
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+                                        <span style="font-weight: 700; font-size: 0.88rem; color: var(--text-white);">Corporate Overhead Concentration</span>
+                                        <span class="status-badge badge-warning">Top 3 Cats = 52.4%</span>
+                                    </div>
+                                    <p style="font-size: 0.75rem; color: var(--text-light); line-height: 1.45; margin: 0;">IT Infrastructure (₹140.2 Cr), Marketing Campaigns (₹139.8 Cr), and Consulting/Legal fees (₹140.1 Cr) consume over half of all corporate expenditure without variable linkage to volume.</p>
+                                    <div style="font-size: 0.68rem; color: var(--text-muted); margin-top: 0.35rem;">Scope: Cost Management</div>
+                                </div>
+
+                                <div style="background: rgba(15, 31, 51, 0.7); border: 1px solid var(--blue-border); border-left: 4px solid #F43F5E; border-radius: 6px; padding: 0.85rem;">
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+                                        <span style="font-weight: 700; font-size: 0.88rem; color: var(--text-white);">Liquidity Reserve Coverage</span>
+                                        <span class="status-badge badge-danger">₹4.89 Cr Cash Reserves</span>
+                                    </div>
+                                    <p style="font-size: 0.75rem; color: var(--text-light); line-height: 1.45; margin: 0;">Current liquid bank account balances of ₹4.89 Cr represent less than 1 month of base contractual payroll (₹18.98 Cr/mo), necessitating immediate liquidity backstops or credit sweeps.</p>
+                                    <div style="font-size: 0.68rem; color: var(--text-muted); margin-top: 0.35rem;">Scope: Treasury Liquidity</div>
+                                </div>
+
+                                <div style="background: rgba(15, 31, 51, 0.7); border: 1px solid var(--blue-border); border-left: 4px solid var(--orange); border-radius: 6px; padding: 0.85rem;">
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+                                        <span style="font-weight: 700; font-size: 0.88rem; color: var(--text-white);">Regional Revenue &amp; Efficiency Asymmetry</span>
+                                        <span class="status-badge badge-warning">2.1x Spread Gap</span>
+                                    </div>
+                                    <p style="font-size: 0.75rem; color: var(--text-light); line-height: 1.45; margin: 0;">Metropolitan outlets in the West and South regions average ₹2.8M in revenue per employee, while tier-3 branches in the North East average under ₹1.4M per employee.</p>
+                                    <div style="font-size: 0.68rem; color: var(--text-muted); margin-top: 0.35rem;">Scope: Retail Distribution</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Board-Level Management Attention & Operational Directives -->
+                    <div class="action-card" style="margin-top: 1.5rem;">
+                        <div class="action-header">
+                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                <i class="ti ti-clipboard-list" style="color: var(--purple); font-size: 1.2rem;"></i>
+                                <h3 style="font-size: 1.05rem; font-weight: 700; color: var(--text-white); margin: 0;">
+                                    Board-Level Management Attention &amp; Operational Directives
+                                </h3>
+                            </div>
+                            <span style="font-size: 0.75rem; color: var(--text-muted);">
+                                Executive mandates assigned to Chief Financial Officer (CFO) and Chief Human Resources Officer (CHRO)
+                            </span>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; padding: 0.5rem 0;">
+                            <div style="background: rgba(15, 31, 51, 0.7); border: 1px solid var(--blue-border); border-radius: 8px; padding: 1.15rem; display: flex; flex-direction: column; justify-content: space-between;">
+                                <div>
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem;">
+                                        <span class="status-badge badge-danger">P0 - Immediate</span>
+                                        <span style="font-size: 0.72rem; color: var(--text-muted); font-weight: 600;">Target: Q2 2026</span>
+                                    </div>
+                                    <h4 style="font-size: 0.95rem; font-weight: 700; color: var(--text-white); margin-bottom: 0.35rem;">Corporate Expense Rationalization</h4>
+                                    <div style="font-size: 0.72rem; color: var(--cyan); font-weight: 600; margin-bottom: 0.6rem;">Owner: Chief Financial Officer (CFO)</div>
+                                    <p style="font-size: 0.78rem; color: var(--text-light); line-height: 1.5; margin-bottom: 0.75rem;">Implement strict zero-based budgeting on non-store overhead. Conduct vendor audit across IT cloud services and corporate consulting contracts to curtail ₹801.5 Cr annualized outflow.</p>
+                                </div>
+                                <div style="border-top: 1px solid rgba(36, 89, 138, 0.4); padding-top: 0.6rem; display: flex; justify-content: space-between; align-items: center;">
+                                    <span style="font-size: 0.7rem; color: var(--text-muted);">Governance Status:</span>
+                                    <span class="status-badge badge-neutral" style="font-size: 0.65rem;">Active Mandate</span>
+                                </div>
+                            </div>
+
+                            <div style="background: rgba(15, 31, 51, 0.7); border: 1px solid var(--blue-border); border-radius: 8px; padding: 1.15rem; display: flex; flex-direction: column; justify-content: space-between;">
+                                <div>
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem;">
+                                        <span class="status-badge badge-danger">P0 - Immediate</span>
+                                        <span style="font-size: 0.72rem; color: var(--text-muted); font-weight: 600;">Target: 30 Days</span>
+                                    </div>
+                                    <h4 style="font-size: 0.95rem; font-weight: 700; color: var(--text-white); margin-bottom: 0.35rem;">Treasury Liquidity Buffer &amp; Working Capital</h4>
+                                    <div style="font-size: 0.72rem; color: var(--cyan); font-weight: 600; margin-bottom: 0.6rem;">Owner: Chief Financial Officer (CFO)</div>
+                                    <p style="font-size: 0.78rem; color: var(--text-light); line-height: 1.5; margin-bottom: 0.75rem;">Establish automated treasury pooling and dynamic cash-sweep facilities across the 200 corporate bank accounts to maintain a minimum 1.5x liquid coverage (₹28.5 Cr) against monthly payroll obligations.</p>
+                                </div>
+                                <div style="border-top: 1px solid rgba(36, 89, 138, 0.4); padding-top: 0.6rem; display: flex; justify-content: space-between; align-items: center;">
+                                    <span style="font-size: 0.7rem; color: var(--text-muted);">Governance Status:</span>
+                                    <span class="status-badge badge-neutral" style="font-size: 0.65rem;">Active Mandate</span>
+                                </div>
+                            </div>
+
+                            <div style="background: rgba(15, 31, 51, 0.7); border: 1px solid var(--blue-border); border-radius: 8px; padding: 1.15rem; display: flex; flex-direction: column; justify-content: space-between;">
+                                <div>
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem;">
+                                        <span class="status-badge badge-warning">P1 - High</span>
+                                        <span style="font-size: 0.72rem; color: var(--text-muted); font-weight: 600;">Target: 60 Days</span>
+                                    </div>
+                                    <h4 style="font-size: 0.95rem; font-weight: 700; color: var(--text-white); margin-bottom: 0.35rem;">Retail Branch Workforce Rebalancing</h4>
+                                    <div style="font-size: 0.72rem; color: var(--cyan); font-weight: 600; margin-bottom: 0.6rem;">Owner: Chief Human Resources Officer (CHRO)</div>
+                                    <p style="font-size: 0.78rem; color: var(--text-light); line-height: 1.5; margin-bottom: 0.75rem;">Redeploy store staff from underperforming branches (&lt;₹15L rev/employee) to high-throughput flagship stores (&gt;₹30L rev/employee) to optimize labor-to-revenue ratio and improve floor productivity.</p>
+                                </div>
+                                <div style="border-top: 1px solid rgba(36, 89, 138, 0.4); padding-top: 0.6rem; display: flex; justify-content: space-between; align-items: center;">
+                                    <span style="font-size: 0.7rem; color: var(--text-muted);">Governance Status:</span>
+                                    <span class="status-badge badge-neutral" style="font-size: 0.65rem;">Active Mandate</span>
+                                </div>
+                            </div>
+
+                            <div style="background: rgba(15, 31, 51, 0.7); border: 1px solid var(--blue-border); border-radius: 8px; padding: 1.15rem; display: flex; flex-direction: column; justify-content: space-between;">
+                                <div>
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem;">
+                                        <span class="status-badge badge-neutral">P2 - Medium</span>
+                                        <span style="font-size: 0.72rem; color: var(--text-muted); font-weight: 600;">Target: Q3 2026</span>
+                                    </div>
+                                    <h4 style="font-size: 0.95rem; font-weight: 700; color: var(--text-white); margin-bottom: 0.35rem;">Incentive Compensation Alignment</h4>
+                                    <div style="font-size: 0.72rem; color: var(--cyan); font-weight: 600; margin-bottom: 0.6rem;">Owner: Chief Human Resources Officer (CHRO)</div>
+                                    <p style="font-size: 0.78rem; color: var(--text-light); line-height: 1.5; margin-bottom: 0.75rem;">Transition retail store manager incentive bonuses from pure revenue targets to store operational contribution margin (Delivered Sales minus COGS, Branch Expenses, and Store Payroll).</p>
+                                </div>
+                                <div style="border-top: 1px solid rgba(36, 89, 138, 0.4); padding-top: 0.6rem; display: flex; justify-content: space-between; align-items: center;">
+                                    <span style="font-size: 0.7rem; color: var(--text-muted);">Governance Status:</span>
+                                    <span class="status-badge badge-neutral" style="font-size: 0.65rem;">Active Mandate</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -2341,6 +2685,69 @@ html_content = r"""<!DOCTYPE html>
                 grid: { borderColor: '#24598A', strokeDashArray: 3 },
                 legend: { position: 'top', labels: { colors: '#D5DCE5' } },
                 tooltip: { theme: 'dark' }
+            }).render();
+
+            // 21. Executive 26-Month Trajectory
+            new ApexCharts(document.querySelector("#chart-exec-trajectory"), {
+                series: [
+                    { name: 'Delivered Revenue (₹ Cr)', data: [26.72, 24.45, 27.90, 25.92, 26.74, 24.44, 26.53, 27.38, 25.12, 26.37, 25.75, 25.58, 25.79, 24.57, 27.42, 25.49, 26.56, 27.00, 27.44, 26.25, 26.15, 27.04, 25.84, 26.99, 25.61, 21.90] },
+                    { name: 'Total Operating Expenses (₹ Cr)', data: [30.97, 29.83, 29.74, 31.39, 33.49, 30.86, 34.09, 32.30, 30.03, 29.41, 30.17, 28.84, 33.24, 28.08, 33.31, 32.14, 33.84, 30.45, 31.08, 35.08, 28.36, 33.25, 30.86, 32.12, 31.62, 27.01] },
+                    { name: 'Operating Net Spread (₹ Cr)', data: [-4.25, -5.38, -1.84, -5.46, -6.75, -6.42, -7.56, -4.92, -4.91, -3.04, -4.42, -3.26, -7.45, -3.51, -5.89, -6.65, -7.29, -3.45, -3.64, -8.83, -2.21, -6.20, -5.01, -5.12, -6.01, -5.11] }
+                ],
+                chart: { type: 'line', height: 320, background: 'transparent', toolbar: { show: false } },
+                colors: ['#A459D0', '#E88E3E', '#2CD4E1'],
+                stroke: { curve: 'smooth', width: [3, 3, 2] },
+                dataLabels: { enabled: false },
+                grid: { borderColor: '#24598A', strokeDashArray: 3 },
+                xaxis: {
+                    categories: ['Jan 2024', 'Feb 2024', 'Mar 2024', 'Apr 2024', 'May 2024', 'Jun 2024', 'Jul 2024', 'Aug 2024', 'Sep 2024', 'Oct 2024', 'Nov 2024', 'Dec 2024', 'Jan 2025', 'Feb 2025', 'Mar 2025', 'Apr 2025', 'May 2025', 'Jun 2025', 'Jul 2025', 'Aug 2025', 'Sep 2025', 'Oct 2025', 'Nov 2025', 'Dec 2025', 'Jan 2026', 'Feb 2026'],
+                    labels: { style: { colors: '#8E9BAE', fontSize: '11px' } }
+                },
+                yaxis: {
+                    labels: {
+                        style: { colors: '#8E9BAE', fontSize: '11px' },
+                        formatter: function(val) { return '₹' + val.toFixed(1) + ' Cr'; }
+                    }
+                },
+                tooltip: {
+                    theme: 'dark',
+                    y: { formatter: function(val) { return '₹' + val.toFixed(2) + ' Cr'; } }
+                },
+                legend: {
+                    labels: { colors: '#D5DCE5' },
+                    position: 'top'
+                }
+            }).render();
+
+            // 22. Executive Operating Expense Mix Donut
+            new ApexCharts(document.querySelector("#chart-exec-expense-mix"), {
+                series: [801.50, 10.04],
+                labels: ['Corporate Expenses (₹801.5 Cr)', 'Store Expenses (₹10.0 Cr)'],
+                colors: ['#E88E3E', '#2CD4E1'],
+                chart: { type: 'donut', height: 320, background: 'transparent' },
+                stroke: { colors: ['#183A5F'], width: 2 },
+                dataLabels: { enabled: true, formatter: function(val) { return val.toFixed(1) + '%'; }, style: { fontFamily: 'Inter', fontSize: '11px', fontWeight: 600 } },
+                legend: { position: 'bottom', labels: { colors: '#D5DCE5' } },
+                plotOptions: {
+                    pie: {
+                        donut: {
+                            size: '65%',
+                            labels: {
+                                show: true,
+                                total: {
+                                    show: true,
+                                    label: 'Total OPEX',
+                                    color: '#FFFFFF',
+                                    formatter: function() { return '₹811.5 Cr'; }
+                                }
+                            }
+                        }
+                    }
+                },
+                tooltip: {
+                    theme: 'dark',
+                    y: { formatter: function(val) { return '₹' + Number(val).toFixed(2) + ' Cr'; } }
+                }
             }).render();
         });
     </script>
