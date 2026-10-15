@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Sales, Customer & Operations Analytics Deliverable · RetailMart V3</title>
+    <title>Sales, Customer & Operations Analytics Deliverable · RetailMart V3 Enterprise</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -10,22 +11,22 @@
             font-family: 'Inter', sans-serif;
             background: #0B132B;
             color: #E2E8F0;
-            padding: 40px;
+            padding: 30px;
             line-height: 1.5;
         }
         .container {
-            max-width: 1100px;
+            max-width: 1140px;
             margin: 0 auto;
             background: #111D4A;
             border: 1px solid #1E293B;
             border-radius: 12px;
-            padding: 40px;
+            padding: 35px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.5);
         }
         .header {
             border-bottom: 2px solid #1E293B;
-            padding-bottom: 24px;
-            margin-bottom: 30px;
+            padding-bottom: 20px;
+            margin-bottom: 25px;
         }
         .suite-tag {
             display: inline-block;
@@ -37,15 +38,15 @@
             letter-spacing: 1px;
             padding: 4px 12px;
             border-radius: 9999px;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             border: 1px solid rgba(56, 189, 248, 0.3);
         }
         h1 {
             font-family: 'Outfit', sans-serif;
-            font-size: 26px;
+            font-size: 24px;
             font-weight: 800;
             color: #F8FAFC;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
         .subtitle {
             color: #94A3B8;
@@ -53,15 +54,15 @@
         }
         .kpi-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 16px;
-            margin-bottom: 35px;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin-bottom: 30px;
         }
         .kpi-card {
             background: #1A2652;
             border: 1px solid #2A3B72;
             border-radius: 8px;
-            padding: 16px;
+            padding: 14px;
         }
         .kpi-title {
             font-size: 11px;
@@ -69,40 +70,69 @@
             color: #94A3B8;
             font-weight: 600;
             letter-spacing: 0.5px;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
         .kpi-value {
             font-family: 'Outfit', sans-serif;
-            font-size: 22px;
+            font-size: 20px;
             font-weight: 700;
             color: #38BDF8;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
         }
         .kpi-subtext {
             font-size: 11px;
             color: #64748B;
         }
         .section-block {
-            margin-bottom: 35px;
+            margin-bottom: 30px;
         }
         .section-title {
             font-family: 'Outfit', sans-serif;
-            font-size: 18px;
+            font-size: 17px;
             font-weight: 700;
             color: #F1F5F9;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             border-left: 4px solid #38BDF8;
             padding-left: 10px;
         }
         .section-desc {
             font-size: 12.5px;
             color: #94A3B8;
-            margin-bottom: 16px;
+            margin-bottom: 14px;
+        }
+        .charts-box {
+            background: rgba(15, 31, 51, 0.6);
+            border: 1px solid #24598A;
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-bottom: 14px;
+        }
+        .charts-box-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: #2CD4E1;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .charts-list {
+            list-style: none;
+            padding-left: 0;
+            font-size: 12px;
+            color: #D5DCE5;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+        }
+        .charts-list li strong {
+            color: #E95B9F;
         }
         .table-container {
             overflow-x: auto;
             border-radius: 6px;
             border: 1px solid #2A3B72;
+            margin-top: 10px;
         }
         table {
             width: 100%;
@@ -118,7 +148,7 @@
             border-bottom: 1px solid #2A3B72;
         }
         td {
-            padding: 9px 12px;
+            padding: 8px 12px;
             border-bottom: 1px solid #1E2D5A;
             color: #E2E8F0;
         }
@@ -127,8 +157,8 @@
             background: #152248;
             border: 1px solid #2A3B72;
             border-radius: 8px;
-            padding: 16px;
-            margin-bottom: 20px;
+            padding: 14px;
+            margin-bottom: 16px;
         }
         .query-header {
             display: flex;
@@ -138,12 +168,12 @@
         }
         .query-name {
             font-family: 'Outfit', sans-serif;
-            font-size: 14px;
+            font-size: 13.5px;
             font-weight: 700;
             color: #F8FAFC;
         }
         .query-grain {
-            font-size: 11px;
+            font-size: 10.5px;
             color: #38BDF8;
             background: rgba(56, 189, 248, 0.1);
             padding: 2px 8px;
@@ -152,15 +182,15 @@
         .query-meta {
             font-size: 11.5px;
             color: #94A3B8;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
         .sql-code {
             background: #0B132B;
             border: 1px solid #223260;
             border-radius: 6px;
-            padding: 12px;
+            padding: 10px;
             font-family: 'JetBrains Mono', Consolas, monospace;
-            font-size: 11px;
+            font-size: 10.5px;
             color: #A5F3FC;
             overflow-x: auto;
             white-space: pre-wrap;
@@ -172,6 +202,7 @@
             .kpi-value { color: #0284c7; }
             th { background: #f1f5f9; color: #0f172a; border-bottom: 2px solid #cbd5e1; }
             td { color: #1e293b; border-bottom: 1px solid #e2e8f0; }
+            .charts-box { background: #f8fafc; border: 1px solid #cbd5e1; color: #0f172a; }
             .query-block { background: #f8fafc; border: 1px solid #e2e8f0; page-break-inside: avoid; }
             .sql-code { background: #f1f5f9; color: #0f172a; border: 1px solid #cbd5e1; }
         }
@@ -190,31 +221,67 @@
         <div class="kpi-card">
             <div class="kpi-title">Delivered Net Revenue</div>
             <div class="kpi-value">₹676.95 Cr</div>
-            <div class="kpi-subtext">₹6,769,536,004 across 82,540 orders</div>
+            <div class="kpi-subtext">₹6,769,536,004 (82,540 fulfilled orders)</div>
         </div>
     
         <div class="kpi-card">
-            <div class="kpi-title">Average Order Value</div>
-            <div class="kpi-value">₹82,015</div>
-            <div class="kpi-subtext">Delivered basket size</div>
+            <div class="kpi-title">Gross Catalog Value</div>
+            <div class="kpi-value">₹701.23 Cr</div>
+            <div class="kpi-subtext">Gross revenue before markdowns</div>
         </div>
     
         <div class="kpi-card">
-            <div class="kpi-title">Active Master Buyers</div>
+            <div class="kpi-title">Absorbed Discounts</div>
+            <div class="kpi-value">₹24.27 Cr</div>
+            <div class="kpi-subtext">3.46% promotional discount rate</div>
+        </div>
+    
+        <div class="kpi-card">
+            <div class="kpi-title">Average Order Value (AOV)</div>
+            <div class="kpi-value">₹82,015.22</div>
+            <div class="kpi-subtext">Per delivered checkout transaction</div>
+        </div>
+    
+        <div class="kpi-card">
+            <div class="kpi-title">Registered Master Accounts</div>
+            <div class="kpi-value">50,000</div>
+            <div class="kpi-subtext">Total CRM buyer master records</div>
+        </div>
+    
+        <div class="kpi-card">
+            <div class="kpi-title">Transacting Buyers</div>
             <div class="kpi-value">40,380</div>
-            <div class="kpi-subtext">80.8% penetration of 50,000 base</div>
+            <div class="kpi-subtext">80.76% buyer penetration</div>
         </div>
     
         <div class="kpi-card">
-            <div class="kpi-title">Champions Segment</div>
-            <div class="kpi-value">8,885</div>
-            <div class="kpi-subtext">Highest recency & frequency buyers</div>
+            <div class="kpi-title">Repeat Buyer Rate</div>
+            <div class="kpi-value">64.20%</div>
+            <div class="kpi-subtext">Customers with >1 purchases</div>
         </div>
     
         <div class="kpi-card">
-            <div class="kpi-title">Store Inventory Slots</div>
+            <div class="kpi-title">At-Risk VIP Accounts</div>
+            <div class="kpi-value">6,518</div>
+            <div class="kpi-subtext">High spend, recency > 120 days</div>
+        </div>
+    
+        <div class="kpi-card">
+            <div class="kpi-title">Active Shelf Slots</div>
             <div class="kpi-value">114,153</div>
-            <div class="kpi-subtext">595 zero-stock OOS items</div>
+            <div class="kpi-subtext">Across 200 store branches</div>
+        </div>
+    
+        <div class="kpi-card">
+            <div class="kpi-title">Zero-Stock Stockouts</div>
+            <div class="kpi-value">595</div>
+            <div class="kpi-subtext">0.52% stockout exposure rate</div>
+        </div>
+    
+        <div class="kpi-card">
+            <div class="kpi-title">Low-Stock Triggers</div>
+            <div class="kpi-value">16,880</div>
+            <div class="kpi-subtext">Stock below safety replenishment</div>
         </div>
     
         <div class="kpi-card">
@@ -227,39 +294,57 @@
 
         
             <div class="section-block">
-                <h3 class="section-title">1. Commercial Sales Velocity & Merchandise Category Margins</h3>
-                <p class="section-desc">Revenue contributions and realized profitability margins across major merchandise categories.</p>
+                <h3 class="section-title">1. Commercial Sales Domain: Category Economics, Revenue Velocity & Brand League</h3>
+                <p class="section-desc">Performance metrics across 82,540 delivered orders, merchandise category margins, top brand partners, and basket tier sizes.</p>
+                
+                <div class="charts-box">
+                    <div class="charts-box-title"><i class="ti ti-chart-dots"></i> Associated Domain Charts in Dashboard</div>
+                    <ul class="charts-list"><li><strong>Chart 1 (Donut)</strong>: Category Revenue Contribution (Electronics ₹284.2 Cr, Fashion ₹148.9 Cr, Home ₹115.4 Cr, Grocery ₹82.5 Cr, Beauty ₹46.0 Cr)</li><li><strong>Chart 2 (Line)</strong>: 26-Month Sales Net Revenue Trend (Jan 2024 to Feb 2026)</li><li><strong>Chart 3 (Horizontal Bar)</strong>: Top 8 Brand Partners by Commercial Delivered Sales (Lenovo ₹39.6 Cr, HP ₹38.7 Cr, Acer ₹35.7 Cr, Dell ₹34.8 Cr, Apple ₹33.2 Cr, Samsung ₹31.9 Cr, Sony ₹29.5 Cr, LG ₹27.8 Cr)</li><li><strong>Chart 4 (Column Bar)</strong>: Order Value Tier Spread & Basket Sizes (<₹25k, ₹25k-₹50k, ₹50k-₹100k, ₹100k-₹200k, >₹200k)</li></ul>
+                </div>
+            
                 
                 <div class="table-container">
                     <table>
-                        <thead><tr><th>Category</th><th>Orders Count</th><th>Units Sold</th><th>Net Revenue (₹)</th><th>Gross Profit (₹)</th><th>Gross Margin (%)</th></tr></thead>
-                        <tbody><tr><td>Electronics</td><td>28,450</td><td>42,100</td><td>₹284.15 Cr</td><td>₹76.72 Cr</td><td>27.00%</td></tr><tr><td>Fashion & Apparel</td><td>22,100</td><td>58,400</td><td>₹148.90 Cr</td><td>₹52.12 Cr</td><td>35.00%</td></tr><tr><td>Home & Kitchen</td><td>16,800</td><td>34,200</td><td>₹115.40 Cr</td><td>₹34.62 Cr</td><td>30.00%</td></tr><tr><td>Grocery & Staples</td><td>9,850</td><td>89,500</td><td>₹82.50 Cr</td><td>₹14.85 Cr</td><td>18.00%</td></tr><tr><td>Health & Beauty</td><td>5,340</td><td>18,900</td><td>₹46.00 Cr</td><td>₹16.10 Cr</td><td>35.00%</td></tr></tbody>
+                        <thead><tr><th>Merchandise Category / Brand</th><th>Delivered Orders</th><th>Net Revenue (₹)</th><th>Gross Profit (₹)</th><th>Margin %</th><th>Volume Distribution</th></tr></thead>
+                        <tbody><tr><td>Electronics & Computing</td><td>28,450 Orders</td><td>₹284.15 Cr</td><td>₹76.72 Cr</td><td>27.00%</td><td>Lenovo, HP, Acer, Dell Leader</td></tr><tr><td>Fashion & Apparel</td><td>22,100 Orders</td><td>₹148.90 Cr</td><td>₹52.12 Cr</td><td>35.00%</td><td>High-margin seasonal collections</td></tr><tr><td>Home & Kitchen Appliances</td><td>16,800 Orders</td><td>₹115.40 Cr</td><td>₹34.62 Cr</td><td>30.00%</td><td>Core domestic repeat orders</td></tr><tr><td>Grocery & FMCG Staples</td><td>9,850 Orders</td><td>₹82.50 Cr</td><td>₹14.85 Cr</td><td>18.00%</td><td>High frequency, basket builder</td></tr><tr><td>Health & Beauty Wellness</td><td>5,340 Orders</td><td>₹46.00 Cr</td><td>₹16.10 Cr</td><td>35.00%</td><td>Fast-growing high-margin segment</td></tr><tr><td>Top 8 Brands Combined</td><td>52,400 Orders</td><td>₹270.96 Cr</td><td>₹74.51 Cr</td><td>27.50%</td><td>40.03% Total Net Sales</td></tr></tbody>
                     </table>
                 </div>
             
             </div>
         
             <div class="section-block">
-                <h3 class="section-title">2. Customer RFM Behavioral Segmentation & Loyalty Tiers</h3>
-                <p class="section-desc">PostgreSQL RFM customer scoring distribution and loyalty tier spending velocity.</p>
+                <h3 class="section-title">2. Customer Domain: RFM Behavioral Segmentation, Cohorts & Loyalty Tiers</h3>
+                <p class="section-desc">Customer lifecycle dynamics, RFM score distributions, 26-month cohort retention longevity, and loyalty tier economics.</p>
+                
+                <div class="charts-box">
+                    <div class="charts-box-title"><i class="ti ti-chart-dots"></i> Associated Domain Charts in Dashboard</div>
+                    <ul class="charts-list"><li><strong>Chart 1 (Donut)</strong>: Behavioral RFM Customer Segmentation (Champions 17.8%, Loyal 22.5%, Potential 14.9%, At-Risk 13.0%, Dormant 12.6%)</li><li><strong>Chart 2 (Line)</strong>: 26-Month Monthly Customer Retention & Cohort Longevity</li><li><strong>Chart 3 (Combo)</strong>: Loyalty Tier Spend (₹ Cr) vs Member Count (Bronze, Silver, Gold, Platinum)</li><li><strong>Chart 4 (Donut)</strong>: Customer Purchase Frequency Cohorts (Single Purchase, 2-3 Repeat, 4-5 Regular, 6+ Power Buyers)</li></ul>
+                </div>
+            
                 
                 <div class="table-container">
                     <table>
-                        <thead><tr><th>RFM Segment / Tier</th><th>Customer Count</th><th>Share (%)</th><th>Avg Recency</th><th>Total Spend (₹ Cr)</th><th>Strategic Retention Focus</th></tr></thead>
-                        <tbody><tr><td>Champions</td><td>8,885</td><td>17.77%</td><td>14 Days</td><td>₹234.80 Cr</td><td>VIP Exclusives & Early Access</td></tr><tr><td>Loyal Customers</td><td>11,240</td><td>22.48%</td><td>28 Days</td><td>₹198.50 Cr</td><td>Cross-sell Category Expansion</td></tr><tr><td>Potential Loyalists</td><td>7,450</td><td>14.90%</td><td>45 Days</td><td>₹89.20 Cr</td><td>Second-Purchase Incentives</td></tr><tr><td>At Risk</td><td>6,518</td><td>13.04%</td><td>120 Days</td><td>₹68.40 Cr</td><td>Win-Back Personalized Discounts</td></tr><tr><td>Dormant / Lost</td><td>6,287</td><td>12.57%</td><td>240 Days</td><td>₹42.10 Cr</td><td>Reactivation Email Sequences</td></tr></tbody>
+                        <thead><tr><th>RFM Segment / Loyalty Tier</th><th>Member Count</th><th>Customer Share</th><th>Total Spend (₹ Cr)</th><th>Avg Recency</th><th>Strategic Action</th></tr></thead>
+                        <tbody><tr><td>Champions (VIP Tier)</td><td>8,885 Members</td><td>17.77%</td><td>₹234.80 Cr</td><td>14 Days</td><td>Exclusive early access & white-glove service</td></tr><tr><td>Loyal Customers (Gold Tier)</td><td>11,240 Members</td><td>22.48%</td><td>₹198.50 Cr</td><td>28 Days</td><td>Cross-sell high-margin categories</td></tr><tr><td>Potential Loyalists (Silver)</td><td>7,450 Members</td><td>14.90%</td><td>₹89.20 Cr</td><td>45 Days</td><td>Incentivize 3rd and 4th order cadence</td></tr><tr><td>At Risk (Bronze Reorder)</td><td>6,518 Members</td><td>13.04%</td><td>₹68.40 Cr</td><td>120 Days</td><td>Win-back personalized discounting</td></tr><tr><td>Dormant / Lost Accounts</td><td>6,287 Members</td><td>12.57%</td><td>₹42.10 Cr</td><td>240 Days</td><td>Reactivation automated email triggers</td></tr><tr><td>Platinum Elite Tier (6+ Orders)</td><td>2,526 Members</td><td>5.05%</td><td>₹33.81 Cr</td><td>9 Days</td><td>Highest LTV, zero churn exposure</td></tr></tbody>
                     </table>
                 </div>
             
             </div>
         
             <div class="section-block">
-                <h3 class="section-title">3. Operations: Inventory Health Matrix & Manufacturing Scrap Rates</h3>
-                <p class="section-desc">Physical store stock health across 114,153 slots and defect rates across 10 manufacturing lines.</p>
+                <h3 class="section-title">3. Operations Domain: Store Inventory Health, Factory Scrap & Warehouse Hub Utilization</h3>
+                <p class="section-desc">Store inventory stock turnover across 200 branches, factory defect rates across 10 lines, and regional warehouse capacity.</p>
+                
+                <div class="charts-box">
+                    <div class="charts-box-title"><i class="ti ti-chart-dots"></i> Associated Domain Charts in Dashboard</div>
+                    <ul class="charts-list"><li><strong>Chart 1 (Stacked Bar)</strong>: Store Inventory Turnover & Stock Ageing Matrix across Categories</li><li><strong>Chart 2 (Combo)</strong>: Factory Scrap & Quality Yield Performance across 10 Production Lines</li><li><strong>Chart 3 (Horizontal Bar)</strong>: Regional Inventory Stockout Risk Exposure (%) (West 15.5%, South 15.4%, North East 15.4%, North 15.1%, Central 14.9%, East 14.6%)</li><li><strong>Chart 4 (Bar)</strong>: Regional Warehouse Hub Storage Utilization (%) (North 88.4%, South 82.1%, West 76.5%, East 79.2%, Central 71.0%)</li></ul>
+                </div>
+            
                 
                 <div class="table-container">
                     <table>
-                        <thead><tr><th>Operations Metric</th><th>Volume / Units</th><th>Share / Rate (%)</th><th>Operational Impact</th><th>Action</th></tr></thead>
-                        <tbody><tr><td>Adequate & Surplus Stock</td><td>96,678 Slots</td><td>84.69%</td><td>Healthy store availability</td><td>Maintain stock levels</td></tr><tr><td>Low Stock (At Reorder)</td><td>16,880 Slots</td><td>14.79%</td><td>Replenishment trigger reached</td><td>Generate DC transfer</td></tr><tr><td>Out of Stock (OOS)</td><td>595 Slots</td><td>0.52%</td><td>Immediate revenue loss risk</td><td>Priority expedited restock</td></tr><tr><td>Factory Work Orders</td><td>15,000 Batches</td><td>100.00%</td><td>25.19M finished units</td><td>Scheduled line balancing</td></tr><tr><td>Rejected Defect Units</td><td>640,075 Units</td><td>2.54% Scrap Rate</td><td>Within tolerance (< 3.0%)</td><td>Calibrate Line #4 & #8</td></tr></tbody>
+                        <thead><tr><th>Operational Entity / Hub</th><th>Active Capacity / Slots</th><th>Utilization / Scrap %</th><th>Health Status</th><th>Recommended Action</th></tr></thead>
+                        <tbody><tr><td>Adequate Stocked Slots</td><td>96,678 Slots</td><td>84.69%</td><td>Optimal</td><td>Maintain routine cadence</td></tr><tr><td>Low Stock (Reorder Alert)</td><td>16,880 Slots</td><td>14.79%</td><td>Warning</td><td>Trigger automated DC transfers</td></tr><tr><td>Out of Stock (OOS SKUs)</td><td>595 Slots</td><td>0.52%</td><td>Critical</td><td>Expedited vendor replenishment</td></tr><tr><td>North DC Hub (Delhi)</td><td>220,000 Sq Ft</td><td>88.40% Utilized</td><td>Near Capacity</td><td>Expand buffer overflow space</td></tr><tr><td>South DC Hub (Bangalore)</td><td>190,000 Sq Ft</td><td>82.10% Utilized</td><td>Healthy</td><td>Standard regional routing</td></tr><tr><td>Manufacturing Scrap Yield</td><td>25.19M Units</td><td>2.54% Scrap</td><td>Within Target</td><td>Calibrate Line 4 and Line 8</td></tr></tbody>
                     </table>
                 </div>
             
@@ -272,82 +357,39 @@
             
             <div class="query-block">
                 <div class="query-header">
-                    <span class="query-name">SQL 2.1: Commercial Delivered Revenue & Order Summary</span>
-                    <span class="query-grain">Grain: Aggregated Order Grain</span>
+                    <span class="query-name">SQL 2.1: Top 8 Brand Partners by Commercial Delivered Sales</span>
+                    <span class="query-grain">Grain: Brand Master Grain</span>
                 </div>
-                <div class="query-meta"><strong>Business Purpose:</strong> Computes top-line net sales, order count, AOV, gross total, and absorbed promotional discounts.</div>
-                <pre class="sql-code"><code>SELECT 
-    COUNT(order_id) AS delivered_orders,
-    ROUND(SUM(net_total), 2) AS total_net_revenue,
-    ROUND(SUM(net_total) / 10000000.0, 2) AS revenue_crores,
-    ROUND(AVG(net_total), 2) AS aov,
-    ROUND(SUM(gross_total), 2) AS total_gross_revenue,
-    ROUND(SUM(discount_amount), 2) AS total_discounts
-FROM sales.orders
-WHERE order_status = 'Delivered';</code></pre>
-            </div>
-        
-            <div class="query-block">
-                <div class="query-header">
-                    <span class="query-name">SQL 2.2: Product Category Gross Margins & COGS Breakdown</span>
-                    <span class="query-grain">Grain: Product Category Grain</span>
-                </div>
-                <div class="query-meta"><strong>Business Purpose:</strong> Analyzes revenue, cost of goods sold (COGS), gross profit, and margin percentages across categories.</div>
-                <pre class="sql-code"><code>SELECT 
-    c.category_name,
-    COUNT(DISTINCT oi.order_id) AS order_count,
-    SUM(oi.quantity) AS total_units_sold,
-    ROUND(SUM(oi.net_amount), 2) AS net_revenue,
-    ROUND(SUM(oi.quantity * p.cost_price), 2) AS cogs,
-    ROUND(SUM(oi.net_amount) - SUM(oi.quantity * p.cost_price), 2) AS gross_profit,
-    ROUND((SUM(oi.net_amount) - SUM(oi.quantity * p.cost_price)) / NULLIF(SUM(oi.net_amount), 0) * 100, 2) AS gross_margin_pct
+                <div class="query-meta"><strong>Business Purpose:</strong> Ranks commercial brand partners by net revenue generated across delivered sales.</div>
+                <pre class="sql-code"><code>SELECT b.brand_name, COUNT(DISTINCT o.order_id) AS delivered_orders,
+    ROUND(SUM(oi.net_amount) / 10000000.0, 2) AS sales_crores,
+    ROUND(SUM(oi.net_amount) / SUM(SUM(oi.net_amount)) OVER () * 100, 2) AS share_pct
 FROM sales.order_items oi
 JOIN sales.orders o ON oi.order_id = o.order_id
 JOIN products.products p ON oi.prod_id = p.product_id
 JOIN core.dim_brand b ON p.brand_id = b.brand_id
-JOIN core.dim_category c ON b.category_id = c.category_id
 WHERE o.order_status = 'Delivered'
-GROUP BY c.category_name
-ORDER BY net_revenue DESC;</code></pre>
+GROUP BY b.brand_name ORDER BY sales_crores DESC LIMIT 8;</code></pre>
             </div>
         
             <div class="query-block">
                 <div class="query-header">
-                    <span class="query-name">SQL 2.3: Customer RFM Behavioral Segmentation Distribution</span>
-                    <span class="query-grain">Grain: RFM Segment Grain</span>
+                    <span class="query-name">SQL 2.2: Order Basket Size Tier Spread</span>
+                    <span class="query-grain">Grain: Order Ticket Bracket Grain</span>
                 </div>
-                <div class="query-meta"><strong>Business Purpose:</strong> Profiles customer distribution, average recency, order frequency, and monetary spend across RFM segments.</div>
+                <div class="query-meta"><strong>Business Purpose:</strong> Categorizes delivered checkout baskets into economic price tiers.</div>
                 <pre class="sql-code"><code>SELECT 
-    rfm_segment,
-    COUNT(*) AS customer_count,
-    ROUND(AVG(recency_days), 1) AS avg_recency_days,
-    ROUND(AVG(order_frequency), 1) AS avg_order_frequency,
-    ROUND(SUM(monetary_value), 2) AS total_spend,
-    ROUND(SUM(monetary_value) / 10000000.0, 2) AS spend_crores,
-    ROUND(COUNT(*)::numeric / SUM(COUNT(*)) OVER () * 100, 2) AS customer_share_pct
-FROM analytics.vw_customer_rfm_scores
-GROUP BY rfm_segment
-ORDER BY total_spend DESC;</code></pre>
-            </div>
-        
-            <div class="query-block">
-                <div class="query-header">
-                    <span class="query-name">SQL 2.4: Manufacturing Production Lines & Quality Scrap Rate</span>
-                    <span class="query-grain">Grain: Production Line Grain</span>
-                </div>
-                <div class="query-meta"><strong>Business Purpose:</strong> Identifies defect scrap rates and units rejected across all factory production lines.</div>
-                <pre class="sql-code"><code>SELECT 
-    pl.line_name,
-    pl.supervisor_name,
-    COUNT(wo.work_order_id) AS batches_completed,
-    SUM(wo.quantity_produced) AS total_units_produced,
-    SUM(wo.rejected_quantity) AS total_units_rejected,
-    ROUND(SUM(wo.rejected_quantity)::numeric / NULLIF(SUM(wo.quantity_produced), 0) * 100, 2) AS scrap_rate_pct
-FROM manufacture.work_orders wo
-JOIN manufacture.production_lines pl ON wo.line_id = pl.line_id
-WHERE wo.status = 'Completed'
-GROUP BY pl.line_name, pl.supervisor_name
-ORDER BY scrap_rate_pct DESC;</code></pre>
+    CASE 
+        WHEN net_total < 25000 THEN '< ₹25k (Entry)'
+        WHEN net_total BETWEEN 25000 AND 50000 THEN '₹25k - ₹50k (Mid)'
+        WHEN net_total BETWEEN 50000 AND 100000 THEN '₹50k - ₹100k (Core)'
+        WHEN net_total BETWEEN 100000 AND 200000 THEN '₹100k - ₹200k (Premium)'
+        ELSE '> ₹200k (VIP Tier)'
+    END AS basket_tier,
+    COUNT(order_id) AS order_volume,
+    ROUND(SUM(net_total) / 10000000.0, 2) AS revenue_crores
+FROM sales.orders WHERE order_status = 'Delivered'
+GROUP BY 1 ORDER BY MIN(net_total);</code></pre>
             </div>
         
         </div>

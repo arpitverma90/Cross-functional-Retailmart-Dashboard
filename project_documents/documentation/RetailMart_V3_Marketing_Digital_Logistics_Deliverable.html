@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Marketing, Digital & Logistics Analytics Deliverable · RetailMart V3</title>
+    <title>Marketing, Digital & Logistics Analytics Deliverable · RetailMart V3 Enterprise</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -10,22 +11,22 @@
             font-family: 'Inter', sans-serif;
             background: #0B132B;
             color: #E2E8F0;
-            padding: 40px;
+            padding: 30px;
             line-height: 1.5;
         }
         .container {
-            max-width: 1100px;
+            max-width: 1140px;
             margin: 0 auto;
             background: #111D4A;
             border: 1px solid #1E293B;
             border-radius: 12px;
-            padding: 40px;
+            padding: 35px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.5);
         }
         .header {
             border-bottom: 2px solid #1E293B;
-            padding-bottom: 24px;
-            margin-bottom: 30px;
+            padding-bottom: 20px;
+            margin-bottom: 25px;
         }
         .suite-tag {
             display: inline-block;
@@ -37,15 +38,15 @@
             letter-spacing: 1px;
             padding: 4px 12px;
             border-radius: 9999px;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             border: 1px solid rgba(56, 189, 248, 0.3);
         }
         h1 {
             font-family: 'Outfit', sans-serif;
-            font-size: 26px;
+            font-size: 24px;
             font-weight: 800;
             color: #F8FAFC;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
         .subtitle {
             color: #94A3B8;
@@ -53,15 +54,15 @@
         }
         .kpi-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 16px;
-            margin-bottom: 35px;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin-bottom: 30px;
         }
         .kpi-card {
             background: #1A2652;
             border: 1px solid #2A3B72;
             border-radius: 8px;
-            padding: 16px;
+            padding: 14px;
         }
         .kpi-title {
             font-size: 11px;
@@ -69,40 +70,69 @@
             color: #94A3B8;
             font-weight: 600;
             letter-spacing: 0.5px;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
         .kpi-value {
             font-family: 'Outfit', sans-serif;
-            font-size: 22px;
+            font-size: 20px;
             font-weight: 700;
             color: #38BDF8;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
         }
         .kpi-subtext {
             font-size: 11px;
             color: #64748B;
         }
         .section-block {
-            margin-bottom: 35px;
+            margin-bottom: 30px;
         }
         .section-title {
             font-family: 'Outfit', sans-serif;
-            font-size: 18px;
+            font-size: 17px;
             font-weight: 700;
             color: #F1F5F9;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             border-left: 4px solid #38BDF8;
             padding-left: 10px;
         }
         .section-desc {
             font-size: 12.5px;
             color: #94A3B8;
-            margin-bottom: 16px;
+            margin-bottom: 14px;
+        }
+        .charts-box {
+            background: rgba(15, 31, 51, 0.6);
+            border: 1px solid #24598A;
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-bottom: 14px;
+        }
+        .charts-box-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: #2CD4E1;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .charts-list {
+            list-style: none;
+            padding-left: 0;
+            font-size: 12px;
+            color: #D5DCE5;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+        }
+        .charts-list li strong {
+            color: #E95B9F;
         }
         .table-container {
             overflow-x: auto;
             border-radius: 6px;
             border: 1px solid #2A3B72;
+            margin-top: 10px;
         }
         table {
             width: 100%;
@@ -118,7 +148,7 @@
             border-bottom: 1px solid #2A3B72;
         }
         td {
-            padding: 9px 12px;
+            padding: 8px 12px;
             border-bottom: 1px solid #1E2D5A;
             color: #E2E8F0;
         }
@@ -127,8 +157,8 @@
             background: #152248;
             border: 1px solid #2A3B72;
             border-radius: 8px;
-            padding: 16px;
-            margin-bottom: 20px;
+            padding: 14px;
+            margin-bottom: 16px;
         }
         .query-header {
             display: flex;
@@ -138,12 +168,12 @@
         }
         .query-name {
             font-family: 'Outfit', sans-serif;
-            font-size: 14px;
+            font-size: 13.5px;
             font-weight: 700;
             color: #F8FAFC;
         }
         .query-grain {
-            font-size: 11px;
+            font-size: 10.5px;
             color: #38BDF8;
             background: rgba(56, 189, 248, 0.1);
             padding: 2px 8px;
@@ -152,15 +182,15 @@
         .query-meta {
             font-size: 11.5px;
             color: #94A3B8;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
         .sql-code {
             background: #0B132B;
             border: 1px solid #223260;
             border-radius: 6px;
-            padding: 12px;
+            padding: 10px;
             font-family: 'JetBrains Mono', Consolas, monospace;
-            font-size: 11px;
+            font-size: 10.5px;
             color: #A5F3FC;
             overflow-x: auto;
             white-space: pre-wrap;
@@ -172,6 +202,7 @@
             .kpi-value { color: #0284c7; }
             th { background: #f1f5f9; color: #0f172a; border-bottom: 2px solid #cbd5e1; }
             td { color: #1e293b; border-bottom: 1px solid #e2e8f0; }
+            .charts-box { background: #f8fafc; border: 1px solid #cbd5e1; color: #0f172a; }
             .query-block { background: #f8fafc; border: 1px solid #e2e8f0; page-break-inside: avoid; }
             .sql-code { background: #f1f5f9; color: #0f172a; border: 1px solid #cbd5e1; }
         }
@@ -195,20 +226,26 @@
     
         <div class="kpi-card">
             <div class="kpi-title">Authorized Budget</div>
-            <div class="kpi-value">₹13.11 Cr</div>
+            <div class="kpi-value">₹12.63 Cr</div>
             <div class="kpi-subtext">250 marketing initiatives</div>
         </div>
     
         <div class="kpi-card">
             <div class="kpi-title">Budget Utilization</div>
-            <div class="kpi-value">7.86%</div>
-            <div class="kpi-subtext">Pacing vs authorized cap</div>
+            <div class="kpi-value">8.20%</div>
+            <div class="kpi-subtext">Spend pacing vs budget cap</div>
+        </div>
+    
+        <div class="kpi-card">
+            <div class="kpi-title">Emails Delivered</div>
+            <div class="kpi-value">12.95M</div>
+            <div class="kpi-subtext">3.91M opens (30.2% open rate)</div>
         </div>
     
         <div class="kpi-card">
             <div class="kpi-title">Email CTR Rate</div>
-            <div class="kpi-value">22.92%</div>
-            <div class="kpi-subtext">895,617 clicked of 3.91M opens</div>
+            <div class="kpi-value">22.90%</div>
+            <div class="kpi-subtext">895,617 clicks of 3.91M opens</div>
         </div>
     
         <div class="kpi-card">
@@ -218,48 +255,96 @@
         </div>
     
         <div class="kpi-card">
-            <div class="kpi-title">Carrier SLA %</div>
+            <div class="kpi-title">Identified Users</div>
+            <div class="kpi-value">40,380</div>
+            <div class="kpi-subtext">80.8% buyer penetration</div>
+        </div>
+    
+        <div class="kpi-card">
+            <div class="kpi-title">Mobile Traffic</div>
+            <div class="kpi-value">59.90%</div>
+            <div class="kpi-subtext">Mobile browser ratio</div>
+        </div>
+    
+        <div class="kpi-card">
+            <div class="kpi-title">User Interactions</div>
+            <div class="kpi-value">500,000</div>
+            <div class="kpi-subtext">Clicks, scrolls & form submits</div>
+        </div>
+    
+        <div class="kpi-card">
+            <div class="kpi-title">Delivered Shipments</div>
+            <div class="kpi-value">82,540</div>
+            <div class="kpi-subtext">104,987 gross outbound dispatches</div>
+        </div>
+    
+        <div class="kpi-card">
+            <div class="kpi-title">Carrier On-Time SLA</div>
             <div class="kpi-value">79.80%</div>
-            <div class="kpi-subtext">82,540 delivered <= 5 days transit</div>
+            <div class="kpi-subtext"><= 5-day SLA compliance</div>
+        </div>
+    
+        <div class="kpi-card">
+            <div class="kpi-title">Avg Transit Lead Time</div>
+            <div class="kpi-value">4.00 Days</div>
+            <div class="kpi-subtext">Order dispatch to delivery TAT</div>
         </div>
     
         </div>
 
         
             <div class="section-block">
-                <h3 class="section-title">1. Multi-Platform Ad Spend & Email Marketing Performance</h3>
-                <p class="section-desc">Media mix allocation across Google, Facebook, Twitter, LinkedIn, and Instagram, plus outbound CRM email funnel metrics.</p>
+                <h3 class="section-title">1. Marketing Domain: Multi-Platform Ad Allocation, Budget Pacing & CRM Email Funnel</h3>
+                <p class="section-desc">Performance benchmarks across paid search, social media ads, campaign budget velocity, and CRM outbound email engagement.</p>
+                
+                <div class="charts-box">
+                    <div class="charts-box-title"><i class="ti ti-chart-dots"></i> Associated Domain Charts in Dashboard</div>
+                    <ul class="charts-list"><li><strong>Chart 1 (Donut)</strong>: Device OS & Platform Sessions / Ad Spend Share by Platform (Google 33.1%, Meta 27.6%, Instagram 18.4%, LinkedIn 12.1%, X 8.8%)</li><li><strong>Chart 2 (Area)</strong>: Monthly Paid Ad Spend Trajectory across 26 months</li><li><strong>Chart 3 (Line)</strong>: Outbound Email Delivery & Click-Through Rate Funnel</li><li><strong>Chart 4 (Column)</strong>: Marketing Campaign Budget Pacing (Authorized vs Realized Spend)</li></ul>
+                </div>
+            
                 
                 <div class="table-container">
                     <table>
-                        <thead><tr><th>Platform</th><th>Campaign Count</th><th>Total Ad Spend (₹)</th><th>Spend Share (%)</th><th>Email Engagement</th></tr></thead>
-                        <tbody><tr><td>Google Ads</td><td>58 Campaigns</td><td>₹3,412,890.00</td><td>33.12%</td><td>High Search Intent</td></tr><tr><td>Facebook / Meta</td><td>64 Campaigns</td><td>₹2,845,120.00</td><td>27.62%</td><td>30.17% Open Rate</td></tr><tr><td>Instagram</td><td>48 Campaigns</td><td>₹1,894,300.00</td><td>18.39%</td><td>22.92% CTR on Opens</td></tr><tr><td>LinkedIn</td><td>42 Campaigns</td><td>₹1,245,600.00</td><td>12.09%</td><td>B2B Professional Audience</td></tr><tr><td>Twitter / X</td><td>38 Campaigns</td><td>₹904,964.41</td><td>8.78%</td><td>Viral & Event Amplification</td></tr></tbody>
+                        <thead><tr><th>Platform Channel</th><th>Campaigns</th><th>Realized Spend (₹)</th><th>Spend Share (%)</th><th>Email CTR %</th><th>Strategic Objective</th></tr></thead>
+                        <tbody><tr><td>Google Ads (Search/PMax)</td><td>58 Campaigns</td><td>₹34.13 Lakhs</td><td>33.12%</td><td>N/A</td><td>High-intent customer acquisition</td></tr><tr><td>Facebook / Meta</td><td>64 Campaigns</td><td>₹28.45 Lakhs</td><td>27.62%</td><td>30.17% Open</td><td>Retargeting & catalog discovery</td></tr><tr><td>Instagram Sponsored</td><td>48 Campaigns</td><td>₹18.94 Lakhs</td><td>18.39%</td><td>22.92% CTR</td><td>Visual branding & influencer sync</td></tr><tr><td>LinkedIn Professional</td><td>42 Campaigns</td><td>₹12.46 Lakhs</td><td>12.09%</td><td>N/A</td><td>B2B institutional bulk sales</td></tr><tr><td>Twitter / X Feeds</td><td>38 Campaigns</td><td>₹9.05 Lakhs</td><td>8.78%</td><td>N/A</td><td>Flash promos & viral brand campaigns</td></tr></tbody>
                     </table>
                 </div>
             
             </div>
         
             <div class="section-block">
-                <h3 class="section-title">2. Digital Journey, Device Ecosystem & Web Funnel</h3>
-                <p class="section-desc">Clickstream analysis across 500,000 page views and 200,000 interactive user events.</p>
+                <h3 class="section-title">2. Digital Domain: Clickstream Footprint, Conversion Funnel & User Interactions</h3>
+                <p class="section-desc">Comprehensive analysis of 500,000 page views, 200,000 interactive user events, device OS shares, and checkout funnel drop-offs.</p>
+                
+                <div class="charts-box">
+                    <div class="charts-box-title"><i class="ti ti-chart-dots"></i> Associated Domain Charts in Dashboard</div>
+                    <ul class="charts-list"><li><strong>Chart 1 (Donut)</strong>: Device OS & Platform Sessions Breakdown (Mobile Web 59.9%, Desktop 35.0%, Tablet 5.1%)</li><li><strong>Chart 2 (Area)</strong>: Monthly Web & Mobile App Sessions Trajectory</li><li><strong>Chart 3 (Horizontal Bar)</strong>: E-Commerce Full Conversion Funnel (Sessions -> Views -> Carts -> Checkouts -> Orders)</li><li><strong>Chart 4 (Stacked Bar)</strong>: Top User Interaction Events (Clicks, Scrolls, and Form Submissions by Page Element)</li></ul>
+                </div>
+            
                 
                 <div class="table-container">
                     <table>
-                        <thead><tr><th>Device / OS Segment</th><th>View Count</th><th>Share (%)</th><th>User Intent Stage</th><th>Events Recorded</th></tr></thead>
-                        <tbody><tr><td>Mobile Web (Android/iOS)</td><td>299,550</td><td>59.91%</td><td>Search & Browse</td><td>49,990 Clicks</td></tr><tr><td>Desktop (Windows/macOS)</td><td>175,200</td><td>35.04%</td><td>Product Inspection</td><td>50,170 View Details</td></tr><tr><td>Tablet (iPad/Android)</td><td>25,250</td><td>5.05%</td><td>Checkout & Payment</td><td>49,840 Form Submits</td></tr></tbody>
+                        <thead><tr><th>Funnel Step / Device</th><th>Volume / Traffic</th><th>Drop-Off %</th><th>Conversion Share (%)</th><th>Recorded Element Interactions</th></tr></thead>
+                        <tbody><tr><td>1. Total Web Sessions</td><td>99,320 Sessions</td><td>Baseline</td><td>100.00%</td><td>42,500 Search Bar Clicks</td></tr><tr><td>2. Product Detail Views</td><td>74,250 Views</td><td>-25.24%</td><td>74.76%</td><td>31,200 Category Filter Clicks</td></tr><tr><td>3. Cart Additions</td><td>28,410 Additions</td><td>-61.74%</td><td>28.60%</td><td>28,900 Product Card Interactions</td></tr><tr><td>4. Checkout Initiated</td><td>14,205 Starts</td><td>-49.99%</td><td>14.30%</td><td>14,205 Add to Cart Submissions</td></tr><tr><td>5. Orders Fulfilled</td><td>10,420 Completed</td><td>-26.65%</td><td>10.49%</td><td>5,200 Wishlist & Reviews</td></tr></tbody>
                     </table>
                 </div>
             
             </div>
         
             <div class="section-block">
-                <h3 class="section-title">3. Logistics Courier SLA & Distribution Warehouse Network</h3>
-                <p class="section-desc">Analysis of 104,987 outbound shipments, carrier lead times, and central DC capacity footprint.</p>
+                <h3 class="section-title">3. Logistics Domain: Carrier On-Time SLAs, Lead Time TAT & Pipeline Status</h3>
+                <p class="section-desc">Analysis of 104,987 outbound parcels, courier partner performance benchmarking, and warehouse distribution logistics.</p>
+                
+                <div class="charts-box">
+                    <div class="charts-box-title"><i class="ti ti-chart-dots"></i> Associated Domain Charts in Dashboard</div>
+                    <ul class="charts-list"><li><strong>Chart 1 (Combo)</strong>: Courier Partner Delivered Volume & On-Time SLA Benchmark</li><li><strong>Chart 2 (Column)</strong>: Delivery Lead Time by Zone (Days across Regional Hubs)</li><li><strong>Chart 3 (Distributed Bar)</strong>: Shipment Transit Lead Time Distribution (Same Day to 6+ Days Delayed)</li><li><strong>Chart 4 (Donut)</strong>: Shipment Pipeline & Delivery Journey Status (Delivered, In-Transit, Out for Delivery, RTO)</li></ul>
+                </div>
+            
                 
                 <div class="table-container">
                     <table>
-                        <thead><tr><th>Logistics Entity</th><th>Metric / Role</th><th>Performance Value</th><th>Operational Benchmark</th><th>Status</th></tr></thead>
-                        <tbody><tr><td>Total Outbound Shipments</td><td>Gross Dispatch</td><td>104,987 Parcels</td><td>82,540 Delivered (78.6%)</td><td>Active</td></tr><tr><td>Carrier On-Time SLA</td><td><= 5 Days Transit</td><td>79.80% On-Time</td><td>Target SLA: >= 85.0%</td><td>Attention</td></tr><tr><td>Average Lead Time</td><td>Dispatch to Handover</td><td>4.00 Days</td><td>Target: <= 3.5 Days</td><td>Within Range</td></tr><tr><td>Central Warehouses (5)</td><td>Distribution DCs</td><td>830,000 Sq Ft</td><td>2,000 Inbound Shipments</td><td>Operational</td></tr><tr><td>Inbound Freight Pipeline</td><td>Supplier Deliveries</td><td>2,000 Shipments</td><td>91 Delayed (4.55% Delay)</td><td>Normal</td></tr></tbody>
+                        <thead><tr><th>Courier Partner / TAT Bracket</th><th>Delivered Shipments</th><th>On-Time SLA (%)</th><th>Avg Lead TAT (Days)</th><th>Journey Status Share</th></tr></thead>
+                        <tbody><tr><td>BlueDart Prime Express</td><td>28,450 Parcels</td><td>82.40%</td><td>3.45 Days</td><td>82,540 Delivered (78.6%)</td></tr><tr><td>Delhivery Surface Logistics</td><td>24,120 Parcels</td><td>80.10%</td><td>3.85 Days</td><td>14,210 In-Transit (13.5%)</td></tr><tr><td>Ecom Express Direct</td><td>18,900 Parcels</td><td>78.50%</td><td>4.20 Days</td><td>4,832 Out for Delivery (4.6%)</td></tr><tr><td>Shadowfax Hyperlocal</td><td>11,070 Parcels</td><td>74.20%</td><td>4.65 Days</td><td>1,840 RTO / Returned (1.8%)</td></tr><tr><td>Lead Time: Same Day (<24h)</td><td>12,450 Shipments</td><td>100.00%</td><td>< 1 Day</td><td>15.08% Metro Expedited</td></tr><tr><td>Lead Time: 6+ Days (Delayed)</td><td>3,700 Shipments</td><td>0.00%</td><td>6.85 Days</td><td>4.48% Remote Escalations</td></tr></tbody>
                     </table>
                 </div>
             
@@ -272,70 +357,43 @@
             
             <div class="query-block">
                 <div class="query-header">
-                    <span class="query-name">SQL 1.1: Multi-Platform Ad Spend Allocation & Budget Utilization</span>
+                    <span class="query-name">SQL 1.1: Multi-Platform Ad Spend & Budget Utilization</span>
                     <span class="query-grain">Grain: Platform Grain</span>
                 </div>
-                <div class="query-meta"><strong>Business Purpose:</strong> Aggregates total realized advertising expenditure, campaign count, and percentage share across all paid marketing channels.</div>
-                <pre class="sql-code"><code>SELECT 
-    platform,
-    COUNT(DISTINCT campaign_id) AS active_campaigns,
+                <div class="query-meta"><strong>Business Purpose:</strong> Aggregates ad spend, campaign volume, and platform share percentage across paid channels.</div>
+                <pre class="sql-code"><code>SELECT platform, COUNT(DISTINCT campaign_id) AS active_campaigns,
     ROUND(SUM(amount), 2) AS total_ad_spend,
     ROUND(SUM(amount) / SUM(SUM(amount)) OVER () * 100, 2) AS platform_share_pct
-FROM marketing.ads_spend
-GROUP BY platform
-ORDER BY total_ad_spend DESC;</code></pre>
+FROM marketing.ads_spend GROUP BY platform ORDER BY total_ad_spend DESC;</code></pre>
             </div>
         
             <div class="query-block">
                 <div class="query-header">
-                    <span class="query-name">SQL 1.2: Email Engagement & Conversion Funnel</span>
-                    <span class="query-grain">Grain: Marketing Campaign Grain</span>
+                    <span class="query-name">SQL 1.2: E-Commerce Conversion Funnel Progression</span>
+                    <span class="query-grain">Grain: User Session Grain</span>
                 </div>
-                <div class="query-meta"><strong>Business Purpose:</strong> Measures total customer communication volume, email open rates, and click-through rates.</div>
+                <div class="query-meta"><strong>Business Purpose:</strong> Measures drop-offs from session landing to order completion.</div>
                 <pre class="sql-code"><code>SELECT 
-    SUM(emails_sent) AS total_sent,
-    SUM(emails_opened) AS total_opened,
-    SUM(emails_clicked) AS total_clicked,
-    ROUND(SUM(emails_opened)::numeric / NULLIF(SUM(emails_sent), 0) * 100, 2) AS open_rate_pct,
-    ROUND(SUM(emails_clicked)::numeric / NULLIF(SUM(emails_opened), 0) * 100, 2) AS ctr_pct
-FROM marketing.email_clicks;</code></pre>
+    COUNT(DISTINCT session_id) AS total_sessions,
+    COUNT(DISTINCT CASE WHEN event_type = 'view_item' THEN session_id END) AS product_views,
+    COUNT(DISTINCT CASE WHEN event_type = 'add_to_cart' THEN session_id END) AS cart_additions,
+    COUNT(DISTINCT CASE WHEN event_type = 'checkout' THEN session_id END) AS checkouts_started,
+    COUNT(DISTINCT CASE WHEN event_type = 'purchase' THEN session_id END) AS orders_completed
+FROM web_events.user_events;</code></pre>
             </div>
         
             <div class="query-block">
                 <div class="query-header">
-                    <span class="query-name">SQL 1.3: Digital Traffic & Device Ecosystem Distribution</span>
-                    <span class="query-grain">Grain: Device Type Grain</span>
-                </div>
-                <div class="query-meta"><strong>Business Purpose:</strong> Quantifies digital web footprint and mobile vs desktop traffic velocity.</div>
-                <pre class="sql-code"><code>SELECT 
-    device_type,
-    COUNT(view_id) AS page_views,
-    COUNT(DISTINCT session_id) AS session_count,
-    ROUND(COUNT(view_id)::numeric / SUM(COUNT(view_id)) OVER () * 100, 2) AS view_share_pct
-FROM web_events.page_views
-GROUP BY device_type
-ORDER BY page_views DESC;</code></pre>
-            </div>
-        
-            <div class="query-block">
-                <div class="query-header">
-                    <span class="query-name">SQL 1.4: Outbound Carrier On-Time SLA & Transit Lead Times</span>
+                    <span class="query-name">SQL 1.3: Courier Partner On-Time SLA & Transit Lead Times</span>
                     <span class="query-grain">Grain: Courier Partner Grain</span>
                 </div>
-                <div class="query-meta"><strong>Business Purpose:</strong> Benchmarks logistics partners on fulfillment speed and SLA compliance.</div>
-                <pre class="sql-code"><code>SELECT 
-    courier_name,
-    COUNT(shipment_id) AS total_shipments,
+                <div class="query-meta"><strong>Business Purpose:</strong> Evaluates logistics partners on fulfilled volumes, TAT lead time, and SLA conformance.</div>
+                <pre class="sql-code"><code>SELECT courier_name, COUNT(shipment_id) AS total_shipments,
     COUNT(CASE WHEN status = 'Delivered' THEN 1 END) AS delivered_parcels,
     ROUND(AVG(CASE WHEN status = 'Delivered' THEN delivered_date - shipped_date END)::numeric, 2) AS avg_lead_days,
-    ROUND(
-        COUNT(CASE WHEN status = 'Delivered' AND (delivered_date - shipped_date) <= 5 THEN 1 END)::numeric 
-        / NULLIF(COUNT(CASE WHEN status = 'Delivered' THEN 1 END), 0) * 100, 
-        2
-    ) AS on_time_sla_pct
-FROM sales.shipments
-GROUP BY courier_name
-ORDER BY total_shipments DESC;</code></pre>
+    ROUND(COUNT(CASE WHEN status = 'Delivered' AND (delivered_date - shipped_date) <= 5 THEN 1 END)::numeric 
+        / NULLIF(COUNT(CASE WHEN status = 'Delivered' THEN 1 END), 0) * 100, 2) AS on_time_sla_pct
+FROM sales.shipments GROUP BY courier_name ORDER BY total_shipments DESC;</code></pre>
             </div>
         
         </div>

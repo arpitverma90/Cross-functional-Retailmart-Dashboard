@@ -1040,12 +1040,12 @@ html_content = r"""<!DOCTYPE html>
                         </div>
                         <div class="filter-field">
                             <label for="filter-start-date">Start Date</label>
-                            <input type="date" id="filter-start-date" name="start_date" class="filter-input" value="2024-01-01" min="2024-01-01" max="2026-02-26">
+                            <input type="date" id="filter-start-date" name="start_date" class="filter-input" value="2024-01-01" min="2024-01-01" max="2026-02-26" onchange="applyFilters()">
                         </div>
 
                         <div class="filter-field">
                             <label for="filter-end-date">End Date</label>
-                            <input type="date" id="filter-end-date" name="end_date" class="filter-input" value="2026-02-26" min="2024-01-01" max="2026-02-26">
+                            <input type="date" id="filter-end-date" name="end_date" class="filter-input" value="2026-02-26" min="2024-01-01" max="2026-02-26" onchange="applyFilters()">
                         </div>
 
                         <div class="filter-divider"></div>
@@ -1093,7 +1093,7 @@ html_content = r"""<!DOCTYPE html>
 
                         <div class="filter-field">
                             <label for="filter-store">Store (Cascading)</label>
-                            <select id="filter-store" name="store_id" class="filter-select">
+                            <select id="filter-store" name="store_id" class="filter-select" onchange="applyFilters()">
                                 <option value="">All Stores (200)</option>
                                 <option value="148" data-regid="8" data-region="South">RetailMart Raipur (Raipur - South)</option>
                                 <option value="182" data-regid="4" data-region="North East">RetailMart Prayagraj (Prayagraj - North East)</option>
@@ -1613,32 +1613,32 @@ html_content = r"""<!DOCTYPE html>
                     <div class="kpi-grid">
                         <div class="kpi-card accent-pink">
                             <div class="kpi-header"><span class="kpi-title">Total Web Sessions</span><i class="ti ti-device-analytics" style="color: var(--pink);"></i></div>
-                            <div class="kpi-value">99,320</div>
+                            <div class="kpi-value" id="kpi-dig-sessions">99,320</div>
                             <div class="kpi-subtext">Unique browsing sessions</div>
                         </div>
                         <div class="kpi-card accent-cyan">
                             <div class="kpi-header"><span class="kpi-title">Total Page Views</span><i class="ti ti-browser" style="color: var(--cyan);"></i></div>
-                            <div class="kpi-value">500,000</div>
+                            <div class="kpi-value" id="kpi-dig-views">500,000</div>
                             <div class="kpi-subtext">Aggregated screen impressions</div>
                         </div>
                         <div class="kpi-card accent-purple">
                             <div class="kpi-header"><span class="kpi-title">Identified Customers</span><i class="ti ti-user-check" style="color: var(--purple);"></i></div>
-                            <div class="kpi-value">40,380</div>
+                            <div class="kpi-value" id="kpi-dig-customers">40,380</div>
                             <div class="kpi-subtext">Logged-in customer accounts</div>
                         </div>
                         <div class="kpi-card accent-cyan">
                             <div class="kpi-header"><span class="kpi-title">Pages per Session</span><i class="ti ti-arrows-shuffle" style="color: var(--cyan);"></i></div>
-                            <div class="kpi-value">5.03</div>
+                            <div class="kpi-value" id="kpi-dig-pps">5.03</div>
                             <div class="kpi-subtext">Browsing depth intensity</div>
                         </div>
                         <div class="kpi-card accent-orange">
                             <div class="kpi-header"><span class="kpi-title">Mobile Traffic Share</span><i class="ti ti-device-mobile" style="color: var(--orange);"></i></div>
-                            <div class="kpi-value">59.9%</div>
+                            <div class="kpi-value" id="kpi-dig-mobile">59.9%</div>
                             <div class="kpi-subtext">Mobile web penetration</div>
                         </div>
                         <div class="kpi-card accent-purple">
                             <div class="kpi-header"><span class="kpi-title">Total User Interactions</span><i class="ti ti-hand-click" style="color: var(--purple);"></i></div>
-                            <div class="kpi-value">500,000</div>
+                            <div class="kpi-value" id="kpi-dig-events">500,000</div>
                             <div class="kpi-subtext">142,500 form submits</div>
                         </div>
                     </div>
@@ -1699,32 +1699,32 @@ html_content = r"""<!DOCTYPE html>
                     <div class="kpi-grid">
                         <div class="kpi-card accent-cyan">
                             <div class="kpi-header"><span class="kpi-title">Delivered Shipments</span><i class="ti ti-package" style="color: var(--cyan);"></i></div>
-                            <div class="kpi-value">82,540</div>
+                            <div class="kpi-value" id="kpi-log-delivered">82,540</div>
                             <div class="kpi-subtext">Completed parcels</div>
                         </div>
                         <div class="kpi-card accent-purple">
                             <div class="kpi-header"><span class="kpi-title">Carrier On-Time SLA</span><i class="ti ti-clock-check" style="color: var(--purple);"></i></div>
-                            <div class="kpi-value">79.8%</div>
+                            <div class="kpi-value" id="kpi-log-sla">79.8%</div>
                             <div class="kpi-subtext">&le; 5 days transit target</div>
                         </div>
                         <div class="kpi-card accent-cyan">
                             <div class="kpi-header"><span class="kpi-title">Avg Delivery Lead Time</span><i class="ti ti-calendar-event" style="color: var(--cyan);"></i></div>
-                            <div class="kpi-value">4.00d</div>
+                            <div class="kpi-value" id="kpi-log-lead">4.00d</div>
                             <div class="kpi-subtext">Dispatch to delivery</div>
                         </div>
                         <div class="kpi-card accent-orange">
                             <div class="kpi-header"><span class="kpi-title">In-Transit Parcels</span><i class="ti ti-truck-delivery" style="color: var(--orange);"></i></div>
-                            <div class="kpi-value">14,210</div>
+                            <div class="kpi-value" id="kpi-log-intransit">14,210</div>
                             <div class="kpi-subtext">Active carrier pipeline</div>
                         </div>
                         <div class="kpi-card accent-yellow">
                             <div class="kpi-header"><span class="kpi-title">Awaiting Fulfillment</span><i class="ti ti-progress" style="color: var(--yellow);"></i></div>
-                            <div class="kpi-value">4,832</div>
+                            <div class="kpi-value" id="kpi-log-awaiting">4,832</div>
                             <div class="kpi-subtext">Orders in Processing state</div>
                         </div>
                         <div class="kpi-card accent-pink">
                             <div class="kpi-header"><span class="kpi-title">Store Stockout Risk SKUs</span><i class="ti ti-alert-triangle" style="color: var(--pink);"></i></div>
-                            <div class="kpi-value">595</div>
+                            <div class="kpi-value" id="kpi-log-oos">595</div>
                             <div class="kpi-subtext">&le; reorder threshold</div>
                         </div>
                     </div>
@@ -1782,22 +1782,22 @@ html_content = r"""<!DOCTYPE html>
                     <div class="kpi-grid">
                         <div class="kpi-card accent-purple">
                             <div class="kpi-header"><span class="kpi-title">Delivered Commercial Sales</span><i class="ti ti-cash" style="color: var(--purple);"></i></div>
-                            <div class="kpi-value">₹676.95 Cr</div>
+                            <div class="kpi-value" id="kpi-sales-revenue">₹676.95 Cr</div>
                             <div class="kpi-subtext">82,540 fulfilled orders</div>
                         </div>
                         <div class="kpi-card accent-cyan">
                             <div class="kpi-header"><span class="kpi-title">Gross Catalog Value</span><i class="ti ti-tags" style="color: var(--cyan);"></i></div>
-                            <div class="kpi-value">₹701.23 Cr</div>
+                            <div class="kpi-value" id="kpi-sales-gross">₹701.23 Cr</div>
                             <div class="kpi-subtext">Pre-discount order book</div>
                         </div>
                         <div class="kpi-card accent-orange">
                             <div class="kpi-header"><span class="kpi-title">Absorbed Discounts</span><i class="ti ti-discount-2" style="color: var(--orange);"></i></div>
-                            <div class="kpi-value">₹24.27 Cr</div>
+                            <div class="kpi-value" id="kpi-sales-discounts">₹24.27 Cr</div>
                             <div class="kpi-subtext">3.46% markdown rate</div>
                         </div>
                         <div class="kpi-card accent-pink">
                             <div class="kpi-header"><span class="kpi-title">Average Order Value (AOV)</span><i class="ti ti-receipt" style="color: var(--pink);"></i></div>
-                            <div class="kpi-value">₹82,015.22</div>
+                            <div class="kpi-value" id="kpi-sales-aov">₹82,015.22</div>
                             <div class="kpi-subtext">Per delivered invoice</div>
                         </div>
                     </div>
@@ -1855,22 +1855,22 @@ html_content = r"""<!DOCTYPE html>
                     <div class="kpi-grid">
                         <div class="kpi-card accent-pink">
                             <div class="kpi-header"><span class="kpi-title">Registered Master Accounts</span><i class="ti ti-users" style="color: var(--pink);"></i></div>
-                            <div class="kpi-value">50,000</div>
+                            <div class="kpi-value" id="kpi-cust-accounts">50,000</div>
                             <div class="kpi-subtext">Total database master records</div>
                         </div>
                         <div class="kpi-card accent-purple">
                             <div class="kpi-header"><span class="kpi-title">Transacting Buyers</span><i class="ti ti-shopping-bag" style="color: var(--purple);"></i></div>
-                            <div class="kpi-value">40,380</div>
+                            <div class="kpi-value" id="kpi-cust-buyers">40,380</div>
                             <div class="kpi-subtext">80.8% buyer penetration</div>
                         </div>
                         <div class="kpi-card accent-cyan">
                             <div class="kpi-header"><span class="kpi-title">Repeat Buyer Rate</span><i class="ti ti-repeat" style="color: var(--cyan);"></i></div>
-                            <div class="kpi-value">64.2%</div>
+                            <div class="kpi-value" id="kpi-cust-repeat">64.2%</div>
                             <div class="kpi-subtext">&gt; 1 completed order</div>
                         </div>
                         <div class="kpi-card accent-yellow">
                             <div class="kpi-header"><span class="kpi-title">At-Risk VIP Accounts</span><i class="ti ti-user-x" style="color: var(--yellow);"></i></div>
-                            <div class="kpi-value">6,518</div>
+                            <div class="kpi-value" id="kpi-cust-atrisk">6,518</div>
                             <div class="kpi-subtext">₹128.2 Cr revenue exposure</div>
                         </div>
                     </div>
@@ -1928,22 +1928,22 @@ html_content = r"""<!DOCTYPE html>
                     <div class="kpi-grid">
                         <div class="kpi-card accent-cyan">
                             <div class="kpi-header"><span class="kpi-title">Active Shelf Slots</span><i class="ti ti-building-store" style="color: var(--cyan);"></i></div>
-                            <div class="kpi-value">114,153</div>
+                            <div class="kpi-value" id="kpi-ops-slots">114,153</div>
                             <div class="kpi-subtext">Store-SKU tracking positions</div>
                         </div>
                         <div class="kpi-card accent-orange">
                             <div class="kpi-header"><span class="kpi-title">Zero-Stock Stockouts</span><i class="ti ti-alert-octagon" style="color: var(--orange);"></i></div>
-                            <div class="kpi-value">595</div>
+                            <div class="kpi-value" id="kpi-ops-oos">595</div>
                             <div class="kpi-subtext">0.52% out-of-stock rate</div>
                         </div>
                         <div class="kpi-card accent-yellow">
                             <div class="kpi-header"><span class="kpi-title">Low-Stock Triggers</span><i class="ti ti-bell-ringing" style="color: var(--yellow);"></i></div>
-                            <div class="kpi-value">16,880</div>
+                            <div class="kpi-value" id="kpi-ops-triggers">16,880</div>
                             <div class="kpi-subtext">Inventory &le; reorder point</div>
                         </div>
                         <div class="kpi-card accent-pink">
                             <div class="kpi-header"><span class="kpi-title">Factory Scrap Rate</span><i class="ti ti-tool" style="color: var(--pink);"></i></div>
-                            <div class="kpi-value">2.54%</div>
+                            <div class="kpi-value" id="kpi-ops-scrap">2.54%</div>
                             <div class="kpi-subtext">640,075 scrap units produced</div>
                         </div>
                     </div>
@@ -2001,22 +2001,22 @@ html_content = r"""<!DOCTYPE html>
                     <div class="kpi-grid">
                         <div class="kpi-card accent-cyan">
                             <div class="kpi-header"><span class="kpi-title">Active Headcount</span><i class="ti ti-users-group" style="color: var(--cyan);"></i></div>
-                            <div class="kpi-value">3,000</div>
+                            <div class="kpi-value" id="kpi-hr-headcount">3,000</div>
                             <div class="kpi-subtext">Across 10 corporate departments</div>
                         </div>
                         <div class="kpi-card accent-purple">
                             <div class="kpi-header"><span class="kpi-title">Monthly Base Payroll</span><i class="ti ti-credit-card" style="color: var(--purple);"></i></div>
-                            <div class="kpi-value">₹18.98 Cr</div>
+                            <div class="kpi-value" id="kpi-hr-payroll">₹18.98 Cr</div>
                             <div class="kpi-subtext">Contractual fixed compensation</div>
                         </div>
                         <div class="kpi-card accent-pink">
                             <div class="kpi-header"><span class="kpi-title">Average Monthly Salary</span><i class="ti ti-currency-rupee" style="color: var(--pink);"></i></div>
-                            <div class="kpi-value">₹63,267</div>
+                            <div class="kpi-value" id="kpi-hr-avg-salary">₹63,267</div>
                             <div class="kpi-subtext">Median salary: ₹55,000</div>
                         </div>
                         <div class="kpi-card accent-cyan">
                             <div class="kpi-header"><span class="kpi-title">Shift Compliance</span><i class="ti ti-checks" style="color: var(--cyan);"></i></div>
-                            <div class="kpi-value">94.6%</div>
+                            <div class="kpi-value" id="kpi-hr-compliance">94.6%</div>
                             <div class="kpi-subtext">Store floor staffing adherence</div>
                         </div>
                     </div>
@@ -2074,22 +2074,22 @@ html_content = r"""<!DOCTYPE html>
                     <div class="kpi-grid">
                         <div class="kpi-card accent-purple">
                             <div class="kpi-header"><span class="kpi-title">Delivered Net Revenue</span><i class="ti ti-chart-arrows" style="color: var(--purple);"></i></div>
-                            <div class="kpi-value">₹676.95 Cr</div>
+                            <div class="kpi-value" id="kpi-fin-sales">₹676.95 Cr</div>
                             <div class="kpi-subtext">82,540 fulfilled invoices</div>
                         </div>
                         <div class="kpi-card accent-orange">
                             <div class="kpi-header"><span class="kpi-title">Store OPEX</span><i class="ti ti-building-store" style="color: var(--orange);"></i></div>
-                            <div class="kpi-value">₹38.80 Cr</div>
+                            <div class="kpi-value" id="kpi-fin-store-opex">₹38.80 Cr</div>
                             <div class="kpi-subtext">200 retail branch leases &amp; utilities</div>
                         </div>
                         <div class="kpi-card accent-orange">
                             <div class="kpi-header"><span class="kpi-title">Corporate OPEX</span><i class="ti ti-briefcase" style="color: var(--orange);"></i></div>
-                            <div class="kpi-value">₹42.15 Cr</div>
+                            <div class="kpi-value" id="kpi-fin-corp-opex">₹42.15 Cr</div>
                             <div class="kpi-subtext">Technology, HR &amp; administrative</div>
                         </div>
                         <div class="kpi-card accent-cyan">
                             <div class="kpi-header"><span class="kpi-title">Contribution Margin</span><i class="ti ti-percentage" style="color: var(--cyan);"></i></div>
-                            <div class="kpi-value">30.47%</div>
+                            <div class="kpi-value" id="kpi-fin-margin">30.47%</div>
                             <div class="kpi-subtext">₹206.24 Cr delivered margin</div>
                         </div>
                     </div>
@@ -3553,13 +3553,14 @@ html_content = r"""<!DOCTYPE html>
                 }
             }
 
-            // 3. Compute Aggregates
+            // 3. Compute Aggregates & Scaling
             const isFullStoreScope = (storesInScope.length === allStores.length);
             const baseStoreRevSum = allStores.reduce((acc, s) => acc + Number(s.net_revenue), 0);
             const scopedStoresRevRaw = storesInScope.reduce((acc, s) => acc + Number(s.net_revenue), 0);
             const geoRevRatio = isFullStoreScope ? 1.0 : (scopedStoresRevRaw / (baseStoreRevSum || 1));
+            const scaleFactor = Math.max(0.01, dateRevRatio * geoRevRatio);
 
-            const totalDeliveredSales = baseRevTotal * geoRevRatio * dateRevRatio;
+            const totalDeliveredSales = baseRevTotal * scaleFactor;
             const totalStoresCount = storesInScope.length;
 
             // Headcount & Payroll
@@ -3598,7 +3599,7 @@ html_content = r"""<!DOCTYPE html>
             const grossMargin = totalDeliveredSales * 0.2749;
             const netSpread = grossMargin - totalExpenses;
 
-            // 4. Update KPI Values in DOM
+            // 4. Update ALL DOMAIN KPIS IN DOM
             // Cross-Functional Tab KPIs
             const cfRevEmpEl = document.getElementById('kpi-cf-rev-emp');
             if (cfRevEmpEl) cfRevEmpEl.textContent = '₹' + revPerEmpLakhs.toFixed(2) + ' Lakhs';
@@ -3640,13 +3641,76 @@ html_content = r"""<!DOCTYPE html>
             const execRevEmpEl = document.getElementById('kpi-exec-rev-emp');
             if (execRevEmpEl) execRevEmpEl.textContent = '₹' + revPerEmpLakhs.toFixed(2) + ' L';
 
-            // Sales, HR & Finance Tab KPIs
+            // Marketing Tab KPIs
+            const mktSpendEl = document.getElementById('kpi-mkt-spend');
+            if (mktSpendEl) mktSpendEl.textContent = formatCompactINR(10302874.41 * scaleFactor);
+
+            const mktBudgetEl = document.getElementById('kpi-mkt-budget');
+            if (mktBudgetEl) mktBudgetEl.textContent = formatCompactINR(126286595.49 * (isFullStoreScope ? 1.0 : geoRevRatio));
+
+            const mktUtilEl = document.getElementById('kpi-mkt-util');
+            if (mktUtilEl) mktUtilEl.textContent = ((10302874.41 * dateRevRatio) / 126286595.49 * 100).toFixed(1) + '%';
+
+            const mktEmailsEl = document.getElementById('kpi-mkt-emails');
+            if (mktEmailsEl) mktEmailsEl.textContent = Math.round(12952186 * scaleFactor).toLocaleString();
+
+            // Digital Tab KPIs
+            const digSessionsEl = document.getElementById('kpi-dig-sessions');
+            if (digSessionsEl) digSessionsEl.textContent = Math.round(99320 * scaleFactor).toLocaleString();
+
+            const digViewsEl = document.getElementById('kpi-dig-views');
+            if (digViewsEl) digViewsEl.textContent = Math.round(500000 * scaleFactor).toLocaleString();
+
+            const digCustomersEl = document.getElementById('kpi-dig-customers');
+            if (digCustomersEl) digCustomersEl.textContent = Math.round(40380 * scaleFactor).toLocaleString();
+
+            const digEventsEl = document.getElementById('kpi-dig-events');
+            if (digEventsEl) digEventsEl.textContent = Math.round(500000 * scaleFactor).toLocaleString();
+
+            // Logistics Tab KPIs
+            const logDeliveredEl = document.getElementById('kpi-log-delivered');
+            if (logDeliveredEl) logDeliveredEl.textContent = Math.round(82540 * scaleFactor).toLocaleString();
+
+            const logInTransitEl = document.getElementById('kpi-log-intransit');
+            if (logInTransitEl) logInTransitEl.textContent = Math.round(14210 * scaleFactor).toLocaleString();
+
+            const logAwaitingEl = document.getElementById('kpi-log-awaiting');
+            if (logAwaitingEl) logAwaitingEl.textContent = Math.round(4832 * scaleFactor).toLocaleString();
+
+            const logOosEl = document.getElementById('kpi-log-oos');
+            if (logOosEl) logOosEl.textContent = Math.round(595 * (isFullStoreScope ? 1.0 : geoRevRatio)).toLocaleString();
+
+            // Sales Tab KPIs
             const salesRevEl = document.getElementById('kpi-sales-revenue');
             if (salesRevEl) salesRevEl.textContent = formatCompactINR(totalDeliveredSales);
 
             const salesGrossEl = document.getElementById('kpi-sales-gross');
             if (salesGrossEl) salesGrossEl.textContent = formatCompactINR(totalDeliveredSales * 1.0358);
 
+            const salesDiscEl = document.getElementById('kpi-sales-discounts');
+            if (salesDiscEl) salesDiscEl.textContent = formatCompactINR(totalDeliveredSales * 0.0358);
+
+            // Customers Tab KPIs
+            const custAccountsEl = document.getElementById('kpi-cust-accounts');
+            if (custAccountsEl) custAccountsEl.textContent = Math.round(50000 * (isFullStoreScope ? 1.0 : geoRevRatio)).toLocaleString();
+
+            const custBuyersEl = document.getElementById('kpi-cust-buyers');
+            if (custBuyersEl) custBuyersEl.textContent = Math.round(40380 * scaleFactor).toLocaleString();
+
+            const custAtRiskEl = document.getElementById('kpi-cust-atrisk');
+            if (custAtRiskEl) custAtRiskEl.textContent = Math.round(6518 * scaleFactor).toLocaleString();
+
+            // Operations Tab KPIs
+            const opsSlotsEl = document.getElementById('kpi-ops-slots');
+            if (opsSlotsEl) opsSlotsEl.textContent = Math.round(114153 * (isFullStoreScope ? 1.0 : geoRevRatio)).toLocaleString();
+
+            const opsOosEl = document.getElementById('kpi-ops-oos');
+            if (opsOosEl) opsOosEl.textContent = Math.round(595 * (isFullStoreScope ? 1.0 : geoRevRatio)).toLocaleString();
+
+            const opsTriggersEl = document.getElementById('kpi-ops-triggers');
+            if (opsTriggersEl) opsTriggersEl.textContent = Math.round(16880 * (isFullStoreScope ? 1.0 : geoRevRatio)).toLocaleString();
+
+            // HR Tab KPIs
             const hrHeadcountEl = document.getElementById('kpi-hr-headcount');
             if (hrHeadcountEl) hrHeadcountEl.textContent = totalStaff.toLocaleString();
 
@@ -3656,11 +3720,15 @@ html_content = r"""<!DOCTYPE html>
             const hrAvgSalaryEl = document.getElementById('kpi-hr-avg-salary');
             if (hrAvgSalaryEl) hrAvgSalaryEl.textContent = '₹' + Math.round(totalStaff > 0 ? (totalMonthlyPayroll / totalStaff) : 63267).toLocaleString('en-IN');
 
+            // Finance Tab KPIs
             const finSalesEl = document.getElementById('kpi-fin-sales');
             if (finSalesEl) finSalesEl.textContent = formatCompactINR(totalDeliveredSales);
 
             const finStoreOpexEl = document.getElementById('kpi-fin-store-opex');
             if (finStoreOpexEl) finStoreOpexEl.textContent = formatCompactINR(totalStoreOpex);
+
+            const finCorpOpexEl = document.getElementById('kpi-fin-corp-opex');
+            if (finCorpOpexEl) finCorpOpexEl.textContent = formatCompactINR(421500000.0 * (isFullStoreScope ? 1.0 : geoRevRatio) * dateRevRatio);
 
             // Update Simulator Baseline Actuals
             if (window.simBaseline) {
@@ -3680,10 +3748,6 @@ html_content = r"""<!DOCTYPE html>
                     window.recalculateSimulator();
                 }
             }
-
-            // Active Window Tag in Subheaders
-            const windowTag = document.getElementById('mkt-window-tag');
-            if (windowTag) windowTag.textContent = startDate + ' to ' + endDate;
 
             // 5. Update Table 1 (Store Staffing Efficiency) in Cross-Functional
             const tbodyStore = document.getElementById('tbody-store-staffing');
@@ -3736,49 +3800,210 @@ html_content = r"""<!DOCTYPE html>
                 </tr>`).join('');
             }
 
-            // 7. Update Charts
+            // 7. Update ALL DOMAIN CHARTS
             const filteredMonthNames = selectedMonths.map(m => m.month_name);
             const filteredMonthSales = selectedMonths.map(m => Number((m.revenue_crores * geoRevRatio).toFixed(2)));
             const filteredMonthExpenses = selectedMonths.map(m => Number((30.0 * geoRevRatio).toFixed(2)));
 
-            // Update Trajectory Chart in Cross-Functional
-            if (window.appCharts['chart-cross-trajectory']) {
-                window.appCharts['chart-cross-trajectory'].updateOptions({
-                    xaxis: { categories: filteredMonthNames }
-                }, false, true);
-                window.appCharts['chart-cross-trajectory'].updateSeries([
-                    { name: 'Delivered Revenue (₹ Cr)', type: 'line', data: filteredMonthSales, color: '#A459D0' },
-                    { name: 'Processed Payroll (₹ Cr)', type: 'column', data: filteredMonthSales.map(v => Number((v * 0.0266).toFixed(2))), color: '#E95B9F' },
-                    { name: 'Store OPEX (₹ Cr)', type: 'column', data: filteredMonthSales.map(v => Number((v * 0.0148).toFixed(2))), color: '#E88E3E' }
-                ]);
-            }
-
-            // Update Trajectory Chart in Executive Summary
-            if (window.appCharts['chart-exec-trajectory']) {
-                window.appCharts['chart-exec-trajectory'].updateOptions({
-                    xaxis: { categories: filteredMonthNames }
-                }, false, true);
-                window.appCharts['chart-exec-trajectory'].updateSeries([
-                    { name: 'Delivered Revenue (₹ Cr)', data: filteredMonthSales },
-                    { name: 'Total Operating Expenses (₹ Cr)', data: filteredMonthExpenses },
-                    { name: 'Operating Net Spread (₹ Cr)', data: filteredMonthSales.map((v, i) => Number((v - filteredMonthExpenses[i]).toFixed(2))) }
-                ]);
-            }
-
-            // Update Department Allocation Chart
-            if (window.appCharts['chart-dept-cost'] && window.cfData && window.cfData.department_allocation) {
-                let deptItems = window.cfData.department_allocation;
-                if (deptVal) {
-                    const deptNum = parseInt(deptVal);
-                    deptItems = deptItems.filter((d, idx) => (idx + 1) === deptNum || String(d.dept_id) === String(deptVal));
+            try {
+                // Cross-Functional Trajectory
+                if (window.appCharts['chart-cross-trajectory']) {
+                    window.appCharts['chart-cross-trajectory'].updateOptions({ xaxis: { categories: filteredMonthNames } }, false, true);
+                    window.appCharts['chart-cross-trajectory'].updateSeries([
+                        { name: 'Delivered Revenue (₹ Cr)', type: 'line', data: filteredMonthSales, color: '#A459D0' },
+                        { name: 'Processed Payroll (₹ Cr)', type: 'column', data: filteredMonthSales.map(v => Number((v * 0.0266).toFixed(2))), color: '#E95B9F' },
+                        { name: 'Store OPEX (₹ Cr)', type: 'column', data: filteredMonthSales.map(v => Number((v * 0.0148).toFixed(2))), color: '#E88E3E' }
+                    ]);
                 }
-                window.appCharts['chart-dept-cost'].updateOptions({
-                    xaxis: { categories: deptItems.map(d => d.dept_name) }
-                }, false, true);
-                window.appCharts['chart-dept-cost'].updateSeries([
-                    { name: 'Monthly Payroll (₹ Cr)', data: deptItems.map(d => Number((d.payroll_crores * geoRevRatio).toFixed(2))), color: '#2CD4E1' },
-                    { name: 'Staff Headcount', data: deptItems.map(d => Math.round(d.staff_count * (isFullStoreScope ? 1 : geoRevRatio))), color: '#E95B9F' }
-                ]);
+
+                // Executive Trajectory
+                if (window.appCharts['chart-exec-trajectory']) {
+                    window.appCharts['chart-exec-trajectory'].updateOptions({ xaxis: { categories: filteredMonthNames } }, false, true);
+                    window.appCharts['chart-exec-trajectory'].updateSeries([
+                        { name: 'Delivered Revenue (₹ Cr)', data: filteredMonthSales },
+                        { name: 'Total Operating Expenses (₹ Cr)', data: filteredMonthExpenses },
+                        { name: 'Operating Net Spread (₹ Cr)', data: filteredMonthSales.map((v, i) => Number((v - filteredMonthExpenses[i]).toFixed(2))) }
+                    ]);
+                }
+
+                // Department Allocation Chart
+                if (window.appCharts['chart-dept-cost'] && window.cfData && window.cfData.department_allocation) {
+                    let deptItems = window.cfData.department_allocation;
+                    if (deptVal) {
+                        const deptNum = parseInt(deptVal);
+                        deptItems = deptItems.filter((d, idx) => (idx + 1) === deptNum || String(d.dept_id) === String(deptVal));
+                    }
+                    window.appCharts['chart-dept-cost'].updateOptions({ xaxis: { categories: deptItems.map(d => d.dept_name) } }, false, true);
+                    window.appCharts['chart-dept-cost'].updateSeries([
+                        { name: 'Monthly Payroll (₹ Cr)', data: deptItems.map(d => Number((d.payroll_crores * geoRevRatio).toFixed(2))), color: '#2CD4E1' },
+                        { name: 'Staff Headcount', data: deptItems.map(d => Math.round(d.staff_count * (isFullStoreScope ? 1 : geoRevRatio))), color: '#E95B9F' }
+                    ]);
+                }
+
+                // Sales Trend Chart
+                if (window.appCharts['chart-sales-trend']) {
+                    window.appCharts['chart-sales-trend'].updateOptions({ xaxis: { categories: filteredMonthNames } }, false, true);
+                    window.appCharts['chart-sales-trend'].updateSeries([
+                        { name: 'Net Revenue (₹ Cr)', data: filteredMonthSales }
+                    ]);
+                }
+
+                // Sales Categories
+                if (window.appCharts['chart-sales-category']) {
+                    window.appCharts['chart-sales-category'].updateSeries([
+                        Number((284.15 * scaleFactor).toFixed(2)),
+                        Number((148.90 * scaleFactor).toFixed(2)),
+                        Number((115.40 * scaleFactor).toFixed(2)),
+                        Number((82.50 * scaleFactor).toFixed(2)),
+                        Number((46.00 * scaleFactor).toFixed(2))
+                    ]);
+                }
+
+                // Sales Brands
+                if (window.appCharts['chart-sales-brands']) {
+                    window.appCharts['chart-sales-brands'].updateSeries([
+                        { name: 'Delivered Sales (₹ Cr)', data: [39.59, 38.66, 35.69, 34.82, 33.15, 31.90, 29.45, 27.80].map(v => Number((v * scaleFactor).toFixed(2))) }
+                    ]);
+                }
+
+                // Sales Basket Tiers
+                if (window.appCharts['chart-sales-tiers']) {
+                    window.appCharts['chart-sales-tiers'].updateSeries([
+                        { name: 'Delivered Orders', data: [12480, 24820, 32140, 10850, 2250].map(v => Math.round(v * scaleFactor)) }
+                    ]);
+                }
+
+                // Marketing Spend Trend
+                if (window.appCharts['chart-spend-trend']) {
+                    window.appCharts['chart-spend-trend'].updateOptions({ xaxis: { categories: filteredMonthNames } }, false, true);
+                    window.appCharts['chart-spend-trend'].updateSeries([
+                        { name: 'Paid Ad Spend (₹ Lakhs)', data: selectedMonths.map(m => Number((Number(m.revenue_crores) * 0.152 * geoRevRatio).toFixed(2))) }
+                    ]);
+                }
+
+                // Marketing Campaign Pacing
+                if (window.appCharts['chart-campaign-pacing']) {
+                    const pacingMonths = filteredMonthNames.slice(-8);
+                    const pacingSales = filteredMonthSales.slice(-8);
+                    window.appCharts['chart-campaign-pacing'].updateOptions({ xaxis: { categories: pacingMonths } }, false, true);
+                    window.appCharts['chart-campaign-pacing'].updateSeries([
+                        { name: 'Authorized Budget (₹ L)', data: pacingSales.map(v => Number((v * 1.8).toFixed(1))) },
+                        { name: 'Realized Spend (₹ L)', data: pacingSales.map(v => Number((v * 0.15).toFixed(1))) }
+                    ]);
+                }
+
+                // Digital Traffic Trajectory
+                if (window.appCharts['chart-traffic-trend']) {
+                    window.appCharts['chart-traffic-trend'].updateOptions({ xaxis: { categories: filteredMonthNames } }, false, true);
+                    window.appCharts['chart-traffic-trend'].updateSeries([
+                        { name: 'Web Sessions', data: selectedMonths.map(m => Math.round(m.revenue_crores * 146 * geoRevRatio)) },
+                        { name: 'App Sessions', data: selectedMonths.map(m => Math.round(m.revenue_crores * 220 * geoRevRatio)) }
+                    ]);
+                }
+
+                // Digital Funnel
+                if (window.appCharts['chart-funnel']) {
+                    window.appCharts['chart-funnel'].updateSeries([
+                        { name: 'Step Volume', data: [99320, 74250, 28410, 14205, 10420].map(v => Math.round(v * scaleFactor)) }
+                    ]);
+                }
+
+                // Digital Interaction Events
+                if (window.appCharts['chart-element-events']) {
+                    window.appCharts['chart-element-events'].updateSeries([
+                        { name: 'Clicks', data: [42500, 31200, 28900, 24100, 18200, 14500].map(v => Math.round(v * scaleFactor)) },
+                        { name: 'Scrolls', data: [18200, 14500, 22100, 9800, 8400, 11200].map(v => Math.round(v * scaleFactor)) },
+                        { name: 'Submissions', data: [8500, 6200, 3100, 14205, 5200, 2900].map(v => Math.round(v * scaleFactor)) }
+                    ]);
+                }
+
+                // Logistics Courier SLA
+                if (window.appCharts['chart-courier-sla']) {
+                    window.appCharts['chart-courier-sla'].updateSeries([
+                        { name: 'Delivered Volume', type: 'column', data: [28450, 24120, 18900, 11070].map(v => Math.round(v * scaleFactor)) },
+                        { name: 'On-Time SLA %', type: 'line', data: [82.4, 80.1, 78.5, 74.2] }
+                    ]);
+                }
+
+                // Logistics Lead TAT Distribution
+                if (window.appCharts['chart-lead-distribution']) {
+                    window.appCharts['chart-lead-distribution'].updateSeries([
+                        { name: 'Delivered Shipments', data: [12450, 28540, 26120, 11730, 3700].map(v => Math.round(v * scaleFactor)) }
+                    ]);
+                }
+
+                // Customer Retention
+                if (window.appCharts['chart-customer-retention']) {
+                    window.appCharts['chart-customer-retention'].updateOptions({ xaxis: { categories: filteredMonthNames } }, false, true);
+                    window.appCharts['chart-customer-retention'].updateSeries([
+                        { name: 'Active Retained Buyers', data: selectedMonths.map(m => Math.round(m.revenue_crores * 59.6 * geoRevRatio)) },
+                        { name: 'New Cohort Buyers', data: selectedMonths.map(m => Math.round(m.revenue_crores * 24.2 * geoRevRatio)) }
+                    ]);
+                }
+
+                // Customer Tiers
+                if (window.appCharts['chart-cust-tiers']) {
+                    window.appCharts['chart-cust-tiers'].updateSeries([
+                        { name: 'Delivered Spend (₹ Cr)', type: 'column', data: [334.35, 204.02, 104.77, 33.81].map(v => Number((v * scaleFactor).toFixed(2))) },
+                        { name: 'Enrolled Members', type: 'line', data: [24831, 14975, 7668, 2526].map(v => Math.round(v * (isFullStoreScope ? 1 : geoRevRatio))) }
+                    ]);
+                }
+
+                // Operations Stock Health
+                if (window.appCharts['chart-ops-health']) {
+                    window.appCharts['chart-ops-health'].updateSeries([
+                        { name: 'Adequate Stock Slots', data: [18450, 16200, 14100, 19800, 15400, 12728].map(v => Math.round(v * (isFullStoreScope ? 1 : geoRevRatio))) },
+                        { name: 'Low Stock Triggers', data: [2840, 3120, 2450, 3600, 2870, 2000].map(v => Math.round(v * (isFullStoreScope ? 1 : geoRevRatio))) },
+                        { name: 'Zero Stock Stockouts', data: [95, 110, 85, 130, 105, 70].map(v => Math.round(v * (isFullStoreScope ? 1 : geoRevRatio))) }
+                    ]);
+                }
+
+                // HR Payroll Burden Trajectory
+                if (window.appCharts['chart-hr-payroll']) {
+                    window.appCharts['chart-hr-payroll'].updateOptions({ xaxis: { categories: filteredMonthNames } }, false, true);
+                    window.appCharts['chart-hr-payroll'].updateSeries([
+                        { name: 'Monthly Base Payroll (₹ Cr)', data: selectedMonths.map(() => Number((totalMonthlyPayroll / 10000000).toFixed(2))) }
+                    ]);
+                }
+
+                // HR Department Headcount
+                if (window.appCharts['chart-hr-headcount']) {
+                    window.appCharts['chart-hr-headcount'].updateSeries([780, 520, 440, 360, 280, 220, 180, 120, 60, 40].map(v => Math.round(v * (isFullStoreScope ? 1 : geoRevRatio))));
+                }
+
+                // Finance Waterfall
+                if (window.appCharts['chart-fin-waterfall']) {
+                    window.appCharts['chart-fin-waterfall'].updateSeries([
+                        {
+                            name: 'Amount (₹ Cr)',
+                            data: [
+                                Number((totalDeliveredSales / 10000000).toFixed(2)),
+                                -Number((totalDeliveredSales * 0.7251 / 10000000).toFixed(2)),
+                                Number((grossMargin / 10000000).toFixed(2)),
+                                -Number((totalStoreOpex / 10000000).toFixed(2)),
+                                -Number((totalExpenses / 10000000).toFixed(2)),
+                                Number((netSpread / 10000000).toFixed(2))
+                            ]
+                        }
+                    ]);
+                }
+
+                // Finance Corporate Expense Categories
+                if (window.appCharts['chart-fin-corp']) {
+                    window.appCharts['chart-fin-corp'].updateSeries([
+                        { name: 'Expenditure (₹ Cr)', data: [108.45, 85.20, 64.12, 58.90, 52.40, 45.10, 38.60, 32.80].map(v => Number((v * (isFullStoreScope ? 1 : geoRevRatio) * dateRevRatio).toFixed(2))) }
+                    ]);
+                }
+
+                // Finance Category Margins
+                if (window.appCharts['chart-fin-margins']) {
+                    window.appCharts['chart-fin-margins'].updateSeries([
+                        { name: 'Delivered Revenue (₹ Cr)', type: 'column', data: [312.45, 148.60, 105.80, 68.40, 41.70].map(v => Number((v * scaleFactor).toFixed(2))) },
+                        { name: 'Gross Margin (%)', type: 'line', data: [26.2, 34.5, 18.2, 31.4, 38.8] }
+                    ]);
+                }
+            } catch (err) {
+                console.warn('Chart update notice:', err);
             }
 
             // 8. Update Active Filter Banner Chips
@@ -4691,6 +4916,7 @@ html_content = r"""<!DOCTYPE html>
 
             // Initialize Workforce Simulator
             initSimulator();
+            applyFilters();
 
 
 // 21. Executive 26-Month Trajectory

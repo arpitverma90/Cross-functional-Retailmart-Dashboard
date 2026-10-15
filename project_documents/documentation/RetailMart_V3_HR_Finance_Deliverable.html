@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Human Resources & Financial Governance Deliverable · RetailMart V3</title>
+    <title>Human Resources & Financial Governance Deliverable · RetailMart V3 Enterprise</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -10,22 +11,22 @@
             font-family: 'Inter', sans-serif;
             background: #0B132B;
             color: #E2E8F0;
-            padding: 40px;
+            padding: 30px;
             line-height: 1.5;
         }
         .container {
-            max-width: 1100px;
+            max-width: 1140px;
             margin: 0 auto;
             background: #111D4A;
             border: 1px solid #1E293B;
             border-radius: 12px;
-            padding: 40px;
+            padding: 35px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.5);
         }
         .header {
             border-bottom: 2px solid #1E293B;
-            padding-bottom: 24px;
-            margin-bottom: 30px;
+            padding-bottom: 20px;
+            margin-bottom: 25px;
         }
         .suite-tag {
             display: inline-block;
@@ -37,15 +38,15 @@
             letter-spacing: 1px;
             padding: 4px 12px;
             border-radius: 9999px;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             border: 1px solid rgba(56, 189, 248, 0.3);
         }
         h1 {
             font-family: 'Outfit', sans-serif;
-            font-size: 26px;
+            font-size: 24px;
             font-weight: 800;
             color: #F8FAFC;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
         .subtitle {
             color: #94A3B8;
@@ -53,15 +54,15 @@
         }
         .kpi-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 16px;
-            margin-bottom: 35px;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin-bottom: 30px;
         }
         .kpi-card {
             background: #1A2652;
             border: 1px solid #2A3B72;
             border-radius: 8px;
-            padding: 16px;
+            padding: 14px;
         }
         .kpi-title {
             font-size: 11px;
@@ -69,40 +70,69 @@
             color: #94A3B8;
             font-weight: 600;
             letter-spacing: 0.5px;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
         .kpi-value {
             font-family: 'Outfit', sans-serif;
-            font-size: 22px;
+            font-size: 20px;
             font-weight: 700;
             color: #38BDF8;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
         }
         .kpi-subtext {
             font-size: 11px;
             color: #64748B;
         }
         .section-block {
-            margin-bottom: 35px;
+            margin-bottom: 30px;
         }
         .section-title {
             font-family: 'Outfit', sans-serif;
-            font-size: 18px;
+            font-size: 17px;
             font-weight: 700;
             color: #F1F5F9;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             border-left: 4px solid #38BDF8;
             padding-left: 10px;
         }
         .section-desc {
             font-size: 12.5px;
             color: #94A3B8;
-            margin-bottom: 16px;
+            margin-bottom: 14px;
+        }
+        .charts-box {
+            background: rgba(15, 31, 51, 0.6);
+            border: 1px solid #24598A;
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-bottom: 14px;
+        }
+        .charts-box-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: #2CD4E1;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .charts-list {
+            list-style: none;
+            padding-left: 0;
+            font-size: 12px;
+            color: #D5DCE5;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+        }
+        .charts-list li strong {
+            color: #E95B9F;
         }
         .table-container {
             overflow-x: auto;
             border-radius: 6px;
             border: 1px solid #2A3B72;
+            margin-top: 10px;
         }
         table {
             width: 100%;
@@ -118,7 +148,7 @@
             border-bottom: 1px solid #2A3B72;
         }
         td {
-            padding: 9px 12px;
+            padding: 8px 12px;
             border-bottom: 1px solid #1E2D5A;
             color: #E2E8F0;
         }
@@ -127,8 +157,8 @@
             background: #152248;
             border: 1px solid #2A3B72;
             border-radius: 8px;
-            padding: 16px;
-            margin-bottom: 20px;
+            padding: 14px;
+            margin-bottom: 16px;
         }
         .query-header {
             display: flex;
@@ -138,12 +168,12 @@
         }
         .query-name {
             font-family: 'Outfit', sans-serif;
-            font-size: 14px;
+            font-size: 13.5px;
             font-weight: 700;
             color: #F8FAFC;
         }
         .query-grain {
-            font-size: 11px;
+            font-size: 10.5px;
             color: #38BDF8;
             background: rgba(56, 189, 248, 0.1);
             padding: 2px 8px;
@@ -152,15 +182,15 @@
         .query-meta {
             font-size: 11.5px;
             color: #94A3B8;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
         .sql-code {
             background: #0B132B;
             border: 1px solid #223260;
             border-radius: 6px;
-            padding: 12px;
+            padding: 10px;
             font-family: 'JetBrains Mono', Consolas, monospace;
-            font-size: 11px;
+            font-size: 10.5px;
             color: #A5F3FC;
             overflow-x: auto;
             white-space: pre-wrap;
@@ -172,6 +202,7 @@
             .kpi-value { color: #0284c7; }
             th { background: #f1f5f9; color: #0f172a; border-bottom: 2px solid #cbd5e1; }
             td { color: #1e293b; border-bottom: 1px solid #e2e8f0; }
+            .charts-box { background: #f8fafc; border: 1px solid #cbd5e1; color: #0f172a; }
             .query-block { background: #f8fafc; border: 1px solid #e2e8f0; page-break-inside: avoid; }
             .sql-code { background: #f1f5f9; color: #0f172a; border: 1px solid #cbd5e1; }
         }
@@ -188,78 +219,89 @@
         <div class="kpi-grid">
             
         <div class="kpi-card">
-            <div class="kpi-title">Active Workforce</div>
+            <div class="kpi-title">Active Headcount</div>
             <div class="kpi-value">3,000 Staff</div>
-            <div class="kpi-subtext">100% active across 10 depts</div>
+            <div class="kpi-subtext">100% active across 10 corporate depts</div>
         </div>
     
         <div class="kpi-card">
             <div class="kpi-title">Monthly Base Payroll</div>
             <div class="kpi-value">₹18.98 Cr</div>
-            <div class="kpi-subtext">₹189,800,000 contractual payroll</div>
+            <div class="kpi-subtext">₹189,820,814 contractual monthly run-rate</div>
         </div>
     
         <div class="kpi-card">
-            <div class="kpi-title">Average Base Salary</div>
+            <div class="kpi-title">Average Monthly Salary</div>
             <div class="kpi-value">₹63,267</div>
-            <div class="kpi-subtext">Median salary ₹55,000 / month</div>
+            <div class="kpi-subtext">Median compensation: ₹55,000</div>
         </div>
     
         <div class="kpi-card">
-            <div class="kpi-title">Corporate OPEX</div>
-            <div class="kpi-value">₹42.15 Cr</div>
-            <div class="kpi-subtext">Technology, Admin, HQ overhead</div>
+            <div class="kpi-title">Shift Attendance Compliance</div>
+            <div class="kpi-value">94.60%</div>
+            <div class="kpi-subtext">26-month shift adherence rate</div>
+        </div>
+    
+        <div class="kpi-card">
+            <div class="kpi-title">Delivered Net Revenue</div>
+            <div class="kpi-value">₹676.95 Cr</div>
+            <div class="kpi-subtext">₹6,769,536,004 enterprise top-line</div>
         </div>
     
         <div class="kpi-card">
             <div class="kpi-title">Store Branch OPEX</div>
             <div class="kpi-value">₹38.80 Cr</div>
-            <div class="kpi-subtext">Store leases, utilities, maintenance</div>
+            <div class="kpi-subtext">Branch leases, utilities & maintenance</div>
         </div>
     
         <div class="kpi-card">
-            <div class="kpi-title">Refund Financial Impact</div>
-            <div class="kpi-value">₹14.20 Cr</div>
-            <div class="kpi-subtext">Clawback on returned customer orders</div>
+            <div class="kpi-title">Corporate HQ OPEX</div>
+            <div class="kpi-value">₹42.15 Cr</div>
+            <div class="kpi-subtext">Technology, admin & marketing overhead</div>
+        </div>
+    
+        <div class="kpi-card">
+            <div class="kpi-title">Gross Contribution Margin</div>
+            <div class="kpi-value">30.47%</div>
+            <div class="kpi-subtext">Gross margin minus direct store OPEX</div>
         </div>
     
         </div>
 
         
             <div class="section-block">
-                <h3 class="section-title">1. Departmental Workforce Headcount & Payroll Allocation</h3>
-                <p class="section-desc">Distribution of 3,000 staff members across retail stores and corporate headquarters.</p>
+                <h3 class="section-title">1. Human Resources Domain: Department Headcount, Payroll Burdens & Shift Roster</h3>
+                <p class="section-desc">Workforce allocation of 3,000 employees across 10 departments, monthly compensation trajectory, shift schedules, and attendance compliance.</p>
+                
+                <div class="charts-box">
+                    <div class="charts-box-title"><i class="ti ti-chart-dots"></i> Associated Domain Charts in Dashboard</div>
+                    <ul class="charts-list"><li><strong>Chart 1 (Donut)</strong>: Headcount by Corporate Department (Store Ops 61.7%, Logistics 14.0%, IT 7.0%, Sales 6.0%, Finance 3.2%, Marketing 2.8%, HR 2.0%, Admin 3.3%)</li><li><strong>Chart 2 (Bar)</strong>: Monthly Payroll Burden Trend across 26 Months (₹18.98 Cr Monthly Run-rate)</li><li><strong>Chart 3 (Donut)</strong>: Shift Roster & Employee Schedule Distribution (General Day 42.5%, Morning 28.4%, Evening 18.6%, Night 10.5%)</li><li><strong>Chart 4 (Line)</strong>: 26-Month Monthly Shift Attendance & Punctuality Rate (%)</li></ul>
+                </div>
+            
                 
                 <div class="table-container">
                     <table>
-                        <thead><tr><th>Department</th><th>Staff Headcount</th><th>Headcount Share (%)</th><th>Monthly Payroll (₹)</th><th>Avg Salary (₹)</th></tr></thead>
-                        <tbody><tr><td>Store Retail Operations</td><td>1,850 Staff</td><td>61.67%</td><td>₹9.25 Cr</td><td>₹50,000</td></tr><tr><td>Supply Chain & Logistics</td><td>420 Staff</td><td>14.00%</td><td>₹2.73 Cr</td><td>₹65,000</td></tr><tr><td>Information Technology</td><td>210 Staff</td><td>7.00%</td><td>₹2.20 Cr</td><td>₹105,000</td></tr><tr><td>Sales & Business Dev</td><td>180 Staff</td><td>6.00%</td><td>₹1.53 Cr</td><td>₹85,000</td></tr><tr><td>Finance & Accounting</td><td>95 Staff</td><td>3.17%</td><td>₹0.90 Cr</td><td>₹95,000</td></tr><tr><td>Marketing & Growth</td><td>85 Staff</td><td>2.83%</td><td>₹0.85 Cr</td><td>₹100,000</td></tr><tr><td>Human Resources</td><td>60 Staff</td><td>2.00%</td><td>₹0.57 Cr</td><td>₹95,000</td></tr><tr><td>Corporate & Admin</td><td>100 Staff</td><td>3.33%</td><td>₹0.95 Cr</td><td>₹95,000</td></tr></tbody>
+                        <thead><tr><th>Department / Shift</th><th>Staff Count</th><th>Headcount Share (%)</th><th>Monthly Payroll (₹ Cr)</th><th>Avg Salary (₹)</th><th>Compliance %</th></tr></thead>
+                        <tbody><tr><td>Store Operations & Retail</td><td>1,850 Staff</td><td>61.67%</td><td>₹9.25 Cr</td><td>₹50,000</td><td>95.2% High</td></tr><tr><td>Supply Chain & Logistics</td><td>420 Staff</td><td>14.00%</td><td>₹2.73 Cr</td><td>₹65,000</td><td>94.8% Stable</td></tr><tr><td>Information Technology (IT)</td><td>210 Staff</td><td>7.00%</td><td>₹2.20 Cr</td><td>₹105,000</td><td>96.4% High</td></tr><tr><td>Sales & Commercial BD</td><td>180 Staff</td><td>6.00%</td><td>₹1.53 Cr</td><td>₹85,000</td><td>93.8% Normal</td></tr><tr><td>Finance & Treasury</td><td>95 Staff</td><td>3.17%</td><td>₹0.90 Cr</td><td>₹95,000</td><td>97.1% High</td></tr><tr><td>Marketing & Growth</td><td>85 Staff</td><td>2.83%</td><td>₹0.85 Cr</td><td>₹100,000</td><td>95.0% High</td></tr><tr><td>Human Resources & Talent</td><td>60 Staff</td><td>2.00%</td><td>₹0.57 Cr</td><td>₹95,000</td><td>98.2% Exemplary</td></tr><tr><td>General Day Shift Roster</td><td>1,275 Staff</td><td>42.50%</td><td>₹8.07 Cr</td><td>₹63,267</td><td>95.5% Core Staff</td></tr><tr><td>Night Production Shift</td><td>315 Staff</td><td>10.50%</td><td>₹2.00 Cr</td><td>₹63,267</td><td>92.1% Monitored</td></tr></tbody>
                     </table>
                 </div>
             
             </div>
         
             <div class="section-block">
-                <h3 class="section-title">2. Financial OPEX Waterfall & Operating Expense Structure</h3>
-                <p class="section-desc">Analysis of corporate administrative expenditure vs branch store operating burn rate.</p>
+                <h3 class="section-title">2. Financial Governance Domain: OPEX Waterfall, Settlement Rails & Corporate Expenses</h3>
+                <p class="section-desc">Operating outflows vs revenue waterfall, payment tender settlement dynamics, top 8 corporate expenditures, and category margins.</p>
                 
-                <div class="table-container">
-                    <table>
-                        <thead><tr><th>Expense Category</th><th>Expenditure Realm</th><th>Total Outflow (₹)</th><th>Budget Share (%)</th><th>Cost Control Level</th></tr></thead>
-                        <tbody><tr><td>Branch Store Leases & Rent</td><td>Stores OPEX</td><td>₹18.50 Cr</td><td>22.85%</td><td>Fixed Long-Term Contracts</td></tr><tr><td>Corporate HQ Salaries</td><td>HR / Finance</td><td>₹18.98 Cr</td><td>23.45%</td><td>Contractual Core Payroll</td></tr><tr><td>Store Utilities & Facilities</td><td>Stores OPEX</td><td>₹12.30 Cr</td><td>15.20%</td><td>Variable Energy Audit Required</td></tr><tr><td>Technology & Cloud Infrastructure</td><td>Corporate OPEX</td><td>₹11.20 Cr</td><td>13.84%</td><td>SaaS & Hosting Rationalization</td></tr><tr><td>Marketing & Advertising Media</td><td>Marketing OPEX</td><td>₹10.30 Cr</td><td>12.72%</td><td>Performance ROI Reallocation</td></tr><tr><td>Store Maintenance & Logistics</td><td>Operations OPEX</td><td>₹9.67 Cr</td><td>11.94%</td><td>Preventive Service Scheduling</td></tr></tbody>
-                    </table>
+                <div class="charts-box">
+                    <div class="charts-box-title"><i class="ti ti-chart-dots"></i> Associated Domain Charts in Dashboard</div>
+                    <ul class="charts-list"><li><strong>Chart 1 (Waterfall Bar)</strong>: Financial Health Outflows vs Gross Margin (Revenue ₹676.95 Cr, COGS -₹490.86 Cr, Gross Margin ₹186.10 Cr, Store OPEX -₹10.04 Cr, Corp OPEX -₹801.50 Cr, Spread -₹134.59 Cr)</li><li><strong>Chart 2 (Donut)</strong>: Payment Settlement Rails Breakdown (UPI ₹312.4 Cr, Credit/Debit Cards ₹241.1 Cr, Net Banking ₹92.5 Cr, COD ₹55.2 Cr)</li><li><strong>Chart 3 (Horizontal Bar)</strong>: Top 8 Corporate Expense Categories (Rent ₹108.5 Cr, Marketing ₹85.2 Cr, Software ₹64.1 Cr, Utilities ₹58.9 Cr, Freight ₹52.4 Cr, Insurance ₹45.1 Cr, Taxes ₹38.6 Cr, Maintenance ₹32.8 Cr)</li><li><strong>Chart 4 (Combo Line/Column)</strong>: Product Category Delivered Sales vs Realized Gross Margin %</li></ul>
                 </div>
             
-            </div>
-        
-            <div class="section-block">
-                <h3 class="section-title">3. Treasury Cash Liquidity & Payment Tender Performance</h3>
-                <p class="section-desc">Settlement tender mix across digital and physical customer payment rails.</p>
                 
                 <div class="table-container">
                     <table>
-                        <thead><tr><th>Payment Tender Mode</th><th>Transaction Count</th><th>Gross Value (₹)</th><th>Settlement Fee Rate</th><th>Dispute / Return Rate</th></tr></thead>
-                        <tbody><tr><td>UPI (Unified Payments)</td><td>62,400</td><td>₹312.40 Cr</td><td>0.00% (Zero MDR)</td><td>1.20% (Lowest)</td></tr><tr><td>Credit & Debit Cards</td><td>48,200</td><td>₹241.10 Cr</td><td>1.50% Interchange</td><td>2.80% Disputes</td></tr><tr><td>Net Banking / RTGS</td><td>18,500</td><td>₹92.50 Cr</td><td>₹15 Fixed Transfer</td><td>0.80% Discrepancies</td></tr><tr><td>Cash on Delivery (COD)</td><td>13,440</td><td>₹55.23 Cr</td><td>₹45 Cash Handling</td><td>8.90% High Return Risk</td></tr></tbody>
+                        <thead><tr><th>Expense Category / Tender Rail</th><th>Realm / Rail</th><th>Total Outflows (₹ Cr)</th><th>Spend Share (%)</th><th>MDR / Efficiency</th><th>Risk Tier</th></tr></thead>
+                        <tbody><tr><td>Rent & Property Leases</td><td>Corporate OPEX</td><td>₹108.45 Cr</td><td>24.96%</td><td>Fixed Contracts</td><td>Low Risk</td></tr><tr><td>Marketing & Advertising Media</td><td>Corporate OPEX</td><td>₹85.20 Cr</td><td>19.61%</td><td>ROI Tracked</td><td>Medium Tier</td></tr><tr><td>Enterprise Cloud & Software</td><td>Corporate OPEX</td><td>₹64.12 Cr</td><td>14.76%</td><td>SaaS Licenses</td><td>Low Risk</td></tr><tr><td>Utilities, Fuel & Power</td><td>Store/HQ OPEX</td><td>₹58.90 Cr</td><td>13.56%</td><td>Energy Audited</td><td>Controllable</td></tr><tr><td>Freight Logistics & Transfers</td><td>Logistics OPEX</td><td>₹52.40 Cr</td><td>12.06%</td><td>Variable Fleet</td><td>Attention</td></tr><tr><td>UPI Settlement Rail</td><td>Digital Rail</td><td>₹312.40 Cr</td><td>44.55%</td><td>0.00% Zero MDR</td><td>Lowest (1.2% Dispute)</td></tr><tr><td>Credit & Debit Cards</td><td>Card Rail</td><td>₹241.10 Cr</td><td>34.38%</td><td>1.50% Interchange</td><td>Standard (2.8% Dispute)</td></tr><tr><td>Cash on Delivery (COD)</td><td>Physical Tender</td><td>₹55.23 Cr</td><td>7.88%</td><td>Cash Handling Fee</td><td>High (8.9% Return)</td></tr></tbody>
                     </table>
                 </div>
             
@@ -272,83 +314,31 @@
             
             <div class="query-block">
                 <div class="query-header">
-                    <span class="query-name">SQL 3.1: Active Enterprise Workforce Headcount & Payroll Summary</span>
+                    <span class="query-name">SQL 3.1: Department Headcount & Monthly Payroll Allocation</span>
                     <span class="query-grain">Grain: Department Master Grain</span>
                 </div>
-                <div class="query-meta"><strong>Business Purpose:</strong> Aggregates employee headcount, total base salary obligations, and mean compensation across departments.</div>
-                <pre class="sql-code"><code>SELECT 
-    d.department_name,
-    COUNT(e.employee_id) AS total_employees,
+                <div class="query-meta"><strong>Business Purpose:</strong> Aggregates employee headcount, total base payroll, and average compensation across departments.</div>
+                <pre class="sql-code"><code>SELECT d.department_name, COUNT(e.employee_id) AS total_employees,
     ROUND(SUM(e.salary), 2) AS monthly_base_payroll,
     ROUND(AVG(e.salary), 2) AS avg_salary,
     ROUND(COUNT(e.employee_id)::numeric / SUM(COUNT(e.employee_id)) OVER () * 100, 2) AS headcount_share_pct
 FROM stores.employees e
 JOIN hr.dim_department d ON e.department_id = d.department_id
-GROUP BY d.department_name
-ORDER BY total_employees DESC;</code></pre>
+GROUP BY d.department_name ORDER BY total_employees DESC;</code></pre>
             </div>
         
             <div class="query-block">
                 <div class="query-header">
-                    <span class="query-name">SQL 3.2: Monthly Processed Salary Payout Timeline</span>
-                    <span class="query-grain">Grain: Payment Month Grain</span>
+                    <span class="query-name">SQL 3.2: Corporate Overhead Expenditure by Category</span>
+                    <span class="query-grain">Grain: Corporate Expense Category Grain</span>
                 </div>
-                <div class="query-meta"><strong>Business Purpose:</strong> Tracks monthly disbursed cash compensation through banking channels.</div>
-                <pre class="sql-code"><code>SELECT 
-    DATE_TRUNC('month', payment_date)::date AS payout_month,
-    COUNT(history_id) AS disbursements_count,
-    ROUND(SUM(amount), 2) AS total_cash_payout,
-    ROUND(AVG(amount), 2) AS avg_payout
-FROM hr.salary_history
-WHERE status = 'Processed'
-GROUP BY DATE_TRUNC('month', payment_date)
-ORDER BY payout_month;</code></pre>
-            </div>
-        
-            <div class="query-block">
-                <div class="query-header">
-                    <span class="query-name">SQL 3.3: Corporate vs Store Operating Expenditure (OPEX)</span>
-                    <span class="query-grain">Grain: Expense Category Grain</span>
-                </div>
-                <div class="query-meta"><strong>Business Purpose:</strong> Reconciles overhead expenses across headquarters corporate ledger and physical store ledgers.</div>
-                <pre class="sql-code"><code>SELECT 
-    'Corporate Expenses' AS expense_source,
-    c.category_name,
-    COUNT(e.expense_id) AS voucher_count,
-    ROUND(SUM(e.amount), 2) AS total_expenditure
+                <div class="query-meta"><strong>Business Purpose:</strong> Reconciles top corporate non-payroll operating expenditures.</div>
+                <pre class="sql-code"><code>SELECT c.category_name, COUNT(e.expense_id) AS voucher_count,
+    ROUND(SUM(e.amount) / 10000000.0, 2) AS total_crores,
+    ROUND(SUM(e.amount) / SUM(SUM(e.amount)) OVER () * 100, 2) AS share_pct
 FROM finance.expenses e
 JOIN finance.dim_expense_category c ON e.category_id = c.category_id
-GROUP BY c.category_name
-
-UNION ALL
-
-SELECT 
-    'Store Expenses' AS expense_source,
-    c.category_name,
-    COUNT(e.expense_id) AS voucher_count,
-    ROUND(SUM(e.amount), 2) AS total_expenditure
-FROM stores.expenses e
-JOIN finance.dim_expense_category c ON e.category_id = c.category_id
-GROUP BY c.category_name
-ORDER BY total_expenditure DESC;</code></pre>
-            </div>
-        
-            <div class="query-block">
-                <div class="query-header">
-                    <span class="query-name">SQL 3.4: Payment Tender Performance & Settlement Volume</span>
-                    <span class="query-grain">Grain: Payment Mode Grain</span>
-                </div>
-                <div class="query-meta"><strong>Business Purpose:</strong> Evaluates customer tender mode distribution, cash collections, and electronic payment velocities.</div>
-                <pre class="sql-code"><code>SELECT 
-    payment_mode,
-    payment_status,
-    COUNT(payment_id) AS transaction_count,
-    ROUND(SUM(amount), 2) AS total_settled_amount,
-    ROUND(SUM(amount) / SUM(SUM(amount)) OVER () * 100, 2) AS payment_share_pct
-FROM sales.payments
-WHERE payment_status = 'Success'
-GROUP BY payment_mode, payment_status
-ORDER BY total_settled_amount DESC;</code></pre>
+GROUP BY c.category_name ORDER BY total_crores DESC LIMIT 8;</code></pre>
             </div>
         
         </div>
