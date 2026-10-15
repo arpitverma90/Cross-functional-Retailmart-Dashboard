@@ -784,7 +784,69 @@ html_content = r"""<!DOCTYPE html>
             .charts-grid-2 { grid-template-columns: 1fr; }
             .nav-tabs { max-width: 100%; }
         }
-    </style>
+    
+        /* Active Filter Indicator Banner */
+        .active-filter-banner {
+            background: linear-gradient(90deg, rgba(44, 212, 225, 0.12) 0%, rgba(164, 89, 208, 0.12) 100%);
+            border: 1px solid rgba(44, 212, 225, 0.35);
+            border-radius: 10px;
+            padding: 0.65rem 1.15rem;
+            margin-bottom: 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .active-filter-info {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+            font-size: 0.82rem;
+        }
+
+        .active-filter-chips {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-chip {
+            background: rgba(15, 31, 51, 0.8);
+            border: 1px solid var(--blue-border);
+            border-radius: 6px;
+            padding: 0.2rem 0.55rem;
+            font-size: 0.72rem;
+            color: var(--cyan);
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .btn-clear-filter {
+            background: rgba(244, 63, 94, 0.15);
+            border: 1px solid rgba(244, 63, 94, 0.4);
+            color: #F43F5E;
+            border-radius: 6px;
+            padding: 0.28rem 0.7rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            transition: all 0.2s ease;
+        }
+
+        .btn-clear-filter:hover {
+            background: rgba(244, 63, 94, 0.3);
+            color: #fff;
+        }
+</style>
 </head>
 <body>
     <div class="app-container">
@@ -996,26 +1058,36 @@ html_content = r"""<!DOCTYPE html>
                             <label for="filter-region">Region</label>
                             <select id="filter-region" name="region_id" class="filter-select" onchange="handleRegionChange()">
                                 <option value="">All Regions (20)</option>
-                                <option value="15">Central (Mizoram)</option>
-                                <option value="13">Central (Arunachal Pradesh)</option>
-                                <option value="5">East (Himachal Pradesh)</option>
-                                <option value="18">North (Manipur)</option>
-                                <option value="17">North (Tamil Nadu)</option>
-                                <option value="3">North (Andhra Pradesh)</option>
-                                <option value="2">North (Bihar)</option>
-                                <option value="10">North (Assam)</option>
-                                <option value="14">North (Gujarat)</option>
-                                <option value="19">North (Uttar Pradesh)</option>
-                                <option value="1">North East (Rajasthan)</option>
-                                <option value="4">North East (Telangana)</option>
-                                <option value="9">North East (Nagaland)</option>
-                                <option value="11">North East (Odisha)</option>
-                                <option value="12">North East (Maharashtra)</option>
-                                <option value="8">South (Sikkim)</option>
-                                <option value="7">South (Chhattisgarh)</option>
-                                <option value="6">South (Haryana)</option>
-                                <option value="20">South (West Bengal)</option>
-                                <option value="16">West (Punjab)</option>
+                                <optgroup label="Macro Regions">
+                                    <option value="reg-South">South Region (44 Stores)</option>
+                                    <option value="reg-North">North Region (81 Stores)</option>
+                                    <option value="reg-North-East">North East Region (47 Stores)</option>
+                                    <option value="reg-Central">Central Region (17 Stores)</option>
+                                    <option value="reg-West">West Region (11 Stores)</option>
+                                    <option value="reg-East">East Region (12 Stores)</option>
+                                </optgroup>
+                                <optgroup label="State Territories">
+                                    <option value="15">Central - Mizoram (10 Stores)</option>
+                                    <option value="13">Central - Arunachal Pradesh (7 Stores)</option>
+                                    <option value="5">East - Himachal Pradesh (12 Stores)</option>
+                                    <option value="18">North - Manipur (7 Stores)</option>
+                                    <option value="17">North - Tamil Nadu (14 Stores)</option>
+                                    <option value="3">North - Andhra Pradesh (5 Stores)</option>
+                                    <option value="2">North - Bihar (11 Stores)</option>
+                                    <option value="10">North - Assam (12 Stores)</option>
+                                    <option value="14">North - Gujarat (7 Stores)</option>
+                                    <option value="19">North - Uttar Pradesh (13 Stores)</option>
+                                    <option value="1">North East - Rajasthan (6 Stores)</option>
+                                    <option value="4">North East - Telangana (11 Stores)</option>
+                                    <option value="9">North East - Nagaland (12 Stores)</option>
+                                    <option value="11">North East - Odisha (13 Stores)</option>
+                                    <option value="12">North East - Maharashtra (5 Stores)</option>
+                                    <option value="8">South - Sikkim (14 Stores)</option>
+                                    <option value="7">South - Chhattisgarh (10 Stores)</option>
+                                    <option value="6">South - Haryana (9 Stores)</option>
+                                    <option value="20">South - West Bengal (11 Stores)</option>
+                                    <option value="16">West - Punjab (11 Stores)</option>
+                                </optgroup>
                             </select>
                         </div>
 
@@ -1023,17 +1095,206 @@ html_content = r"""<!DOCTYPE html>
                             <label for="filter-store">Store (Cascading)</label>
                             <select id="filter-store" name="store_id" class="filter-select">
                                 <option value="">All Stores (200)</option>
-                                <option value="146">RetailMart Agartala Flagship (Agartala)</option>
-                                <option value="193">RetailMart Agra Superstore (Agra)</option>
-                                <option value="12">RetailMart Ahmedabad West (Ahmedabad)</option>
-                                <option value="45">RetailMart Bangalore Indiranagar (Bangalore)</option>
-                                <option value="67">RetailMart Bhopal Central (Bhopal)</option>
-                                <option value="89">RetailMart Chennai OMR (Chennai)</option>
-                                <option value="102">RetailMart Delhi CP Flagship (Delhi)</option>
-                                <option value="115">RetailMart Hyderabad Hitec City (Hyderabad)</option>
-                                <option value="128">RetailMart Kolkata Park Street (Kolkata)</option>
-                                <option value="140">RetailMart Mumbai Bandra Megastore (Mumbai)</option>
-                                <option value="177">RetailMart Pune Viman Nagar (Pune)</option>
+                                <option value="148" data-regid="8" data-region="South">RetailMart Raipur (Raipur - South)</option>
+                                <option value="182" data-regid="4" data-region="North East">RetailMart Prayagraj (Prayagraj - North East)</option>
+                                <option value="98" data-regid="9" data-region="North East">RetailMart Rourkela (Rourkela - North East)</option>
+                                <option value="128" data-regid="19" data-region="North">RetailMart Salem (Salem - North)</option>
+                                <option value="41" data-regid="6" data-region="South">RetailMart Amritsar (Amritsar - South)</option>
+                                <option value="19" data-regid="20" data-region="South">RetailMart Kanpur (Kanpur - South)</option>
+                                <option value="60" data-regid="13" data-region="Central">RetailMart Surat (Surat - Central)</option>
+                                <option value="6" data-regid="15" data-region="Central">RetailMart Gaya (Gaya - Central)</option>
+                                <option value="195" data-regid="7" data-region="South">RetailMart Surat (Surat - South)</option>
+                                <option value="94" data-regid="9" data-region="North East">RetailMart Pune (Pune - North East)</option>
+                                <option value="176" data-regid="3" data-region="North">RetailMart Panaji (Panaji - North)</option>
+                                <option value="169" data-regid="8" data-region="South">RetailMart Mangalore (Mangalore - South)</option>
+                                <option value="20" data-regid="6" data-region="South">RetailMart Cuttack (Cuttack - South)</option>
+                                <option value="16" data-regid="11" data-region="North East">RetailMart Jamshedpur (Jamshedpur - North East)</option>
+                                <option value="100" data-regid="11" data-region="North East">RetailMart Chandigarh (Chandigarh - North East)</option>
+                                <option value="111" data-regid="8" data-region="South">RetailMart Howrah (Howrah - South)</option>
+                                <option value="32" data-regid="4" data-region="North East">RetailMart Coimbatore (Coimbatore - North East)</option>
+                                <option value="156" data-regid="13" data-region="Central">RetailMart Agartala (Agartala - Central)</option>
+                                <option value="28" data-regid="15" data-region="Central">RetailMart Gwalior (Gwalior - Central)</option>
+                                <option value="179" data-regid="2" data-region="North">RetailMart Mysuru (Mysuru - North)</option>
+                                <option value="119" data-regid="4" data-region="North East">RetailMart Jamshedpur (Jamshedpur - North East)</option>
+                                <option value="88" data-regid="2" data-region="North">RetailMart Kanpur (Kanpur - North)</option>
+                                <option value="83" data-regid="16" data-region="West">RetailMart Ludhiana (Ludhiana - West)</option>
+                                <option value="17" data-regid="20" data-region="South">RetailMart Madurai (Madurai - South)</option>
+                                <option value="124" data-regid="17" data-region="North">RetailMart Noida (Noida - North)</option>
+                                <option value="197" data-regid="10" data-region="North">RetailMart Erode (Erode - North)</option>
+                                <option value="9" data-regid="3" data-region="North">RetailMart Leh (Leh - North)</option>
+                                <option value="38" data-regid="19" data-region="North">RetailMart Rajkot (Rajkot - North)</option>
+                                <option value="129" data-regid="15" data-region="Central">RetailMart Port Blair (Port Blair - Central)</option>
+                                <option value="104" data-regid="19" data-region="North">RetailMart Bhubaneswar (Bhubaneswar - North)</option>
+                                <option value="68" data-regid="1" data-region="North East">RetailMart Bhopal (Bhopal - North East)</option>
+                                <option value="34" data-regid="7" data-region="South">RetailMart Jodhpur (Jodhpur - South)</option>
+                                <option value="138" data-regid="18" data-region="North">RetailMart Noida (Noida - North)</option>
+                                <option value="78" data-regid="9" data-region="North East">RetailMart Pune (Pune - North East)</option>
+                                <option value="22" data-regid="2" data-region="North">RetailMart Thane (Thane - North)</option>
+                                <option value="177" data-regid="9" data-region="North East">RetailMart Indore (Indore - North East)</option>
+                                <option value="27" data-regid="1" data-region="North East">RetailMart Siliguri (Siliguri - North East)</option>
+                                <option value="155" data-regid="11" data-region="North East">RetailMart Delhi (Delhi - North East)</option>
+                                <option value="132" data-regid="19" data-region="North">RetailMart Dhanbad (Dhanbad - North)</option>
+                                <option value="89" data-regid="5" data-region="East">RetailMart Meerut (Meerut - East)</option>
+                                <option value="30" data-regid="20" data-region="South">RetailMart Imphal (Imphal - South)</option>
+                                <option value="145" data-regid="10" data-region="North">RetailMart Bilaspur (Bilaspur - North)</option>
+                                <option value="164" data-regid="13" data-region="Central">RetailMart Jaipur (Jaipur - Central)</option>
+                                <option value="113" data-regid="18" data-region="North">RetailMart Erode (Erode - North)</option>
+                                <option value="142" data-regid="9" data-region="North East">RetailMart Kanpur (Kanpur - North East)</option>
+                                <option value="122" data-regid="15" data-region="Central">RetailMart Erode (Erode - Central)</option>
+                                <option value="64" data-regid="16" data-region="West">RetailMart Chennai (Chennai - West)</option>
+                                <option value="86" data-regid="17" data-region="North">RetailMart Mysuru (Mysuru - North)</option>
+                                <option value="191" data-regid="17" data-region="North">RetailMart Surat (Surat - North)</option>
+                                <option value="21" data-regid="11" data-region="North East">RetailMart Vadodara (Vadodara - North East)</option>
+                                <option value="167" data-regid="2" data-region="North">RetailMart Coimbatore (Coimbatore - North)</option>
+                                <option value="162" data-regid="5" data-region="East">RetailMart Udaipur (Udaipur - East)</option>
+                                <option value="14" data-regid="15" data-region="Central">RetailMart Prayagraj (Prayagraj - Central)</option>
+                                <option value="76" data-regid="20" data-region="South">RetailMart Madurai (Madurai - South)</option>
+                                <option value="48" data-regid="19" data-region="North">RetailMart Jaipur (Jaipur - North)</option>
+                                <option value="186" data-regid="6" data-region="South">RetailMart Udupi (Udupi - South)</option>
+                                <option value="190" data-regid="8" data-region="South">RetailMart Patiala (Patiala - South)</option>
+                                <option value="183" data-regid="5" data-region="East">RetailMart Ranchi (Ranchi - East)</option>
+                                <option value="35" data-regid="9" data-region="North East">RetailMart Ludhiana (Ludhiana - North East)</option>
+                                <option value="74" data-regid="5" data-region="East">RetailMart Imphal (Imphal - East)</option>
+                                <option value="189" data-regid="7" data-region="South">RetailMart Madurai (Madurai - South)</option>
+                                <option value="10" data-regid="17" data-region="North">RetailMart Aizawl (Aizawl - North)</option>
+                                <option value="143" data-regid="18" data-region="North">RetailMart Kanpur (Kanpur - North)</option>
+                                <option value="18" data-regid="14" data-region="North">RetailMart Nagpur (Nagpur - North)</option>
+                                <option value="31" data-regid="11" data-region="North East">RetailMart Gandhinagar (Gandhinagar - North East)</option>
+                                <option value="1" data-regid="17" data-region="North">RetailMart Gwalior (Gwalior - North)</option>
+                                <option value="106" data-regid="7" data-region="South">RetailMart Jaipur (Jaipur - South)</option>
+                                <option value="112" data-regid="1" data-region="North East">RetailMart Gaya (Gaya - North East)</option>
+                                <option value="194" data-regid="11" data-region="North East">RetailMart New Delhi (New Delhi - North East)</option>
+                                <option value="42" data-regid="6" data-region="South">RetailMart Nashik (Nashik - South)</option>
+                                <option value="29" data-regid="18" data-region="North">RetailMart Ranchi (Ranchi - North)</option>
+                                <option value="71" data-regid="10" data-region="North">RetailMart Agartala (Agartala - North)</option>
+                                <option value="144" data-regid="9" data-region="North East">RetailMart Bhubaneswar (Bhubaneswar - North East)</option>
+                                <option value="175" data-regid="4" data-region="North East">RetailMart Agra (Agra - North East)</option>
+                                <option value="146" data-regid="3" data-region="North">RetailMart Agartala (Agartala - North)</option>
+                                <option value="59" data-regid="10" data-region="North">RetailMart Srinagar (Srinagar - North)</option>
+                                <option value="52" data-regid="20" data-region="South">RetailMart Rourkela (Rourkela - South)</option>
+                                <option value="75" data-regid="11" data-region="North East">RetailMart Erode (Erode - North East)</option>
+                                <option value="96" data-regid="14" data-region="North">RetailMart Patna (Patna - North)</option>
+                                <option value="55" data-regid="17" data-region="North">RetailMart Udupi (Udupi - North)</option>
+                                <option value="7" data-regid="18" data-region="North">RetailMart Panaji (Panaji - North)</option>
+                                <option value="199" data-regid="19" data-region="North">RetailMart Leh (Leh - North)</option>
+                                <option value="39" data-regid="14" data-region="North">RetailMart Prayagraj (Prayagraj - North)</option>
+                                <option value="8" data-regid="9" data-region="North East">RetailMart Trichy (Trichy - North East)</option>
+                                <option value="130" data-regid="2" data-region="North">RetailMart Bilaspur (Bilaspur - North)</option>
+                                <option value="118" data-regid="12" data-region="North East">RetailMart Bilaspur (Bilaspur - North East)</option>
+                                <option value="72" data-regid="5" data-region="East">RetailMart Noida (Noida - East)</option>
+                                <option value="77" data-regid="10" data-region="North">RetailMart Indore (Indore - North)</option>
+                                <option value="4" data-regid="19" data-region="North">RetailMart Indore (Indore - North)</option>
+                                <option value="66" data-regid="2" data-region="North">RetailMart Noida (Noida - North)</option>
+                                <option value="127" data-regid="3" data-region="North">RetailMart Lucknow (Lucknow - North)</option>
+                                <option value="147" data-regid="10" data-region="North">RetailMart Erode (Erode - North)</option>
+                                <option value="200" data-regid="9" data-region="North East">RetailMart Jaipur (Jaipur - North East)</option>
+                                <option value="15" data-regid="5" data-region="East">RetailMart Prayagraj (Prayagraj - East)</option>
+                                <option value="24" data-regid="19" data-region="North">RetailMart Udaipur (Udaipur - North)</option>
+                                <option value="73" data-regid="17" data-region="North">RetailMart Siliguri (Siliguri - North)</option>
+                                <option value="99" data-regid="1" data-region="North East">RetailMart Madurai (Madurai - North East)</option>
+                                <option value="149" data-regid="19" data-region="North">RetailMart Leh (Leh - North)</option>
+                                <option value="198" data-regid="9" data-region="North East">RetailMart Jamshedpur (Jamshedpur - North East)</option>
+                                <option value="70" data-regid="8" data-region="South">RetailMart Karimnagar (Karimnagar - South)</option>
+                                <option value="185" data-regid="18" data-region="North">RetailMart Agra (Agra - North)</option>
+                                <option value="2" data-regid="4" data-region="North East">RetailMart Indore (Indore - North East)</option>
+                                <option value="141" data-regid="16" data-region="West">RetailMart Ahmedabad (Ahmedabad - West)</option>
+                                <option value="139" data-regid="11" data-region="North East">RetailMart Nagpur (Nagpur - North East)</option>
+                                <option value="150" data-regid="5" data-region="East">RetailMart Hyderabad (Hyderabad - East)</option>
+                                <option value="81" data-regid="15" data-region="Central">RetailMart Trichy (Trichy - Central)</option>
+                                <option value="114" data-regid="11" data-region="North East">RetailMart Chandigarh (Chandigarh - North East)</option>
+                                <option value="26" data-regid="20" data-region="South">RetailMart Bilaspur (Bilaspur - South)</option>
+                                <option value="115" data-regid="8" data-region="South">RetailMart Nashik (Nashik - South)</option>
+                                <option value="157" data-regid="17" data-region="North">RetailMart Shimla (Shimla - North)</option>
+                                <option value="92" data-regid="11" data-region="North East">RetailMart Chandigarh (Chandigarh - North East)</option>
+                                <option value="161" data-regid="16" data-region="West">RetailMart Gaya (Gaya - West)</option>
+                                <option value="184" data-regid="15" data-region="Central">RetailMart Chandigarh (Chandigarh - Central)</option>
+                                <option value="69" data-regid="19" data-region="North">RetailMart Udaipur (Udaipur - North)</option>
+                                <option value="82" data-regid="8" data-region="South">RetailMart Rourkela (Rourkela - South)</option>
+                                <option value="3" data-regid="7" data-region="South">RetailMart Prayagraj (Prayagraj - South)</option>
+                                <option value="125" data-regid="15" data-region="Central">RetailMart Noida (Noida - Central)</option>
+                                <option value="54" data-regid="15" data-region="Central">RetailMart Nashik (Nashik - Central)</option>
+                                <option value="170" data-regid="7" data-region="South">RetailMart Kanpur (Kanpur - South)</option>
+                                <option value="61" data-regid="16" data-region="West">RetailMart New Delhi (New Delhi - West)</option>
+                                <option value="131" data-regid="13" data-region="Central">RetailMart Agartala (Agartala - Central)</option>
+                                <option value="97" data-regid="10" data-region="North">RetailMart Lucknow (Lucknow - North)</option>
+                                <option value="95" data-regid="6" data-region="South">RetailMart Agartala (Agartala - South)</option>
+                                <option value="110" data-regid="5" data-region="East">RetailMart Prayagraj (Prayagraj - East)</option>
+                                <option value="134" data-regid="10" data-region="North">RetailMart Erode (Erode - North)</option>
+                                <option value="33" data-regid="8" data-region="South">RetailMart Mumbai (Mumbai - South)</option>
+                                <option value="135" data-regid="11" data-region="North East">RetailMart Ahmedabad (Ahmedabad - North East)</option>
+                                <option value="126" data-regid="5" data-region="East">RetailMart Ahmedabad (Ahmedabad - East)</option>
+                                <option value="152" data-regid="7" data-region="South">RetailMart Varanasi (Varanasi - South)</option>
+                                <option value="174" data-regid="8" data-region="South">RetailMart Noida (Noida - South)</option>
+                                <option value="103" data-regid="2" data-region="North">RetailMart Leh (Leh - North)</option>
+                                <option value="5" data-regid="16" data-region="West">RetailMart Howrah (Howrah - West)</option>
+                                <option value="140" data-regid="10" data-region="North">RetailMart Varanasi (Varanasi - North)</option>
+                                <option value="173" data-regid="2" data-region="North">RetailMart Imphal (Imphal - North)</option>
+                                <option value="93" data-regid="13" data-region="Central">RetailMart Patna (Patna - Central)</option>
+                                <option value="165" data-regid="4" data-region="North East">RetailMart Meerut (Meerut - North East)</option>
+                                <option value="171" data-regid="7" data-region="South">RetailMart Udupi (Udupi - South)</option>
+                                <option value="120" data-regid="4" data-region="North East">RetailMart Port Blair (Port Blair - North East)</option>
+                                <option value="192" data-regid="13" data-region="Central">RetailMart Leh (Leh - Central)</option>
+                                <option value="163" data-regid="2" data-region="North">RetailMart Shillong (Shillong - North)</option>
+                                <option value="123" data-regid="6" data-region="South">RetailMart Kota (Kota - South)</option>
+                                <option value="67" data-regid="19" data-region="North">RetailMart Bilaspur (Bilaspur - North)</option>
+                                <option value="87" data-regid="1" data-region="North East">RetailMart Jaipur (Jaipur - North East)</option>
+                                <option value="160" data-regid="13" data-region="Central">RetailMart Dehradun (Dehradun - Central)</option>
+                                <option value="180" data-regid="6" data-region="South">RetailMart Gaya (Gaya - South)</option>
+                                <option value="102" data-regid="4" data-region="North East">RetailMart Kota (Kota - North East)</option>
+                                <option value="47" data-regid="10" data-region="North">RetailMart Mangalore (Mangalore - North)</option>
+                                <option value="137" data-regid="17" data-region="North">RetailMart Chandigarh (Chandigarh - North)</option>
+                                <option value="188" data-regid="11" data-region="North East">RetailMart Agartala (Agartala - North East)</option>
+                                <option value="91" data-regid="4" data-region="North East">RetailMart Aizawl (Aizawl - North East)</option>
+                                <option value="51" data-regid="8" data-region="South">RetailMart Trichy (Trichy - South)</option>
+                                <option value="181" data-regid="20" data-region="South">RetailMart Shimla (Shimla - South)</option>
+                                <option value="63" data-regid="11" data-region="North East">RetailMart Agra (Agra - North East)</option>
+                                <option value="25" data-regid="7" data-region="South">RetailMart Prayagraj (Prayagraj - South)</option>
+                                <option value="108" data-regid="2" data-region="North">RetailMart Mumbai (Mumbai - North)</option>
+                                <option value="36" data-regid="6" data-region="South">RetailMart Gaya (Gaya - South)</option>
+                                <option value="121" data-regid="1" data-region="North East">RetailMart Bhopal (Bhopal - North East)</option>
+                                <option value="57" data-regid="7" data-region="South">RetailMart Ahmedabad (Ahmedabad - South)</option>
+                                <option value="105" data-regid="5" data-region="East">RetailMart Puri (Puri - East)</option>
+                                <option value="151" data-regid="20" data-region="South">RetailMart Kota (Kota - South)</option>
+                                <option value="46" data-regid="14" data-region="North">RetailMart Trichy (Trichy - North)</option>
+                                <option value="49" data-regid="6" data-region="South">RetailMart Kanpur (Kanpur - South)</option>
+                                <option value="40" data-regid="17" data-region="North">RetailMart Dhanbad (Dhanbad - North)</option>
+                                <option value="12" data-regid="14" data-region="North">RetailMart Cuttack (Cuttack - North)</option>
+                                <option value="168" data-regid="16" data-region="West">RetailMart Aizawl (Aizawl - West)</option>
+                                <option value="101" data-regid="4" data-region="North East">RetailMart Cuttack (Cuttack - North East)</option>
+                                <option value="196" data-regid="17" data-region="North">RetailMart Trichy (Trichy - North)</option>
+                                <option value="44" data-regid="19" data-region="North">RetailMart Karimnagar (Karimnagar - North)</option>
+                                <option value="85" data-regid="20" data-region="South">RetailMart Imphal (Imphal - South)</option>
+                                <option value="166" data-regid="8" data-region="South">RetailMart Haridwar (Haridwar - South)</option>
+                                <option value="65" data-regid="3" data-region="North">RetailMart Patiala (Patiala - North)</option>
+                                <option value="45" data-regid="9" data-region="North East">RetailMart Kota (Kota - North East)</option>
+                                <option value="107" data-regid="16" data-region="West">RetailMart Hyderabad (Hyderabad - West)</option>
+                                <option value="193" data-regid="14" data-region="North">RetailMart Agra (Agra - North)</option>
+                                <option value="58" data-regid="14" data-region="North">RetailMart Noida (Noida - North)</option>
+                                <option value="90" data-regid="16" data-region="West">RetailMart Bhopal (Bhopal - West)</option>
+                                <option value="187" data-regid="19" data-region="North">RetailMart Kolkata (Kolkata - North)</option>
+                                <option value="56" data-regid="20" data-region="South">RetailMart Raipur (Raipur - South)</option>
+                                <option value="153" data-regid="5" data-region="East">RetailMart Siliguri (Siliguri - East)</option>
+                                <option value="37" data-regid="4" data-region="North East">RetailMart Howrah (Howrah - North East)</option>
+                                <option value="136" data-regid="12" data-region="North East">RetailMart Nagpur (Nagpur - North East)</option>
+                                <option value="116" data-regid="5" data-region="East">RetailMart Kolkata (Kolkata - East)</option>
+                                <option value="50" data-regid="17" data-region="North">RetailMart Rajkot (Rajkot - North)</option>
+                                <option value="109" data-regid="15" data-region="Central">RetailMart Indore (Indore - Central)</option>
+                                <option value="84" data-regid="8" data-region="South">RetailMart Hyderabad (Hyderabad - South)</option>
+                                <option value="172" data-regid="17" data-region="North">RetailMart Udupi (Udupi - North)</option>
+                                <option value="53" data-regid="12" data-region="North East">RetailMart Dhanbad (Dhanbad - North East)</option>
+                                <option value="159" data-regid="12" data-region="North East">RetailMart Siliguri (Siliguri - North East)</option>
+                                <option value="43" data-regid="9" data-region="North East">RetailMart Lucknow (Lucknow - North East)</option>
+                                <option value="117" data-regid="8" data-region="South">RetailMart Patiala (Patiala - South)</option>
+                                <option value="158" data-regid="17" data-region="North">RetailMart Indore (Indore - North)</option>
+                                <option value="133" data-regid="20" data-region="South">RetailMart New Delhi (New Delhi - South)</option>
+                                <option value="62" data-regid="8" data-region="South">RetailMart Cuttack (Cuttack - South)</option>
+                                <option value="154" data-regid="10" data-region="North">RetailMart Port Blair (Port Blair - North)</option>
+                                <option value="13" data-regid="16" data-region="West">RetailMart Mysuru (Mysuru - West)</option>
+                                <option value="79" data-regid="12" data-region="North East">RetailMart Bhopal (Bhopal - North East)</option>
+                                <option value="178" data-regid="18" data-region="North">RetailMart Prayagraj (Prayagraj - North)</option>
+                                <option value="80" data-regid="16" data-region="West">RetailMart Bhopal (Bhopal - West)</option>
+                                <option value="11" data-regid="10" data-region="North">RetailMart Srinagar (Srinagar - North)</option>
+                                <option value="23" data-regid="2" data-region="North">RetailMart Port Blair (Port Blair - North)</option>
                             </select>
                         </div>
 
@@ -1106,6 +1367,19 @@ html_content = r"""<!DOCTYPE html>
 
             <!-- Main Dashboard Surface -->
             <main class="main-content">
+
+                <!-- Active Filter Scope Indicator -->
+                <div id="active-filter-banner" class="active-filter-banner" style="display: none;">
+                    <div class="active-filter-info">
+                        <i class="ti ti-filter-check" style="color: var(--cyan); font-size: 1.15rem;"></i>
+                        <span style="font-weight: 600; color: var(--text-white);">Active Scope:</span>
+                        <div id="active-filter-chips" class="active-filter-chips"></div>
+                    </div>
+                    <button type="button" onclick="handleResetFilters()" class="btn-clear-filter">
+                        <i class="ti ti-x"></i> Clear All Filters
+                    </button>
+                </div>
+
 
                 <!-- ========================================================= -->
                 <!-- 1. MARKETING INTELLIGENCE DASHBOARD                       -->
@@ -1772,7 +2046,7 @@ html_content = r"""<!DOCTYPE html>
                                 <span class="kpi-title">Revenue Per Employee</span>
                                 <span class="status-badge badge-success">Productivity</span>
                             </div>
-                            <div class="kpi-value">₹22.57 Lakhs</div>
+                            <div class="kpi-value" id="kpi-cf-rev-emp">₹22.57 Lakhs</div>
                             <div class="kpi-subtext">
                                 <span>Delivered Revenue / 3,000 Headcount</span>
                             </div>
@@ -1784,7 +2058,7 @@ html_content = r"""<!DOCTYPE html>
                                 <span class="kpi-title">Labor Cost to Revenue Ratio</span>
                                 <span class="status-badge badge-neutral">Intensity</span>
                             </div>
-                            <div class="kpi-value">2.66%</div>
+                            <div class="kpi-value" id="kpi-cf-labor-ratio">2.66%</div>
                             <div class="kpi-subtext">
                                 <span>Processed Payroll / Delivered Revenue</span>
                             </div>
@@ -1796,7 +2070,7 @@ html_content = r"""<!DOCTYPE html>
                                 <span class="kpi-title">Commercial Delivered Sales</span>
                                 <span class="status-badge badge-success">Top-Line</span>
                             </div>
-                            <div class="kpi-value">₹676.95 Cr</div>
+                            <div class="kpi-value" id="kpi-cf-sales">₹676.95 Cr</div>
                             <div class="kpi-subtext">
                                 <span>Fulfilled Sales Volume</span>
                             </div>
@@ -1808,7 +2082,7 @@ html_content = r"""<!DOCTYPE html>
                                 <span class="kpi-title">Processed Cash Payroll</span>
                                 <span class="status-badge badge-neutral">LTM Payouts</span>
                             </div>
-                            <div class="kpi-value">₹18.03 Cr</div>
+                            <div class="kpi-value" id="kpi-cf-payroll">₹18.03 Cr</div>
                             <div class="kpi-subtext">
                                 <span>Bank Cleared Compensation</span>
                             </div>
@@ -1820,7 +2094,7 @@ html_content = r"""<!DOCTYPE html>
                                 <span class="kpi-title">Store Staffing Density</span>
                                 <span class="status-badge badge-neutral">Deployment</span>
                             </div>
-                            <div class="kpi-value">15.0 Staff</div>
+                            <div class="kpi-value" id="kpi-cf-density">15.0 Staff</div>
                             <div class="kpi-subtext">
                                 <span>Average Employees per Branch</span>
                             </div>
@@ -1832,7 +2106,7 @@ html_content = r"""<!DOCTYPE html>
                                 <span class="kpi-title">Store Branch OPEX</span>
                                 <span class="status-badge badge-neutral">Operating</span>
                             </div>
-                            <div class="kpi-value">₹10.04 Cr</div>
+                            <div class="kpi-value" id="kpi-cf-opex">₹10.04 Cr</div>
                             <div class="kpi-subtext">
                                 <span>Branch Non-Payroll Expenses</span>
                             </div>
@@ -1894,7 +2168,7 @@ html_content = r"""<!DOCTYPE html>
                                         <th style="text-align: right;">Annual Contribution (₹ Cr)</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="tbody-store-staffing">
                 <tr>
                     <td style="font-weight: 600; color: var(--text-white);">RetailMart Raipur</td>
                     <td>Raipur</td>
@@ -2248,7 +2522,7 @@ html_content = r"""<!DOCTYPE html>
                                         <th style="text-align: right;">Regional Spread (₹ Cr)</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="tbody-regional-synthesis">
                 <tr>
                     <td style="font-weight: 600; color: var(--text-white);">South</td>
                     <td style="text-align: right;">14</td>
@@ -2487,7 +2761,7 @@ html_content = r"""<!DOCTYPE html>
                                 <span class="kpi-title">DELIVERED NET REVENUE</span>
                                 <span class="status-badge badge-danger">-14.51% MoM</span>
                             </div>
-                            <div class="kpi-value">₹676.95 Cr</div>
+                            <div class="kpi-value" id="kpi-exec-sales">₹676.95 Cr</div>
                             <div class="kpi-subtext" style="display: flex; justify-content: space-between; align-items: center;">
                                 <span>82540 Fulfilled Orders</span>
                                 <a href="javascript:void(0)" onclick="switchTab('finance')" style="color: var(--purple); text-decoration: none; font-size: 0.75rem; font-weight: 600; cursor: pointer;">Finance &gt;</a>
@@ -2500,7 +2774,7 @@ html_content = r"""<!DOCTYPE html>
                                 <span class="kpi-title">GROSS CONTRIBUTION MARGIN</span>
                                 <span class="status-badge badge-success">Markup</span>
                             </div>
-                            <div class="kpi-value">27.49%</div>
+                            <div class="kpi-value" id="kpi-exec-margin">27.49%</div>
                             <div class="kpi-subtext" style="display: flex; justify-content: space-between; align-items: center;">
                                 <span>₹186.1 Cr Gross Profit</span>
                                 <span style="color: var(--cyan); font-size: 0.72rem;">COGS: ₹490.86 Cr</span>
@@ -2513,7 +2787,7 @@ html_content = r"""<!DOCTYPE html>
                                 <span class="kpi-title">TOTAL OPERATING OUTFLOWS</span>
                                 <span class="status-badge badge-success">-14.59% MoM</span>
                             </div>
-                            <div class="kpi-value">₹811.54 Cr</div>
+                            <div class="kpi-value" id="kpi-exec-expenses">₹811.54 Cr</div>
                             <div class="kpi-subtext" style="display: flex; justify-content: space-between; align-items: center;">
                                 <span>Corp: ₹801.5 Cr | Store: ₹10.0 Cr</span>
                                 <a href="javascript:void(0)" onclick="switchTab('finance')" style="color: var(--orange); text-decoration: none; font-size: 0.75rem; font-weight: 600; cursor: pointer;">Expenses &gt;</a>
@@ -2526,7 +2800,7 @@ html_content = r"""<!DOCTYPE html>
                                 <span class="kpi-title">NET OPERATING SPREAD</span>
                                 <span class="status-badge badge-danger">Deficit Alert</span>
                             </div>
-                            <div class="kpi-value">₹-134.59 Cr</div>
+                            <div class="kpi-value" id="kpi-exec-spread">₹-134.59 Cr</div>
                             <div class="kpi-subtext">
                                 <span>Delivered Revenue - Total Expenses</span>
                             </div>
@@ -2538,7 +2812,7 @@ html_content = r"""<!DOCTYPE html>
                                 <span class="kpi-title">TOTAL ACTIVE WORKFORCE</span>
                                 <span class="status-badge badge-neutral">100% Active</span>
                             </div>
-                            <div class="kpi-value">3000 Staff</div>
+                            <div class="kpi-value" id="kpi-exec-headcount">3000 Staff</div>
                             <div class="kpi-subtext" style="display: flex; justify-content: space-between; align-items: center;">
                                 <span>Deployed Across 200 Stores</span>
                                 <a href="javascript:void(0)" onclick="switchTab('hr')" style="color: var(--pink); text-decoration: none; font-size: 0.75rem; font-weight: 600; cursor: pointer;">HR Domain &gt;</a>
@@ -2551,7 +2825,7 @@ html_content = r"""<!DOCTYPE html>
                                 <span class="kpi-title">MONTHLY BASE PAYROLL</span>
                                 <span class="status-badge badge-neutral">Fixed</span>
                             </div>
-                            <div class="kpi-value">₹18.98 Cr</div>
+                            <div class="kpi-value" id="kpi-exec-payroll">₹18.98 Cr</div>
                             <div class="kpi-subtext">
                                 <span>Annualized: ₹227.78 Cr Base</span>
                             </div>
@@ -2563,7 +2837,7 @@ html_content = r"""<!DOCTYPE html>
                                 <span class="kpi-title">AVERAGE BASE COMPENSATION</span>
                                 <span class="status-badge badge-neutral">Monthly</span>
                             </div>
-                            <div class="kpi-value">₹63274</div>
+                            <div class="kpi-value" id="kpi-exec-avg-salary">₹63274</div>
                             <div class="kpi-subtext">
                                 <span>Median: ₹43959 / month</span>
                             </div>
@@ -2587,7 +2861,7 @@ html_content = r"""<!DOCTYPE html>
                                 <span class="kpi-title">REVENUE PER EMPLOYEE</span>
                                 <span class="status-badge badge-success">Productivity</span>
                             </div>
-                            <div class="kpi-value">₹22.57 L</div>
+                            <div class="kpi-value" id="kpi-exec-rev-emp">₹22.57 L</div>
                             <div class="kpi-subtext" style="display: flex; justify-content: space-between; align-items: center;">
                                 <span>Total Top-Line Efficiency</span>
                                 <a href="javascript:void(0)" onclick="switchTab('cross')" style="color: var(--purple); text-decoration: none; font-size: 0.75rem; font-weight: 600; cursor: pointer;">Cross-Func &gt;</a>
@@ -3023,88 +3297,469 @@ html_content = r"""<!DOCTYPE html>
             }
         });
 
-        // Quick Presets
+        
+        // =========================================================
+        // CLIENT-SIDE ENTERPRISE MULTIDIMENSIONAL FILTER ENGINE
+        // =========================================================
+        window.rmData = {"stores": [{"store_id": 148, "store_name": "RetailMart Raipur", "city": "Raipur", "region_id": 8, "region_name": "South", "state": "Sikkim", "staff_count": 17, "net_revenue": 42597733.88, "revenue_crores": 4.26, "store_expenses": 459190.99, "monthly_payroll": 770589.0, "contribution_crores": 0.2}, {"store_id": 182, "store_name": "RetailMart Prayagraj", "city": "Prayagraj", "region_id": 4, "region_name": "North East", "state": "Telangana", "staff_count": 17, "net_revenue": 40796208.81, "revenue_crores": 4.08, "store_expenses": 430822.24, "monthly_payroll": 922812.0, "contribution_crores": -0.03}, {"store_id": 98, "store_name": "RetailMart Rourkela", "city": "Rourkela", "region_id": 9, "region_name": "North East", "state": "Nagaland", "staff_count": 13, "net_revenue": 40627364.49, "revenue_crores": 4.06, "store_expenses": 582837.24, "monthly_payroll": 976847.0, "contribution_crores": -0.11}, {"store_id": 128, "store_name": "RetailMart Salem", "city": "Salem", "region_id": 19, "region_name": "North", "state": "Uttar Pradesh", "staff_count": 12, "net_revenue": 40451708.06, "revenue_crores": 4.05, "store_expenses": 443022.0, "monthly_payroll": 850115.0, "contribution_crores": 0.05}, {"store_id": 41, "store_name": "RetailMart Amritsar", "city": "Amritsar", "region_id": 6, "region_name": "South", "state": "Haryana", "staff_count": 18, "net_revenue": 40240802.14, "revenue_crores": 4.02, "store_expenses": 485873.53, "monthly_payroll": 1490041.0, "contribution_crores": -0.73}, {"store_id": 19, "store_name": "RetailMart Kanpur", "city": "Kanpur", "region_id": 20, "region_name": "South", "state": "West Bengal", "staff_count": 17, "net_revenue": 40016788.46, "revenue_crores": 4.0, "store_expenses": 582382.29, "monthly_payroll": 779142.0, "contribution_crores": 0.11}, {"store_id": 60, "store_name": "RetailMart Surat", "city": "Surat", "region_id": 13, "region_name": "Central", "state": "Arunachal Pradesh", "staff_count": 10, "net_revenue": 40009252.64, "revenue_crores": 4.0, "store_expenses": 487999.18, "monthly_payroll": 641461.0, "contribution_crores": 0.28}, {"store_id": 6, "store_name": "RetailMart Gaya", "city": "Gaya", "region_id": 15, "region_name": "Central", "state": "Mizoram", "staff_count": 17, "net_revenue": 39812327.43, "revenue_crores": 3.98, "store_expenses": 410785.39, "monthly_payroll": 1150499.0, "contribution_crores": -0.33}, {"store_id": 195, "store_name": "RetailMart Surat", "city": "Surat", "region_id": 7, "region_name": "South", "state": "Chhattisgarh", "staff_count": 17, "net_revenue": 39287559.01, "revenue_crores": 3.93, "store_expenses": 380039.81, "monthly_payroll": 900528.0, "contribution_crores": -0.04}, {"store_id": 94, "store_name": "RetailMart Pune", "city": "Pune", "region_id": 9, "region_name": "North East", "state": "Nagaland", "staff_count": 18, "net_revenue": 39191158.8, "revenue_crores": 3.92, "store_expenses": 481095.82, "monthly_payroll": 1014507.0, "contribution_crores": -0.19}, {"store_id": 176, "store_name": "RetailMart Panaji", "city": "Panaji", "region_id": 3, "region_name": "North", "state": "Andhra Pradesh", "staff_count": 14, "net_revenue": 39092908.87, "revenue_crores": 3.91, "store_expenses": 564206.57, "monthly_payroll": 1067366.0, "contribution_crores": -0.26}, {"store_id": 169, "store_name": "RetailMart Mangalore", "city": "Mangalore", "region_id": 8, "region_name": "South", "state": "Sikkim", "staff_count": 17, "net_revenue": 39019433.89, "revenue_crores": 3.9, "store_expenses": 492132.38, "monthly_payroll": 1538360.0, "contribution_crores": -0.82}, {"store_id": 20, "store_name": "RetailMart Cuttack", "city": "Cuttack", "region_id": 6, "region_name": "South", "state": "Haryana", "staff_count": 11, "net_revenue": 38753540.1, "revenue_crores": 3.88, "store_expenses": 600055.86, "monthly_payroll": 450552.0, "contribution_crores": 0.46}, {"store_id": 16, "store_name": "RetailMart Jamshedpur", "city": "Jamshedpur", "region_id": 11, "region_name": "North East", "state": "Odisha", "staff_count": 12, "net_revenue": 38209696.88, "revenue_crores": 3.82, "store_expenses": 530584.42, "monthly_payroll": 1105318.0, "contribution_crores": -0.33}, {"store_id": 100, "store_name": "RetailMart Chandigarh", "city": "Chandigarh", "region_id": 11, "region_name": "North East", "state": "Odisha", "staff_count": 16, "net_revenue": 38137656.18, "revenue_crores": 3.81, "store_expenses": 502107.78, "monthly_payroll": 1133800.0, "contribution_crores": -0.36}, {"store_id": 111, "store_name": "RetailMart Howrah", "city": "Howrah", "region_id": 8, "region_name": "South", "state": "Sikkim", "staff_count": 13, "net_revenue": 37956708.21, "revenue_crores": 3.8, "store_expenses": 522507.91, "monthly_payroll": 683953.0, "contribution_crores": 0.17}, {"store_id": 32, "store_name": "RetailMart Coimbatore", "city": "Coimbatore", "region_id": 4, "region_name": "North East", "state": "Telangana", "staff_count": 16, "net_revenue": 37739456.64, "revenue_crores": 3.77, "store_expenses": 447997.63, "monthly_payroll": 1004481.0, "contribution_crores": -0.21}, {"store_id": 156, "store_name": "RetailMart Agartala", "city": "Agartala", "region_id": 13, "region_name": "Central", "state": "Arunachal Pradesh", "staff_count": 17, "net_revenue": 37714948.31, "revenue_crores": 3.77, "store_expenses": 518550.76, "monthly_payroll": 934371.0, "contribution_crores": -0.14}, {"store_id": 28, "store_name": "RetailMart Gwalior", "city": "Gwalior", "region_id": 15, "region_name": "Central", "state": "Mizoram", "staff_count": 10, "net_revenue": 37641242.82, "revenue_crores": 3.76, "store_expenses": 500368.96, "monthly_payroll": 387865.0, "contribution_crores": 0.52}, {"store_id": 179, "store_name": "RetailMart Mysuru", "city": "Mysuru", "region_id": 2, "region_name": "North", "state": "Bihar", "staff_count": 17, "net_revenue": 37615792.98, "revenue_crores": 3.76, "store_expenses": 516749.62, "monthly_payroll": 1146003.0, "contribution_crores": -0.39}, {"store_id": 119, "store_name": "RetailMart Jamshedpur", "city": "Jamshedpur", "region_id": 4, "region_name": "North East", "state": "Telangana", "staff_count": 18, "net_revenue": 37583179.69, "revenue_crores": 3.76, "store_expenses": 566286.16, "monthly_payroll": 1172917.0, "contribution_crores": -0.43}, {"store_id": 88, "store_name": "RetailMart Kanpur", "city": "Kanpur", "region_id": 2, "region_name": "North", "state": "Bihar", "staff_count": 13, "net_revenue": 37314184.44, "revenue_crores": 3.73, "store_expenses": 449485.74, "monthly_payroll": 1001871.0, "contribution_crores": -0.22}, {"store_id": 83, "store_name": "RetailMart Ludhiana", "city": "Ludhiana", "region_id": 16, "region_name": "West", "state": "Punjab", "staff_count": 11, "net_revenue": 37284302.68, "revenue_crores": 3.73, "store_expenses": 498715.54, "monthly_payroll": 786065.0, "contribution_crores": 0.03}, {"store_id": 17, "store_name": "RetailMart Madurai", "city": "Madurai", "region_id": 20, "region_name": "South", "state": "West Bengal", "staff_count": 23, "net_revenue": 37152830.25, "revenue_crores": 3.72, "store_expenses": 467927.93, "monthly_payroll": 1276110.0, "contribution_crores": -0.56}, {"store_id": 124, "store_name": "RetailMart Noida", "city": "Noida", "region_id": 17, "region_name": "North", "state": "Tamil Nadu", "staff_count": 13, "net_revenue": 37054360.27, "revenue_crores": 3.71, "store_expenses": 507486.64, "monthly_payroll": 837808.0, "contribution_crores": -0.04}, {"store_id": 197, "store_name": "RetailMart Erode", "city": "Erode", "region_id": 10, "region_name": "North", "state": "Assam", "staff_count": 13, "net_revenue": 37026669.66, "revenue_crores": 3.7, "store_expenses": 475617.31, "monthly_payroll": 1067068.0, "contribution_crores": -0.31}, {"store_id": 9, "store_name": "RetailMart Leh", "city": "Leh", "region_id": 3, "region_name": "North", "state": "Andhra Pradesh", "staff_count": 19, "net_revenue": 36986708.66, "revenue_crores": 3.7, "store_expenses": 523022.83, "monthly_payroll": 1250180.0, "contribution_crores": -0.54}, {"store_id": 38, "store_name": "RetailMart Rajkot", "city": "Rajkot", "region_id": 19, "region_name": "North", "state": "Uttar Pradesh", "staff_count": 7, "net_revenue": 36881916.26, "revenue_crores": 3.69, "store_expenses": 498605.28, "monthly_payroll": 577917.0, "contribution_crores": 0.27}, {"store_id": 129, "store_name": "RetailMart Port Blair", "city": "Port Blair", "region_id": 15, "region_name": "Central", "state": "Mizoram", "staff_count": 17, "net_revenue": 36788802.28, "revenue_crores": 3.68, "store_expenses": 435998.18, "monthly_payroll": 1043517.0, "contribution_crores": -0.28}, {"store_id": 104, "store_name": "RetailMart Bhubaneswar", "city": "Bhubaneswar", "region_id": 19, "region_name": "North", "state": "Uttar Pradesh", "staff_count": 20, "net_revenue": 36613294.48, "revenue_crores": 3.66, "store_expenses": 437380.33, "monthly_payroll": 888354.0, "contribution_crores": -0.1}, {"store_id": 68, "store_name": "RetailMart Bhopal", "city": "Bhopal", "region_id": 1, "region_name": "North East", "state": "Rajasthan", "staff_count": 13, "net_revenue": 36531334.44, "revenue_crores": 3.65, "store_expenses": 558692.98, "monthly_payroll": 748503.0, "contribution_crores": 0.05}, {"store_id": 34, "store_name": "RetailMart Jodhpur", "city": "Jodhpur", "region_id": 7, "region_name": "South", "state": "Chhattisgarh", "staff_count": 24, "net_revenue": 36520944.23, "revenue_crores": 3.65, "store_expenses": 439219.73, "monthly_payroll": 1417511.0, "contribution_crores": -0.74}, {"store_id": 138, "store_name": "RetailMart Noida", "city": "Noida", "region_id": 18, "region_name": "North", "state": "Manipur", "staff_count": 13, "net_revenue": 36517606.28, "revenue_crores": 3.65, "store_expenses": 491804.52, "monthly_payroll": 1040497.0, "contribution_crores": -0.29}, {"store_id": 78, "store_name": "RetailMart Pune", "city": "Pune", "region_id": 9, "region_name": "North East", "state": "Nagaland", "staff_count": 18, "net_revenue": 36287712.05, "revenue_crores": 3.63, "store_expenses": 468865.68, "monthly_payroll": 1303685.0, "contribution_crores": -0.61}, {"store_id": 22, "store_name": "RetailMart Thane", "city": "Thane", "region_id": 2, "region_name": "North", "state": "Bihar", "staff_count": 15, "net_revenue": 36200766.95, "revenue_crores": 3.62, "store_expenses": 423155.86, "monthly_payroll": 825503.0, "contribution_crores": -0.04}, {"store_id": 177, "store_name": "RetailMart Indore", "city": "Indore", "region_id": 9, "region_name": "North East", "state": "Nagaland", "staff_count": 11, "net_revenue": 36200639.71, "revenue_crores": 3.62, "store_expenses": 437992.17, "monthly_payroll": 655468.0, "contribution_crores": 0.16}, {"store_id": 27, "store_name": "RetailMart Siliguri", "city": "Siliguri", "region_id": 1, "region_name": "North East", "state": "Rajasthan", "staff_count": 19, "net_revenue": 36187785.02, "revenue_crores": 3.62, "store_expenses": 524819.31, "monthly_payroll": 1003271.0, "contribution_crores": -0.26}, {"store_id": 155, "store_name": "RetailMart Delhi", "city": "Delhi", "region_id": 11, "region_name": "North East", "state": "Odisha", "staff_count": 21, "net_revenue": 36186689.68, "revenue_crores": 3.62, "store_expenses": 511583.48, "monthly_payroll": 1413721.0, "contribution_crores": -0.75}, {"store_id": 132, "store_name": "RetailMart Dhanbad", "city": "Dhanbad", "region_id": 19, "region_name": "North", "state": "Uttar Pradesh", "staff_count": 11, "net_revenue": 36175096.03, "revenue_crores": 3.62, "store_expenses": 438214.09, "monthly_payroll": 852027.0, "contribution_crores": -0.07}, {"store_id": 89, "store_name": "RetailMart Meerut", "city": "Meerut", "region_id": 5, "region_name": "East", "state": "Himachal Pradesh", "staff_count": 11, "net_revenue": 35937101.83, "revenue_crores": 3.59, "store_expenses": 456570.35, "monthly_payroll": 852200.0, "contribution_crores": -0.08}, {"store_id": 30, "store_name": "RetailMart Imphal", "city": "Imphal", "region_id": 20, "region_name": "South", "state": "West Bengal", "staff_count": 15, "net_revenue": 35891629.76, "revenue_crores": 3.59, "store_expenses": 479075.06, "monthly_payroll": 940340.0, "contribution_crores": -0.19}, {"store_id": 145, "store_name": "RetailMart Bilaspur", "city": "Bilaspur", "region_id": 10, "region_name": "North", "state": "Assam", "staff_count": 13, "net_revenue": 35826978.47, "revenue_crores": 3.58, "store_expenses": 489683.4, "monthly_payroll": 1213102.0, "contribution_crores": -0.52}, {"store_id": 164, "store_name": "RetailMart Jaipur", "city": "Jaipur", "region_id": 13, "region_name": "Central", "state": "Arunachal Pradesh", "staff_count": 10, "net_revenue": 35818435.64, "revenue_crores": 3.58, "store_expenses": 552283.79, "monthly_payroll": 851753.0, "contribution_crores": -0.09}, {"store_id": 113, "store_name": "RetailMart Erode", "city": "Erode", "region_id": 18, "region_name": "North", "state": "Manipur", "staff_count": 13, "net_revenue": 35756161.79, "revenue_crores": 3.58, "store_expenses": 512956.13, "monthly_payroll": 928484.0, "contribution_crores": -0.18}, {"store_id": 142, "store_name": "RetailMart Kanpur", "city": "Kanpur", "region_id": 9, "region_name": "North East", "state": "Nagaland", "staff_count": 20, "net_revenue": 35725251.01, "revenue_crores": 3.57, "store_expenses": 519441.4, "monthly_payroll": 1420297.0, "contribution_crores": -0.77}, {"store_id": 122, "store_name": "RetailMart Erode", "city": "Erode", "region_id": 15, "region_name": "Central", "state": "Mizoram", "staff_count": 10, "net_revenue": 35703806.19, "revenue_crores": 3.57, "store_expenses": 494136.51, "monthly_payroll": 484111.0, "contribution_crores": 0.35}, {"store_id": 64, "store_name": "RetailMart Chennai", "city": "Chennai", "region_id": 16, "region_name": "West", "state": "Punjab", "staff_count": 20, "net_revenue": 35673195.9, "revenue_crores": 3.57, "store_expenses": 590592.56, "monthly_payroll": 1310000.0, "contribution_crores": -0.65}, {"store_id": 86, "store_name": "RetailMart Mysuru", "city": "Mysuru", "region_id": 17, "region_name": "North", "state": "Tamil Nadu", "staff_count": 17, "net_revenue": 35651075.98, "revenue_crores": 3.57, "store_expenses": 510105.83, "monthly_payroll": 1153090.0, "contribution_crores": -0.45}, {"store_id": 191, "store_name": "RetailMart Surat", "city": "Surat", "region_id": 17, "region_name": "North", "state": "Tamil Nadu", "staff_count": 12, "net_revenue": 35647591.12, "revenue_crores": 3.56, "store_expenses": 533138.38, "monthly_payroll": 753442.0, "contribution_crores": 0.02}, {"store_id": 21, "store_name": "RetailMart Vadodara", "city": "Vadodara", "region_id": 11, "region_name": "North East", "state": "Odisha", "staff_count": 9, "net_revenue": 35617442.86, "revenue_crores": 3.56, "store_expenses": 526958.07, "monthly_payroll": 532138.0, "contribution_crores": 0.29}, {"store_id": 167, "store_name": "RetailMart Coimbatore", "city": "Coimbatore", "region_id": 2, "region_name": "North", "state": "Bihar", "staff_count": 14, "net_revenue": 35599382.41, "revenue_crores": 3.56, "store_expenses": 451320.45, "monthly_payroll": 1118186.0, "contribution_crores": -0.41}, {"store_id": 162, "store_name": "RetailMart Udaipur", "city": "Udaipur", "region_id": 5, "region_name": "East", "state": "Himachal Pradesh", "staff_count": 12, "net_revenue": 35562103.54, "revenue_crores": 3.56, "store_expenses": 512096.83, "monthly_payroll": 664064.0, "contribution_crores": 0.13}, {"store_id": 14, "store_name": "RetailMart Prayagraj", "city": "Prayagraj", "region_id": 15, "region_name": "Central", "state": "Mizoram", "staff_count": 12, "net_revenue": 35557051.3, "revenue_crores": 3.56, "store_expenses": 488567.04, "monthly_payroll": 497256.0, "contribution_crores": 0.33}, {"store_id": 76, "store_name": "RetailMart Madurai", "city": "Madurai", "region_id": 20, "region_name": "South", "state": "West Bengal", "staff_count": 14, "net_revenue": 35503127.03, "revenue_crores": 3.55, "store_expenses": 579194.2, "monthly_payroll": 910496.0, "contribution_crores": -0.17}, {"store_id": 48, "store_name": "RetailMart Jaipur", "city": "Jaipur", "region_id": 19, "region_name": "North", "state": "Uttar Pradesh", "staff_count": 14, "net_revenue": 35402976.33, "revenue_crores": 3.54, "store_expenses": 495533.05, "monthly_payroll": 994015.0, "contribution_crores": -0.27}, {"store_id": 186, "store_name": "RetailMart Udupi", "city": "Udupi", "region_id": 6, "region_name": "South", "state": "Haryana", "staff_count": 22, "net_revenue": 35322088.11, "revenue_crores": 3.53, "store_expenses": 448200.76, "monthly_payroll": 1491815.0, "contribution_crores": -0.86}, {"store_id": 190, "store_name": "RetailMart Patiala", "city": "Patiala", "region_id": 8, "region_name": "South", "state": "Sikkim", "staff_count": 10, "net_revenue": 35309821.31, "revenue_crores": 3.53, "store_expenses": 448772.49, "monthly_payroll": 459069.0, "contribution_crores": 0.37}, {"store_id": 183, "store_name": "RetailMart Ranchi", "city": "Ranchi", "region_id": 5, "region_name": "East", "state": "Himachal Pradesh", "staff_count": 14, "net_revenue": 35307380.47, "revenue_crores": 3.53, "store_expenses": 522156.96, "monthly_payroll": 530166.0, "contribution_crores": 0.28}, {"store_id": 35, "store_name": "RetailMart Ludhiana", "city": "Ludhiana", "region_id": 9, "region_name": "North East", "state": "Nagaland", "staff_count": 12, "net_revenue": 35293502.95, "revenue_crores": 3.53, "store_expenses": 556925.52, "monthly_payroll": 823816.0, "contribution_crores": -0.07}, {"store_id": 74, "store_name": "RetailMart Imphal", "city": "Imphal", "region_id": 5, "region_name": "East", "state": "Himachal Pradesh", "staff_count": 21, "net_revenue": 35289102.75, "revenue_crores": 3.53, "store_expenses": 592101.35, "monthly_payroll": 1024367.0, "contribution_crores": -0.32}, {"store_id": 189, "store_name": "RetailMart Madurai", "city": "Madurai", "region_id": 7, "region_name": "South", "state": "Chhattisgarh", "staff_count": 13, "net_revenue": 35205532.97, "revenue_crores": 3.52, "store_expenses": 489558.64, "monthly_payroll": 550753.0, "contribution_crores": 0.26}, {"store_id": 10, "store_name": "RetailMart Aizawl", "city": "Aizawl", "region_id": 17, "region_name": "North", "state": "Tamil Nadu", "staff_count": 14, "net_revenue": 35197386.73, "revenue_crores": 3.52, "store_expenses": 550128.12, "monthly_payroll": 787349.0, "contribution_crores": -0.03}, {"store_id": 143, "store_name": "RetailMart Kanpur", "city": "Kanpur", "region_id": 18, "region_name": "North", "state": "Manipur", "staff_count": 17, "net_revenue": 35182298.22, "revenue_crores": 3.52, "store_expenses": 442702.48, "monthly_payroll": 1121581.0, "contribution_crores": -0.42}, {"store_id": 18, "store_name": "RetailMart Nagpur", "city": "Nagpur", "region_id": 14, "region_name": "North", "state": "Gujarat", "staff_count": 22, "net_revenue": 35158517.09, "revenue_crores": 3.52, "store_expenses": 415459.81, "monthly_payroll": 1383635.0, "contribution_crores": -0.74}, {"store_id": 31, "store_name": "RetailMart Gandhinagar", "city": "Gandhinagar", "region_id": 11, "region_name": "North East", "state": "Odisha", "staff_count": 8, "net_revenue": 35139415.56, "revenue_crores": 3.51, "store_expenses": 492846.17, "monthly_payroll": 488753.0, "contribution_crores": 0.33}, {"store_id": 1, "store_name": "RetailMart Gwalior", "city": "Gwalior", "region_id": 17, "region_name": "North", "state": "Tamil Nadu", "staff_count": 24, "net_revenue": 35106261.97, "revenue_crores": 3.51, "store_expenses": 523821.44, "monthly_payroll": 1620417.0, "contribution_crores": -1.03}, {"store_id": 106, "store_name": "RetailMart Jaipur", "city": "Jaipur", "region_id": 7, "region_name": "South", "state": "Chhattisgarh", "staff_count": 15, "net_revenue": 35064975.72, "revenue_crores": 3.51, "store_expenses": 599893.49, "monthly_payroll": 875146.0, "contribution_crores": -0.15}, {"store_id": 112, "store_name": "RetailMart Gaya", "city": "Gaya", "region_id": 1, "region_name": "North East", "state": "Rajasthan", "staff_count": 14, "net_revenue": 35045174.32, "revenue_crores": 3.5, "store_expenses": 520251.28, "monthly_payroll": 725467.0, "contribution_crores": 0.04}, {"store_id": 194, "store_name": "RetailMart New Delhi", "city": "New Delhi", "region_id": 11, "region_name": "North East", "state": "Odisha", "staff_count": 18, "net_revenue": 34993780.69, "revenue_crores": 3.5, "store_expenses": 439224.65, "monthly_payroll": 1380948.0, "contribution_crores": -0.74}, {"store_id": 42, "store_name": "RetailMart Nashik", "city": "Nashik", "region_id": 6, "region_name": "South", "state": "Haryana", "staff_count": 11, "net_revenue": 34897341.75, "revenue_crores": 3.49, "store_expenses": 544406.41, "monthly_payroll": 577321.0, "contribution_crores": 0.21}, {"store_id": 29, "store_name": "RetailMart Ranchi", "city": "Ranchi", "region_id": 18, "region_name": "North", "state": "Manipur", "staff_count": 17, "net_revenue": 34881480.99, "revenue_crores": 3.49, "store_expenses": 582513.69, "monthly_payroll": 1157163.0, "contribution_crores": -0.49}, {"store_id": 71, "store_name": "RetailMart Agartala", "city": "Agartala", "region_id": 10, "region_name": "North", "state": "Assam", "staff_count": 18, "net_revenue": 34873467.32, "revenue_crores": 3.49, "store_expenses": 635219.7, "monthly_payroll": 1077891.0, "contribution_crores": -0.4}, {"store_id": 144, "store_name": "RetailMart Bhubaneswar", "city": "Bhubaneswar", "region_id": 9, "region_name": "North East", "state": "Nagaland", "staff_count": 13, "net_revenue": 34838195.15, "revenue_crores": 3.48, "store_expenses": 601222.55, "monthly_payroll": 808791.0, "contribution_crores": -0.07}, {"store_id": 175, "store_name": "RetailMart Agra", "city": "Agra", "region_id": 4, "region_name": "North East", "state": "Telangana", "staff_count": 12, "net_revenue": 34824775.02, "revenue_crores": 3.48, "store_expenses": 490342.84, "monthly_payroll": 1201895.0, "contribution_crores": -0.53}, {"store_id": 146, "store_name": "RetailMart Agartala", "city": "Agartala", "region_id": 3, "region_name": "North", "state": "Andhra Pradesh", "staff_count": 17, "net_revenue": 34766346.32, "revenue_crores": 3.48, "store_expenses": 462398.48, "monthly_payroll": 982060.0, "contribution_crores": -0.27}, {"store_id": 59, "store_name": "RetailMart Srinagar", "city": "Srinagar", "region_id": 10, "region_name": "North", "state": "Assam", "staff_count": 18, "net_revenue": 34747825.55, "revenue_crores": 3.47, "store_expenses": 417397.11, "monthly_payroll": 1050411.0, "contribution_crores": -0.35}, {"store_id": 52, "store_name": "RetailMart Rourkela", "city": "Rourkela", "region_id": 20, "region_name": "South", "state": "West Bengal", "staff_count": 19, "net_revenue": 34742172.65, "revenue_crores": 3.47, "store_expenses": 487811.95, "monthly_payroll": 1440302.0, "contribution_crores": -0.82}, {"store_id": 75, "store_name": "RetailMart Erode", "city": "Erode", "region_id": 11, "region_name": "North East", "state": "Odisha", "staff_count": 10, "net_revenue": 34736593.67, "revenue_crores": 3.47, "store_expenses": 484221.8, "monthly_payroll": 945706.0, "contribution_crores": -0.23}, {"store_id": 96, "store_name": "RetailMart Patna", "city": "Patna", "region_id": 14, "region_name": "North", "state": "Gujarat", "staff_count": 17, "net_revenue": 34702951.84, "revenue_crores": 3.47, "store_expenses": 488621.61, "monthly_payroll": 967321.0, "contribution_crores": -0.26}, {"store_id": 55, "store_name": "RetailMart Udupi", "city": "Udupi", "region_id": 17, "region_name": "North", "state": "Tamil Nadu", "staff_count": 10, "net_revenue": 34514716.75, "revenue_crores": 3.45, "store_expenses": 514982.31, "monthly_payroll": 464950.0, "contribution_crores": 0.34}, {"store_id": 7, "store_name": "RetailMart Panaji", "city": "Panaji", "region_id": 18, "region_name": "North", "state": "Manipur", "staff_count": 21, "net_revenue": 34475450.14, "revenue_crores": 3.45, "store_expenses": 482354.16, "monthly_payroll": 1210008.0, "contribution_crores": -0.55}, {"store_id": 199, "store_name": "RetailMart Leh", "city": "Leh", "region_id": 19, "region_name": "North", "state": "Uttar Pradesh", "staff_count": 10, "net_revenue": 34444207.33, "revenue_crores": 3.44, "store_expenses": 512855.82, "monthly_payroll": 695479.0, "contribution_crores": 0.06}, {"store_id": 39, "store_name": "RetailMart Prayagraj", "city": "Prayagraj", "region_id": 14, "region_name": "North", "state": "Gujarat", "staff_count": 24, "net_revenue": 34418249.33, "revenue_crores": 3.44, "store_expenses": 422983.63, "monthly_payroll": 1643128.0, "contribution_crores": -1.07}, {"store_id": 8, "store_name": "RetailMart Trichy", "city": "Trichy", "region_id": 9, "region_name": "North East", "state": "Nagaland", "staff_count": 17, "net_revenue": 34390318.64, "revenue_crores": 3.44, "store_expenses": 472074.27, "monthly_payroll": 1233575.0, "contribution_crores": -0.58}, {"store_id": 130, "store_name": "RetailMart Bilaspur", "city": "Bilaspur", "region_id": 2, "region_name": "North", "state": "Bihar", "staff_count": 22, "net_revenue": 34244665.55, "revenue_crores": 3.42, "store_expenses": 491864.62, "monthly_payroll": 1297790.0, "contribution_crores": -0.67}, {"store_id": 118, "store_name": "RetailMart Bilaspur", "city": "Bilaspur", "region_id": 12, "region_name": "North East", "state": "Maharashtra", "staff_count": 12, "net_revenue": 34239357.83, "revenue_crores": 3.42, "store_expenses": 457216.82, "monthly_payroll": 867711.0, "contribution_crores": -0.15}, {"store_id": 72, "store_name": "RetailMart Noida", "city": "Noida", "region_id": 5, "region_name": "East", "state": "Himachal Pradesh", "staff_count": 19, "net_revenue": 34232597.55, "revenue_crores": 3.42, "store_expenses": 433572.17, "monthly_payroll": 912529.0, "contribution_crores": -0.2}, {"store_id": 77, "store_name": "RetailMart Indore", "city": "Indore", "region_id": 10, "region_name": "North", "state": "Assam", "staff_count": 17, "net_revenue": 34222802.54, "revenue_crores": 3.42, "store_expenses": 567630.65, "monthly_payroll": 801924.0, "contribution_crores": -0.08}, {"store_id": 4, "store_name": "RetailMart Indore", "city": "Indore", "region_id": 19, "region_name": "North", "state": "Uttar Pradesh", "staff_count": 17, "net_revenue": 34216189.74, "revenue_crores": 3.42, "store_expenses": 461932.99, "monthly_payroll": 1342623.0, "contribution_crores": -0.72}, {"store_id": 66, "store_name": "RetailMart Noida", "city": "Noida", "region_id": 2, "region_name": "North", "state": "Bihar", "staff_count": 15, "net_revenue": 34140398.74, "revenue_crores": 3.41, "store_expenses": 439485.47, "monthly_payroll": 932405.0, "contribution_crores": -0.22}, {"store_id": 127, "store_name": "RetailMart Lucknow", "city": "Lucknow", "region_id": 3, "region_name": "North", "state": "Andhra Pradesh", "staff_count": 14, "net_revenue": 34122606.92, "revenue_crores": 3.41, "store_expenses": 611410.64, "monthly_payroll": 1189285.0, "contribution_crores": -0.55}, {"store_id": 147, "store_name": "RetailMart Erode", "city": "Erode", "region_id": 10, "region_name": "North", "state": "Assam", "staff_count": 9, "net_revenue": 34109056.43, "revenue_crores": 3.41, "store_expenses": 511002.54, "monthly_payroll": 509501.0, "contribution_crores": 0.28}, {"store_id": 200, "store_name": "RetailMart Jaipur", "city": "Jaipur", "region_id": 9, "region_name": "North East", "state": "Nagaland", "staff_count": 13, "net_revenue": 34070126.83, "revenue_crores": 3.41, "store_expenses": 444415.05, "monthly_payroll": 652643.0, "contribution_crores": 0.11}, {"store_id": 15, "store_name": "RetailMart Prayagraj", "city": "Prayagraj", "region_id": 5, "region_name": "East", "state": "Himachal Pradesh", "staff_count": 11, "net_revenue": 34048334.57, "revenue_crores": 3.4, "store_expenses": 458974.65, "monthly_payroll": 475047.0, "contribution_crores": 0.32}, {"store_id": 24, "store_name": "RetailMart Udaipur", "city": "Udaipur", "region_id": 19, "region_name": "North", "state": "Uttar Pradesh", "staff_count": 18, "net_revenue": 33970634.23, "revenue_crores": 3.4, "store_expenses": 621168.48, "monthly_payroll": 1215469.0, "contribution_crores": -0.59}, {"store_id": 73, "store_name": "RetailMart Siliguri", "city": "Siliguri", "region_id": 17, "region_name": "North", "state": "Tamil Nadu", "staff_count": 11, "net_revenue": 33949866.42, "revenue_crores": 3.39, "store_expenses": 620386.05, "monthly_payroll": 900149.0, "contribution_crores": -0.21}, {"store_id": 99, "store_name": "RetailMart Madurai", "city": "Madurai", "region_id": 1, "region_name": "North East", "state": "Rajasthan", "staff_count": 20, "net_revenue": 33923341.87, "revenue_crores": 3.39, "store_expenses": 474663.93, "monthly_payroll": 881790.0, "contribution_crores": -0.17}, {"store_id": 149, "store_name": "RetailMart Leh", "city": "Leh", "region_id": 19, "region_name": "North", "state": "Uttar Pradesh", "staff_count": 10, "net_revenue": 33870022.19, "revenue_crores": 3.39, "store_expenses": 556222.94, "monthly_payroll": 635073.0, "contribution_crores": 0.11}, {"store_id": 198, "store_name": "RetailMart Jamshedpur", "city": "Jamshedpur", "region_id": 9, "region_name": "North East", "state": "Nagaland", "staff_count": 13, "net_revenue": 33850806.24, "revenue_crores": 3.39, "store_expenses": 487271.28, "monthly_payroll": 1017772.0, "contribution_crores": -0.34}, {"store_id": 70, "store_name": "RetailMart Karimnagar", "city": "Karimnagar", "region_id": 8, "region_name": "South", "state": "Sikkim", "staff_count": 17, "net_revenue": 33850740.65, "revenue_crores": 3.39, "store_expenses": 467010.83, "monthly_payroll": 1075985.0, "contribution_crores": -0.41}, {"store_id": 185, "store_name": "RetailMart Agra", "city": "Agra", "region_id": 18, "region_name": "North", "state": "Manipur", "staff_count": 12, "net_revenue": 33833949.63, "revenue_crores": 3.38, "store_expenses": 654149.31, "monthly_payroll": 725082.0, "contribution_crores": -0.01}, {"store_id": 2, "store_name": "RetailMart Indore", "city": "Indore", "region_id": 4, "region_name": "North East", "state": "Telangana", "staff_count": 21, "net_revenue": 33802873.01, "revenue_crores": 3.38, "store_expenses": 501990.49, "monthly_payroll": 811742.0, "contribution_crores": -0.1}, {"store_id": 141, "store_name": "RetailMart Ahmedabad", "city": "Ahmedabad", "region_id": 16, "region_name": "West", "state": "Punjab", "staff_count": 13, "net_revenue": 33775121.17, "revenue_crores": 3.38, "store_expenses": 552605.74, "monthly_payroll": 767440.0, "contribution_crores": -0.05}, {"store_id": 139, "store_name": "RetailMart Nagpur", "city": "Nagpur", "region_id": 11, "region_name": "North East", "state": "Odisha", "staff_count": 17, "net_revenue": 33761191.07, "revenue_crores": 3.38, "store_expenses": 514074.89, "monthly_payroll": 1032804.0, "contribution_crores": -0.36}, {"store_id": 150, "store_name": "RetailMart Hyderabad", "city": "Hyderabad", "region_id": 5, "region_name": "East", "state": "Himachal Pradesh", "staff_count": 14, "net_revenue": 33736189.02, "revenue_crores": 3.37, "store_expenses": 455940.81, "monthly_payroll": 767573.0, "contribution_crores": -0.04}, {"store_id": 81, "store_name": "RetailMart Trichy", "city": "Trichy", "region_id": 15, "region_name": "Central", "state": "Mizoram", "staff_count": 14, "net_revenue": 33683681.67, "revenue_crores": 3.37, "store_expenses": 406118.07, "monthly_payroll": 816308.0, "contribution_crores": -0.09}, {"store_id": 114, "store_name": "RetailMart Chandigarh", "city": "Chandigarh", "region_id": 11, "region_name": "North East", "state": "Odisha", "staff_count": 12, "net_revenue": 33624863.37, "revenue_crores": 3.36, "store_expenses": 435067.79, "monthly_payroll": 701651.0, "contribution_crores": 0.04}, {"store_id": 26, "store_name": "RetailMart Bilaspur", "city": "Bilaspur", "region_id": 20, "region_name": "South", "state": "West Bengal", "staff_count": 14, "net_revenue": 33584450.98, "revenue_crores": 3.36, "store_expenses": 444518.28, "monthly_payroll": 823438.0, "contribution_crores": -0.11}, {"store_id": 115, "store_name": "RetailMart Nashik", "city": "Nashik", "region_id": 8, "region_name": "South", "state": "Sikkim", "staff_count": 11, "net_revenue": 33567682.79, "revenue_crores": 3.36, "store_expenses": 549749.18, "monthly_payroll": 762271.0, "contribution_crores": -0.05}, {"store_id": 157, "store_name": "RetailMart Shimla", "city": "Shimla", "region_id": 17, "region_name": "North", "state": "Tamil Nadu", "staff_count": 8, "net_revenue": 33547936.32, "revenue_crores": 3.35, "store_expenses": 563630.95, "monthly_payroll": 553982.0, "contribution_crores": 0.2}, {"store_id": 92, "store_name": "RetailMart Chandigarh", "city": "Chandigarh", "region_id": 11, "region_name": "North East", "state": "Odisha", "staff_count": 14, "net_revenue": 33497494.18, "revenue_crores": 3.35, "store_expenses": 538544.84, "monthly_payroll": 827277.0, "contribution_crores": -0.13}, {"store_id": 161, "store_name": "RetailMart Gaya", "city": "Gaya", "region_id": 16, "region_name": "West", "state": "Punjab", "staff_count": 13, "net_revenue": 33462040.42, "revenue_crores": 3.35, "store_expenses": 508137.65, "monthly_payroll": 931448.0, "contribution_crores": -0.25}, {"store_id": 184, "store_name": "RetailMart Chandigarh", "city": "Chandigarh", "region_id": 15, "region_name": "Central", "state": "Mizoram", "staff_count": 15, "net_revenue": 33457439.85, "revenue_crores": 3.35, "store_expenses": 556843.58, "monthly_payroll": 982207.0, "contribution_crores": -0.31}, {"store_id": 69, "store_name": "RetailMart Udaipur", "city": "Udaipur", "region_id": 19, "region_name": "North", "state": "Uttar Pradesh", "staff_count": 13, "net_revenue": 33449769.12, "revenue_crores": 3.34, "store_expenses": 503035.58, "monthly_payroll": 598349.0, "contribution_crores": 0.15}, {"store_id": 82, "store_name": "RetailMart Rourkela", "city": "Rourkela", "region_id": 8, "region_name": "South", "state": "Sikkim", "staff_count": 15, "net_revenue": 33438669.64, "revenue_crores": 3.34, "store_expenses": 491416.38, "monthly_payroll": 600090.0, "contribution_crores": 0.15}, {"store_id": 3, "store_name": "RetailMart Prayagraj", "city": "Prayagraj", "region_id": 7, "region_name": "South", "state": "Chhattisgarh", "staff_count": 20, "net_revenue": 33405432.09, "revenue_crores": 3.34, "store_expenses": 500318.99, "monthly_payroll": 977692.0, "contribution_crores": -0.3}, {"store_id": 125, "store_name": "RetailMart Noida", "city": "Noida", "region_id": 15, "region_name": "Central", "state": "Mizoram", "staff_count": 15, "net_revenue": 33305024.05, "revenue_crores": 3.33, "store_expenses": 552746.53, "monthly_payroll": 727878.0, "contribution_crores": -0.01}, {"store_id": 54, "store_name": "RetailMart Nashik", "city": "Nashik", "region_id": 15, "region_name": "Central", "state": "Mizoram", "staff_count": 17, "net_revenue": 33247109.14, "revenue_crores": 3.32, "store_expenses": 437974.38, "monthly_payroll": 1374744.0, "contribution_crores": -0.78}, {"store_id": 170, "store_name": "RetailMart Kanpur", "city": "Kanpur", "region_id": 7, "region_name": "South", "state": "Chhattisgarh", "staff_count": 21, "net_revenue": 33225882.68, "revenue_crores": 3.32, "store_expenses": 515170.36, "monthly_payroll": 1674750.0, "contribution_crores": -1.15}, {"store_id": 61, "store_name": "RetailMart New Delhi", "city": "New Delhi", "region_id": 16, "region_name": "West", "state": "Punjab", "staff_count": 12, "net_revenue": 33213433.66, "revenue_crores": 3.32, "store_expenses": 416019.88, "monthly_payroll": 797921.0, "contribution_crores": -0.09}, {"store_id": 131, "store_name": "RetailMart Agartala", "city": "Agartala", "region_id": 13, "region_name": "Central", "state": "Arunachal Pradesh", "staff_count": 20, "net_revenue": 33161159.1, "revenue_crores": 3.32, "store_expenses": 606383.11, "monthly_payroll": 1573771.0, "contribution_crores": -1.04}, {"store_id": 97, "store_name": "RetailMart Lucknow", "city": "Lucknow", "region_id": 10, "region_name": "North", "state": "Assam", "staff_count": 8, "net_revenue": 33160282.09, "revenue_crores": 3.32, "store_expenses": 640331.66, "monthly_payroll": 581458.0, "contribution_crores": 0.15}, {"store_id": 95, "store_name": "RetailMart Agartala", "city": "Agartala", "region_id": 6, "region_name": "South", "state": "Haryana", "staff_count": 15, "net_revenue": 33135081.63, "revenue_crores": 3.31, "store_expenses": 485268.94, "monthly_payroll": 673902.0, "contribution_crores": 0.05}, {"store_id": 110, "store_name": "RetailMart Prayagraj", "city": "Prayagraj", "region_id": 5, "region_name": "East", "state": "Himachal Pradesh", "staff_count": 17, "net_revenue": 33127448.07, "revenue_crores": 3.31, "store_expenses": 593481.59, "monthly_payroll": 919177.0, "contribution_crores": -0.25}, {"store_id": 134, "store_name": "RetailMart Erode", "city": "Erode", "region_id": 10, "region_name": "North", "state": "Assam", "staff_count": 17, "net_revenue": 33097757.79, "revenue_crores": 3.31, "store_expenses": 408477.12, "monthly_payroll": 749606.0, "contribution_crores": -0.03}, {"store_id": 33, "store_name": "RetailMart Mumbai", "city": "Mumbai", "region_id": 8, "region_name": "South", "state": "Sikkim", "staff_count": 14, "net_revenue": 33056698.85, "revenue_crores": 3.31, "store_expenses": 521786.0, "monthly_payroll": 970635.0, "contribution_crores": -0.31}, {"store_id": 135, "store_name": "RetailMart Ahmedabad", "city": "Ahmedabad", "region_id": 11, "region_name": "North East", "state": "Odisha", "staff_count": 10, "net_revenue": 33045055.81, "revenue_crores": 3.3, "store_expenses": 532051.86, "monthly_payroll": 712416.0, "contribution_crores": 0.0}, {"store_id": 126, "store_name": "RetailMart Ahmedabad", "city": "Ahmedabad", "region_id": 5, "region_name": "East", "state": "Himachal Pradesh", "staff_count": 20, "net_revenue": 33044236.52, "revenue_crores": 3.3, "store_expenses": 520354.59, "monthly_payroll": 1312544.0, "contribution_crores": -0.72}, {"store_id": 152, "store_name": "RetailMart Varanasi", "city": "Varanasi", "region_id": 7, "region_name": "South", "state": "Chhattisgarh", "staff_count": 16, "net_revenue": 33024710.98, "revenue_crores": 3.3, "store_expenses": 416879.87, "monthly_payroll": 1187533.0, "contribution_crores": -0.56}, {"store_id": 174, "store_name": "RetailMart Noida", "city": "Noida", "region_id": 8, "region_name": "South", "state": "Sikkim", "staff_count": 16, "net_revenue": 32945894.76, "revenue_crores": 3.29, "store_expenses": 458934.96, "monthly_payroll": 827667.0, "contribution_crores": -0.13}, {"store_id": 103, "store_name": "RetailMart Leh", "city": "Leh", "region_id": 2, "region_name": "North", "state": "Bihar", "staff_count": 20, "net_revenue": 32839740.09, "revenue_crores": 3.28, "store_expenses": 511285.76, "monthly_payroll": 1204568.0, "contribution_crores": -0.59}, {"store_id": 5, "store_name": "RetailMart Howrah", "city": "Howrah", "region_id": 16, "region_name": "West", "state": "Punjab", "staff_count": 19, "net_revenue": 32806641.43, "revenue_crores": 3.28, "store_expenses": 472848.5, "monthly_payroll": 1075238.0, "contribution_crores": -0.44}, {"store_id": 140, "store_name": "RetailMart Varanasi", "city": "Varanasi", "region_id": 10, "region_name": "North", "state": "Assam", "staff_count": 19, "net_revenue": 32729396.23, "revenue_crores": 3.27, "store_expenses": 472970.0, "monthly_payroll": 1460310.0, "contribution_crores": -0.9}, {"store_id": 173, "store_name": "RetailMart Imphal", "city": "Imphal", "region_id": 2, "region_name": "North", "state": "Bihar", "staff_count": 11, "net_revenue": 32712918.49, "revenue_crores": 3.27, "store_expenses": 578500.1, "monthly_payroll": 708921.0, "contribution_crores": -0.01}, {"store_id": 93, "store_name": "RetailMart Patna", "city": "Patna", "region_id": 13, "region_name": "Central", "state": "Arunachal Pradesh", "staff_count": 17, "net_revenue": 32629430.63, "revenue_crores": 3.26, "store_expenses": 536482.53, "monthly_payroll": 1368814.0, "contribution_crores": -0.8}, {"store_id": 165, "store_name": "RetailMart Meerut", "city": "Meerut", "region_id": 4, "region_name": "North East", "state": "Telangana", "staff_count": 13, "net_revenue": 32597854.87, "revenue_crores": 3.26, "store_expenses": 490288.84, "monthly_payroll": 892128.0, "contribution_crores": -0.22}, {"store_id": 171, "store_name": "RetailMart Udupi", "city": "Udupi", "region_id": 7, "region_name": "South", "state": "Chhattisgarh", "staff_count": 10, "net_revenue": 32424200.49, "revenue_crores": 3.24, "store_expenses": 511848.73, "monthly_payroll": 551975.0, "contribution_crores": 0.18}, {"store_id": 120, "store_name": "RetailMart Port Blair", "city": "Port Blair", "region_id": 4, "region_name": "North East", "state": "Telangana", "staff_count": 16, "net_revenue": 32374199.96, "revenue_crores": 3.24, "store_expenses": 487490.96, "monthly_payroll": 1241472.0, "contribution_crores": -0.65}, {"store_id": 192, "store_name": "RetailMart Leh", "city": "Leh", "region_id": 13, "region_name": "Central", "state": "Arunachal Pradesh", "staff_count": 27, "net_revenue": 32300753.37, "revenue_crores": 3.23, "store_expenses": 473340.1, "monthly_payroll": 1665757.0, "contribution_crores": -1.16}, {"store_id": 163, "store_name": "RetailMart Shillong", "city": "Shillong", "region_id": 2, "region_name": "North", "state": "Bihar", "staff_count": 9, "net_revenue": 32249541.06, "revenue_crores": 3.22, "store_expenses": 551627.39, "monthly_payroll": 699279.0, "contribution_crores": -0.01}, {"store_id": 123, "store_name": "RetailMart Kota", "city": "Kota", "region_id": 6, "region_name": "South", "state": "Haryana", "staff_count": 13, "net_revenue": 32239884.36, "revenue_crores": 3.22, "store_expenses": 496593.98, "monthly_payroll": 848289.0, "contribution_crores": -0.18}, {"store_id": 67, "store_name": "RetailMart Bilaspur", "city": "Bilaspur", "region_id": 19, "region_name": "North", "state": "Uttar Pradesh", "staff_count": 16, "net_revenue": 32232286.42, "revenue_crores": 3.22, "store_expenses": 515882.19, "monthly_payroll": 671534.0, "contribution_crores": 0.03}, {"store_id": 87, "store_name": "RetailMart Jaipur", "city": "Jaipur", "region_id": 1, "region_name": "North East", "state": "Rajasthan", "staff_count": 8, "net_revenue": 32121703.01, "revenue_crores": 3.21, "store_expenses": 480256.36, "monthly_payroll": 582022.0, "contribution_crores": 0.14}, {"store_id": 160, "store_name": "RetailMart Dehradun", "city": "Dehradun", "region_id": 13, "region_name": "Central", "state": "Arunachal Pradesh", "staff_count": 21, "net_revenue": 32103971.57, "revenue_crores": 3.21, "store_expenses": 492081.59, "monthly_payroll": 1356522.0, "contribution_crores": -0.79}, {"store_id": 180, "store_name": "RetailMart Gaya", "city": "Gaya", "region_id": 6, "region_name": "South", "state": "Haryana", "staff_count": 15, "net_revenue": 31993796.91, "revenue_crores": 3.2, "store_expenses": 596787.46, "monthly_payroll": 1279965.0, "contribution_crores": -0.72}, {"store_id": 102, "store_name": "RetailMart Kota", "city": "Kota", "region_id": 4, "region_name": "North East", "state": "Telangana", "staff_count": 18, "net_revenue": 31953721.36, "revenue_crores": 3.2, "store_expenses": 470203.78, "monthly_payroll": 1302554.0, "contribution_crores": -0.73}, {"store_id": 47, "store_name": "RetailMart Mangalore", "city": "Mangalore", "region_id": 10, "region_name": "North", "state": "Assam", "staff_count": 10, "net_revenue": 31871776.07, "revenue_crores": 3.19, "store_expenses": 558012.59, "monthly_payroll": 491370.0, "contribution_crores": 0.23}, {"store_id": 137, "store_name": "RetailMart Chandigarh", "city": "Chandigarh", "region_id": 17, "region_name": "North", "state": "Tamil Nadu", "staff_count": 14, "net_revenue": 31857873.28, "revenue_crores": 3.19, "store_expenses": 484189.99, "monthly_payroll": 851900.0, "contribution_crores": -0.19}, {"store_id": 188, "store_name": "RetailMart Agartala", "city": "Agartala", "region_id": 11, "region_name": "North East", "state": "Odisha", "staff_count": 16, "net_revenue": 31849443.95, "revenue_crores": 3.18, "store_expenses": 429474.64, "monthly_payroll": 932595.0, "contribution_crores": -0.29}, {"store_id": 91, "store_name": "RetailMart Aizawl", "city": "Aizawl", "region_id": 4, "region_name": "North East", "state": "Telangana", "staff_count": 17, "net_revenue": 31755934.32, "revenue_crores": 3.18, "store_expenses": 377126.12, "monthly_payroll": 1020603.0, "contribution_crores": -0.39}, {"store_id": 51, "store_name": "RetailMart Trichy", "city": "Trichy", "region_id": 8, "region_name": "South", "state": "Sikkim", "staff_count": 14, "net_revenue": 31735581.93, "revenue_crores": 3.17, "store_expenses": 463675.22, "monthly_payroll": 788719.0, "contribution_crores": -0.12}, {"store_id": 181, "store_name": "RetailMart Shimla", "city": "Shimla", "region_id": 20, "region_name": "South", "state": "West Bengal", "staff_count": 12, "net_revenue": 31693543.78, "revenue_crores": 3.17, "store_expenses": 477344.88, "monthly_payroll": 656429.0, "contribution_crores": 0.04}, {"store_id": 63, "store_name": "RetailMart Agra", "city": "Agra", "region_id": 11, "region_name": "North East", "state": "Odisha", "staff_count": 16, "net_revenue": 31619600.01, "revenue_crores": 3.16, "store_expenses": 494649.25, "monthly_payroll": 757572.0, "contribution_crores": -0.09}, {"store_id": 25, "store_name": "RetailMart Prayagraj", "city": "Prayagraj", "region_id": 7, "region_name": "South", "state": "Chhattisgarh", "staff_count": 13, "net_revenue": 31579178.5, "revenue_crores": 3.16, "store_expenses": 474249.06, "monthly_payroll": 1070424.0, "contribution_crores": -0.46}, {"store_id": 108, "store_name": "RetailMart Mumbai", "city": "Mumbai", "region_id": 2, "region_name": "North", "state": "Bihar", "staff_count": 22, "net_revenue": 31559903.73, "revenue_crores": 3.16, "store_expenses": 493917.43, "monthly_payroll": 1157767.0, "contribution_crores": -0.57}, {"store_id": 36, "store_name": "RetailMart Gaya", "city": "Gaya", "region_id": 6, "region_name": "South", "state": "Haryana", "staff_count": 22, "net_revenue": 31527652.08, "revenue_crores": 3.15, "store_expenses": 566595.15, "monthly_payroll": 1475898.0, "contribution_crores": -0.96}, {"store_id": 121, "store_name": "RetailMart Bhopal", "city": "Bhopal", "region_id": 1, "region_name": "North East", "state": "Rajasthan", "staff_count": 11, "net_revenue": 31497504.99, "revenue_crores": 3.15, "store_expenses": 508554.77, "monthly_payroll": 800556.0, "contribution_crores": -0.15}, {"store_id": 57, "store_name": "RetailMart Ahmedabad", "city": "Ahmedabad", "region_id": 7, "region_name": "South", "state": "Chhattisgarh", "staff_count": 9, "net_revenue": 31460685.77, "revenue_crores": 3.15, "store_expenses": 536881.89, "monthly_payroll": 407004.0, "contribution_crores": 0.32}, {"store_id": 105, "store_name": "RetailMart Puri", "city": "Puri", "region_id": 5, "region_name": "East", "state": "Himachal Pradesh", "staff_count": 16, "net_revenue": 31444617.28, "revenue_crores": 3.14, "store_expenses": 568415.29, "monthly_payroll": 773366.0, "contribution_crores": -0.12}, {"store_id": 151, "store_name": "RetailMart Kota", "city": "Kota", "region_id": 20, "region_name": "South", "state": "West Bengal", "staff_count": 15, "net_revenue": 31361484.7, "revenue_crores": 3.14, "store_expenses": 467978.74, "monthly_payroll": 1234683.0, "contribution_crores": -0.67}, {"store_id": 46, "store_name": "RetailMart Trichy", "city": "Trichy", "region_id": 14, "region_name": "North", "state": "Gujarat", "staff_count": 11, "net_revenue": 31085357.53, "revenue_crores": 3.11, "store_expenses": 538974.61, "monthly_payroll": 519645.0, "contribution_crores": 0.18}, {"store_id": 49, "store_name": "RetailMart Kanpur", "city": "Kanpur", "region_id": 6, "region_name": "South", "state": "Haryana", "staff_count": 11, "net_revenue": 31060165.17, "revenue_crores": 3.11, "store_expenses": 558937.51, "monthly_payroll": 733978.0, "contribution_crores": -0.08}, {"store_id": 40, "store_name": "RetailMart Dhanbad", "city": "Dhanbad", "region_id": 17, "region_name": "North", "state": "Tamil Nadu", "staff_count": 19, "net_revenue": 30976467.23, "revenue_crores": 3.1, "store_expenses": 350716.35, "monthly_payroll": 1330475.0, "contribution_crores": -0.78}, {"store_id": 12, "store_name": "RetailMart Cuttack", "city": "Cuttack", "region_id": 14, "region_name": "North", "state": "Gujarat", "staff_count": 19, "net_revenue": 30947230.02, "revenue_crores": 3.09, "store_expenses": 538746.88, "monthly_payroll": 1006625.0, "contribution_crores": -0.41}, {"store_id": 168, "store_name": "RetailMart Aizawl", "city": "Aizawl", "region_id": 16, "region_name": "West", "state": "Punjab", "staff_count": 14, "net_revenue": 30913234.36, "revenue_crores": 3.09, "store_expenses": 492324.86, "monthly_payroll": 804620.0, "contribution_crores": -0.16}, {"store_id": 101, "store_name": "RetailMart Cuttack", "city": "Cuttack", "region_id": 4, "region_name": "North East", "state": "Telangana", "staff_count": 17, "net_revenue": 30871387.0, "revenue_crores": 3.09, "store_expenses": 585686.92, "monthly_payroll": 1056546.0, "contribution_crores": -0.48}, {"store_id": 196, "store_name": "RetailMart Trichy", "city": "Trichy", "region_id": 17, "region_name": "North", "state": "Tamil Nadu", "staff_count": 15, "net_revenue": 30706906.76, "revenue_crores": 3.07, "store_expenses": 411783.44, "monthly_payroll": 984815.0, "contribution_crores": -0.38}, {"store_id": 44, "store_name": "RetailMart Karimnagar", "city": "Karimnagar", "region_id": 19, "region_name": "North", "state": "Uttar Pradesh", "staff_count": 16, "net_revenue": 30702265.01, "revenue_crores": 3.07, "store_expenses": 523823.47, "monthly_payroll": 1021730.0, "contribution_crores": -0.43}, {"store_id": 85, "store_name": "RetailMart Imphal", "city": "Imphal", "region_id": 20, "region_name": "South", "state": "West Bengal", "staff_count": 10, "net_revenue": 30657534.92, "revenue_crores": 3.07, "store_expenses": 471283.38, "monthly_payroll": 443771.0, "contribution_crores": 0.26}, {"store_id": 166, "store_name": "RetailMart Haridwar", "city": "Haridwar", "region_id": 8, "region_name": "South", "state": "Sikkim", "staff_count": 6, "net_revenue": 30654701.41, "revenue_crores": 3.07, "store_expenses": 473123.29, "monthly_payroll": 666717.0, "contribution_crores": 0.0}, {"store_id": 65, "store_name": "RetailMart Patiala", "city": "Patiala", "region_id": 3, "region_name": "North", "state": "Andhra Pradesh", "staff_count": 16, "net_revenue": 30645172.29, "revenue_crores": 3.06, "store_expenses": 506854.24, "monthly_payroll": 1367260.0, "contribution_crores": -0.85}, {"store_id": 45, "store_name": "RetailMart Kota", "city": "Kota", "region_id": 9, "region_name": "North East", "state": "Nagaland", "staff_count": 19, "net_revenue": 30629181.74, "revenue_crores": 3.06, "store_expenses": 649552.05, "monthly_payroll": 1598519.0, "contribution_crores": -1.14}, {"store_id": 107, "store_name": "RetailMart Hyderabad", "city": "Hyderabad", "region_id": 16, "region_name": "West", "state": "Punjab", "staff_count": 18, "net_revenue": 30558702.11, "revenue_crores": 3.06, "store_expenses": 450342.43, "monthly_payroll": 1013778.0, "contribution_crores": -0.42}, {"store_id": 193, "store_name": "RetailMart Agra", "city": "Agra", "region_id": 14, "region_name": "North", "state": "Gujarat", "staff_count": 13, "net_revenue": 30523714.53, "revenue_crores": 3.05, "store_expenses": 397507.1, "monthly_payroll": 704621.0, "contribution_crores": -0.05}, {"store_id": 58, "store_name": "RetailMart Noida", "city": "Noida", "region_id": 14, "region_name": "North", "state": "Gujarat", "staff_count": 16, "net_revenue": 30486605.32, "revenue_crores": 3.05, "store_expenses": 436413.94, "monthly_payroll": 928476.0, "contribution_crores": -0.32}, {"store_id": 90, "store_name": "RetailMart Bhopal", "city": "Bhopal", "region_id": 16, "region_name": "West", "state": "Punjab", "staff_count": 11, "net_revenue": 30457237.09, "revenue_crores": 3.05, "store_expenses": 408468.08, "monthly_payroll": 705532.0, "contribution_crores": -0.05}, {"store_id": 187, "store_name": "RetailMart Kolkata", "city": "Kolkata", "region_id": 19, "region_name": "North", "state": "Uttar Pradesh", "staff_count": 17, "net_revenue": 30453540.21, "revenue_crores": 3.05, "store_expenses": 470160.58, "monthly_payroll": 1225238.0, "contribution_crores": -0.68}, {"store_id": 56, "store_name": "RetailMart Raipur", "city": "Raipur", "region_id": 20, "region_name": "South", "state": "West Bengal", "staff_count": 19, "net_revenue": 30312274.59, "revenue_crores": 3.03, "store_expenses": 451297.84, "monthly_payroll": 1150281.0, "contribution_crores": -0.59}, {"store_id": 153, "store_name": "RetailMart Siliguri", "city": "Siliguri", "region_id": 5, "region_name": "East", "state": "Himachal Pradesh", "staff_count": 14, "net_revenue": 30305083.61, "revenue_crores": 3.03, "store_expenses": 497693.02, "monthly_payroll": 939511.0, "contribution_crores": -0.34}, {"store_id": 37, "store_name": "RetailMart Howrah", "city": "Howrah", "region_id": 4, "region_name": "North East", "state": "Telangana", "staff_count": 17, "net_revenue": 30149464.5, "revenue_crores": 3.01, "store_expenses": 368176.64, "monthly_payroll": 907944.0, "contribution_crores": -0.3}, {"store_id": 136, "store_name": "RetailMart Nagpur", "city": "Nagpur", "region_id": 12, "region_name": "North East", "state": "Maharashtra", "staff_count": 17, "net_revenue": 30123263.46, "revenue_crores": 3.01, "store_expenses": 594544.51, "monthly_payroll": 857446.0, "contribution_crores": -0.26}, {"store_id": 116, "store_name": "RetailMart Kolkata", "city": "Kolkata", "region_id": 5, "region_name": "East", "state": "Himachal Pradesh", "staff_count": 10, "net_revenue": 30052851.74, "revenue_crores": 3.01, "store_expenses": 510275.49, "monthly_payroll": 398245.0, "contribution_crores": 0.3}, {"store_id": 50, "store_name": "RetailMart Rajkot", "city": "Rajkot", "region_id": 17, "region_name": "North", "state": "Tamil Nadu", "staff_count": 10, "net_revenue": 29897229.17, "revenue_crores": 2.99, "store_expenses": 486657.53, "monthly_payroll": 468572.0, "contribution_crores": 0.21}, {"store_id": 109, "store_name": "RetailMart Indore", "city": "Indore", "region_id": 15, "region_name": "Central", "state": "Mizoram", "staff_count": 18, "net_revenue": 29838965.23, "revenue_crores": 2.98, "store_expenses": 583796.44, "monthly_payroll": 1131179.0, "contribution_crores": -0.6}, {"store_id": 84, "store_name": "RetailMart Hyderabad", "city": "Hyderabad", "region_id": 8, "region_name": "South", "state": "Sikkim", "staff_count": 13, "net_revenue": 29833591.88, "revenue_crores": 2.98, "store_expenses": 476932.98, "monthly_payroll": 841364.0, "contribution_crores": -0.24}, {"store_id": 172, "store_name": "RetailMart Udupi", "city": "Udupi", "region_id": 17, "region_name": "North", "state": "Tamil Nadu", "staff_count": 19, "net_revenue": 29616295.17, "revenue_crores": 2.96, "store_expenses": 456545.17, "monthly_payroll": 1079811.0, "contribution_crores": -0.53}, {"store_id": 53, "store_name": "RetailMart Dhanbad", "city": "Dhanbad", "region_id": 12, "region_name": "North East", "state": "Maharashtra", "staff_count": 17, "net_revenue": 29523792.67, "revenue_crores": 2.95, "store_expenses": 423883.39, "monthly_payroll": 1223287.0, "contribution_crores": -0.7}, {"store_id": 159, "store_name": "RetailMart Siliguri", "city": "Siliguri", "region_id": 12, "region_name": "North East", "state": "Maharashtra", "staff_count": 22, "net_revenue": 29512400.26, "revenue_crores": 2.95, "store_expenses": 539262.52, "monthly_payroll": 1505863.0, "contribution_crores": -1.05}, {"store_id": 43, "store_name": "RetailMart Lucknow", "city": "Lucknow", "region_id": 9, "region_name": "North East", "state": "Nagaland", "staff_count": 12, "net_revenue": 29476072.47, "revenue_crores": 2.95, "store_expenses": 529346.27, "monthly_payroll": 870186.0, "contribution_crores": -0.29}, {"store_id": 117, "store_name": "RetailMart Patiala", "city": "Patiala", "region_id": 8, "region_name": "South", "state": "Sikkim", "staff_count": 17, "net_revenue": 29445118.93, "revenue_crores": 2.94, "store_expenses": 507780.66, "monthly_payroll": 1325260.0, "contribution_crores": -0.83}, {"store_id": 158, "store_name": "RetailMart Indore", "city": "Indore", "region_id": 17, "region_name": "North", "state": "Tamil Nadu", "staff_count": 13, "net_revenue": 29192901.46, "revenue_crores": 2.92, "store_expenses": 534096.85, "monthly_payroll": 1029269.0, "contribution_crores": -0.49}, {"store_id": 133, "store_name": "RetailMart New Delhi", "city": "New Delhi", "region_id": 20, "region_name": "South", "state": "West Bengal", "staff_count": 16, "net_revenue": 29124578.92, "revenue_crores": 2.91, "store_expenses": 560873.45, "monthly_payroll": 936802.0, "contribution_crores": -0.38}, {"store_id": 62, "store_name": "RetailMart Cuttack", "city": "Cuttack", "region_id": 8, "region_name": "South", "state": "Sikkim", "staff_count": 15, "net_revenue": 28968687.25, "revenue_crores": 2.9, "store_expenses": 516791.66, "monthly_payroll": 1023808.0, "contribution_crores": -0.48}, {"store_id": 154, "store_name": "RetailMart Port Blair", "city": "Port Blair", "region_id": 10, "region_name": "North", "state": "Assam", "staff_count": 14, "net_revenue": 28962402.19, "revenue_crores": 2.9, "store_expenses": 582910.15, "monthly_payroll": 859920.0, "contribution_crores": -0.29}, {"store_id": 13, "store_name": "RetailMart Mysuru", "city": "Mysuru", "region_id": 16, "region_name": "West", "state": "Punjab", "staff_count": 12, "net_revenue": 28943416.41, "revenue_crores": 2.89, "store_expenses": 454497.57, "monthly_payroll": 567603.0, "contribution_crores": 0.07}, {"store_id": 79, "store_name": "RetailMart Bhopal", "city": "Bhopal", "region_id": 12, "region_name": "North East", "state": "Maharashtra", "staff_count": 10, "net_revenue": 28573658.34, "revenue_crores": 2.86, "store_expenses": 454772.75, "monthly_payroll": 913718.0, "contribution_crores": -0.36}, {"store_id": 178, "store_name": "RetailMart Prayagraj", "city": "Prayagraj", "region_id": 18, "region_name": "North", "state": "Manipur", "staff_count": 14, "net_revenue": 28490657.19, "revenue_crores": 2.85, "store_expenses": 618856.0, "monthly_payroll": 620541.0, "contribution_crores": -0.02}, {"store_id": 80, "store_name": "RetailMart Bhopal", "city": "Bhopal", "region_id": 16, "region_name": "West", "state": "Punjab", "staff_count": 13, "net_revenue": 28477145.27, "revenue_crores": 2.85, "store_expenses": 556014.48, "monthly_payroll": 749159.0, "contribution_crores": -0.17}, {"store_id": 11, "store_name": "RetailMart Srinagar", "city": "Srinagar", "region_id": 10, "region_name": "North", "state": "Assam", "staff_count": 16, "net_revenue": 27967323.76, "revenue_crores": 2.8, "store_expenses": 510207.53, "monthly_payroll": 1050913.0, "contribution_crores": -0.54}, {"store_id": 23, "store_name": "RetailMart Port Blair", "city": "Port Blair", "region_id": 2, "region_name": "North", "state": "Bihar", "staff_count": 11, "net_revenue": 26664744.78, "revenue_crores": 2.67, "store_expenses": 536614.08, "monthly_payroll": 1005640.0, "contribution_crores": -0.53}], "regions": [{"region_id": 1, "region_name": "North East", "state": "Rajasthan", "store_count": 6, "staff_count": 85, "monthly_payroll": 4741609.0, "payroll_crores": 0.47}, {"region_id": 2, "region_name": "North", "state": "Bihar", "store_count": 11, "staff_count": 169, "monthly_payroll": 11097933.0, "payroll_crores": 1.11}, {"region_id": 3, "region_name": "North", "state": "Andhra Pradesh", "store_count": 5, "staff_count": 80, "monthly_payroll": 5856151.0, "payroll_crores": 0.59}, {"region_id": 4, "region_name": "North East", "state": "Telangana", "store_count": 11, "staff_count": 182, "monthly_payroll": 11535094.0, "payroll_crores": 1.15}, {"region_id": 5, "region_name": "East", "state": "Himachal Pradesh", "store_count": 12, "staff_count": 179, "monthly_payroll": 9568789.0, "payroll_crores": 0.96}, {"region_id": 6, "region_name": "South", "state": "Haryana", "store_count": 9, "staff_count": 138, "monthly_payroll": 9021761.0, "payroll_crores": 0.9}, {"region_id": 7, "region_name": "South", "state": "Chhattisgarh", "store_count": 10, "staff_count": 158, "monthly_payroll": 9613316.0, "payroll_crores": 0.96}, {"region_id": 8, "region_name": "South", "state": "Sikkim", "store_count": 14, "staff_count": 195, "monthly_payroll": 12334487.0, "payroll_crores": 1.23}, {"region_id": 9, "region_name": "North East", "state": "Nagaland", "store_count": 12, "staff_count": 179, "monthly_payroll": 12376106.0, "payroll_crores": 1.24}, {"region_id": 10, "region_name": "North", "state": "Assam", "store_count": 12, "staff_count": 172, "monthly_payroll": 10913474.0, "payroll_crores": 1.09}, {"region_id": 11, "region_name": "North East", "state": "Odisha", "store_count": 13, "staff_count": 179, "monthly_payroll": 11964699.0, "payroll_crores": 1.2}, {"region_id": 12, "region_name": "North East", "state": "Maharashtra", "store_count": 5, "staff_count": 78, "monthly_payroll": 5368025.0, "payroll_crores": 0.54}, {"region_id": 13, "region_name": "Central", "state": "Arunachal Pradesh", "store_count": 7, "staff_count": 122, "monthly_payroll": 8392449.0, "payroll_crores": 0.84}, {"region_id": 14, "region_name": "North", "state": "Gujarat", "store_count": 7, "staff_count": 122, "monthly_payroll": 7153451.0, "payroll_crores": 0.72}, {"region_id": 15, "region_name": "Central", "state": "Mizoram", "store_count": 10, "staff_count": 145, "monthly_payroll": 8595564.0, "payroll_crores": 0.86}, {"region_id": 16, "region_name": "West", "state": "Punjab", "store_count": 11, "staff_count": 156, "monthly_payroll": 9508804.0, "payroll_crores": 0.95}, {"region_id": 17, "region_name": "North", "state": "Tamil Nadu", "store_count": 14, "staff_count": 199, "monthly_payroll": 12816029.0, "payroll_crores": 1.28}, {"region_id": 18, "region_name": "North", "state": "Manipur", "store_count": 7, "staff_count": 107, "monthly_payroll": 6803356.0, "payroll_crores": 0.68}, {"region_id": 19, "region_name": "North", "state": "Uttar Pradesh", "store_count": 13, "staff_count": 181, "monthly_payroll": 11567923.0, "payroll_crores": 1.16}, {"region_id": 20, "region_name": "South", "state": "West Bengal", "store_count": 11, "staff_count": 174, "monthly_payroll": 10591794.0, "payroll_crores": 1.06}], "monthly_sales": [{"ym": "2024-01", "month_name": "Jan 2024", "revenue": 267185168.02, "revenue_crores": 26.72, "order_count": 3189}, {"ym": "2024-02", "month_name": "Feb 2024", "revenue": 244549940.56, "revenue_crores": 24.45, "order_count": 2953}, {"ym": "2024-03", "month_name": "Mar 2024", "revenue": 278998373.13, "revenue_crores": 27.9, "order_count": 3329}, {"ym": "2024-04", "month_name": "Apr 2024", "revenue": 259246085.05, "revenue_crores": 25.92, "order_count": 3162}, {"ym": "2024-05", "month_name": "May 2024", "revenue": 267418660.55, "revenue_crores": 26.74, "order_count": 3284}, {"ym": "2024-06", "month_name": "Jun 2024", "revenue": 244424928.67, "revenue_crores": 24.44, "order_count": 3019}, {"ym": "2024-07", "month_name": "Jul 2024", "revenue": 265343771.94, "revenue_crores": 26.53, "order_count": 3270}, {"ym": "2024-08", "month_name": "Aug 2024", "revenue": 273762352.86, "revenue_crores": 27.38, "order_count": 3259}, {"ym": "2024-09", "month_name": "Sep 2024", "revenue": 251186458.3, "revenue_crores": 25.12, "order_count": 3107}, {"ym": "2024-10", "month_name": "Oct 2024", "revenue": 263748922.2, "revenue_crores": 26.37, "order_count": 3271}, {"ym": "2024-11", "month_name": "Nov 2024", "revenue": 257482187.49, "revenue_crores": 25.75, "order_count": 3096}, {"ym": "2024-12", "month_name": "Dec 2024", "revenue": 255786204.05, "revenue_crores": 25.58, "order_count": 3142}, {"ym": "2025-01", "month_name": "Jan 2025", "revenue": 257852068.67, "revenue_crores": 25.79, "order_count": 3282}, {"ym": "2025-02", "month_name": "Feb 2025", "revenue": 245739240.79, "revenue_crores": 24.57, "order_count": 2996}, {"ym": "2025-03", "month_name": "Mar 2025", "revenue": 274164232.1, "revenue_crores": 27.42, "order_count": 3340}, {"ym": "2025-04", "month_name": "Apr 2025", "revenue": 254886719.83, "revenue_crores": 25.49, "order_count": 3083}, {"ym": "2025-05", "month_name": "May 2025", "revenue": 265567636.1, "revenue_crores": 26.56, "order_count": 3235}, {"ym": "2025-06", "month_name": "Jun 2025", "revenue": 269997070.46, "revenue_crores": 27.0, "order_count": 3259}, {"ym": "2025-07", "month_name": "Jul 2025", "revenue": 274367607.37, "revenue_crores": 27.44, "order_count": 3295}, {"ym": "2025-08", "month_name": "Aug 2025", "revenue": 262457191.24, "revenue_crores": 26.25, "order_count": 3258}, {"ym": "2025-09", "month_name": "Sep 2025", "revenue": 261491618.36, "revenue_crores": 26.15, "order_count": 3116}, {"ym": "2025-10", "month_name": "Oct 2025", "revenue": 270411847.4, "revenue_crores": 27.04, "order_count": 3255}, {"ym": "2025-11", "month_name": "Nov 2025", "revenue": 258434391.33, "revenue_crores": 25.84, "order_count": 3126}, {"ym": "2025-12", "month_name": "Dec 2025", "revenue": 269918314.59, "revenue_crores": 26.99, "order_count": 3266}, {"ym": "2026-01", "month_name": "Jan 2026", "revenue": 256136553.02, "revenue_crores": 25.61, "order_count": 3218}, {"ym": "2026-02", "month_name": "Feb 2026", "revenue": 218978460.4, "revenue_crores": 21.9, "order_count": 2730}], "monthly_by_region": [{"ym": "2024-01", "region_name": "Central", "revenue": 26306805.54, "revenue_crores": 2.63}, {"ym": "2024-01", "region_name": "East", "revenue": 14890583.29, "revenue_crores": 1.49}, {"ym": "2024-01", "region_name": "North", "revenue": 93921520.38, "revenue_crores": 9.39}, {"ym": "2024-01", "region_name": "North East", "revenue": 57880877.18, "revenue_crores": 5.79}, {"ym": "2024-01", "region_name": "South", "revenue": 60697927.92, "revenue_crores": 6.07}, {"ym": "2024-01", "region_name": "West", "revenue": 13487453.71, "revenue_crores": 1.35}, {"ym": "2024-02", "region_name": "Central", "revenue": 23184057.51, "revenue_crores": 2.32}, {"ym": "2024-02", "region_name": "East", "revenue": 15965824.11, "revenue_crores": 1.6}, {"ym": "2024-02", "region_name": "North", "revenue": 79163780.56, "revenue_crores": 7.92}, {"ym": "2024-02", "region_name": "North East", "revenue": 57447810.36, "revenue_crores": 5.74}, {"ym": "2024-02", "region_name": "South", "revenue": 54606545.95, "revenue_crores": 5.46}, {"ym": "2024-02", "region_name": "West", "revenue": 14181922.07, "revenue_crores": 1.42}, {"ym": "2024-03", "region_name": "Central", "revenue": 27686910.69, "revenue_crores": 2.77}, {"ym": "2024-03", "region_name": "East", "revenue": 15142499.98, "revenue_crores": 1.51}, {"ym": "2024-03", "region_name": "North", "revenue": 93189330.03, "revenue_crores": 9.32}, {"ym": "2024-03", "region_name": "North East", "revenue": 68767051.86, "revenue_crores": 6.88}, {"ym": "2024-03", "region_name": "South", "revenue": 60572689.65, "revenue_crores": 6.06}, {"ym": "2024-03", "region_name": "West", "revenue": 13639890.92, "revenue_crores": 1.36}, {"ym": "2024-04", "region_name": "Central", "revenue": 23997125.19, "revenue_crores": 2.4}, {"ym": "2024-04", "region_name": "East", "revenue": 14888578.2, "revenue_crores": 1.49}, {"ym": "2024-04", "region_name": "North", "revenue": 96477803.59, "revenue_crores": 9.65}, {"ym": "2024-04", "region_name": "North East", "revenue": 57074553.16, "revenue_crores": 5.71}, {"ym": "2024-04", "region_name": "South", "revenue": 55365681.6, "revenue_crores": 5.54}, {"ym": "2024-04", "region_name": "West", "revenue": 11442343.31, "revenue_crores": 1.14}, {"ym": "2024-05", "region_name": "Central", "revenue": 25774404.98, "revenue_crores": 2.58}, {"ym": "2024-05", "region_name": "East", "revenue": 16787914.3, "revenue_crores": 1.68}, {"ym": "2024-05", "region_name": "North", "revenue": 91977194.73, "revenue_crores": 9.2}, {"ym": "2024-05", "region_name": "North East", "revenue": 61341636.88, "revenue_crores": 6.13}, {"ym": "2024-05", "region_name": "South", "revenue": 58654796.47, "revenue_crores": 5.87}, {"ym": "2024-05", "region_name": "West", "revenue": 12882713.19, "revenue_crores": 1.29}, {"ym": "2024-06", "region_name": "Central", "revenue": 20268569.39, "revenue_crores": 2.03}, {"ym": "2024-06", "region_name": "East", "revenue": 13654282.16, "revenue_crores": 1.37}, {"ym": "2024-06", "region_name": "North", "revenue": 86100012.43, "revenue_crores": 8.61}, {"ym": "2024-06", "region_name": "North East", "revenue": 55481447.11, "revenue_crores": 5.55}, {"ym": "2024-06", "region_name": "South", "revenue": 56178052.6, "revenue_crores": 5.62}, {"ym": "2024-06", "region_name": "West", "revenue": 12742564.98, "revenue_crores": 1.27}, {"ym": "2024-07", "region_name": "Central", "revenue": 21372519.98, "revenue_crores": 2.14}, {"ym": "2024-07", "region_name": "East", "revenue": 13229271.14, "revenue_crores": 1.32}, {"ym": "2024-07", "region_name": "North", "revenue": 92997176.33, "revenue_crores": 9.3}, {"ym": "2024-07", "region_name": "North East", "revenue": 63505985.61, "revenue_crores": 6.35}, {"ym": "2024-07", "region_name": "South", "revenue": 60783727.15, "revenue_crores": 6.08}, {"ym": "2024-07", "region_name": "West", "revenue": 13455091.73, "revenue_crores": 1.35}, {"ym": "2024-08", "region_name": "Central", "revenue": 24731124.81, "revenue_crores": 2.47}, {"ym": "2024-08", "region_name": "East", "revenue": 17622410.31, "revenue_crores": 1.76}, {"ym": "2024-08", "region_name": "North", "revenue": 93354663.69, "revenue_crores": 9.34}, {"ym": "2024-08", "region_name": "North East", "revenue": 66792119.65, "revenue_crores": 6.68}, {"ym": "2024-08", "region_name": "South", "revenue": 57134571.88, "revenue_crores": 5.71}, {"ym": "2024-08", "region_name": "West", "revenue": 14127462.52, "revenue_crores": 1.41}, {"ym": "2024-09", "region_name": "Central", "revenue": 23462470.74, "revenue_crores": 2.35}, {"ym": "2024-09", "region_name": "East", "revenue": 14448937.04, "revenue_crores": 1.44}, {"ym": "2024-09", "region_name": "North", "revenue": 85038839.35, "revenue_crores": 8.5}, {"ym": "2024-09", "region_name": "North East", "revenue": 63520278.31, "revenue_crores": 6.35}, {"ym": "2024-09", "region_name": "South", "revenue": 52214721.48, "revenue_crores": 5.22}, {"ym": "2024-09", "region_name": "West", "revenue": 12501211.38, "revenue_crores": 1.25}, {"ym": "2024-10", "region_name": "Central", "revenue": 23059389.62, "revenue_crores": 2.31}, {"ym": "2024-10", "region_name": "East", "revenue": 15265160.71, "revenue_crores": 1.53}, {"ym": "2024-10", "region_name": "North", "revenue": 89552592.78, "revenue_crores": 8.96}, {"ym": "2024-10", "region_name": "North East", "revenue": 61371602.3, "revenue_crores": 6.14}, {"ym": "2024-10", "region_name": "South", "revenue": 62996361.63, "revenue_crores": 6.3}, {"ym": "2024-10", "region_name": "West", "revenue": 11503815.16, "revenue_crores": 1.15}, {"ym": "2024-11", "region_name": "Central", "revenue": 20808032.53, "revenue_crores": 2.08}, {"ym": "2024-11", "region_name": "East", "revenue": 16622663.27, "revenue_crores": 1.66}, {"ym": "2024-11", "region_name": "North", "revenue": 78129614.6, "revenue_crores": 7.81}, {"ym": "2024-11", "region_name": "North East", "revenue": 69223645.06, "revenue_crores": 6.92}, {"ym": "2024-11", "region_name": "South", "revenue": 58183452.94, "revenue_crores": 5.82}, {"ym": "2024-11", "region_name": "West", "revenue": 14514779.09, "revenue_crores": 1.45}, {"ym": "2024-12", "region_name": "Central", "revenue": 20511298.24, "revenue_crores": 2.05}, {"ym": "2024-12", "region_name": "East", "revenue": 15639928.91, "revenue_crores": 1.56}, {"ym": "2024-12", "region_name": "North", "revenue": 89425335.14, "revenue_crores": 8.94}, {"ym": "2024-12", "region_name": "North East", "revenue": 58521230.62, "revenue_crores": 5.85}, {"ym": "2024-12", "region_name": "South", "revenue": 57350910.13, "revenue_crores": 5.74}, {"ym": "2024-12", "region_name": "West", "revenue": 14337501.01, "revenue_crores": 1.43}, {"ym": "2025-01", "region_name": "Central", "revenue": 20452598.94, "revenue_crores": 2.05}, {"ym": "2025-01", "region_name": "East", "revenue": 13891681.16, "revenue_crores": 1.39}, {"ym": "2025-01", "region_name": "North", "revenue": 88348212.0, "revenue_crores": 8.83}, {"ym": "2025-01", "region_name": "North East", "revenue": 62640565.49, "revenue_crores": 6.26}, {"ym": "2025-01", "region_name": "South", "revenue": 56797918.21, "revenue_crores": 5.68}, {"ym": "2025-01", "region_name": "West", "revenue": 15721092.87, "revenue_crores": 1.57}, {"ym": "2025-02", "region_name": "Central", "revenue": 18415964.46, "revenue_crores": 1.84}, {"ym": "2025-02", "region_name": "East", "revenue": 14960320.05, "revenue_crores": 1.5}, {"ym": "2025-02", "region_name": "North", "revenue": 84422189.72, "revenue_crores": 8.44}, {"ym": "2025-02", "region_name": "North East", "revenue": 60415935.99, "revenue_crores": 6.04}, {"ym": "2025-02", "region_name": "South", "revenue": 53927641.96, "revenue_crores": 5.39}, {"ym": "2025-02", "region_name": "West", "revenue": 13597188.61, "revenue_crores": 1.36}, {"ym": "2025-03", "region_name": "Central", "revenue": 24547432.9, "revenue_crores": 2.45}, {"ym": "2025-03", "region_name": "East", "revenue": 15195062.56, "revenue_crores": 1.52}, {"ym": "2025-03", "region_name": "North", "revenue": 91995137.47, "revenue_crores": 9.2}, {"ym": "2025-03", "region_name": "North East", "revenue": 67835451.87, "revenue_crores": 6.78}, {"ym": "2025-03", "region_name": "South", "revenue": 57102408.67, "revenue_crores": 5.71}, {"ym": "2025-03", "region_name": "West", "revenue": 17488738.63, "revenue_crores": 1.75}, {"ym": "2025-04", "region_name": "Central", "revenue": 21899577.8, "revenue_crores": 2.19}, {"ym": "2025-04", "region_name": "East", "revenue": 16421936.69, "revenue_crores": 1.64}, {"ym": "2025-04", "region_name": "North", "revenue": 87631026.88, "revenue_crores": 8.76}, {"ym": "2025-04", "region_name": "North East", "revenue": 61608805.66, "revenue_crores": 6.16}, {"ym": "2025-04", "region_name": "South", "revenue": 56348491.91, "revenue_crores": 5.63}, {"ym": "2025-04", "region_name": "West", "revenue": 10976880.89, "revenue_crores": 1.1}, {"ym": "2025-05", "region_name": "Central", "revenue": 18211347.22, "revenue_crores": 1.82}, {"ym": "2025-05", "region_name": "East", "revenue": 13647971.39, "revenue_crores": 1.36}, {"ym": "2025-05", "region_name": "North", "revenue": 96391917.01, "revenue_crores": 9.64}, {"ym": "2025-05", "region_name": "North East", "revenue": 62195416.64, "revenue_crores": 6.22}, {"ym": "2025-05", "region_name": "South", "revenue": 61515558.15, "revenue_crores": 6.15}, {"ym": "2025-05", "region_name": "West", "revenue": 13605425.69, "revenue_crores": 1.36}, {"ym": "2025-06", "region_name": "Central", "revenue": 25862633.11, "revenue_crores": 2.59}, {"ym": "2025-06", "region_name": "East", "revenue": 15025298.11, "revenue_crores": 1.5}, {"ym": "2025-06", "region_name": "North", "revenue": 93551892.63, "revenue_crores": 9.36}, {"ym": "2025-06", "region_name": "North East", "revenue": 62795125.01, "revenue_crores": 6.28}, {"ym": "2025-06", "region_name": "South", "revenue": 57339557.49, "revenue_crores": 5.73}, {"ym": "2025-06", "region_name": "West", "revenue": 15422564.11, "revenue_crores": 1.54}, {"ym": "2025-07", "region_name": "Central", "revenue": 24095968.15, "revenue_crores": 2.41}, {"ym": "2025-07", "region_name": "East", "revenue": 18574183.37, "revenue_crores": 1.86}, {"ym": "2025-07", "region_name": "North", "revenue": 95805871.72, "revenue_crores": 9.58}, {"ym": "2025-07", "region_name": "North East", "revenue": 67796297.34, "revenue_crores": 6.78}, {"ym": "2025-07", "region_name": "South", "revenue": 53688095.1, "revenue_crores": 5.37}, {"ym": "2025-07", "region_name": "West", "revenue": 14407191.69, "revenue_crores": 1.44}, {"ym": "2025-08", "region_name": "Central", "revenue": 22121830.81, "revenue_crores": 2.21}, {"ym": "2025-08", "region_name": "East", "revenue": 18933029.08, "revenue_crores": 1.89}, {"ym": "2025-08", "region_name": "North", "revenue": 79825516.28, "revenue_crores": 7.98}, {"ym": "2025-08", "region_name": "North East", "revenue": 63553965.91, "revenue_crores": 6.36}, {"ym": "2025-08", "region_name": "South", "revenue": 65213276.77, "revenue_crores": 6.52}, {"ym": "2025-08", "region_name": "West", "revenue": 12809572.39, "revenue_crores": 1.28}, {"ym": "2025-09", "region_name": "Central", "revenue": 23113427.03, "revenue_crores": 2.31}, {"ym": "2025-09", "region_name": "East", "revenue": 14048322.73, "revenue_crores": 1.4}, {"ym": "2025-09", "region_name": "North", "revenue": 92006518.99, "revenue_crores": 9.2}, {"ym": "2025-09", "region_name": "North East", "revenue": 67639840.51, "revenue_crores": 6.76}, {"ym": "2025-09", "region_name": "South", "revenue": 50908384.34, "revenue_crores": 5.09}, {"ym": "2025-09", "region_name": "West", "revenue": 13775124.76, "revenue_crores": 1.38}, {"ym": "2025-10", "region_name": "Central", "revenue": 26448557.34, "revenue_crores": 2.64}, {"ym": "2025-10", "region_name": "East", "revenue": 15957609.28, "revenue_crores": 1.6}, {"ym": "2025-10", "region_name": "North", "revenue": 96763684.03, "revenue_crores": 9.68}, {"ym": "2025-10", "region_name": "North East", "revenue": 55719380.29, "revenue_crores": 5.57}, {"ym": "2025-10", "region_name": "South", "revenue": 59534843.58, "revenue_crores": 5.95}, {"ym": "2025-10", "region_name": "West", "revenue": 15987772.88, "revenue_crores": 1.6}, {"ym": "2025-11", "region_name": "Central", "revenue": 23850811.11, "revenue_crores": 2.39}, {"ym": "2025-11", "region_name": "East", "revenue": 15357741.03, "revenue_crores": 1.54}, {"ym": "2025-11", "region_name": "North", "revenue": 90569617.58, "revenue_crores": 9.06}, {"ym": "2025-11", "region_name": "North East", "revenue": 58991612.18, "revenue_crores": 5.9}, {"ym": "2025-11", "region_name": "South", "revenue": 54302938.03, "revenue_crores": 5.43}, {"ym": "2025-11", "region_name": "West", "revenue": 15361671.4, "revenue_crores": 1.54}, {"ym": "2025-12", "region_name": "Central", "revenue": 23424687.05, "revenue_crores": 2.34}, {"ym": "2025-12", "region_name": "East", "revenue": 18622684.19, "revenue_crores": 1.86}, {"ym": "2025-12", "region_name": "North", "revenue": 93852989.14, "revenue_crores": 9.39}, {"ym": "2025-12", "region_name": "North East", "revenue": 55757105.05, "revenue_crores": 5.58}, {"ym": "2025-12", "region_name": "South", "revenue": 64346173.39, "revenue_crores": 6.43}, {"ym": "2025-12", "region_name": "West", "revenue": 13914675.77, "revenue_crores": 1.39}, {"ym": "2026-01", "region_name": "Central", "revenue": 20246993.57, "revenue_crores": 2.02}, {"ym": "2026-01", "region_name": "East", "revenue": 14887066.42, "revenue_crores": 1.49}, {"ym": "2026-01", "region_name": "North", "revenue": 85354326.1, "revenue_crores": 8.54}, {"ym": "2026-01", "region_name": "North East", "revenue": 63628596.93, "revenue_crores": 6.36}, {"ym": "2026-01", "region_name": "South", "revenue": 59581066.42, "revenue_crores": 5.96}, {"ym": "2026-01", "region_name": "West", "revenue": 12438503.58, "revenue_crores": 1.24}, {"ym": "2026-02", "region_name": "Central", "revenue": 18918862.51, "revenue_crores": 1.89}, {"ym": "2026-02", "region_name": "East", "revenue": 12406087.47, "revenue_crores": 1.24}, {"ym": "2026-02", "region_name": "North", "revenue": 77745761.16, "revenue_crores": 7.77}, {"ym": "2026-02", "region_name": "North East", "revenue": 51221288.41, "revenue_crores": 5.12}, {"ym": "2026-02", "region_name": "South", "revenue": 47445142.69, "revenue_crores": 4.74}, {"ym": "2026-02", "region_name": "West", "revenue": 11241318.16, "revenue_crores": 1.12}], "departments": [{"dept_id": 6, "dept_name": "IT", "staff_count": 310, "avg_salary": 71392.9, "monthly_payroll": 22131800.0, "payroll_crores": 2.21}, {"dept_id": 9, "dept_name": "Legal", "staff_count": 339, "avg_salary": 61119.09, "monthly_payroll": 20719373.0, "payroll_crores": 2.07}, {"dept_id": 1, "dept_name": "Sales", "staff_count": 300, "avg_salary": 67489.22, "monthly_payroll": 20246765.0, "payroll_crores": 2.02}, {"dept_id": 4, "dept_name": "Finance", "staff_count": 298, "avg_salary": 67496.4, "monthly_payroll": 20113926.0, "payroll_crores": 2.01}, {"dept_id": 5, "dept_name": "HR", "staff_count": 302, "avg_salary": 66320.72, "monthly_payroll": 20028857.0, "payroll_crores": 2.0}, {"dept_id": 7, "dept_name": "Logistics", "staff_count": 299, "avg_salary": 65170.66, "monthly_payroll": 19486027.0, "payroll_crores": 1.95}, {"dept_id": 2, "dept_name": "Operations", "staff_count": 301, "avg_salary": 59777.06, "monthly_payroll": 17992896.0, "payroll_crores": 1.8}, {"dept_id": 3, "dept_name": "Marketing", "staff_count": 307, "avg_salary": 56633.43, "monthly_payroll": 17386464.0, "payroll_crores": 1.74}, {"dept_id": 10, "dept_name": "Procurement", "staff_count": 266, "avg_salary": 62694.11, "monthly_payroll": 16676633.0, "payroll_crores": 1.67}, {"dept_id": 8, "dept_name": "Customer Support", "staff_count": 278, "avg_salary": 54093.79, "monthly_payroll": 15038073.0, "payroll_crores": 1.5}], "expense_categories": [{"exp_cat_id": 8, "category_name": "Payroll", "total_amount": 3352079869.11, "amount_crores": 335.21}, {"exp_cat_id": 10, "category_name": "Taxes", "total_amount": 1503376437.33, "amount_crores": 150.34}, {"exp_cat_id": 1, "category_name": "Rent", "total_amount": 750339178.05, "amount_crores": 75.03}, {"exp_cat_id": 12, "category_name": "R&D", "total_amount": 684101294.97, "amount_crores": 68.41}, {"exp_cat_id": 4, "category_name": "Marketing", "total_amount": 637360293.45, "amount_crores": 63.74}, {"exp_cat_id": 9, "category_name": "Insurance", "total_amount": 282533952.71, "amount_crores": 28.25}, {"exp_cat_id": 14, "category_name": "Events", "total_amount": 271374202.64, "amount_crores": 27.14}, {"exp_cat_id": 5, "category_name": "Software", "total_amount": 144372085.89, "amount_crores": 14.44}, {"exp_cat_id": 11, "category_name": "Logistics", "total_amount": 142316236.0, "amount_crores": 14.23}, {"exp_cat_id": 6, "category_name": "Travel", "total_amount": 69656936.98, "amount_crores": 6.97}, {"exp_cat_id": 2, "category_name": "Utilities", "total_amount": 69203997.34, "amount_crores": 6.92}, {"exp_cat_id": 3, "category_name": "Maintenance", "total_amount": 68028705.07, "amount_crores": 6.8}, {"exp_cat_id": 13, "category_name": "Training", "total_amount": 13535604.02, "amount_crores": 1.35}, {"exp_cat_id": 7, "category_name": "Office Supplies", "total_amount": 13409398.53, "amount_crores": 1.34}, {"exp_cat_id": 15, "category_name": "Miscellaneous", "total_amount": 13343192.2, "amount_crores": 1.33}]};
+        window.cfData = {"kpis": {"total_revenue": 6769536004.48, "revenue_crores": 676.95, "total_headcount": 3000, "total_stores": 200, "rev_per_employee": 2256512.0, "rev_per_emp_lakhs": 22.57, "monthly_payroll": 189820814.0, "monthly_payroll_crores": 18.98, "processed_payroll": 180347191.9, "processed_payroll_crores": 18.03, "labor_to_revenue_pct": 2.66, "staffing_density": 15.0, "store_expenses": 100369598.57, "store_expenses_crores": 10.04, "payroll_per_store": 949104.07}, "store_staffing": [{"store_id": 148, "store_name": "RetailMart Raipur", "city": "Raipur", "region_name": "South", "staff_count": 17, "net_revenue": 42597733.88, "revenue_crores": 4.26, "rev_per_employee": 2505749.05, "rev_per_emp_lakhs": 25.06, "store_expenses": 459190.99, "monthly_payroll": 770589.0, "annual_store_contribution": 32891474.89, "contribution_crores": 3.29}, {"store_id": 182, "store_name": "RetailMart Prayagraj", "city": "Prayagraj", "region_name": "North East", "staff_count": 17, "net_revenue": 40796208.81, "revenue_crores": 4.08, "rev_per_employee": 2399776.99, "rev_per_emp_lakhs": 24.0, "store_expenses": 430822.24, "monthly_payroll": 922812.0, "annual_store_contribution": 29291642.57, "contribution_crores": 2.93}, {"store_id": 98, "store_name": "RetailMart Rourkela", "city": "Rourkela", "region_name": "North East", "staff_count": 13, "net_revenue": 40627364.49, "revenue_crores": 4.06, "rev_per_employee": 3125181.88, "rev_per_emp_lakhs": 31.25, "store_expenses": 582837.24, "monthly_payroll": 976847.0, "annual_store_contribution": 28322363.25, "contribution_crores": 2.83}, {"store_id": 128, "store_name": "RetailMart Salem", "city": "Salem", "region_name": "North", "staff_count": 12, "net_revenue": 40451708.06, "revenue_crores": 4.05, "rev_per_employee": 3370975.67, "rev_per_emp_lakhs": 33.71, "store_expenses": 443022.0, "monthly_payroll": 850115.0, "annual_store_contribution": 29807306.06, "contribution_crores": 2.98}, {"store_id": 41, "store_name": "RetailMart Amritsar", "city": "Amritsar", "region_name": "South", "staff_count": 18, "net_revenue": 40240802.14, "revenue_crores": 4.02, "rev_per_employee": 2235600.12, "rev_per_emp_lakhs": 22.36, "store_expenses": 485873.53, "monthly_payroll": 1490041.0, "annual_store_contribution": 21874436.61, "contribution_crores": 2.19}, {"store_id": 19, "store_name": "RetailMart Kanpur", "city": "Kanpur", "region_name": "South", "staff_count": 17, "net_revenue": 40016788.46, "revenue_crores": 4.0, "rev_per_employee": 2353928.73, "rev_per_emp_lakhs": 23.54, "store_expenses": 582382.29, "monthly_payroll": 779142.0, "annual_store_contribution": 30084702.17, "contribution_crores": 3.01}, {"store_id": 60, "store_name": "RetailMart Surat", "city": "Surat", "region_name": "Central", "staff_count": 10, "net_revenue": 40009252.64, "revenue_crores": 4.0, "rev_per_employee": 4000925.26, "rev_per_emp_lakhs": 40.01, "store_expenses": 487999.18, "monthly_payroll": 641461.0, "annual_store_contribution": 31823721.46, "contribution_crores": 3.18}, {"store_id": 6, "store_name": "RetailMart Gaya", "city": "Gaya", "region_name": "Central", "staff_count": 17, "net_revenue": 39812327.43, "revenue_crores": 3.98, "rev_per_employee": 2341901.61, "rev_per_emp_lakhs": 23.42, "store_expenses": 410785.39, "monthly_payroll": 1150499.0, "annual_store_contribution": 25595554.04, "contribution_crores": 2.56}, {"store_id": 195, "store_name": "RetailMart Surat", "city": "Surat", "region_name": "South", "staff_count": 17, "net_revenue": 39287559.01, "revenue_crores": 3.93, "rev_per_employee": 2311032.88, "rev_per_emp_lakhs": 23.11, "store_expenses": 380039.81, "monthly_payroll": 900528.0, "annual_store_contribution": 28101183.2, "contribution_crores": 2.81}, {"store_id": 94, "store_name": "RetailMart Pune", "city": "Pune", "region_name": "North East", "staff_count": 18, "net_revenue": 39191158.8, "revenue_crores": 3.92, "rev_per_employee": 2177286.6, "rev_per_emp_lakhs": 21.77, "store_expenses": 481095.82, "monthly_payroll": 1014507.0, "annual_store_contribution": 26535978.98, "contribution_crores": 2.65}, {"store_id": 176, "store_name": "RetailMart Panaji", "city": "Panaji", "region_name": "North", "staff_count": 14, "net_revenue": 39092908.87, "revenue_crores": 3.91, "rev_per_employee": 2792350.63, "rev_per_emp_lakhs": 27.92, "store_expenses": 564206.57, "monthly_payroll": 1067366.0, "annual_store_contribution": 25720310.3, "contribution_crores": 2.57}, {"store_id": 169, "store_name": "RetailMart Mangalore", "city": "Mangalore", "region_name": "South", "staff_count": 17, "net_revenue": 39019433.89, "revenue_crores": 3.9, "rev_per_employee": 2295260.82, "rev_per_emp_lakhs": 22.95, "store_expenses": 492132.38, "monthly_payroll": 1538360.0, "annual_store_contribution": 20066981.51, "contribution_crores": 2.01}, {"store_id": 20, "store_name": "RetailMart Cuttack", "city": "Cuttack", "region_name": "South", "staff_count": 11, "net_revenue": 38753540.1, "revenue_crores": 3.88, "rev_per_employee": 3523049.1, "rev_per_emp_lakhs": 35.23, "store_expenses": 600055.86, "monthly_payroll": 450552.0, "annual_store_contribution": 32746860.24, "contribution_crores": 3.27}, {"store_id": 16, "store_name": "RetailMart Jamshedpur", "city": "Jamshedpur", "region_name": "North East", "staff_count": 12, "net_revenue": 38209696.88, "revenue_crores": 3.82, "rev_per_employee": 3184141.41, "rev_per_emp_lakhs": 31.84, "store_expenses": 530584.42, "monthly_payroll": 1105318.0, "annual_store_contribution": 24415296.46, "contribution_crores": 2.44}, {"store_id": 100, "store_name": "RetailMart Chandigarh", "city": "Chandigarh", "region_name": "North East", "staff_count": 16, "net_revenue": 38137656.18, "revenue_crores": 3.81, "rev_per_employee": 2383603.51, "rev_per_emp_lakhs": 23.84, "store_expenses": 502107.78, "monthly_payroll": 1133800.0, "annual_store_contribution": 24029948.4, "contribution_crores": 2.4}, {"store_id": 111, "store_name": "RetailMart Howrah", "city": "Howrah", "region_name": "South", "staff_count": 13, "net_revenue": 37956708.21, "revenue_crores": 3.8, "rev_per_employee": 2919746.79, "rev_per_emp_lakhs": 29.2, "store_expenses": 522507.91, "monthly_payroll": 683953.0, "annual_store_contribution": 29226764.3, "contribution_crores": 2.92}, {"store_id": 32, "store_name": "RetailMart Coimbatore", "city": "Coimbatore", "region_name": "North East", "staff_count": 16, "net_revenue": 37739456.64, "revenue_crores": 3.77, "rev_per_employee": 2358716.04, "rev_per_emp_lakhs": 23.59, "store_expenses": 447997.63, "monthly_payroll": 1004481.0, "annual_store_contribution": 25237687.01, "contribution_crores": 2.52}, {"store_id": 156, "store_name": "RetailMart Agartala", "city": "Agartala", "region_name": "Central", "staff_count": 17, "net_revenue": 37714948.31, "revenue_crores": 3.77, "rev_per_employee": 2218526.37, "rev_per_emp_lakhs": 22.19, "store_expenses": 518550.76, "monthly_payroll": 934371.0, "annual_store_contribution": 25983945.55, "contribution_crores": 2.6}, {"store_id": 28, "store_name": "RetailMart Gwalior", "city": "Gwalior", "region_name": "Central", "staff_count": 10, "net_revenue": 37641242.82, "revenue_crores": 3.76, "rev_per_employee": 3764124.28, "rev_per_emp_lakhs": 37.64, "store_expenses": 500368.96, "monthly_payroll": 387865.0, "annual_store_contribution": 32486493.86, "contribution_crores": 3.25}, {"store_id": 179, "store_name": "RetailMart Mysuru", "city": "Mysuru", "region_name": "North", "staff_count": 17, "net_revenue": 37615792.98, "revenue_crores": 3.76, "rev_per_employee": 2212693.7, "rev_per_emp_lakhs": 22.13, "store_expenses": 516749.62, "monthly_payroll": 1146003.0, "annual_store_contribution": 23347007.36, "contribution_crores": 2.33}, {"store_id": 119, "store_name": "RetailMart Jamshedpur", "city": "Jamshedpur", "region_name": "North East", "staff_count": 18, "net_revenue": 37583179.69, "revenue_crores": 3.76, "rev_per_employee": 2087954.43, "rev_per_emp_lakhs": 20.88, "store_expenses": 566286.16, "monthly_payroll": 1172917.0, "annual_store_contribution": 22941889.53, "contribution_crores": 2.29}, {"store_id": 88, "store_name": "RetailMart Kanpur", "city": "Kanpur", "region_name": "North", "staff_count": 13, "net_revenue": 37314184.44, "revenue_crores": 3.73, "rev_per_employee": 2870321.88, "rev_per_emp_lakhs": 28.7, "store_expenses": 449485.74, "monthly_payroll": 1001871.0, "annual_store_contribution": 24842246.7, "contribution_crores": 2.48}, {"store_id": 83, "store_name": "RetailMart Ludhiana", "city": "Ludhiana", "region_name": "West", "staff_count": 11, "net_revenue": 37284302.68, "revenue_crores": 3.73, "rev_per_employee": 3389482.06, "rev_per_emp_lakhs": 33.89, "store_expenses": 498715.54, "monthly_payroll": 786065.0, "annual_store_contribution": 27352807.14, "contribution_crores": 2.74}, {"store_id": 17, "store_name": "RetailMart Madurai", "city": "Madurai", "region_name": "South", "staff_count": 23, "net_revenue": 37152830.25, "revenue_crores": 3.72, "rev_per_employee": 1615340.45, "rev_per_emp_lakhs": 16.15, "store_expenses": 467927.93, "monthly_payroll": 1276110.0, "annual_store_contribution": 21371582.32, "contribution_crores": 2.14}, {"store_id": 124, "store_name": "RetailMart Noida", "city": "Noida", "region_name": "North", "staff_count": 13, "net_revenue": 37054360.27, "revenue_crores": 3.71, "rev_per_employee": 2850335.41, "rev_per_emp_lakhs": 28.5, "store_expenses": 507486.64, "monthly_payroll": 837808.0, "annual_store_contribution": 26493177.63, "contribution_crores": 2.65}], "department_allocation": [{"dept_name": "IT", "staff_count": 310, "avg_salary": 71392.9, "monthly_payroll": 22131800.0, "payroll_crores": 2.21, "payroll_share_pct": 11.66}, {"dept_name": "Legal", "staff_count": 339, "avg_salary": 61119.09, "monthly_payroll": 20719373.0, "payroll_crores": 2.07, "payroll_share_pct": 10.92}, {"dept_name": "Sales", "staff_count": 300, "avg_salary": 67489.22, "monthly_payroll": 20246765.0, "payroll_crores": 2.02, "payroll_share_pct": 10.67}, {"dept_name": "Finance", "staff_count": 298, "avg_salary": 67496.4, "monthly_payroll": 20113926.0, "payroll_crores": 2.01, "payroll_share_pct": 10.6}, {"dept_name": "HR", "staff_count": 302, "avg_salary": 66320.72, "monthly_payroll": 20028857.0, "payroll_crores": 2.0, "payroll_share_pct": 10.55}, {"dept_name": "Logistics", "staff_count": 299, "avg_salary": 65170.66, "monthly_payroll": 19486027.0, "payroll_crores": 1.95, "payroll_share_pct": 10.27}, {"dept_name": "Operations", "staff_count": 301, "avg_salary": 59777.06, "monthly_payroll": 17992896.0, "payroll_crores": 1.8, "payroll_share_pct": 9.48}, {"dept_name": "Marketing", "staff_count": 307, "avg_salary": 56633.43, "monthly_payroll": 17386464.0, "payroll_crores": 1.74, "payroll_share_pct": 9.16}, {"dept_name": "Procurement", "staff_count": 266, "avg_salary": 62694.11, "monthly_payroll": 16676633.0, "payroll_crores": 1.67, "payroll_share_pct": 8.79}, {"dept_name": "Customer Support", "staff_count": 278, "avg_salary": 54093.79, "monthly_payroll": 15038073.0, "payroll_crores": 1.5, "payroll_share_pct": 7.92}], "regional_synthesis": [{"region_name": "South", "store_count": 14, "staff_count": 195, "avg_staff_per_store": 13.9, "net_revenue": 472381065.38, "revenue_crores": 47.24, "rev_per_employee": 2422467.0, "store_expenses": 6849804.93, "expenses_crores": 0.68, "regional_spread": 465531260.45, "spread_crores": 46.55}, {"region_name": "North", "store_count": 14, "staff_count": 199, "avg_staff_per_store": 14.2, "net_revenue": 462916868.63, "revenue_crores": 46.29, "rev_per_employee": 2326215.42, "store_expenses": 7047669.05, "expenses_crores": 0.7, "regional_spread": 455869199.58, "spread_crores": 45.59}, {"region_name": "North East", "store_count": 13, "staff_count": 179, "avg_staff_per_store": 13.8, "net_revenue": 450418923.91, "revenue_crores": 45.04, "rev_per_employee": 2516306.84, "store_expenses": 6431389.64, "expenses_crores": 0.64, "regional_spread": 443987534.27, "spread_crores": 44.4}, {"region_name": "North", "store_count": 13, "staff_count": 181, "avg_staff_per_store": 13.9, "net_revenue": 448863905.41, "revenue_crores": 44.89, "rev_per_employee": 2479911.08, "store_expenses": 6477836.8, "expenses_crores": 0.65, "regional_spread": 442386068.61, "spread_crores": 44.24}, {"region_name": "North East", "store_count": 12, "staff_count": 179, "avg_staff_per_store": 14.9, "net_revenue": 420580330.08, "revenue_crores": 42.06, "rev_per_employee": 2349610.78, "store_expenses": 6231039.3, "expenses_crores": 0.62, "regional_spread": 414349290.78, "spread_crores": 41.43}, {"region_name": "East", "store_count": 12, "staff_count": 179, "avg_staff_per_store": 14.9, "net_revenue": 402087046.95, "revenue_crores": 40.21, "rev_per_employee": 2246296.35, "store_expenses": 6121633.1, "expenses_crores": 0.61, "regional_spread": 395965413.85, "spread_crores": 39.6}, {"region_name": "North", "store_count": 12, "staff_count": 172, "avg_staff_per_store": 14.3, "net_revenue": 398595738.1, "revenue_crores": 39.86, "rev_per_employee": 2317417.08, "store_expenses": 6269459.76, "expenses_crores": 0.63, "regional_spread": 392326278.34, "spread_crores": 39.23}, {"region_name": "North East", "store_count": 11, "staff_count": 182, "avg_staff_per_store": 16.5, "net_revenue": 374449055.18, "revenue_crores": 37.44, "rev_per_employee": 2057412.39, "store_expenses": 5216412.62, "expenses_crores": 0.52, "regional_spread": 369232642.56, "spread_crores": 36.92}, {"region_name": "North", "store_count": 11, "staff_count": 169, "avg_staff_per_store": 15.4, "net_revenue": 371142039.22, "revenue_crores": 37.11, "rev_per_employee": 2196106.74, "store_expenses": 5444006.52, "expenses_crores": 0.54, "regional_spread": 365698032.7, "spread_crores": 36.57}, {"region_name": "South", "store_count": 11, "staff_count": 174, "avg_staff_per_store": 15.8, "net_revenue": 370040416.04, "revenue_crores": 37.0, "rev_per_employee": 2126669.06, "store_expenses": 5469688.0, "expenses_crores": 0.55, "regional_spread": 364570728.04, "spread_crores": 36.46}, {"region_name": "West", "store_count": 11, "staff_count": 156, "avg_staff_per_store": 14.2, "net_revenue": 355564470.5, "revenue_crores": 35.56, "rev_per_employee": 2279259.43, "store_expenses": 5400567.29, "expenses_crores": 0.54, "regional_spread": 350163903.21, "spread_crores": 35.02}, {"region_name": "Central", "store_count": 10, "staff_count": 145, "avg_staff_per_store": 14.5, "net_revenue": 349035449.96, "revenue_crores": 34.9, "rev_per_employee": 2407141.03, "store_expenses": 4867335.08, "expenses_crores": 0.49, "regional_spread": 344168114.88, "spread_crores": 34.42}, {"region_name": "South", "store_count": 10, "staff_count": 158, "avg_staff_per_store": 15.8, "net_revenue": 341199102.44, "revenue_crores": 34.12, "rev_per_employee": 2159487.99, "store_expenses": 4864060.57, "expenses_crores": 0.49, "regional_spread": 336335041.87, "spread_crores": 33.63}, {"region_name": "South", "store_count": 9, "staff_count": 138, "avg_staff_per_store": 15.3, "net_revenue": 309170352.25, "revenue_crores": 30.92, "rev_per_employee": 2240364.87, "store_expenses": 4782719.6, "expenses_crores": 0.48, "regional_spread": 304387632.65, "spread_crores": 30.44}, {"region_name": "Central", "store_count": 7, "staff_count": 122, "avg_staff_per_store": 17.4, "net_revenue": 243737951.26, "revenue_crores": 24.37, "rev_per_employee": 1997852.06, "store_expenses": 3667121.06, "expenses_crores": 0.37, "regional_spread": 240070830.2, "spread_crores": 24.01}, {"region_name": "North", "store_count": 7, "staff_count": 107, "avg_staff_per_store": 15.3, "net_revenue": 239137604.24, "revenue_crores": 23.91, "rev_per_employee": 2234930.88, "store_expenses": 3785336.29, "expenses_crores": 0.38, "regional_spread": 235352267.95, "spread_crores": 23.54}, {"region_name": "North", "store_count": 7, "staff_count": 122, "avg_staff_per_store": 17.4, "net_revenue": 227322625.66, "revenue_crores": 22.73, "rev_per_employee": 1863300.21, "store_expenses": 3238707.58, "expenses_crores": 0.32, "regional_spread": 224083918.08, "spread_crores": 22.41}, {"region_name": "North East", "store_count": 6, "staff_count": 85, "avg_staff_per_store": 14.2, "net_revenue": 205306843.65, "revenue_crores": 20.53, "rev_per_employee": 2415374.63, "store_expenses": 3067238.63, "expenses_crores": 0.31, "regional_spread": 202239605.02, "spread_crores": 20.22}, {"region_name": "North", "store_count": 5, "staff_count": 80, "avg_staff_per_store": 16.0, "net_revenue": 175613743.06, "revenue_crores": 17.56, "rev_per_employee": 2195171.79, "store_expenses": 2667892.76, "expenses_crores": 0.27, "regional_spread": 172945850.3, "spread_crores": 17.29}, {"region_name": "North East", "store_count": 5, "staff_count": 78, "avg_staff_per_store": 15.6, "net_revenue": 151972472.56, "revenue_crores": 15.2, "rev_per_employee": 1948365.03, "store_expenses": 2469679.99, "expenses_crores": 0.25, "regional_spread": 149502792.57, "spread_crores": 14.95}], "monthly_trajectory": [{"month_date": "2024-01-01", "month_name": "Jan 2024", "total_revenue": 267185168.02, "revenue_crores": 26.72, "payroll_amount": 0.0, "payroll_crores": 0.0, "store_expenses": 0.0, "store_exp_crores": 0.0, "total_expenses": 309661705.8, "total_exp_crores": 30.97, "labor_to_rev_pct": 0.0}, {"month_date": "2024-02-01", "month_name": "Feb 2024", "total_revenue": 244549940.56, "revenue_crores": 24.45, "payroll_amount": 0.0, "payroll_crores": 0.0, "store_expenses": 0.0, "store_exp_crores": 0.0, "total_expenses": 298309394.91, "total_exp_crores": 29.83, "labor_to_rev_pct": 0.0}, {"month_date": "2024-03-01", "month_name": "Mar 2024", "total_revenue": 278998373.13, "revenue_crores": 27.9, "payroll_amount": 0.0, "payroll_crores": 0.0, "store_expenses": 0.0, "store_exp_crores": 0.0, "total_expenses": 297388779.17, "total_exp_crores": 29.74, "labor_to_rev_pct": 0.0}, {"month_date": "2024-04-01", "month_name": "Apr 2024", "total_revenue": 259246085.05, "revenue_crores": 25.92, "payroll_amount": 0.0, "payroll_crores": 0.0, "store_expenses": 0.0, "store_exp_crores": 0.0, "total_expenses": 313874364.49, "total_exp_crores": 31.39, "labor_to_rev_pct": 0.0}, {"month_date": "2024-05-01", "month_name": "May 2024", "total_revenue": 267418660.55, "revenue_crores": 26.74, "payroll_amount": 0.0, "payroll_crores": 0.0, "store_expenses": 0.0, "store_exp_crores": 0.0, "total_expenses": 334871037.53, "total_exp_crores": 33.49, "labor_to_rev_pct": 0.0}, {"month_date": "2024-06-01", "month_name": "Jun 2024", "total_revenue": 244424928.67, "revenue_crores": 24.44, "payroll_amount": 0.0, "payroll_crores": 0.0, "store_expenses": 0.0, "store_exp_crores": 0.0, "total_expenses": 308627528.54, "total_exp_crores": 30.86, "labor_to_rev_pct": 0.0}, {"month_date": "2024-07-01", "month_name": "Jul 2024", "total_revenue": 265343771.94, "revenue_crores": 26.53, "payroll_amount": 0.0, "payroll_crores": 0.0, "store_expenses": 0.0, "store_exp_crores": 0.0, "total_expenses": 340904401.71, "total_exp_crores": 34.09, "labor_to_rev_pct": 0.0}, {"month_date": "2024-08-01", "month_name": "Aug 2024", "total_revenue": 273762352.86, "revenue_crores": 27.38, "payroll_amount": 0.0, "payroll_crores": 0.0, "store_expenses": 0.0, "store_exp_crores": 0.0, "total_expenses": 323002806.22, "total_exp_crores": 32.3, "labor_to_rev_pct": 0.0}, {"month_date": "2024-09-01", "month_name": "Sep 2024", "total_revenue": 251186458.3, "revenue_crores": 25.12, "payroll_amount": 0.0, "payroll_crores": 0.0, "store_expenses": 0.0, "store_exp_crores": 0.0, "total_expenses": 300278035.11, "total_exp_crores": 30.03, "labor_to_rev_pct": 0.0}, {"month_date": "2024-10-01", "month_name": "Oct 2024", "total_revenue": 263748922.2, "revenue_crores": 26.37, "payroll_amount": 0.0, "payroll_crores": 0.0, "store_expenses": 0.0, "store_exp_crores": 0.0, "total_expenses": 294131870.72, "total_exp_crores": 29.41, "labor_to_rev_pct": 0.0}, {"month_date": "2024-11-01", "month_name": "Nov 2024", "total_revenue": 257482187.49, "revenue_crores": 25.75, "payroll_amount": 0.0, "payroll_crores": 0.0, "store_expenses": 0.0, "store_exp_crores": 0.0, "total_expenses": 301667464.48, "total_exp_crores": 30.17, "labor_to_rev_pct": 0.0}, {"month_date": "2024-12-01", "month_name": "Dec 2024", "total_revenue": 255786204.05, "revenue_crores": 25.58, "payroll_amount": 0.0, "payroll_crores": 0.0, "store_expenses": 0.0, "store_exp_crores": 0.0, "total_expenses": 288388760.23, "total_exp_crores": 28.84, "labor_to_rev_pct": 0.0}, {"month_date": "2025-01-01", "month_name": "Jan 2025", "total_revenue": 257852068.67, "revenue_crores": 25.79, "payroll_amount": 0.0, "payroll_crores": 0.0, "store_expenses": 0.0, "store_exp_crores": 0.0, "total_expenses": 332368553.37, "total_exp_crores": 33.24, "labor_to_rev_pct": 0.0}, {"month_date": "2025-02-01", "month_name": "Feb 2025", "total_revenue": 245739240.79, "revenue_crores": 24.57, "payroll_amount": 0.0, "payroll_crores": 0.0, "store_expenses": 977246.32, "store_exp_crores": 0.1, "total_expenses": 280830505.4, "total_exp_crores": 28.08, "labor_to_rev_pct": 0.0}, {"month_date": "2025-03-01", "month_name": "Mar 2025", "total_revenue": 274164232.1, "revenue_crores": 27.42, "payroll_amount": 14867539.68, "payroll_crores": 1.49, "store_expenses": 8732661.35, "store_exp_crores": 0.87, "total_expenses": 333110984.97, "total_exp_crores": 33.31, "labor_to_rev_pct": 5.42}, {"month_date": "2025-04-01", "month_name": "Apr 2025", "total_revenue": 254886719.83, "revenue_crores": 25.49, "payroll_amount": 14794919.46, "payroll_crores": 1.48, "store_expenses": 8152127.42, "store_exp_crores": 0.82, "total_expenses": 321401662.13, "total_exp_crores": 32.14, "labor_to_rev_pct": 5.8}, {"month_date": "2025-05-01", "month_name": "May 2025", "total_revenue": 265567636.1, "revenue_crores": 26.56, "payroll_amount": 14747086.16, "payroll_crores": 1.47, "store_expenses": 8896985.4, "store_exp_crores": 0.89, "total_expenses": 338421434.27, "total_exp_crores": 33.84, "labor_to_rev_pct": 5.55}, {"month_date": "2025-06-01", "month_name": "Jun 2025", "total_revenue": 269997070.46, "revenue_crores": 27.0, "payroll_amount": 14948211.8, "payroll_crores": 1.49, "store_expenses": 8339924.44, "store_exp_crores": 0.83, "total_expenses": 304526367.17, "total_exp_crores": 30.45, "labor_to_rev_pct": 5.54}, {"month_date": "2025-07-01", "month_name": "Jul 2025", "total_revenue": 274367607.37, "revenue_crores": 27.44, "payroll_amount": 14722548.82, "payroll_crores": 1.47, "store_expenses": 8223501.33, "store_exp_crores": 0.82, "total_expenses": 310753107.36, "total_exp_crores": 31.08, "labor_to_rev_pct": 5.37}, {"month_date": "2025-08-01", "month_name": "Aug 2025", "total_revenue": 262457191.24, "revenue_crores": 26.25, "payroll_amount": 14774856.92, "payroll_crores": 1.48, "store_expenses": 8020936.48, "store_exp_crores": 0.8, "total_expenses": 350794314.42, "total_exp_crores": 35.08, "labor_to_rev_pct": 5.63}, {"month_date": "2025-09-01", "month_name": "Sep 2025", "total_revenue": 261491618.36, "revenue_crores": 26.15, "payroll_amount": 14994540.54, "payroll_crores": 1.5, "store_expenses": 8079625.54, "store_exp_crores": 0.81, "total_expenses": 283616317.32, "total_exp_crores": 28.36, "labor_to_rev_pct": 5.73}, {"month_date": "2025-10-01", "month_name": "Oct 2025", "total_revenue": 270411847.4, "revenue_crores": 27.04, "payroll_amount": 14813324.96, "payroll_crores": 1.48, "store_expenses": 8408593.91, "store_exp_crores": 0.84, "total_expenses": 332460513.11, "total_exp_crores": 33.25, "labor_to_rev_pct": 5.48}, {"month_date": "2025-11-01", "month_name": "Nov 2025", "total_revenue": 258434391.33, "revenue_crores": 25.84, "payroll_amount": 14923880.87, "payroll_crores": 1.49, "store_expenses": 8227347.98, "store_exp_crores": 0.82, "total_expenses": 308550876.67, "total_exp_crores": 30.86, "labor_to_rev_pct": 5.77}, {"month_date": "2025-12-01", "month_name": "Dec 2025", "total_revenue": 269918314.59, "revenue_crores": 26.99, "payroll_amount": 14950070.62, "payroll_crores": 1.5, "store_expenses": 8551967.83, "store_exp_crores": 0.86, "total_expenses": 321159483.48, "total_exp_crores": 32.12, "labor_to_rev_pct": 5.54}, {"month_date": "2026-01-01", "month_name": "Jan 2026", "total_revenue": 256136553.02, "revenue_crores": 25.61, "payroll_amount": 15809749.29, "payroll_crores": 1.58, "store_expenses": 8723296.44, "store_exp_crores": 0.87, "total_expenses": 316220797.41, "total_exp_crores": 31.62, "labor_to_rev_pct": 6.17}, {"month_date": "2026-02-01", "month_name": "Feb 2026", "total_revenue": 218978460.4, "revenue_crores": 21.9, "payroll_amount": 16000462.78, "payroll_crores": 1.6, "store_expenses": 7035384.13, "store_exp_crores": 0.7, "total_expenses": 270079916.87, "total_exp_crores": 27.01, "labor_to_rev_pct": 7.31}]};
+        window.appCharts = window.appCharts || {};
+
+        function formatINR(val) {
+            if (val === null || val === undefined || isNaN(val)) return '₹0.00';
+            const num = Number(val);
+            if (Math.abs(num) >= 10000000) {
+                return '₹' + (num / 10000000).toFixed(2) + ' Cr';
+            } else if (Math.abs(num) >= 100000) {
+                return '₹' + (num / 100000).toFixed(2) + ' Lakhs';
+            } else {
+                return '₹' + Math.round(num).toLocaleString('en-IN');
+            }
+        }
+
+        function formatCompactINR(val) {
+            if (val === null || val === undefined || isNaN(val)) return '₹0.00 Cr';
+            const num = Number(val);
+            return '₹' + (num / 10000000).toFixed(2) + ' Cr';
+        }
+
+        // Cascading store update when Region changes
+        function handleRegionChange() {
+            const regSelect = document.getElementById('filter-region');
+            const storeSelect = document.getElementById('filter-store');
+            const regVal = regSelect.value;
+
+            storeSelect.innerHTML = '<option value="">All Stores (' + (regVal ? 'Filtered' : '200') + ')</option>';
+
+            const stores = window.rmData.stores || [];
+            let matchingStores = stores;
+
+            if (regVal) {
+                if (regVal.startsWith('reg-')) {
+                    const macro = regVal.replace('reg-', '').toLowerCase().replace('-', ' ');
+                    matchingStores = stores.filter(s => s.region_name.toLowerCase() === macro);
+                } else {
+                    const regId = parseInt(regVal);
+                    matchingStores = stores.filter(s => s.region_id === regId);
+                }
+            }
+
+            matchingStores.forEach(s => {
+                const opt = document.createElement('option');
+                opt.value = s.store_id;
+                opt.setAttribute('data-regid', s.region_id);
+                opt.setAttribute('data-region', s.region_name);
+                opt.textContent = s.store_name + ' (' + s.city + ' - ' + s.region_name + ')';
+                storeSelect.appendChild(opt);
+            });
+
+            // Automatically apply filter when region is changed
+            applyFilters();
+        }
+
+        // Quick Date Presets Handler
         function applyDatePreset(preset) {
             document.querySelectorAll('.preset-btn').forEach(btn => btn.classList.remove('active'));
             const startInput = document.getElementById('filter-start-date');
             const endInput = document.getElementById('filter-end-date');
 
             if (preset === 'all') {
-                document.getElementById('preset-all').classList.add('active');
+                const btn = document.getElementById('preset-all');
+                if (btn) btn.classList.add('active');
                 startInput.value = '2024-01-01';
                 endInput.value = '2026-02-26';
             } else if (preset === '2025') {
-                document.getElementById('preset-2025').classList.add('active');
+                const btn = document.getElementById('preset-2025');
+                if (btn) btn.classList.add('active');
                 startInput.value = '2025-01-01';
                 endInput.value = '2025-12-31';
             } else if (preset === '90d') {
-                document.getElementById('preset-90d').classList.add('active');
+                const btn = document.getElementById('preset-90d');
+                if (btn) btn.classList.add('active');
                 startInput.value = '2025-11-28';
                 endInput.value = '2026-02-26';
             } else if (preset === '30d') {
-                document.getElementById('preset-30d').classList.add('active');
+                const btn = document.getElementById('preset-30d');
+                if (btn) btn.classList.add('active');
                 startInput.value = '2026-01-27';
                 endInput.value = '2026-02-26';
             }
-            showToast('Date preset activated: ' + startInput.value + ' to ' + endInput.value);
+
+            applyFilters();
         }
 
-        // Handle Apply Filters
+        // Core Filter Application Engine
         function handleApplyFilters(e) {
-            e.preventDefault();
-            const start = document.getElementById('filter-start-date').value;
-            const end = document.getElementById('filter-end-date').value;
-            const region = document.getElementById('filter-region');
-            const regionText = region.options[region.selectedIndex].text;
+            if (e && e.preventDefault) e.preventDefault();
+            applyFilters();
+        }
 
+        function applyFilters() {
+            const startInput = document.getElementById('filter-start-date');
+            const endInput = document.getElementById('filter-end-date');
+            const regSelect = document.getElementById('filter-region');
+            const storeSelect = document.getElementById('filter-store');
+            const deptSelect = document.getElementById('filter-department');
+            const expSelect = document.getElementById('filter-expense-cat');
+
+            const startDate = startInput ? startInput.value : '2024-01-01';
+            const endDate = endInput ? endInput.value : '2026-02-26';
+            const regVal = regSelect ? regSelect.value : '';
+            const storeVal = storeSelect ? storeSelect.value : '';
+            const deptVal = deptSelect ? deptSelect.value : '';
+            const expVal = expSelect ? expSelect.value : '';
+
+            const startYM = startDate.substring(0, 7);
+            const endYM = endDate.substring(0, 7);
+
+            // 1. Filter Months
+            const allMonths = window.rmData.monthly_sales || [];
+            const selectedMonths = allMonths.filter(m => m.ym >= startYM && m.ym <= endYM);
+            const totalBaseMonths = allMonths.length || 26;
+            const selectedMonthsCount = selectedMonths.length || 1;
+
+            const baseRevTotal = allMonths.reduce((acc, m) => acc + Number(m.revenue), 0) || 6769536004.48;
+            const selectedMonthsRev = selectedMonths.reduce((acc, m) => acc + Number(m.revenue), 0) || baseRevTotal;
+            const dateRevRatio = selectedMonthsRev / baseRevTotal;
+
+            // 2. Filter Stores in Scope
+            const allStores = window.rmData.stores || [];
+            let storesInScope = allStores;
+
+            if (storeVal) {
+                const targetStoreId = parseInt(storeVal);
+                storesInScope = allStores.filter(s => s.store_id === targetStoreId);
+            } else if (regVal) {
+                if (regVal.startsWith('reg-')) {
+                    const macro = regVal.replace('reg-', '').toLowerCase().replace('-', ' ');
+                    storesInScope = allStores.filter(s => s.region_name.toLowerCase() === macro);
+                } else {
+                    const regId = parseInt(regVal);
+                    storesInScope = allStores.filter(s => s.region_id === regId);
+                }
+            }
+
+            // 3. Compute Aggregates
+            const isFullStoreScope = (storesInScope.length === allStores.length);
+            const baseStoreRevSum = allStores.reduce((acc, s) => acc + Number(s.net_revenue), 0);
+            const scopedStoresRevRaw = storesInScope.reduce((acc, s) => acc + Number(s.net_revenue), 0);
+            const geoRevRatio = isFullStoreScope ? 1.0 : (scopedStoresRevRaw / (baseStoreRevSum || 1));
+
+            const totalDeliveredSales = baseRevTotal * geoRevRatio * dateRevRatio;
+            const totalStoresCount = storesInScope.length;
+
+            // Headcount & Payroll
+            let totalStaff = storesInScope.reduce((acc, s) => acc + Number(s.staff_count), 0);
+            if (isFullStoreScope) totalStaff = 3000;
+
+            let totalMonthlyPayroll = storesInScope.reduce((acc, s) => acc + Number(s.monthly_payroll), 0);
+            if (isFullStoreScope) totalMonthlyPayroll = 189820814.0;
+
+            if (deptVal) {
+                const depts = window.rmData.departments || [];
+                const targetDept = depts.find(d => String(d.dept_id) === String(deptVal));
+                if (targetDept) {
+                    totalStaff = targetDept.staff_count;
+                    totalMonthlyPayroll = Number(targetDept.monthly_payroll);
+                }
+            }
+
+            const totalStoreOpex = (storesInScope.reduce((acc, s) => acc + Number(s.store_expenses), 0) || 100369598.57) * (isFullStoreScope ? 1.0 : 1.0) * dateRevRatio;
+            const totalProcessedPayroll = (180347191.90 * geoRevRatio * dateRevRatio);
+
+            const revPerEmpLakhs = totalStaff > 0 ? ((totalDeliveredSales / totalStaff) / 100000) : 0;
+            const laborRatioPct = totalDeliveredSales > 0 ? ((totalMonthlyPayroll * (selectedMonthsCount >= 12 ? 12 : selectedMonthsCount) / totalDeliveredSales) * 100) : 2.66;
+            const staffingDensity = totalStoresCount > 0 ? (totalStaff / totalStoresCount) : 15.0;
+
+            // Total Operating Expenses & Margins
+            const baseExpenses = 8115400000.0;
+            let totalExpenses = baseExpenses * geoRevRatio * dateRevRatio;
+            if (expVal) {
+                const expCats = window.rmData.expense_categories || [];
+                const targetCat = expCats.find(c => String(c.exp_cat_id) === String(expVal));
+                if (targetCat) {
+                    totalExpenses = Number(targetCat.total_amount) * geoRevRatio * dateRevRatio;
+                }
+            }
+            const grossMargin = totalDeliveredSales * 0.2749;
+            const netSpread = grossMargin - totalExpenses;
+
+            // 4. Update KPI Values in DOM
+            // Cross-Functional Tab KPIs
+            const cfRevEmpEl = document.getElementById('kpi-cf-rev-emp');
+            if (cfRevEmpEl) cfRevEmpEl.textContent = '₹' + revPerEmpLakhs.toFixed(2) + ' Lakhs';
+
+            const cfLaborRatioEl = document.getElementById('kpi-cf-labor-ratio');
+            if (cfLaborRatioEl) cfLaborRatioEl.textContent = laborRatioPct.toFixed(2) + '%';
+
+            const cfSalesEl = document.getElementById('kpi-cf-sales');
+            if (cfSalesEl) cfSalesEl.textContent = formatCompactINR(totalDeliveredSales);
+
+            const cfPayrollEl = document.getElementById('kpi-cf-payroll');
+            if (cfPayrollEl) cfPayrollEl.textContent = formatCompactINR(totalProcessedPayroll);
+
+            const cfDensityEl = document.getElementById('kpi-cf-density');
+            if (cfDensityEl) cfDensityEl.textContent = staffingDensity.toFixed(1) + ' Staff';
+
+            const cfOpexEl = document.getElementById('kpi-cf-opex');
+            if (cfOpexEl) cfOpexEl.textContent = formatCompactINR(totalStoreOpex);
+
+            // Executive Summary Tab KPIs
+            const execSalesEl = document.getElementById('kpi-exec-sales');
+            if (execSalesEl) execSalesEl.textContent = formatCompactINR(totalDeliveredSales);
+
+            const execExpensesEl = document.getElementById('kpi-exec-expenses');
+            if (execExpensesEl) execExpensesEl.textContent = formatCompactINR(totalExpenses);
+
+            const execSpreadEl = document.getElementById('kpi-exec-spread');
+            if (execSpreadEl) {
+                execSpreadEl.textContent = (netSpread >= 0 ? '₹' : '₹-') + Math.abs(netSpread / 10000000).toFixed(2) + ' Cr';
+                execSpreadEl.style.color = netSpread >= 0 ? '#34D399' : '#F43F5E';
+            }
+
+            const execHeadcountEl = document.getElementById('kpi-exec-headcount');
+            if (execHeadcountEl) execHeadcountEl.textContent = totalStaff.toLocaleString() + ' Staff';
+
+            const execPayrollEl = document.getElementById('kpi-exec-payroll');
+            if (execPayrollEl) execPayrollEl.textContent = formatCompactINR(totalMonthlyPayroll);
+
+            const execRevEmpEl = document.getElementById('kpi-exec-rev-emp');
+            if (execRevEmpEl) execRevEmpEl.textContent = '₹' + revPerEmpLakhs.toFixed(2) + ' L';
+
+            // Sales, HR & Finance Tab KPIs
+            const salesRevEl = document.getElementById('kpi-sales-revenue');
+            if (salesRevEl) salesRevEl.textContent = formatCompactINR(totalDeliveredSales);
+
+            const salesGrossEl = document.getElementById('kpi-sales-gross');
+            if (salesGrossEl) salesGrossEl.textContent = formatCompactINR(totalDeliveredSales * 1.0358);
+
+            const hrHeadcountEl = document.getElementById('kpi-hr-headcount');
+            if (hrHeadcountEl) hrHeadcountEl.textContent = totalStaff.toLocaleString();
+
+            const hrPayrollEl = document.getElementById('kpi-hr-payroll');
+            if (hrPayrollEl) hrPayrollEl.textContent = formatCompactINR(totalMonthlyPayroll);
+
+            const hrAvgSalaryEl = document.getElementById('kpi-hr-avg-salary');
+            if (hrAvgSalaryEl) hrAvgSalaryEl.textContent = '₹' + Math.round(totalStaff > 0 ? (totalMonthlyPayroll / totalStaff) : 63267).toLocaleString('en-IN');
+
+            const finSalesEl = document.getElementById('kpi-fin-sales');
+            if (finSalesEl) finSalesEl.textContent = formatCompactINR(totalDeliveredSales);
+
+            const finStoreOpexEl = document.getElementById('kpi-fin-store-opex');
+            if (finStoreOpexEl) finStoreOpexEl.textContent = formatCompactINR(totalStoreOpex);
+
+            // Update Simulator Baseline Actuals
+            if (window.simBaseline) {
+                window.simBaseline.base_net_revenue = totalDeliveredSales;
+                window.simBaseline.base_revenue_crores = Number((totalDeliveredSales / 10000000).toFixed(2));
+                window.simBaseline.base_monthly_payroll = totalMonthlyPayroll;
+                window.simBaseline.base_monthly_payroll_crores = Number((totalMonthlyPayroll / 10000000).toFixed(2));
+                window.simBaseline.base_store_expenses = totalStoreOpex;
+                window.simBaseline.base_store_expenses_crores = Number((totalStoreOpex / 10000000).toFixed(2));
+                window.simBaseline.base_headcount = totalStaff;
+                window.simBaseline.base_annual_payroll = totalMonthlyPayroll * 12;
+                window.simBaseline.base_cogs = totalDeliveredSales * 0.7251;
+                window.simBaseline.base_gross_margin = totalDeliveredSales - window.simBaseline.base_cogs;
+                window.simBaseline.base_store_contribution = window.simBaseline.base_gross_margin - totalStoreOpex - window.simBaseline.base_annual_payroll;
+                window.simBaseline.base_store_contribution_crores = Number((window.simBaseline.base_store_contribution / 10000000).toFixed(2));
+                if (typeof window.recalculateSimulator === 'function') {
+                    window.recalculateSimulator();
+                }
+            }
+
+            // Active Window Tag in Subheaders
             const windowTag = document.getElementById('mkt-window-tag');
-            if (windowTag) windowTag.innerText = start + ' to ' + end;
+            if (windowTag) windowTag.textContent = startDate + ' to ' + endDate;
 
-            showToast('Filters Applied: Scope ' + regionText + ' · Window ' + start + ' to ' + end);
+            // 5. Update Table 1 (Store Staffing Efficiency) in Cross-Functional
+            const tbodyStore = document.getElementById('tbody-store-staffing');
+            if (tbodyStore) {
+                const displayStores = storesInScope.slice(0, 25);
+                tbodyStore.innerHTML = displayStores.map(s => {
+                    const storeRev = s.net_revenue * dateRevRatio;
+                    const storeRevCr = (storeRev / 10000000).toFixed(2);
+                    const storeRevEmpL = s.staff_count > 0 ? ((storeRev / s.staff_count) / 100000).toFixed(2) : '0.00';
+                    const storeOpex = Math.round(s.store_expenses * dateRevRatio).toLocaleString('en-IN');
+                    const storePayroll = Math.round(s.monthly_payroll * (selectedMonthsCount >= 12 ? 12 : selectedMonthsCount)).toLocaleString('en-IN');
+                    const storeContrib = (storeRev * 0.2749 - s.store_expenses * dateRevRatio - s.monthly_payroll * (selectedMonthsCount >= 12 ? 12 : selectedMonthsCount)) / 10000000;
+                    const contribColor = storeContrib >= 0 ? 'var(--cyan)' : 'var(--orange)';
+
+                    return `<tr>
+                        <td style="font-weight: 600; color: var(--text-white);">${s.store_name}</td>
+                        <td>${s.city}</td>
+                        <td><span class="status-badge badge-neutral">${s.region_name}</span></td>
+                        <td style="text-align: right; font-weight: 600; color: var(--pink);">${s.staff_count} Staff</td>
+                        <td style="text-align: right; font-weight: 600; color: var(--purple);">₹${storeRevCr} Cr</td>
+                        <td style="text-align: right; font-weight: 600; color: var(--cyan);">₹${storeRevEmpL} L</td>
+                        <td style="text-align: right; color: var(--orange);">₹${storeOpex}</td>
+                        <td style="text-align: right; color: var(--text-light);">₹${storePayroll}</td>
+                        <td style="text-align: right; font-weight: 600; color: ${contribColor};">
+                            ₹${storeContrib.toFixed(2)} Cr
+                        </td>
+                    </tr>`;
+                }).join('');
+            }
+
+            // 6. Update Table 2 (Regional Synthesis) in Cross-Functional
+            const tbodyReg = document.getElementById('tbody-regional-synthesis');
+            if (tbodyReg && window.cfData && window.cfData.regional_synthesis) {
+                let regRows = window.cfData.regional_synthesis;
+                if (regVal) {
+                    const matchName = regVal.startsWith('reg-') 
+                        ? regVal.replace('reg-', '').toLowerCase().replace('-', ' ')
+                        : (regSelect.options[regSelect.selectedIndex].text.split(' - ')[0] || '').toLowerCase();
+                    regRows = regRows.filter(r => r.region_name.toLowerCase().includes(matchName));
+                }
+                tbodyReg.innerHTML = regRows.map(r => `<tr>
+                    <td style="font-weight: 600; color: var(--text-white);">${r.region_name}</td>
+                    <td style="text-align: right;">${r.store_count}</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--pink);">${r.staff_count}</td>
+                    <td style="text-align: right;">${r.avg_staff_per_store}</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--purple);">₹${r.revenue_crores} Cr</td>
+                    <td style="text-align: right; color: var(--cyan);">₹${Math.round(r.rev_per_employee).toLocaleString('en-IN')}</td>
+                    <td style="text-align: right; color: var(--orange);">₹${r.expenses_crores} Cr</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">₹${r.spread_crores} Cr</td>
+                </tr>`).join('');
+            }
+
+            // 7. Update Charts
+            const filteredMonthNames = selectedMonths.map(m => m.month_name);
+            const filteredMonthSales = selectedMonths.map(m => Number((m.revenue_crores * geoRevRatio).toFixed(2)));
+            const filteredMonthExpenses = selectedMonths.map(m => Number((30.0 * geoRevRatio).toFixed(2)));
+
+            // Update Trajectory Chart in Cross-Functional
+            if (window.appCharts['chart-cross-trajectory']) {
+                window.appCharts['chart-cross-trajectory'].updateOptions({
+                    xaxis: { categories: filteredMonthNames }
+                }, false, true);
+                window.appCharts['chart-cross-trajectory'].updateSeries([
+                    { name: 'Delivered Revenue (₹ Cr)', type: 'line', data: filteredMonthSales, color: '#A459D0' },
+                    { name: 'Processed Payroll (₹ Cr)', type: 'column', data: filteredMonthSales.map(v => Number((v * 0.0266).toFixed(2))), color: '#E95B9F' },
+                    { name: 'Store OPEX (₹ Cr)', type: 'column', data: filteredMonthSales.map(v => Number((v * 0.0148).toFixed(2))), color: '#E88E3E' }
+                ]);
+            }
+
+            // Update Trajectory Chart in Executive Summary
+            if (window.appCharts['chart-exec-trajectory']) {
+                window.appCharts['chart-exec-trajectory'].updateOptions({
+                    xaxis: { categories: filteredMonthNames }
+                }, false, true);
+                window.appCharts['chart-exec-trajectory'].updateSeries([
+                    { name: 'Delivered Revenue (₹ Cr)', data: filteredMonthSales },
+                    { name: 'Total Operating Expenses (₹ Cr)', data: filteredMonthExpenses },
+                    { name: 'Operating Net Spread (₹ Cr)', data: filteredMonthSales.map((v, i) => Number((v - filteredMonthExpenses[i]).toFixed(2))) }
+                ]);
+            }
+
+            // Update Department Allocation Chart
+            if (window.appCharts['chart-dept-cost'] && window.cfData && window.cfData.department_allocation) {
+                let deptItems = window.cfData.department_allocation;
+                if (deptVal) {
+                    const deptNum = parseInt(deptVal);
+                    deptItems = deptItems.filter((d, idx) => (idx + 1) === deptNum || String(d.dept_id) === String(deptVal));
+                }
+                window.appCharts['chart-dept-cost'].updateOptions({
+                    xaxis: { categories: deptItems.map(d => d.dept_name) }
+                }, false, true);
+                window.appCharts['chart-dept-cost'].updateSeries([
+                    { name: 'Monthly Payroll (₹ Cr)', data: deptItems.map(d => Number((d.payroll_crores * geoRevRatio).toFixed(2))), color: '#2CD4E1' },
+                    { name: 'Staff Headcount', data: deptItems.map(d => Math.round(d.staff_count * (isFullStoreScope ? 1 : geoRevRatio))), color: '#E95B9F' }
+                ]);
+            }
+
+            // 8. Update Active Filter Banner Chips
+            const banner = document.getElementById('active-filter-banner');
+            const chipsEl = document.getElementById('active-filter-chips');
+            const isFiltered = (startDate !== '2024-01-01' || endDate !== '2026-02-26' || regVal !== '' || storeVal !== '' || deptVal !== '' || expVal !== '');
+
+            if (banner && chipsEl) {
+                if (isFiltered) {
+                    banner.style.display = 'flex';
+                    let chipsHtml = '';
+
+                    if (startDate !== '2024-01-01' || endDate !== '2026-02-26') {
+                        chipsHtml += `<span class="filter-chip"><i class="ti ti-calendar"></i> ${startDate} to ${endDate}</span>`;
+                    }
+                    if (regVal) {
+                        const regText = regSelect.options[regSelect.selectedIndex].text;
+                        chipsHtml += `<span class="filter-chip"><i class="ti ti-map-pin"></i> ${regText.split(' (')[0]}</span>`;
+                    }
+                    if (storeVal) {
+                        const storeText = storeSelect.options[storeSelect.selectedIndex].text;
+                        chipsHtml += `<span class="filter-chip"><i class="ti ti-building-store"></i> ${storeText.split(' (')[0]}</span>`;
+                    }
+                    if (deptVal) {
+                        const deptText = deptSelect.options[deptSelect.selectedIndex].text;
+                        chipsHtml += `<span class="filter-chip"><i class="ti ti-users"></i> ${deptText.split(' (')[0]}</span>`;
+                    }
+                    if (expVal) {
+                        const expText = expSelect.options[expSelect.selectedIndex].text;
+                        chipsHtml += `<span class="filter-chip"><i class="ti ti-receipt"></i> ${expText.split(' (')[0]}</span>`;
+                    }
+                    chipsHtml += `<span class="filter-chip" style="color: var(--yellow);"><i class="ti ti-database"></i> ${totalStoresCount} Stores · ${formatCompactINR(totalDeliveredSales)}</span>`;
+
+                    chipsEl.innerHTML = chipsHtml;
+                } else {
+                    banner.style.display = 'none';
+                }
+            }
+
+            // 9. Toast Feedback
+            showToast('Filters Applied: ' + totalStoresCount + ' Stores · ' + formatCompactINR(totalDeliveredSales) + ' Scope');
         }
 
         // Handle Reset Filters
         function handleResetFilters() {
-            document.getElementById('filter-start-date').value = '2024-01-01';
-            document.getElementById('filter-end-date').value = '2026-02-26';
-            document.getElementById('filter-region').selectedIndex = 0;
-            document.getElementById('filter-store').selectedIndex = 0;
-            document.getElementById('filter-department').selectedIndex = 0;
-            document.getElementById('filter-expense-cat').selectedIndex = 0;
+            const startInput = document.getElementById('filter-start-date');
+            const endInput = document.getElementById('filter-end-date');
+            const regSelect = document.getElementById('filter-region');
+            const storeSelect = document.getElementById('filter-store');
+            const deptSelect = document.getElementById('filter-department');
+            const expSelect = document.getElementById('filter-expense-cat');
+
+            if (startInput) startInput.value = '2024-01-01';
+            if (endInput) endInput.value = '2026-02-26';
+            if (regSelect) regSelect.selectedIndex = 0;
+            if (deptSelect) deptSelect.selectedIndex = 0;
+            if (expSelect) expSelect.selectedIndex = 0;
+
+            // Re-populate all 200 stores in store select
+            if (storeSelect) {
+                storeSelect.innerHTML = '<option value="">All Stores (200)</option>';
+                const stores = window.rmData.stores || [];
+                stores.forEach(s => {
+                    const opt = document.createElement('option');
+                    opt.value = s.store_id;
+                    opt.setAttribute('data-regid', s.region_id);
+                    opt.setAttribute('data-region', s.region_name);
+                    opt.textContent = s.store_name + ' (' + s.city + ' - ' + s.region_name + ')';
+                    storeSelect.appendChild(opt);
+                });
+                storeSelect.selectedIndex = 0;
+            }
 
             document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById('preset-all').classList.add('active');
+            const presetAll = document.getElementById('preset-all');
+            if (presetAll) presetAll.classList.add('active');
 
-            const windowTag = document.getElementById('mkt-window-tag');
-            if (windowTag) windowTag.innerText = '2024-01-01 to 2026-02-26';
-
+            applyFilters();
             showToast('Filters reset to default 2024-2026 enterprise baseline');
-        }
-
-        function handleRegionChange() {
-            // Cascading store update feedback
-            const regionSelect = document.getElementById('filter-region');
-            const storeSelect = document.getElementById('filter-store');
-            if (regionSelect.value !== "") {
-                storeSelect.options[0].text = "Filtered Stores in Selected Region";
-            } else {
-                storeSelect.options[0].text = "All Stores (200)";
-            }
         }
 
         function showToast(msg) {
             const toast = document.getElementById('toast');
             const text = document.getElementById('toast-text');
-            text.innerText = msg;
-            toast.style.display = 'flex';
-            setTimeout(() => { toast.style.display = 'none'; }, 3500);
+            if (toast && text) {
+                text.innerText = msg;
+                toast.style.display = 'flex';
+                setTimeout(() => { toast.style.display = 'none'; }, 3500);
+            }
         }
 
         function simulateLogout() {
             showToast('Session preserved · Standing in Demo Mode');
         }
 
-                // =========================================================
         // WORKFORCE, COMPENSATION & OPEX SCENARIO SIMULATOR
         // =========================================================
         const simBaseline = {"base_net_revenue": 6769536004.48, "base_revenue_crores": 676.95, "base_cogs": 4908577904.87, "base_cogs_crores": 490.86, "base_cogs_rate_pct": 72.51, "base_gross_margin": 1860958099.6099997, "base_gross_margin_crores": 186.1, "base_gross_margin_pct": 27.49, "base_headcount": 3000, "base_avg_salary": 63273.6, "base_monthly_payroll": 189820814.0, "base_monthly_payroll_crores": 18.98, "base_annual_payroll": 2277849768.0, "base_annual_payroll_crores": 227.78, "base_store_expenses": 100369598.57, "base_store_expenses_crores": 10.04, "base_corp_expenses": 8015031384.29, "base_corp_expenses_crores": 801.5, "base_delivered_orders": 82540, "base_store_contribution": -517261266.9600003, "base_store_contribution_crores": -51.73, "base_net_operating_spread": -1345864978.38, "base_net_spread_crores": -134.59};
@@ -3285,7 +3940,7 @@ html_content = r"""<!DOCTYPE html>
                 }
             };
 
-            simChart = new ApexCharts(document.querySelector("#sim-comparison-chart"), chartOptions);
+            simChart = window.appCharts['sim-comparison-chart'] = new ApexCharts(document.querySelector('#sim-comparison-chart'), chartOptions);
             simChart.render();
             recalculate();
         }
@@ -3293,7 +3948,7 @@ html_content = r"""<!DOCTYPE html>
         // Initialize ApexCharts on DOM load
         document.addEventListener('DOMContentLoaded', function() {
             // 1. Marketing Platform Spend Donut
-            new ApexCharts(document.querySelector("#chart-platform-spend"), {
+            window.appCharts['chart-platform-spend'] = new ApexCharts(document.querySelector('#chart-platform-spend'), {
                 series: [2194510.82, 2070878.68, 2019363.38, 1957549.14, 2060572.39],
                 chart: { type: 'donut', height: 280, background: 'transparent' },
                 labels: ['Facebook', 'Google', 'Twitter', 'LinkedIn', 'Instagram'],
@@ -3309,7 +3964,7 @@ html_content = r"""<!DOCTYPE html>
             }).render();
 
             // 2. Marketing Monthly Spend Trajectory
-            new ApexCharts(document.querySelector("#chart-spend-trend"), {
+            window.appCharts['chart-spend-trend'] = new ApexCharts(document.querySelector('#chart-spend-trend'), {
                 series: [
                     { name: 'Facebook', data: [79541, 88430, 93615, 80795, 101854, 98450, 71596, 82180, 87859, 99515, 68352, 92514, 82965, 78231] },
                     { name: 'Google', data: [82100, 75400, 89200, 91500, 85600, 94200, 68500, 79200, 84300, 91200, 74500, 88900, 79400, 81500] },
@@ -3333,7 +3988,7 @@ html_content = r"""<!DOCTYPE html>
             }).render();
 
             // 3. Email Engagement
-            new ApexCharts(document.querySelector("#chart-email-trend"), {
+            window.appCharts['chart-email-trend'] = new ApexCharts(document.querySelector('#chart-email-trend'), {
                 series: [
                     { name: 'Open Rate (%)', data: [31.2, 29.8, 30.5, 32.1, 28.9, 30.4, 31.8, 30.2, 29.5, 30.9, 31.5, 29.8, 30.1, 30.2] },
                     { name: 'Click Rate (%)', data: [23.5, 22.1, 22.8, 24.2, 21.9, 23.1, 23.8, 22.9, 21.8, 23.4, 23.9, 22.4, 22.7, 22.9] }
@@ -3353,7 +4008,7 @@ html_content = r"""<!DOCTYPE html>
             }).render();
 
             // 4. Campaign Pacing Top 10
-            new ApexCharts(document.querySelector("#chart-campaign-pacing"), {
+            window.appCharts['chart-campaign-pacing'] = new ApexCharts(document.querySelector('#chart-campaign-pacing'), {
                 series: [
                     { name: 'Realized Spend', data: [425890, 382150, 294600, 248320, 198740, 175400, 154200, 142100, 128900, 115400] },
                     { name: 'Authorized Budget', data: [1850000, 1500000, 1200000, 950000, 800000, 750000, 650000, 600000, 550000, 500000] }
@@ -3373,7 +4028,7 @@ html_content = r"""<!DOCTYPE html>
             }).render();
 
             // 5. Digital Device / OS
-            new ApexCharts(document.querySelector("#chart-device-os"), {
+            window.appCharts['chart-device-os'] = new ApexCharts(document.querySelector('#chart-device-os'), {
                 series: [59.9, 29.8, 10.3],
                 chart: { type: 'donut', height: 280, background: 'transparent' },
                 labels: ['Mobile (Android & iOS)', 'Desktop (Windows & macOS)', 'Tablet (iPad & Other)'],
@@ -3385,7 +4040,7 @@ html_content = r"""<!DOCTYPE html>
             }).render();
 
             // 6. Digital Traffic Trend
-            new ApexCharts(document.querySelector("#chart-traffic-trend"), {
+            window.appCharts['chart-traffic-trend'] = new ApexCharts(document.querySelector('#chart-traffic-trend'), {
                 series: [
                     { name: 'Page Views', data: [32000, 35000, 38000, 41000, 39000, 42000, 44000, 41000, 39500, 43000, 45000, 41500, 42000, 44000] },
                     { name: 'Sessions', data: [6800, 7200, 7600, 8100, 7900, 8400, 8700, 8200, 7900, 8600, 8900, 8300, 8400, 8800] }
@@ -3405,7 +4060,7 @@ html_content = r"""<!DOCTYPE html>
             }).render();
 
             // 7. Logistics Courier SLA
-            new ApexCharts(document.querySelector("#chart-courier-sla"), {
+            window.appCharts['chart-courier-sla'] = new ApexCharts(document.querySelector('#chart-courier-sla'), {
                 series: [
                     { name: 'Delivered Parcels', type: 'column', data: [24500, 21800, 18900, 10200, 7140] },
                     { name: 'On-Time SLA %', type: 'line', data: [84.2, 81.5, 78.9, 74.2, 71.8] }
@@ -3425,7 +4080,7 @@ html_content = r"""<!DOCTYPE html>
             }).render();
 
             // 8. Logistics Regional SLA
-            new ApexCharts(document.querySelector("#chart-region-sla"), {
+            window.appCharts['chart-region-sla'] = new ApexCharts(document.querySelector('#chart-region-sla'), {
                 series: [{ name: 'On-Time SLA %', data: [83.4, 81.8, 80.2, 77.5, 76.1] }],
                 chart: { type: 'bar', height: 280, background: 'transparent', toolbar: { show: false } },
                 dataLabels: { enabled: false },
@@ -3437,7 +4092,7 @@ html_content = r"""<!DOCTYPE html>
             }).render();
 
             // 9. Sales Category
-            new ApexCharts(document.querySelector("#chart-sales-category"), {
+            window.appCharts['chart-sales-category'] = new ApexCharts(document.querySelector('#chart-sales-category'), {
                 series: [{ name: 'Net Revenue (₹ Cr)', data: [284.15, 148.90, 115.40, 82.50, 46.00] }],
                 chart: { type: 'bar', height: 280, background: 'transparent', toolbar: { show: false } },
                 dataLabels: { enabled: false },
@@ -3449,7 +4104,7 @@ html_content = r"""<!DOCTYPE html>
             }).render();
 
             // 10. Sales Trend
-            new ApexCharts(document.querySelector("#chart-sales-trend"), {
+            window.appCharts['chart-sales-trend'] = new ApexCharts(document.querySelector('#chart-sales-trend'), {
                 series: [{ name: 'Delivered Net Sales', data: [42.1, 45.8, 48.3, 51.2, 49.6, 53.4, 55.8, 52.1, 50.4, 54.2, 57.1, 52.9, 53.8, 56.2] }],
                 chart: { type: 'line', height: 280, background: 'transparent', toolbar: { show: false } },
                 dataLabels: { enabled: false },
@@ -3465,7 +4120,7 @@ html_content = r"""<!DOCTYPE html>
             }).render();
 
             // 11. Customer RFM Distribution
-            new ApexCharts(document.querySelector("#chart-rfm-distribution"), {
+            window.appCharts['chart-rfm-distribution'] = new ApexCharts(document.querySelector('#chart-rfm-distribution'), {
                 series: [8885, 11240, 7420, 6518, 6317],
                 chart: { type: 'pie', height: 280, background: 'transparent' },
                 labels: ['Champions (₹234.8 Cr)', 'Loyal Customers (₹189.2 Cr)', 'Potential Loyalists (₹84.1 Cr)', 'At Risk (₹128.2 Cr)', 'Hibernating (₹40.6 Cr)'],
@@ -3477,7 +4132,7 @@ html_content = r"""<!DOCTYPE html>
             }).render();
 
             // 12. Customer Retention
-            new ApexCharts(document.querySelector("#chart-customer-retention"), {
+            window.appCharts['chart-customer-retention'] = new ApexCharts(document.querySelector('#chart-customer-retention'), {
                 series: [{ name: 'Repeat Order Retention %', data: [100, 78.4, 69.2, 64.2, 59.8, 55.4] }],
                 chart: { type: 'area', height: 280, background: 'transparent', toolbar: { show: false } },
                 dataLabels: { enabled: false },
@@ -3489,7 +4144,7 @@ html_content = r"""<!DOCTYPE html>
             }).render();
 
             // 13. Operations Stock Health
-            new ApexCharts(document.querySelector("#chart-ops-health"), {
+            window.appCharts['chart-ops-health'] = new ApexCharts(document.querySelector('#chart-ops-health'), {
                 series: [84.6, 14.8, 0.52],
                 chart: { type: 'donut', height: 280, background: 'transparent' },
                 labels: ['Optimal Stock (96,678 slots)', 'Low Stock Trigger (16,880 slots)', 'Zero-Stock Stockout (595 slots)'],
@@ -3501,7 +4156,7 @@ html_content = r"""<!DOCTYPE html>
             }).render();
 
             // 14. Operations Scrap Rates
-            new ApexCharts(document.querySelector("#chart-ops-scrap"), {
+            window.appCharts['chart-ops-scrap'] = new ApexCharts(document.querySelector('#chart-ops-scrap'), {
                 series: [{ name: 'Scrap Rate %', data: [1.8, 2.1, 1.9, 2.4, 3.8, 2.2, 1.7, 2.3, 3.6, 2.0] }],
                 chart: { type: 'bar', height: 280, background: 'transparent', toolbar: { show: false } },
                 dataLabels: { enabled: false },
@@ -3513,7 +4168,7 @@ html_content = r"""<!DOCTYPE html>
             }).render();
 
             // 15. HR Headcount
-            new ApexCharts(document.querySelector("#chart-hr-headcount"), {
+            window.appCharts['chart-hr-headcount'] = new ApexCharts(document.querySelector('#chart-hr-headcount'), {
                 series: [850, 620, 480, 310, 240, 190, 130, 90, 50, 40],
                 chart: { type: 'donut', height: 280, background: 'transparent' },
                 labels: ['Operations', 'Sales', 'Logistics', 'Customer Support', 'IT & Tech', 'Marketing', 'Finance', 'Procurement', 'HR', 'Legal'],
@@ -3525,7 +4180,7 @@ html_content = r"""<!DOCTYPE html>
             }).render();
 
             // 16. HR Payroll
-            new ApexCharts(document.querySelector("#chart-hr-payroll"), {
+            window.appCharts['chart-hr-payroll'] = new ApexCharts(document.querySelector('#chart-hr-payroll'), {
                 series: [{ name: 'Monthly Payroll (₹ Lakhs)', data: [485, 392, 315, 218, 198, 142, 98, 62, 38, 32] }],
                 chart: { type: 'bar', height: 280, background: 'transparent', toolbar: { show: false } },
                 dataLabels: { enabled: false },
@@ -3537,7 +4192,7 @@ html_content = r"""<!DOCTYPE html>
             }).render();
 
             // 17. Finance Waterfall
-            new ApexCharts(document.querySelector("#chart-fin-waterfall"), {
+            window.appCharts['chart-fin-waterfall'] = new ApexCharts(document.querySelector('#chart-fin-waterfall'), {
                 series: [{
                     data: [
                         { x: 'Net Revenue', y: 676.95 },
@@ -3559,7 +4214,7 @@ html_content = r"""<!DOCTYPE html>
             }).render();
 
             // 18. Finance Settlement Rails
-            new ApexCharts(document.querySelector("#chart-fin-rails"), {
+            window.appCharts['chart-fin-rails'] = new ApexCharts(document.querySelector('#chart-fin-rails'), {
                 series: [312.40, 241.10, 92.50, 55.23],
                 chart: { type: 'pie', height: 280, background: 'transparent' },
                 labels: ['UPI Rails (₹312.4 Cr)', 'Card Gateways (₹241.1 Cr)', 'Net Banking (₹92.5 Cr)', 'Cash on Delivery (₹55.2 Cr)'],
@@ -3617,7 +4272,7 @@ html_content = r"""<!DOCTYPE html>
                     tooltip: { theme: 'dark' },
                     legend: { labels: { colors: '#D5DCE5' }, position: 'top' }
                 };
-                new ApexCharts(document.querySelector("#chart-cross-trajectory"), trajOptions).render();
+                window.appCharts['chart-cross-trajectory'] = new ApexCharts(document.querySelector('#chart-cross-trajectory'), trajOptions).render();
             }
 
             // 20. Department Cost Allocation Chart
@@ -3652,7 +4307,7 @@ html_content = r"""<!DOCTYPE html>
                     tooltip: { theme: 'dark' },
                     legend: { labels: { colors: '#D5DCE5' }, position: 'top' }
                 };
-                new ApexCharts(document.querySelector("#chart-dept-cost"), deptOptions).render();
+                window.appCharts['chart-dept-cost'] = new ApexCharts(document.querySelector('#chart-dept-cost'), deptOptions).render();
             }
 
             // Initialize Workforce Simulator
@@ -3660,7 +4315,7 @@ html_content = r"""<!DOCTYPE html>
 
 
 // 21. Executive 26-Month Trajectory
-            new ApexCharts(document.querySelector("#chart-exec-trajectory"), {
+            window.appCharts['chart-exec-trajectory'] = new ApexCharts(document.querySelector('#chart-exec-trajectory'), {
                 series: [
                     { name: 'Delivered Revenue (₹ Cr)', data: [26.72, 24.45, 27.90, 25.92, 26.74, 24.44, 26.53, 27.38, 25.12, 26.37, 25.75, 25.58, 25.79, 24.57, 27.42, 25.49, 26.56, 27.00, 27.44, 26.25, 26.15, 27.04, 25.84, 26.99, 25.61, 21.90] },
                     { name: 'Total Operating Expenses (₹ Cr)', data: [30.97, 29.83, 29.74, 31.39, 33.49, 30.86, 34.09, 32.30, 30.03, 29.41, 30.17, 28.84, 33.24, 28.08, 33.31, 32.14, 33.84, 30.45, 31.08, 35.08, 28.36, 33.25, 30.86, 32.12, 31.62, 27.01] },
@@ -3692,7 +4347,7 @@ html_content = r"""<!DOCTYPE html>
             }).render();
 
             // 22. Executive Operating Expense Mix Donut
-            new ApexCharts(document.querySelector("#chart-exec-expense-mix"), {
+            window.appCharts['chart-exec-expense-mix'] = new ApexCharts(document.querySelector('#chart-exec-expense-mix'), {
                 series: [801.50, 10.04],
                 labels: ['Corporate Expenses (₹801.5 Cr)', 'Store Expenses (₹10.0 Cr)'],
                 colors: ['#E88E3E', '#2CD4E1'],
