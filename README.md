@@ -18,7 +18,7 @@ A high-performance, modular, and secure Enterprise Business Intelligence applica
 
 | Environment | URL / Endpoint | Target Engine | Purpose & Capabilities |
 | :--- | :--- | :--- | :--- |
-| **Live Interactive Web App (Production)** | [Launch Live Dashboard](https://archanak2810.github.io/sales-customer-operations-analytics/) | **GitHub Pages** (HTML5 + ApexCharts.js + Pre-computed PostgreSQL Data) | **Zero-setup client-side BI suite**. Instantly renders all 3 Domain Suites, 6 KPI cards, 8 interactive charts, data tables, what-if scenario simulator, and one-click downloads of all PDF/Word/HTML domain deliverables without requiring PostgreSQL or Python installations. |
+| **Live Interactive Web App (Production)** | [Launch Live Dashboard](https://archanak2810.github.io/sales-customer-operations-analytics/) | **GitHub Pages** (HTML5 + ApexCharts.js + Pre-computed PostgreSQL Data) | **Zero-setup client-side BI suite** featuring the full dark corporate navy theme (`#0F1F33` / `#183A5F`), left-hand **Global Filter tabs** (Quick Presets, Date Horizons, Geographic Scope, Cost Center), all 3 Domain Suites, interactive ApexCharts, scenario simulator, and one-click downloads of all PDF/Word/HTML domain deliverables. |
 | **Local Full-Stack Enterprise Server** | `http://127.0.0.1:8000/` | **Django 5.1 MTV + PostgreSQL 18** (`accio_retailmart_27`) | **Full relational dynamic query engine**. Executes pushdown SQL aggregation queries, window functions, and live schema inspections directly against the 2.4 million row database across 16 schemas. |
 
 ### Why This Deployment Link Is Appropriate
