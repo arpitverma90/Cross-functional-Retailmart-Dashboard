@@ -3359,53 +3359,10 @@
     </div>
 
     <!-- Toast Notification -->
-    <div id="toast" class="toast-notify">
+    <div id="toast" class="toast-notify" onclick="hideToast()" style="cursor: pointer;" title="Click to dismiss">
         <i id="toast-icon" class="ti ti-circle-check" style="color: var(--cyan); font-size: 1.25rem; flex-shrink: 0;"></i>
         <span id="toast-text" style="font-weight: 500;">Filters Applied: Synchronized live view</span>
-        <button type="button" onclick="hideToast()" style="background: none; border: none; color: #94A3B8; cursor: pointer; padding: 2px 4px; margin-left: 8px; font-size: 1.15rem; line-height: 1; display: flex; align-items: center;" title="Dismiss">&times;</button>
-    </div>
-
-    <!-- Executive Authentication / Demo Login Modal -->
-    <div id="auth-modal" style="display: none; position: fixed; inset: 0; background: rgba(8, 18, 32, 0.85); backdrop-filter: blur(8px); z-index: 10050; align-items: center; justify-content: center; padding: 1.5rem;">
-        <div style="width: 100%; max-width: 440px; background: linear-gradient(180deg, #183A5F 0%, #0F1F33 100%); border: 1px solid var(--blue-border); border-radius: 16px; padding: 2.25rem 2rem; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7); position: relative; color: var(--text-white);">
-            <button type="button" onclick="closeAuthModal()" style="position: absolute; top: 16px; right: 16px; background: none; border: none; color: var(--text-muted); font-size: 1.4rem; cursor: pointer; line-height: 1; padding: 4px;" title="Close">&times;</button>
-            
-            <div style="text-align: center; margin-bottom: 1.75rem;">
-                <div style="width: 54px; height: 54px; border-radius: 14px; background: linear-gradient(135deg, #183A5F 0%, var(--purple) 100%); border: 1px solid var(--blue-border); display: inline-flex; align-items: center; justify-content: center; margin-bottom: 0.85rem; box-shadow: 0 4px 16px var(--purple-glow);">
-                    <i class="ti ti-shield-lock" style="font-size: 1.8rem; color: #fff;"></i>
-                </div>
-                <h2 style="font-size: 1.5rem; font-weight: 800; margin: 0 0 0.25rem 0;">RetailMart <span style="color: var(--purple);">V3</span></h2>
-                <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0;">Enterprise Business Intelligence Portal</p>
-            </div>
-
-            <div style="background: rgba(44, 212, 225, 0.08); border: 1px solid rgba(44, 212, 225, 0.3); border-radius: 8px; padding: 0.75rem 1rem; margin-bottom: 1.25rem; font-size: 0.82rem; color: #E2E8F0; display: flex; align-items: center; gap: 0.6rem;">
-                <i class="ti ti-circle-check" style="color: var(--cyan); font-size: 1.15rem; flex-shrink: 0;"></i>
-                <span>Executive session signed out. Live demo access is active.</span>
-            </div>
-
-            <div style="background: rgba(15, 31, 51, 0.85); border: 1px solid #24598A; border-radius: 10px; padding: 1rem 1.15rem; margin-bottom: 1.5rem; font-size: 0.82rem;">
-                <div style="font-size: 0.7rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.5px; margin-bottom: 0.5rem;">Default Demo Credentials</div>
-                <div style="display: flex; justify-content: space-between; margin-bottom: 0.35rem;">
-                    <span style="color: var(--text-muted);">Username:</span>
-                    <code style="color: var(--cyan); font-family: 'JetBrains Mono', monospace; font-weight: 600;">admin</code>
-                </div>
-                <div style="display: flex; justify-content: space-between; margin-bottom: 0.35rem;">
-                    <span style="color: var(--text-muted);">Password:</span>
-                    <code style="color: var(--cyan); font-family: 'JetBrains Mono', monospace; font-weight: 600;">admin123</code>
-                </div>
-                <div style="display: flex; justify-content: space-between;">
-                    <span style="color: var(--text-muted);">Access Level:</span>
-                    <span style="color: #34D399; font-weight: 600;">Executive C-Suite / CAO</span>
-                </div>
-            </div>
-
-            <button type="button" onclick="loginDemoUser()" class="btn btn-primary" style="width: 100%; justify-content: center; padding: 0.75rem; font-size: 0.9rem; font-weight: 700; margin-bottom: 0.75rem;">
-                <i class="ti ti-login"></i> Sign In to Executive Dashboard
-            </button>
-            <button type="button" onclick="closeAuthModal()" class="btn btn-secondary" style="width: 100%; justify-content: center; padding: 0.55rem; font-size: 0.8rem;">
-                Continue Exploring as Guest
-            </button>
-        </div>
+        <button type="button" onclick="hideToast(); event.stopPropagation();" style="background: none; border: none; color: #94A3B8; cursor: pointer; padding: 2px 4px; margin-left: 8px; font-size: 1.15rem; line-height: 1; display: flex; align-items: center;" title="Dismiss">&times;</button>
     </div>
 
     <!-- Interactive Scripts & ApexCharts Initializers -->
@@ -4222,22 +4179,7 @@
         }
 
         function simulateLogout() {
-            openAuthModal();
-        }
-
-        function openAuthModal() {
-            const modal = document.getElementById('auth-modal');
-            if (modal) modal.style.display = 'flex';
-        }
-
-        function closeAuthModal() {
-            const modal = document.getElementById('auth-modal');
-            if (modal) modal.style.display = 'none';
-        }
-
-        function loginDemoUser() {
-            closeAuthModal();
-            showToast('Authenticated as Executive Admin · Welcome to RetailMart V3!');
+            showToast('Session preserved · Standing in Demo Mode');
         }
 
         // WORKFORCE, COMPENSATION & OPEX SCENARIO SIMULATOR
