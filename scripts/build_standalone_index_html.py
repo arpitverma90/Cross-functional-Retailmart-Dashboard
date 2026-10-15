@@ -3627,7 +3627,7 @@ html_content = r"""<!DOCTYPE html>
                 }
             }
             const grossMargin = totalDeliveredSales * 0.2749;
-            const netSpread = grossMargin - totalExpenses;
+            const netSpread = totalDeliveredSales - totalExpenses;
 
             // Cache Filter State
             window.lastFilterState = {
