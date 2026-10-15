@@ -769,7 +769,7 @@ def build_docx_report(output_docx_path):
         ("Project & System", "RetailMart V3 Enterprise BI Platform (Django 5.1 + PostgreSQL 18.4)"),
         ("Reporting Scope", "Executive Summary, Marketing, Digital, Logistics, Cross-Functional, Scenario Simulator"),
         ("Reconciliation Parity", "Exact Match (100.0%) across 82,331 Delivered Orders / 2,391,602 Total Rows"),
-        ("Author & Date", "Senior BI Analyst & Solution Architecture Team · September 18, 2026")
+        ("Author & Date", "Arpit Verma (Lead BI Analyst) · https://github.com/arpitverma90/Cross-functional-Retailmart-Dashboard")
     ]
     for idx, (label, val) in enumerate(meta_data):
         row = meta_table.rows[idx]

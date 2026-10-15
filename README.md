@@ -2,12 +2,15 @@
 ## Enterprise BI Engine for Commercial, Customer RFM, Operations, Growth & Governance
 
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-GitHub%20Pages-brightgreen.svg?logo=github)](https://arpitverma90.github.io/Cross-functional-Retailmart-Dashboard/)
+[![GitHub Repo](https://img.shields.io/badge/Repository-arpitverma90%2FCross--functional--Retailmart--Dashboard-blue.svg?logo=github)](https://github.com/arpitverma90/Cross-functional-Retailmart-Dashboard)
 [![Python](https://img.shields.io/badge/Python-3.13.2-blue.svg)](https://www.python.org/)
 [![Django](https://img.shields.io/badge/Django-5.1-green.svg)](https://www.djangoproject.com/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-18.4-336791.svg)](https://www.postgresql.org/)
 [![Status](https://img.shields.io/badge/Status-Production--Ready-success.svg)]()
 
 > **🚀 Live Interactive Dashboard**: [https://arpitverma90.github.io/Cross-functional-Retailmart-Dashboard/](https://arpitverma90.github.io/Cross-functional-Retailmart-Dashboard/)  
+> **📦 GitHub Repository**: [https://github.com/arpitverma90/Cross-functional-Retailmart-Dashboard](https://github.com/arpitverma90/Cross-functional-Retailmart-Dashboard)  
+> **👤 Lead Analyst & Author**: **Arpit Verma** ([@arpitverma90](https://github.com/arpitverma90))  
 > **💻 Local Full-Stack Server**: `http://127.0.0.1:8000/` (Django 5.1 + PostgreSQL 18 with 2.4M rows)
 
 A high-performance, modular, and secure Enterprise Business Intelligence application built with **Django 5.1** and powered by **PostgreSQL 18** (`accio_retailmart_27`). This platform visualizes and analyzes over **2.4 million rows** across **55 relational tables** within **16 distinct database schemas**, structured into 3 distinct operational domain suites.
@@ -132,9 +135,14 @@ Comprehensive deliverables in **PDF, Word (.docx), and HTML** are generated dire
 
 ## 🚀 Quickstart & Local Installation
 
-### 1. Prerequisites
+### 1. Prerequisites & Clone
 * Python 3.11+ or 3.13+
 * PostgreSQL 15+ or 18+ running on port 5432 with `accio_retailmart_27`
+
+```bash
+git clone https://github.com/arpitverma90/Cross-functional-Retailmart-Dashboard.git
+cd Cross-functional-Retailmart-Dashboard
+```
 
 ### 2. Environment Setup
 ```bash
@@ -152,3 +160,13 @@ pip install -r requirements.txt
 python manage.py runserver 127.0.0.1:8000
 ```
 Navigate to `http://127.0.0.1:8000/` and sign in with `admin` / `admin123`.
+
+---
+
+## 👤 Author & Repository Maintainer
+
+* **Author & Lead BI Architect**: **Arpit Verma** ([@arpitverma90](https://github.com/arpitverma90))
+* **Email**: [vermaarp2361@gmail.com](mailto:vermaarp2361@gmail.com)
+* **GitHub Repository**: [https://github.com/arpitverma90/Cross-functional-Retailmart-Dashboard](https://github.com/arpitverma90/Cross-functional-Retailmart-Dashboard)
+* **Live Web App**: [https://arpitverma90.github.io/Cross-functional-Retailmart-Dashboard/](https://arpitverma90.github.io/Cross-functional-Retailmart-Dashboard/)
+

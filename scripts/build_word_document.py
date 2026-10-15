@@ -100,7 +100,7 @@ def main():
     set_table_borders(meta_table, color="94A3B8")
     meta_data = [
         ("Project & Architecture", "RetailMart V3 Commercial BI Platform (Django 5.1 + PostgreSQL 18.4)"),
-        ("Author & Governance", "Senior Business Intelligence Analyst & Data Architecture Team"),
+        ("Author & Governance", "Arpit Verma (Lead BI Analyst) | https://github.com/arpitverma90/Cross-functional-Retailmart-Dashboard"),
         ("Database Instance", "PostgreSQL 18.4 (accio_retailmart_27) | Schemas: sales, products, stores, customers, manufacture, marketing, core, analytics"),
         ("Catalogue Scope", "39 Validated SQL Queries covering Executive, Sales, Customer, Operations, Cross-Functional, and EDA Domains")
     ]

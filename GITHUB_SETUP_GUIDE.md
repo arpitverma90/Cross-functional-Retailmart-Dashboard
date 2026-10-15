@@ -1,13 +1,13 @@
 # GitHub Setup and Push Guide
 ## RetailMart V3 Enterprise BI Platform
-
-This guide walks you through pushing the clean **RetailMart V3 Enterprise BI Platform** codebase to your GitHub repository.
+**Author & Maintainer**: Arpit Verma ([@arpitverma90](https://github.com/arpitverma90))  
+**Repository**: [https://github.com/arpitverma90/Cross-functional-Retailmart-Dashboard](https://github.com/arpitverma90/Cross-functional-Retailmart-Dashboard)
 
 ---
 
 ## Quick Push via Git CLI
 
-Open PowerShell or terminal inside `retailmart_bi_github/`:
+Open PowerShell or terminal inside the repository folder:
 
 ```bash
 # 1. Initialize git repository
@@ -17,13 +17,13 @@ git init
 git add .
 
 # 3. Create initial commit
-git commit -m "feat: initial release of RetailMart V3 Enterprise BI Platform (Marketing, Digital, Logistics, Cross-Functional)"
+git commit -m "feat: initial release of RetailMart V3 Enterprise BI Platform"
 
 # 4. Set default branch to main
 git branch -M main
 
-# 5. Connect your GitHub repository (replace with your repo URL)
-git remote add origin https://github.com/<YOUR-USERNAME>/<YOUR-REPO-NAME>.git
+# 5. Connect your GitHub repository
+git remote add origin https://github.com/arpitverma90/Cross-functional-Retailmart-Dashboard.git
 
 # 6. Push to GitHub
 git push -u origin main
