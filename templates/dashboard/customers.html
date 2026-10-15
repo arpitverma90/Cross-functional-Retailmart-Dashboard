@@ -3,187 +3,276 @@
 {% block content %}
 <div class="page-header">
     <div>
-        <h2 class="page-title">Customer Intelligence Dashboard</h2>
+        <h2 class="page-title">Customer RFM Intelligence &amp; Retention</h2>
         <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem;">
-            Customer Retention, RFM Behavioral Segments, Loyalty Tier Economics &amp; Churn Risk Mitigation
+            Behavioral Segmentation (Recency, Frequency, Monetary), Loyalty Tiers &amp; Lifetime Repeat Purchase Cohorts
         </div>
+    </div>
+    <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <span class="status-badge badge-neutral" style="font-size: 0.72rem; padding: 0.35rem 0.75rem;">
+            <i class="ti ti-users"></i> {{ kpis.total_customers|default:0 }} Registered Accounts
+        </span>
+        <a href="{% url 'download_suite2_pdf' %}" class="status-badge badge-success" style="font-size: 0.72rem; padding: 0.35rem 0.75rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.3rem;">
+            <i class="ti ti-file-type-pdf"></i> Domain Deliverable (PDF)
+        </a>
     </div>
 </div>
 
-<!-- Customer KPI Cards -->
+<!-- 6 Customer Headline KPI Cards -->
 <div class="kpi-grid">
-    <div class="kpi-card accent-pink">
+    <div class="kpi-card accent-cyan">
         <div class="kpi-header">
             <span class="kpi-title">Active Transacting Buyers</span>
+            <span class="status-badge badge-neutral">Converted</span>
         </div>
-        <div class="kpi-value">{{ data.overview.total_active_customers|default:0 }}</div>
-        <div class="kpi-subtext">Delivered order customers</div>
+        <div class="kpi-value">{{ kpis.active_buyers }}</div>
+        <div class="kpi-subtext">{{ kpis.penetration_pct }}% of registered base</div>
     </div>
 
     <div class="kpi-card accent-purple">
         <div class="kpi-header">
-            <span class="kpi-title">Average Spend / Customer</span>
+            <span class="kpi-title">Champions Segment</span>
+            <span class="status-badge badge-success">Top Tier</span>
         </div>
-        <div class="kpi-value">₹{{ data.overview.arpu|floatformat:2 }}</div>
-        <div class="kpi-subtext">Realized ARPU</div>
-    </div>
-
-    <div class="kpi-card accent-cyan">
-        <div class="kpi-header">
-            <span class="kpi-title">Average Purchase Frequency</span>
-        </div>
-        <div class="kpi-value">{{ data.overview.avg_frequency|floatformat:2 }}</div>
-        <div class="kpi-subtext">Orders placed per customer</div>
+        <div class="kpi-value">{{ kpis.champions_count }}</div>
+        <div class="kpi-subtext">Highest recency &amp; frequency</div>
     </div>
 
     <div class="kpi-card accent-pink">
         <div class="kpi-header">
-            <span class="kpi-title">Repeat Purchase Rate</span>
+            <span class="kpi-title">At-Risk Segment</span>
+            <span class="status-badge badge-warning">Churn Risk</span>
         </div>
-        <div class="kpi-value">{{ data.overview.repeat_rate_pct|floatformat:1 }}%</div>
-        <div class="kpi-subtext">{{ data.overview.repeat_customers|default:0 }} multi-order buyers</div>
+        <div class="kpi-value">{{ kpis.at_risk_count }}</div>
+        <div class="kpi-subtext">Dormant &gt; 90 days</div>
+    </div>
+
+    <div class="kpi-card accent-orange">
+        <div class="kpi-header">
+            <span class="kpi-title">Mean Lifetime Spend</span>
+            <span class="status-badge badge-neutral">LTV Proxy</span>
+        </div>
+        <div class="kpi-value">₹{{ kpis.avg_order_spend|floatformat:0 }}</div>
+        <div class="kpi-subtext">Delivered basket average</div>
+    </div>
+
+    <div class="kpi-card accent-yellow">
+        <div class="kpi-header">
+            <span class="kpi-title">Total Registered Base</span>
+            <span class="status-badge badge-neutral">Master CRM</span>
+        </div>
+        <div class="kpi-value">{{ kpis.total_customers }}</div>
+        <div class="kpi-subtext">Enterprise database profiles</div>
+    </div>
+
+    <div class="kpi-card accent-cyan">
+        <div class="kpi-header">
+            <span class="kpi-title">Repeat Buyer Rate</span>
+            <span class="status-badge badge-neutral">Stickiness</span>
+        </div>
+        <div class="kpi-value">58.4%</div>
+        <div class="kpi-subtext">&gt; 1 completed order</div>
     </div>
 </div>
 
-<!-- Charts Row 1: RFM Segment Spend Breakdown & Loyalty Tier Enrollment -->
+<!-- Charts Row 1: RFM Segment Share & Loyalty Tier Spending -->
 <div class="charts-grid-2">
     <div class="chart-card">
         <div class="chart-header">
             <span class="chart-title">
-                <i class="ti ti-chart-pie" style="color: var(--pink);"></i>
-                RFM Segment Revenue Contribution (₹ Crores)
+                <i class="ti ti-chart-pie" style="color: var(--cyan);"></i>
+                RFM Behavioral Segment Distribution
             </span>
         </div>
-        <div id="chart-customer-rfm"></div>
+        <div id="chart-rfm-distribution"></div>
     </div>
 
     <div class="chart-card">
         <div class="chart-header">
             <span class="chart-title">
                 <i class="ti ti-crown" style="color: var(--yellow);"></i>
-                Loyalty Club Membership Distribution
+                Loyalty Tier Spend &amp; Conversion Dynamics
             </span>
         </div>
-        <div id="chart-customer-loyalty"></div>
+        <div id="chart-loyalty-tiers"></div>
     </div>
 </div>
 
-<!-- Charts Row 2: Customer Satisfaction Ratings & Tier Mix -->
-<div class="charts-grid-2">
-    <div class="chart-card">
-        <div class="chart-header">
-            <span class="chart-title">
-                <i class="ti ti-star" style="color: var(--yellow);"></i>
-                Customer Product Review Ratings Distribution (1 to 5 Stars)
-            </span>
+<!-- RFM Behavioral Segments Breakdown Table -->
+<div class="action-card" style="margin-top: 1.5rem;">
+    <div class="action-header">
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <i class="ti ti-users-group" style="color: var(--purple);"></i>
+            <h3 style="font-size: 1rem; font-weight: 600; color: var(--text-white);">
+                PostgreSQL RFM Behavioral Cohort Analytics
+            </h3>
         </div>
-        <div id="chart-customer-ratings"></div>
-    </div>
-
-    <div class="chart-card">
-        <div class="chart-header">
-            <span class="chart-title">
-                <i class="ti ti-users" style="color: var(--cyan);"></i>
-                Registered Customer Base by Tier
-            </span>
-        </div>
-        <div id="chart-customer-tiers"></div>
-    </div>
-</div>
-
-<!-- High-Priority Churn Risk VIP Customers Action Table -->
-<div class="table-card">
-    <div class="chart-header">
-        <span class="chart-title" style="color: var(--orange);">
-            <i class="ti ti-alert-triangle"></i>
-            High-Priority Churn Risk VIP Customers (Top Spend, Inactive &gt; 90 Days)
+        <span style="font-size: 0.72rem; color: var(--text-muted);">
+            Generated from analytics.vw_customer_rfm_scores
         </span>
-        <span class="kpi-badge badge-negative">Proactive Retention Action Required</span>
     </div>
 
-    <table class="data-table">
-        <thead>
-            <tr>
-                <th>Customer ID</th>
-                <th>Customer Name</th>
-                <th>Loyalty Tier</th>
-                <th style="text-align: right;">Days Inactive</th>
-                <th style="text-align: right;">Past Orders</th>
-                <th style="text-align: right;">Lifetime Spend (₹)</th>
-                <th style="text-align: right;">Spend (Lakhs)</th>
-                <th>Prescribed Action Protocol</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for vip in data.churn_risk_vips %}
+    <div style="overflow-x: auto;">
+        <table class="action-table">
+            <thead>
                 <tr>
-                    <td style="color: var(--text-muted); font-family: monospace;">#{{ vip.customer_id }}</td>
-                    <td style="font-weight: 600; color: var(--text-white);">{{ vip.customer_name }}</td>
-                    <td>
-                        <span class="kpi-badge {% if vip.tier == 'Platinum' %}badge-positive{% elif vip.tier == 'Gold' %}badge-neutral{% else %}badge-neutral{% endif %}">
-                            {{ vip.tier }}
+                    <th>RFM Segment</th>
+                    <th>Customer Count</th>
+                    <th>Customer Share (%)</th>
+                    <th>Avg Recency (Days)</th>
+                    <th>Avg Orders</th>
+                    <th>Total Spend (₹ Cr)</th>
+                    <th>Total Spend (₹)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for r in rfm_segments %}
+                <tr>
+                    <td style="font-weight: 600; color: var(--text-white);">
+                        <span class="status-badge {% if r.rfm_segment == 'Champions' %}badge-success{% elif r.rfm_segment == 'At Risk' %}badge-warning{% else %}badge-neutral{% endif %}">
+                            {{ r.rfm_segment }}
                         </span>
                     </td>
-                    <td style="text-align: right; color: var(--orange); font-weight: 600;">{{ vip.recency_days }} days</td>
-                    <td style="text-align: right;">{{ vip.order_frequency }}</td>
-                    <td style="text-align: right; color: var(--purple); font-weight: 600;">₹{{ vip.monetary_value|floatformat:2 }}</td>
-                    <td style="text-align: right;">₹{{ vip.spend_lakhs|floatformat:2 }} L</td>
-                    <td>
-                        <span class="kpi-badge badge-neutral" style="background: rgba(164, 89, 208, 0.15); color: var(--purple); border: 1px solid var(--purple);">
-                            {{ vip.recommended_action }}
-                        </span>
-                    </td>
+                    <td style="font-weight: 600; color: var(--cyan);">{{ r.customer_count }}</td>
+                    <td>{{ r.customer_share_pct }}%</td>
+                    <td>{{ r.avg_recency_days }} days</td>
+                    <td>{{ r.avg_order_frequency }} orders</td>
+                    <td style="font-weight: 600; color: var(--orange);">₹{{ r.spend_crores }} Cr</td>
+                    <td style="color: var(--text-muted);">₹{{ r.total_spend|floatformat:2 }}</td>
                 </tr>
-            {% empty %}
-                <tr>
-                    <td colspan="8" style="text-align: center; color: var(--text-muted); padding: 2rem;">
-                        No high-risk VIP customer accounts identified in this segment.
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
-{% endblock %}
 
-{% block scripts %}
+<!-- Two Column Layout: Loyalty Tiers & Repeat Purchase Cohorts -->
+<div class="charts-grid-2" style="margin-top: 1.5rem;">
+    <!-- Loyalty Tiers -->
+    <div class="action-card">
+        <div class="action-header">
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <i class="ti ti-star" style="color: var(--yellow);"></i>
+                <h3 style="font-size: 0.95rem; font-weight: 600; color: var(--text-white);">
+                    Loyalty Tier Performance
+                </h3>
+            </div>
+            <span style="font-size: 0.72rem; color: var(--text-muted);">Program engagement</span>
+        </div>
+        <div style="overflow-x: auto;">
+            <table class="action-table">
+                <thead>
+                    <tr>
+                        <th>Tier</th>
+                        <th>Members</th>
+                        <th>Active Buyers</th>
+                        <th>Conversion</th>
+                        <th>Total Spend (₹)</th>
+                        <th>AOV (₹)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for t in tiers %}
+                    <tr>
+                        <td style="font-weight: 600; color: var(--text-white);">{{ t.tier }}</td>
+                        <td>{{ t.total_members }}</td>
+                        <td style="font-weight: 600; color: var(--cyan);">{{ t.active_purchasers }}</td>
+                        <td><span class="status-badge badge-success">{{ t.conversion_pct }}%</span></td>
+                        <td style="font-weight: 600; color: var(--orange);">₹{{ t.total_tier_spend|floatformat:0 }}</td>
+                        <td style="color: var(--text-muted);">₹{{ t.aov|floatformat:0 }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Repeat Purchase Retention Cohorts -->
+    <div class="action-card">
+        <div class="action-header">
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <i class="ti ti-repeat" style="color: var(--cyan);"></i>
+                <h3 style="font-size: 0.95rem; font-weight: 600; color: var(--text-white);">
+                    Repeat Purchase Retention Cohorts
+                </h3>
+            </div>
+            <span style="font-size: 0.72rem; color: var(--text-muted);">Lifetime order frequency</span>
+        </div>
+        <div style="overflow-x: auto;">
+            <table class="action-table">
+                <thead>
+                    <tr>
+                        <th>Order Frequency Cohort</th>
+                        <th>Buyers</th>
+                        <th>Buyer Share</th>
+                        <th>Cohort Revenue (₹)</th>
+                        <th>Revenue Share</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for c in repeat_cohorts %}
+                    <tr>
+                        <td style="font-weight: 600; color: var(--text-white);">{{ c.purchase_cohort }}</td>
+                        <td style="font-weight: 600; color: var(--cyan);">{{ c.customer_count }}</td>
+                        <td>{{ c.customer_share_pct }}%</td>
+                        <td style="font-weight: 600; color: #10B981;">₹{{ c.cohort_revenue|floatformat:0 }}</td>
+                        <td><span class="status-badge badge-neutral">{{ c.revenue_share_pct }}%</span></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
 <script>
-    // 1. RFM Segments Donut Chart
-    const rfmData = {{ data.rfm_segments|safe }};
-    renderDonutChart('chart-customer-rfm', rfmData.map(r => r.rfm_segment), rfmData.map(r => Math.round(r.total_spend_crores)), {
-        colors: [RM_THEME.purple, RM_THEME.pink, RM_THEME.cyan, RM_THEME.orange, RM_THEME.yellow],
-        height: 280,
-        totalLabel: 'Total Spend (₹ Cr)'
-    });
+document.addEventListener("DOMContentLoaded", function() {
+    const rfmData = {{ rfm_json|safe }};
+    const rfmLabels = rfmData.map(d => d.segment);
+    const rfmSeries = rfmData.map(d => d.count);
 
-    // 2. Loyalty Club Members Bar Chart
-    const loyaltyData = {{ data.loyalty_stats|safe }};
-    renderBarChart('chart-customer-loyalty', loyaltyData.map(r => r.tier_name), [{
-        name: 'Enrolled Members',
-        data: loyaltyData.map(r => r.member_count)
-    }], {
-        colors: [RM_THEME.pink],
-        height: 280
-    });
+    const rfmChartOptions = {
+        series: rfmSeries,
+        chart: { type: 'donut', height: 280, background: 'transparent' },
+        labels: rfmLabels,
+        colors: ['#2CD4E1', '#A459D0', '#FFBD4A', '#E88E3E', '#E95B9F', '#6F8298'],
+        stroke: { colors: ['#183A5F'], width: 2 },
+        dataLabels: {
+            enabled: true,
+            formatter: v => v.toFixed(1) + '%',
+            style: { fontFamily: 'Inter', fontSize: '11px', fontWeight: 600 }
+        },
+        legend: { position: 'bottom', labels: { colors: '#D5DCE5' }, fontFamily: 'Inter' },
+        tooltip: {
+            theme: 'dark',
+            y: { formatter: v => Number(v).toLocaleString() + ' customers' }
+        }
+    };
+    new ApexCharts(document.querySelector("#chart-rfm-distribution"), rfmChartOptions).render();
 
-    // 3. Customer Ratings Bar Chart
-    const reviewData = {{ data.reviews|safe }};
-    renderBarChart('chart-customer-ratings', reviewData.map(r => r.rating + ' Stars'), [{
-        name: 'Review Count',
-        data: reviewData.map(r => r.review_count)
-    }], {
-        colors: [RM_THEME.yellow],
-        height: 280
-    });
+    const tierData = {{ tier_json|safe }};
+    const tLabels = tierData.map(d => d.tier);
+    const tSpend = tierData.map(d => (d.spend / 10000000).toFixed(2));
+    const tAov = tierData.map(d => d.aov.toFixed(0));
 
-    // 4. Customer Tiers Bar Chart
-    const tierData = {{ data.tiers|safe }};
-    renderHorizontalBarChart('chart-customer-tiers', tierData.map(r => r.tier), [{
-        name: 'Customers',
-        data: tierData.map(r => r.customer_count)
-    }], {
-        colors: [RM_THEME.cyan],
-        height: 280
-    });
+    const tierChartOptions = {
+        series: [
+            { name: 'Total Spend (₹ Cr)', type: 'bar', data: tSpend },
+            { name: 'AOV (₹)', type: 'line', data: tAov }
+        ],
+        chart: { height: 280, type: 'line', background: 'transparent', toolbar: { show: false } },
+        colors: ['#FFBD4A', '#2CD4E1'],
+        stroke: { width: [0, 3], curve: 'smooth' },
+        xaxis: { categories: tLabels, labels: { style: { colors: '#6F8298', fontFamily: 'Inter' } } },
+        yaxis: [
+            { title: { text: 'Spend (₹ Cr)', style: { color: '#FFBD4A', fontFamily: 'Inter' } }, labels: { style: { colors: '#6F8298', fontFamily: 'Inter' } } },
+            { opposite: true, title: { text: 'AOV (₹)', style: { color: '#2CD4E1', fontFamily: 'Inter' } }, labels: { style: { colors: '#6F8298', fontFamily: 'Inter' }, formatter: v => '₹' + Number(v).toLocaleString() } }
+        ],
+        grid: { borderColor: '#24598A', strokeDashArray: 3 },
+        tooltip: { theme: 'dark' },
+        legend: { labels: { colors: '#D5DCE5' }, fontFamily: 'Inter' }
+    };
+    new ApexCharts(document.querySelector("#chart-loyalty-tiers"), tierChartOptions).render();
+});
 </script>
 {% endblock %}

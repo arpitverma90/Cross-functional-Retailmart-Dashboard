@@ -38,27 +38,57 @@
                 </div>
             </div>
 
-            <!-- Unified Dashboard Area Navigation -->
-            <nav class="nav-tabs">
+            <!-- Unified Dashboard Area Navigation: 3 Distinct Domain Suites -->
+            <nav class="nav-tabs" style="display: flex; align-items: center; gap: 0.4rem; padding: 0.25rem 0.5rem; overflow-x: auto;">
                 <!-- Area 1: Executive Summary -->
-                <a href="{% url 'executive_summary' %}" class="nav-tab-link {% if active_tab == 'executive' %}active{% endif %}">
-                    <i class="ti ti-layout-dashboard"></i> Executive Summary
+                <a href="{% url 'executive_summary' %}" class="nav-tab-link {% if active_tab == 'executive' %}active{% endif %}" style="padding: 0.35rem 0.75rem; font-size: 0.8rem;">
+                    <i class="ti ti-layout-dashboard"></i> Executive
                 </a>
-                
-                <!-- Area 2: Detailed Business Dashboard -->
-                <a href="{% url 'sales_dashboard' %}" class="nav-tab-link {% if active_tab == 'sales' %}active{% endif %}">
-                    <i class="ti ti-chart-line"></i> Sales
+
+                <!-- Domain Suite 1: Growth & Supply Chain -->
+                <div style="display: flex; align-items: center; background: rgba(14, 165, 233, 0.1); border: 1px solid rgba(14, 165, 233, 0.35); border-radius: 9999px; padding: 2px 4px; gap: 2px;">
+                    <span style="font-size: 0.62rem; font-weight: 700; text-transform: uppercase; color: #38BDF8; padding: 0 5px; letter-spacing: 0.5px;">Suite 1</span>
+                    <a href="{% url 'marketing_dashboard' %}" class="nav-tab-link {% if active_tab == 'marketing' %}active{% endif %}" style="padding: 0.3rem 0.65rem; font-size: 0.78rem;">
+                        <i class="ti ti-target"></i> Marketing
+                    </a>
+                    <a href="{% url 'digital_dashboard' %}" class="nav-tab-link {% if active_tab == 'digital' %}active{% endif %}" style="padding: 0.3rem 0.65rem; font-size: 0.78rem;">
+                        <i class="ti ti-device-analytics"></i> Digital
+                    </a>
+                    <a href="{% url 'logistics_dashboard' %}" class="nav-tab-link {% if active_tab == 'logistics' %}active{% endif %}" style="padding: 0.3rem 0.65rem; font-size: 0.78rem;">
+                        <i class="ti ti-truck-delivery"></i> Logistics
+                    </a>
+                </div>
+
+                <!-- Domain Suite 2: Commercial & Customer Operations -->
+                <div style="display: flex; align-items: center; background: rgba(168, 85, 247, 0.1); border: 1px solid rgba(168, 85, 247, 0.35); border-radius: 9999px; padding: 2px 4px; gap: 2px;">
+                    <span style="font-size: 0.62rem; font-weight: 700; text-transform: uppercase; color: #C084FC; padding: 0 5px; letter-spacing: 0.5px;">Suite 2</span>
+                    <a href="{% url 'sales_dashboard' %}" class="nav-tab-link {% if active_tab == 'sales' %}active{% endif %}" style="padding: 0.3rem 0.65rem; font-size: 0.78rem;">
+                        <i class="ti ti-shopping-cart"></i> Sales
+                    </a>
+                    <a href="{% url 'customer_dashboard' %}" class="nav-tab-link {% if active_tab == 'customers' %}active{% endif %}" style="padding: 0.3rem 0.65rem; font-size: 0.78rem;">
+                        <i class="ti ti-user-check"></i> Customer
+                    </a>
+                    <a href="{% url 'operations_dashboard' %}" class="nav-tab-link {% if active_tab == 'operations' %}active{% endif %}" style="padding: 0.3rem 0.65rem; font-size: 0.78rem;">
+                        <i class="ti ti-boxes"></i> Operations
+                    </a>
+                </div>
+
+                <!-- Domain Suite 3: People & Financial Governance -->
+                <div style="display: flex; align-items: center; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.35); border-radius: 9999px; padding: 2px 4px; gap: 2px;">
+                    <span style="font-size: 0.62rem; font-weight: 700; text-transform: uppercase; color: #34D399; padding: 0 5px; letter-spacing: 0.5px;">Suite 3</span>
+                    <a href="{% url 'hr_dashboard' %}" class="nav-tab-link {% if active_tab == 'hr' %}active{% endif %}" style="padding: 0.3rem 0.65rem; font-size: 0.78rem;">
+                        <i class="ti ti-users"></i> HR
+                    </a>
+                    <a href="{% url 'finance_dashboard' %}" class="nav-tab-link {% if active_tab == 'finance' %}active{% endif %}" style="padding: 0.3rem 0.65rem; font-size: 0.78rem;">
+                        <i class="ti ti-chart-line"></i> Finance
+                    </a>
+                </div>
+
+                <!-- Cross-Functional & Simulator -->
+                <a href="{% url 'cross_functional_dashboard' %}" class="nav-tab-link {% if active_tab == 'cross_functional' %}active{% endif %}" style="padding: 0.35rem 0.65rem; font-size: 0.78rem;">
+                    <i class="ti ti-arrows-cross"></i> Cross
                 </a>
-                <a href="{% url 'customer_dashboard' %}" class="nav-tab-link {% if active_tab == 'customers' %}active{% endif %}">
-                    <i class="ti ti-users"></i> Customers
-                </a>
-                <a href="{% url 'operations_dashboard' %}" class="nav-tab-link {% if active_tab == 'operations' %}active{% endif %}">
-                    <i class="ti ti-truck-delivery"></i> Operations
-                </a>
-                <a href="{% url 'cross_functional_dashboard' %}" class="nav-tab-link {% if active_tab == 'cross_functional' %}active{% endif %}">
-                    <i class="ti ti-arrows-cross"></i> Cross-Functional
-                </a>
-                <a href="{% url 'scenario_simulator' %}" class="nav-tab-link {% if active_tab == 'simulator' %}active{% endif %}">
+                <a href="{% url 'scenario_simulator' %}" class="nav-tab-link {% if active_tab == 'simulator' %}active{% endif %}" style="padding: 0.35rem 0.65rem; font-size: 0.78rem;">
                     <i class="ti ti-calculator"></i> Simulator
                 </a>
             </nav>
@@ -68,49 +98,90 @@
                 <!-- Comprehensive Reports & Downloads Dropdown -->
                 <div style="position: relative; display: inline-block;">
                     <button id="reports-dropdown-btn" type="button" class="btn" style="background: rgba(37, 99, 235, 0.25); border: 1px solid rgba(37, 99, 235, 0.6); color: #93C5FD; padding: 0.38rem 0.75rem; font-size: 0.75rem; border-radius: 6px; display: inline-flex; align-items: center; gap: 0.4rem; font-weight: 600; cursor: pointer;">
-                        <i class="ti ti-download"></i> Download Reports <i class="ti ti-chevron-down" style="font-size: 0.7rem;"></i>
+                        <i class="ti ti-download"></i> Domain Deliverables <i class="ti ti-chevron-down" style="font-size: 0.7rem;"></i>
                     </button>
                     
-                    <div id="reports-dropdown-menu" style="display: none; position: absolute; right: 0; top: calc(100% + 6px); width: 270px; background: #1E293B; border: 1px solid #334155; border-radius: 8px; box-shadow: 0 12px 30px rgba(0,0,0,0.6); z-index: 1050; padding: 6px 0; text-align: left;">
-                        <div style="padding: 6px 14px; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; color: #94A3B8; letter-spacing: 0.5px; border-bottom: 1px solid #334155;">
-                            Executive Insights Reports
+                    <div id="reports-dropdown-menu" style="display: none; position: absolute; right: 0; top: calc(100% + 6px); width: 330px; background: #1E293B; border: 1px solid #334155; border-radius: 8px; box-shadow: 0 16px 36px rgba(0,0,0,0.7); z-index: 1050; padding: 6px 0; text-align: left; max-height: 85vh; overflow-y: auto;">
+                        <!-- Suite 1 Deliverables -->
+                        <div style="padding: 6px 14px; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; color: #38BDF8; letter-spacing: 0.5px; background: rgba(56, 189, 248, 0.08); border-bottom: 1px solid #334155;">
+                            Suite 1: Marketing, Digital &amp; Logistics
                         </div>
-                        <a href="{% url 'download_insights_pdf' %}" style="display: flex; align-items: center; gap: 10px; padding: 8px 14px; color: #F1F5F9; font-size: 0.75rem; text-decoration: none; transition: background 0.15s;" onmouseover="this.style.background='#334155'" onmouseout="this.style.background='transparent'">
-                            <i class="ti ti-file-type-pdf" style="color: #F43F5E; font-size: 1.15rem;"></i>
-                            <div>
-                                <div style="font-weight: 600;">Executive Insights (PDF)</div>
-                                <div style="font-size: 0.65rem; color: #94A3B8;">Print-ready decision dossier</div>
-                            </div>
-                        </a>
-                        <a href="{% url 'download_insights_word' %}" style="display: flex; align-items: center; gap: 10px; padding: 8px 14px; color: #F1F5F9; font-size: 0.75rem; text-decoration: none; transition: background 0.15s;" onmouseover="this.style.background='#334155'" onmouseout="this.style.background='transparent'">
-                            <i class="ti ti-file-type-docx" style="color: #3B82F6; font-size: 1.15rem;"></i>
-                            <div>
-                                <div style="font-weight: 600;">Executive Insights (Word)</div>
-                                <div style="font-size: 0.65rem; color: #94A3B8;">Editable .docx report with tables</div>
-                            </div>
-                        </a>
-                        <a href="{% url 'download_insights_html' %}" target="_blank" style="display: flex; align-items: center; gap: 10px; padding: 8px 14px; color: #F1F5F9; font-size: 0.75rem; text-decoration: none; transition: background 0.15s;" onmouseover="this.style.background='#334155'" onmouseout="this.style.background='transparent'">
-                            <i class="ti ti-file-type-html" style="color: #0D9488; font-size: 1.15rem;"></i>
-                            <div>
-                                <div style="font-weight: 600;">Interactive Insights (HTML)</div>
-                                <div style="font-size: 0.65rem; color: #94A3B8;">Standalone offline web report</div>
-                            </div>
-                        </a>
-                        <div style="padding: 6px 14px; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; color: #94A3B8; letter-spacing: 0.5px; border-top: 1px solid #334155; border-bottom: 1px solid #334155; margin-top: 4px;">
-                            Technical Deliverables
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); padding: 4px 10px; gap: 4px; border-bottom: 1px solid #334155;">
+                            <a href="{% url 'download_suite1_pdf' %}" class="btn" style="padding: 4px 6px; font-size: 0.68rem; background: rgba(244,63,94,0.15); color: #FDA4AF; border: 1px solid rgba(244,63,94,0.3); text-decoration: none; text-align: center; border-radius: 4px;">
+                                <i class="ti ti-file-type-pdf"></i> PDF
+                            </a>
+                            <a href="{% url 'download_suite1_word' %}" class="btn" style="padding: 4px 6px; font-size: 0.68rem; background: rgba(59,130,246,0.15); color: #93C5FD; border: 1px solid rgba(59,130,246,0.3); text-decoration: none; text-align: center; border-radius: 4px;">
+                                <i class="ti ti-file-type-docx"></i> Word
+                            </a>
+                            <a href="{% url 'download_suite1_html' %}" target="_blank" class="btn" style="padding: 4px 6px; font-size: 0.68rem; background: rgba(13,148,136,0.15); color: #5EEAD4; border: 1px solid rgba(13,148,136,0.3); text-decoration: none; text-align: center; border-radius: 4px;">
+                                <i class="ti ti-file-type-html"></i> HTML
+                            </a>
                         </div>
-                        <a href="{% url 'download_word_doc' %}" style="display: flex; align-items: center; gap: 10px; padding: 8px 14px; color: #F1F5F9; font-size: 0.75rem; text-decoration: none; transition: background 0.15s;" onmouseover="this.style.background='#334155'" onmouseout="this.style.background='transparent'">
-                            <i class="ti ti-database" style="color: #A855F7; font-size: 1.15rem;"></i>
+
+                        <!-- Suite 2 Deliverables -->
+                        <div style="padding: 6px 14px; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; color: #C084FC; letter-spacing: 0.5px; background: rgba(192, 132, 252, 0.08); border-bottom: 1px solid #334155;">
+                            Suite 2: Sales, Customer &amp; Operations
+                        </div>
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); padding: 4px 10px; gap: 4px; border-bottom: 1px solid #334155;">
+                            <a href="{% url 'download_suite2_pdf' %}" class="btn" style="padding: 4px 6px; font-size: 0.68rem; background: rgba(244,63,94,0.15); color: #FDA4AF; border: 1px solid rgba(244,63,94,0.3); text-decoration: none; text-align: center; border-radius: 4px;">
+                                <i class="ti ti-file-type-pdf"></i> PDF
+                            </a>
+                            <a href="{% url 'download_suite2_word' %}" class="btn" style="padding: 4px 6px; font-size: 0.68rem; background: rgba(59,130,246,0.15); color: #93C5FD; border: 1px solid rgba(59,130,246,0.3); text-decoration: none; text-align: center; border-radius: 4px;">
+                                <i class="ti ti-file-type-docx"></i> Word
+                            </a>
+                            <a href="{% url 'download_suite2_html' %}" target="_blank" class="btn" style="padding: 4px 6px; font-size: 0.68rem; background: rgba(13,148,136,0.15); color: #5EEAD4; border: 1px solid rgba(13,148,136,0.3); text-decoration: none; text-align: center; border-radius: 4px;">
+                                <i class="ti ti-file-type-html"></i> HTML
+                            </a>
+                        </div>
+
+                        <!-- Suite 3 Deliverables -->
+                        <div style="padding: 6px 14px; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; color: #34D399; letter-spacing: 0.5px; background: rgba(52, 211, 153, 0.08); border-bottom: 1px solid #334155;">
+                            Suite 3: HR &amp; Financial Governance
+                        </div>
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); padding: 4px 10px; gap: 4px; border-bottom: 1px solid #334155;">
+                            <a href="{% url 'download_suite3_pdf' %}" class="btn" style="padding: 4px 6px; font-size: 0.68rem; background: rgba(244,63,94,0.15); color: #FDA4AF; border: 1px solid rgba(244,63,94,0.3); text-decoration: none; text-align: center; border-radius: 4px;">
+                                <i class="ti ti-file-type-pdf"></i> PDF
+                            </a>
+                            <a href="{% url 'download_suite3_word' %}" class="btn" style="padding: 4px 6px; font-size: 0.68rem; background: rgba(59,130,246,0.15); color: #93C5FD; border: 1px solid rgba(59,130,246,0.3); text-decoration: none; text-align: center; border-radius: 4px;">
+                                <i class="ti ti-file-type-docx"></i> Word
+                            </a>
+                            <a href="{% url 'download_suite3_html' %}" target="_blank" class="btn" style="padding: 4px 6px; font-size: 0.68rem; background: rgba(13,148,136,0.15); color: #5EEAD4; border: 1px solid rgba(13,148,136,0.3); text-decoration: none; text-align: center; border-radius: 4px;">
+                                <i class="ti ti-file-type-html"></i> HTML
+                            </a>
+                        </div>
+
+                        <!-- Executive Master Insights -->
+                        <div style="padding: 6px 14px; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; color: #94A3B8; letter-spacing: 0.5px; border-bottom: 1px solid #334155; margin-top: 2px;">
+                            Executive Master Insights
+                        </div>
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); padding: 4px 10px; gap: 4px; border-bottom: 1px solid #334155;">
+                            <a href="{% url 'download_insights_pdf' %}" class="btn" style="padding: 4px 6px; font-size: 0.68rem; background: rgba(244,63,94,0.15); color: #FDA4AF; border: 1px solid rgba(244,63,94,0.3); text-decoration: none; text-align: center; border-radius: 4px;">
+                                <i class="ti ti-file-type-pdf"></i> PDF
+                            </a>
+                            <a href="{% url 'download_insights_word' %}" class="btn" style="padding: 4px 6px; font-size: 0.68rem; background: rgba(59,130,246,0.15); color: #93C5FD; border: 1px solid rgba(59,130,246,0.3); text-decoration: none; text-align: center; border-radius: 4px;">
+                                <i class="ti ti-file-type-docx"></i> Word
+                            </a>
+                            <a href="{% url 'download_insights_html' %}" target="_blank" class="btn" style="padding: 4px 6px; font-size: 0.68rem; background: rgba(13,148,136,0.15); color: #5EEAD4; border: 1px solid rgba(13,148,136,0.3); text-decoration: none; text-align: center; border-radius: 4px;">
+                                <i class="ti ti-file-type-html"></i> HTML
+                            </a>
+                        </div>
+
+                        <!-- Master SQL & Repository -->
+                        <div style="padding: 6px 14px; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; color: #94A3B8; letter-spacing: 0.5px; border-bottom: 1px solid #334155; margin-top: 2px;">
+                            Master Technical Assets
+                        </div>
+                        <a href="{% url 'download_word_doc' %}" style="display: flex; align-items: center; gap: 8px; padding: 6px 14px; color: #F1F5F9; font-size: 0.72rem; text-decoration: none; transition: background 0.15s;" onmouseover="this.style.background='#334155'" onmouseout="this.style.background='transparent'">
+                            <i class="ti ti-database" style="color: #A855F7; font-size: 1rem;"></i>
                             <div>
                                 <div style="font-weight: 600;">SQL Query Catalogue (.docx)</div>
-                                <div style="font-size: 0.65rem; color: #94A3B8;">All 39 KPI & EDA queries</div>
+                                <div style="font-size: 0.62rem; color: #94A3B8;">All 39 Domain KPI &amp; EDA queries</div>
                             </div>
                         </a>
-                        <a href="{% url 'download_github_zip' %}" style="display: flex; align-items: center; gap: 10px; padding: 8px 14px; color: #F1F5F9; font-size: 0.75rem; text-decoration: none; transition: background 0.15s;" onmouseover="this.style.background='#334155'" onmouseout="this.style.background='transparent'">
-                            <i class="ti ti-brand-github" style="color: #E2E8F0; font-size: 1.15rem;"></i>
+                        <a href="{% url 'download_github_zip' %}" style="display: flex; align-items: center; gap: 8px; padding: 6px 14px; color: #F1F5F9; font-size: 0.72rem; text-decoration: none; transition: background 0.15s;" onmouseover="this.style.background='#334155'" onmouseout="this.style.background='transparent'">
+                            <i class="ti ti-brand-github" style="color: #E2E8F0; font-size: 1rem;"></i>
                             <div>
                                 <div style="font-weight: 600;">GitHub Repository (.zip)</div>
-                                <div style="font-size: 0.65rem; color: #94A3B8;">Complete clean codebase</div>
+                                <div style="font-size: 0.62rem; color: #94A3B8;">Clean production codebase</div>
                             </div>
                         </a>
                     </div>

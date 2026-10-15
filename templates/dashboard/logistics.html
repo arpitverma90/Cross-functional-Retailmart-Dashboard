@@ -1,0 +1,318 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h2 class="page-title">Logistics &amp; Supply Chain Dashboard</h2>
+        <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem;">
+            Order Fulfillment, Courier SLA Benchmarks, Delivery Lead Times, Warehouse Capacity &amp; Store Stockout Risk
+        </div>
+    </div>
+    <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <div style="font-size: 0.75rem; color: var(--cyan); background: rgba(44, 212, 225, 0.1); padding: 0.35rem 0.75rem; border-radius: 6px; border: 1px solid rgba(44, 212, 225, 0.3);">
+            <i class="ti ti-truck-loading"></i> Enterprise Fulfillment Network
+        </div>
+        <a href="{% url 'download_suite1_pdf' %}" class="status-badge badge-success" style="font-size: 0.72rem; padding: 0.35rem 0.75rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.3rem;">
+            <i class="ti ti-file-type-pdf"></i> Domain Deliverable (PDF)
+        </a>
+    </div>
+</div>
+
+<!-- Logistics Headline KPI Cards -->
+<div class="kpi-grid">
+    <div class="kpi-card accent-cyan">
+        <div class="kpi-header">
+            <span class="kpi-title">Delivered Shipments</span>
+            <i class="ti ti-package" style="color: var(--cyan);"></i>
+        </div>
+        <div class="kpi-value">{{ kpis.delivered_shipments|default:0 }}</div>
+        <div class="kpi-subtext">Completed parcels</div>
+    </div>
+
+    <div class="kpi-card accent-purple">
+        <div class="kpi-header">
+            <span class="kpi-title">Carrier On-Time SLA</span>
+            <i class="ti ti-clock-check" style="color: var(--purple);"></i>
+        </div>
+        <div class="kpi-value">{{ kpis.otd_sla_rate|floatformat:1 }}%</div>
+        <div class="kpi-subtext">&le; 5 days transit target</div>
+    </div>
+
+    <div class="kpi-card accent-cyan">
+        <div class="kpi-header">
+            <span class="kpi-title">Avg Delivery Lead Time</span>
+            <i class="ti ti-calendar-event" style="color: var(--cyan);"></i>
+        </div>
+        <div class="kpi-value">{{ kpis.avg_lead_time_days|floatformat:2 }}d</div>
+        <div class="kpi-subtext">Dispatch to delivery</div>
+    </div>
+
+    <div class="kpi-card accent-orange">
+        <div class="kpi-header">
+            <span class="kpi-title">In-Transit Parcels</span>
+            <i class="ti ti-truck-delivery" style="color: var(--orange);"></i>
+        </div>
+        <div class="kpi-value">{{ kpis.in_transit_shipments|default:0 }}</div>
+        <div class="kpi-subtext">Active carrier pipeline</div>
+    </div>
+
+    <div class="kpi-card accent-yellow">
+        <div class="kpi-header">
+            <span class="kpi-title">Awaiting Fulfillment</span>
+            <i class="ti ti-progress" style="color: var(--yellow);"></i>
+        </div>
+        <div class="kpi-value">{{ kpis.processing_orders|default:0 }}</div>
+        <div class="kpi-subtext">Orders in Processing state</div>
+    </div>
+
+    <div class="kpi-card accent-pink">
+        <div class="kpi-header">
+            <span class="kpi-title">Store Stockout Risk SKUs</span>
+            <i class="ti ti-alert-triangle" style="color: var(--pink);"></i>
+        </div>
+        <div class="kpi-value">{{ kpis.stockout_skus|default:0 }}</div>
+        <div class="kpi-subtext">&le; reorder threshold</div>
+    </div>
+</div>
+
+<!-- Charts Row 1: Courier Comparison & Lead Time Distribution -->
+<div class="charts-grid-2">
+    <div class="chart-card">
+        <div class="chart-header">
+            <span class="chart-title">
+                <i class="ti ti-truck" style="color: var(--cyan);"></i>
+                Courier Delivery Volume &amp; On-Time SLA Rate (%)
+            </span>
+        </div>
+        <div id="chart-courier-sla"></div>
+    </div>
+
+    <div class="chart-card">
+        <div class="chart-header">
+            <span class="chart-title">
+                <i class="ti ti-chart-bar" style="color: var(--purple);"></i>
+                Delivery Lead Time Transit Distribution
+            </span>
+        </div>
+        <div id="chart-lead-distribution"></div>
+    </div>
+</div>
+
+<!-- Charts Row 2: Warehouse Capacity & Inbound Procurement -->
+<div class="charts-grid-2">
+    <div class="chart-card">
+        <div class="chart-header">
+            <span class="chart-title">
+                <i class="ti ti-building-warehouse" style="color: var(--orange);"></i>
+                Warehouse Storage Capacity &amp; Snapshot Stock Units
+            </span>
+        </div>
+        <div id="chart-warehouses"></div>
+    </div>
+
+    <div class="chart-card">
+        <div class="chart-header">
+            <span class="chart-title">
+                <i class="ti ti-ship" style="color: var(--pink);"></i>
+                Inbound Supplier Procurement Status
+            </span>
+        </div>
+        <div id="chart-inbound-status"></div>
+    </div>
+</div>
+
+<!-- Action Table: Category Stockout Risk Matrix -->
+<div class="action-card" style="margin-top: 1.5rem;">
+    <div class="action-header">
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <i class="ti ti-stack-2" style="color: var(--pink);"></i>
+            <h3 style="font-size: 1rem; font-weight: 600; color: var(--text-white);">
+                Store Shelf Stockout Risk Analysis by Product Category
+            </h3>
+        </div>
+        <span style="font-size: 0.72rem; color: var(--text-muted);">
+            Identifies retail merchandise requiring immediate warehouse replenishment
+        </span>
+    </div>
+
+    <div style="overflow-x: auto;">
+        <table class="action-table">
+            <thead>
+                <tr>
+                    <th>Merchandise Category</th>
+                    <th>Total Store SKUs</th>
+                    <th>Critical Stockout SKUs</th>
+                    <th>Stockout Risk Rate (%)</th>
+                    <th>Shelf Units on Hand</th>
+                    <th>Operational Urgency</th>
+                    <th>Dispatch Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for c in category_risks %}
+                <tr>
+                    <td style="font-weight: 600; color: var(--text-white);">{{ c.category_name }}</td>
+                    <td>{{ c.total_store_skus }}</td>
+                    <td style="color: var(--orange); font-weight: 600;">{{ c.stockout_risk_count }}</td>
+                    <td>
+                        <span class="status-badge {% if c.stockout_risk_pct > 30 %}badge-danger{% else %}badge-neutral{% endif %}">
+                            {{ c.stockout_risk_pct|floatformat:1 }}%
+                        </span>
+                    </td>
+                    <td>{{ c.total_units_on_shelf }}</td>
+                    <td>
+                        {% if c.stockout_risk_pct > 30 %}
+                            <span style="color: #F43F5E; font-weight: 600;"><i class="ti ti-flame"></i> High Priority</span>
+                        {% else %}
+                            <span style="color: var(--cyan);"><i class="ti ti-check"></i> Monitored</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{% url 'cross_functional_dashboard' %}" class="btn-action" style="padding: 0.2rem 0.5rem; font-size: 0.7rem;">
+                            View Alignment <i class="ti ti-arrow-right"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7" style="text-align: center; color: var(--text-muted); padding: 2rem;">
+                        No store inventory data available.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // 1. Courier SLA Chart
+    const courierData = {{ courier_sla|safe }};
+    const cNames = courierData.map(d => d.courier_name);
+    const cDelivered = courierData.map(d => d.delivered_count);
+    const cSLA = courierData.map(d => parseFloat(d.otd_sla_pct) || 0);
+
+    const courierOptions = {
+        series: [
+            { name: 'Delivered Parcels', type: 'column', data: cDelivered },
+            { name: 'On-Time SLA (%)', type: 'line', data: cSLA }
+        ],
+        chart: {
+            height: 280,
+            type: 'line',
+            background: 'transparent',
+            toolbar: { show: false }
+        },
+        colors: ['#2CD4E1', '#A459D0'],
+        stroke: { width: [0, 3], curve: 'smooth' },
+        plotOptions: { bar: { columnWidth: '50%', borderRadius: 4 } },
+        xaxis: {
+            categories: cNames,
+            labels: { style: { colors: '#6F8298', fontFamily: 'Inter', fontSize: '11px', fontWeight: 600 } }
+        },
+        yaxis: [
+            {
+                title: { text: 'Delivered Parcels', style: { color: '#6F8298', fontFamily: 'Inter' } },
+                labels: { style: { colors: '#6F8298', fontFamily: 'Inter' }, formatter: function(v) { return (v / 1000).toFixed(0) + 'k'; } }
+            },
+            {
+                opposite: true,
+                max: 100,
+                title: { text: 'SLA Rate (%)', style: { color: '#A459D0', fontFamily: 'Inter' } },
+                labels: { style: { colors: '#A459D0', fontFamily: 'Inter' }, formatter: function(v) { return v.toFixed(0) + '%'; } }
+            }
+        ],
+        grid: { borderColor: '#24598A', strokeDashArray: 3 },
+        legend: { position: 'top', labels: { colors: '#D5DCE5' }, fontFamily: 'Inter' },
+        tooltip: { theme: 'dark' }
+    };
+    new ApexCharts(document.querySelector("#chart-courier-sla"), courierOptions).render();
+
+    // 2. Lead Time Distribution
+    const leadData = {{ lead_time_dist|safe }};
+    const lBrackets = leadData.map(d => d.transit_bracket);
+    const lCounts = leadData.map(d => d.shipment_count);
+
+    const leadOptions = {
+        series: [{ name: 'Shipments', data: lCounts }],
+        chart: {
+            type: 'bar',
+            height: 280,
+            background: 'transparent',
+            toolbar: { show: false }
+        },
+        plotOptions: {
+            bar: {
+                borderRadius: 4,
+                distributed: true,
+                columnWidth: '55%'
+            }
+        },
+        colors: ['#2CD4E1', '#2CD4E1', '#2CD4E1', '#2CD4E1', '#FFBD4A', '#E88E3E'],
+        xaxis: {
+            categories: lBrackets,
+            labels: { style: { colors: '#6F8298', fontFamily: 'Inter', fontSize: '10px' }, rotate: -25 }
+        },
+        yaxis: {
+            labels: { style: { colors: '#6F8298', fontFamily: 'Inter' }, formatter: function(v) { return (v / 1000).toFixed(0) + 'k'; } }
+        },
+        grid: { borderColor: '#24598A', strokeDashArray: 3 },
+        legend: { show: false },
+        tooltip: { theme: 'dark' }
+    };
+    new ApexCharts(document.querySelector("#chart-lead-distribution"), leadOptions).render();
+
+    // 3. Warehouse Capacity & Stock
+    const warehouseData = {{ warehouses|safe }};
+    const wNames = warehouseData.map(d => d.warehouse_name.replace('Warehouse ', ''));
+    const wCap = warehouseData.map(d => d.capacity_sqft);
+    const wUnits = warehouseData.map(d => d.total_units_on_hand);
+
+    const warehouseOptions = {
+        series: [
+            { name: 'Stock Units on Hand', data: wUnits },
+            { name: 'Facility Sq Ft', data: wCap }
+        ],
+        chart: {
+            type: 'bar',
+            height: 280,
+            background: 'transparent',
+            toolbar: { show: false }
+        },
+        colors: ['#2CD4E1', '#E88E3E'],
+        xaxis: {
+            categories: wNames,
+            labels: { style: { colors: '#6F8298', fontFamily: 'Inter', fontSize: '10px' } }
+        },
+        yaxis: {
+            labels: { style: { colors: '#6F8298', fontFamily: 'Inter' }, formatter: function(v) { return (v / 1000).toFixed(0) + 'k'; } }
+        },
+        grid: { borderColor: '#24598A', strokeDashArray: 3 },
+        legend: { position: 'top', labels: { colors: '#D5DCE5' }, fontFamily: 'Inter' },
+        tooltip: { theme: 'dark' }
+    };
+    new ApexCharts(document.querySelector("#chart-warehouses"), warehouseOptions).render();
+
+    // 4. Inbound Status Donut
+    const inboundData = {{ inbound_status|safe }};
+    const iLabels = inboundData.map(d => d.status);
+    const iSeries = inboundData.map(d => d.shipment_lots);
+
+    const inboundOptions = {
+        series: iSeries,
+        chart: {
+            type: 'donut',
+            height: 280,
+            background: 'transparent'
+        },
+        labels: iLabels,
+        colors: ['#2CD4E1', '#FFBD4A', '#E88E3E'],
+        stroke: { colors: ['#183A5F'], width: 2 },
+        legend: { position: 'bottom', labels: { colors: '#D5DCE5' }, fontFamily: 'Inter' },
+        tooltip: { theme: 'dark' }
+    };
+    new ApexCharts(document.querySelector("#chart-inbound-status"), inboundOptions).render();
+});
+</script>
+{% endblock %}

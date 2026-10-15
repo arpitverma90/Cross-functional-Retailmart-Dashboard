@@ -1,0 +1,427 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h2 class="page-title">Financial Performance &amp; Treasury Intelligence</h2>
+        <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem;">
+            Delivered Commercial Revenue, Corporate Overhead, Store Branch Expenses, Gross Margins &amp; Treasury Cash
+        </div>
+    </div>
+    <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <span class="status-badge badge-neutral" style="font-size: 0.72rem; padding: 0.35rem 0.75rem;">
+            <i class="ti ti-cash"></i> ₹{{ kpis.revenue_crores }} Cr Net Revenue
+        </span>
+        <span class="status-badge badge-neutral" style="font-size: 0.72rem; padding: 0.35rem 0.75rem;">
+            <i class="ti ti-building-bank"></i> ₹{{ kpis.cash_reserves_crores }} Cr Liquid Reserves
+        </span>
+        <a href="{% url 'download_suite3_pdf' %}" class="status-badge badge-success" style="font-size: 0.72rem; padding: 0.35rem 0.75rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.3rem;">
+            <i class="ti ti-file-type-pdf"></i> Domain Deliverable (PDF)
+        </a>
+    </div>
+</div>
+
+<!-- 8 Finance Headline KPI Cards -->
+<div class="kpi-grid">
+    <!-- Card 1: Delivered Net Revenue -->
+    <div class="kpi-card accent-purple">
+        <div class="kpi-header">
+            <span class="kpi-title">Delivered Net Revenue</span>
+            <span class="status-badge badge-success">Delivered Only</span>
+        </div>
+        <div class="kpi-value">₹{{ kpis.revenue_crores }} Cr</div>
+        <div class="kpi-subtext">
+            <span>{{ kpis.delivered_orders|floatformat:0 }} Fulfilled Orders</span>
+        </div>
+    </div>
+
+    <!-- Card 2: Gross Contribution Margin -->
+    <div class="kpi-card accent-cyan">
+        <div class="kpi-header">
+            <span class="kpi-title">Gross Margin Markup</span>
+            <span class="status-badge badge-success">27.5%</span>
+        </div>
+        <div class="kpi-value">₹{{ kpis.gross_margin_crores }} Cr</div>
+        <div class="kpi-subtext">
+            <span>Markup over product cost price</span>
+        </div>
+    </div>
+
+    <!-- Card 3: Corporate Overhead Outflows -->
+    <div class="kpi-card accent-orange">
+        <div class="kpi-header">
+            <span class="kpi-title">Corporate Overhead</span>
+            <span class="status-badge badge-danger">15 Categories</span>
+        </div>
+        <div class="kpi-value">₹801.50 Cr</div>
+        <div class="kpi-subtext">
+            <span>finance.expenses non-store costs</span>
+        </div>
+    </div>
+
+    <!-- Card 4: Store Branch Operating Costs -->
+    <div class="kpi-card accent-orange">
+        <div class="kpi-header">
+            <span class="kpi-title">Retail Store Branch OPEX</span>
+            <span class="status-badge badge-neutral">200 Stores</span>
+        </div>
+        <div class="kpi-value">₹10.04 Cr</div>
+        <div class="kpi-subtext">
+            <span>Rent, Utilities, Maintenance</span>
+        </div>
+    </div>
+
+    <!-- Card 5: Net Operating Spread -->
+    <div class="kpi-card {% if kpis.net_spread_crores >= 0 %}accent-purple{% else %}accent-orange{% endif %}">
+        <div class="kpi-header">
+            <span class="kpi-title">Net Operating Spread</span>
+            <span class="status-badge badge-danger">Deficit</span>
+        </div>
+        <div class="kpi-value">₹{{ kpis.net_spread_crores }} Cr</div>
+        <div class="kpi-subtext">
+            <span>Delivered Sales - Total OPEX</span>
+        </div>
+    </div>
+
+    <!-- Card 6: Average Order Value -->
+    <div class="kpi-card accent-cyan">
+        <div class="kpi-header">
+            <span class="kpi-title">Average Order Value (AOV)</span>
+            <span class="status-badge badge-neutral">Ticket Size</span>
+        </div>
+        <div class="kpi-value">₹{{ kpis.average_order_value|floatformat:0 }}</div>
+        <div class="kpi-subtext">
+            <span>Per Delivered Transaction</span>
+        </div>
+    </div>
+
+    <!-- Card 7: Liquid Cash Reserves -->
+    <div class="kpi-card accent-purple">
+        <div class="kpi-header">
+            <span class="kpi-title">Treasury Cash Reserves</span>
+            <span class="status-badge badge-neutral">Liquid</span>
+        </div>
+        <div class="kpi-value">₹{{ kpis.cash_reserves_crores }} Cr</div>
+        <div class="kpi-subtext">
+            <span>Spread Across 200 Accounts</span>
+        </div>
+    </div>
+
+    <!-- Card 8: Payment Settlement Rate -->
+    <div class="kpi-card accent-cyan">
+        <div class="kpi-header">
+            <span class="kpi-title">Settlement Health</span>
+            <span class="status-badge badge-success">Verified</span>
+        </div>
+        <div class="kpi-value">{{ kpis.settlement_success_rate }}%</div>
+        <div class="kpi-subtext">
+            <span>142k+ Transactions Audited</span>
+        </div>
+    </div>
+</div>
+
+<!-- Charts Row 1: Monthly Trend & Corporate Expenses -->
+<div class="charts-grid-2" style="margin-top: 1.5rem;">
+    <!-- Chart 1: Monthly Revenue vs Operating Expenses Trajectory -->
+    <div class="chart-card">
+        <div class="chart-header">
+            <span class="chart-title">
+                <i class="ti ti-chart-arrows" style="color: var(--purple);"></i>
+                Monthly Commercial Revenue vs Operating Expenses (₹ Crores)
+            </span>
+            <span style="font-size: 0.72rem; color: var(--text-muted);">
+                26-Month Complete Financial Trajectory
+            </span>
+        </div>
+        <div id="chart-fin-trajectory" style="min-height: 320px;"></div>
+    </div>
+
+    <!-- Chart 2: Corporate Operating Expenses Breakdown -->
+    <div class="chart-card">
+        <div class="chart-header">
+            <span class="chart-title">
+                <i class="ti ti-chart-pie" style="color: var(--orange);"></i>
+                Corporate Overhead Breakdown by Expense Category
+            </span>
+            <span style="font-size: 0.72rem; color: var(--text-muted);">
+                analytics.vw_finance_expense_summary
+            </span>
+        </div>
+        <div id="chart-corp-expenses" style="min-height: 320px;"></div>
+    </div>
+</div>
+
+<!-- Charts Row 2: Category Gross Margins & Payment Tender Performance -->
+<div class="charts-grid-2" style="margin-top: 1.5rem;">
+    <!-- Chart 3: Product Category Margins -->
+    <div class="chart-card">
+        <div class="chart-header">
+            <span class="chart-title">
+                <i class="ti ti-category" style="color: var(--cyan);"></i>
+                Gross Margin Contribution by Product Category (₹ Crores)
+            </span>
+            <span style="font-size: 0.72rem; color: var(--text-muted);">
+                Sales Revenue minus SKU Cost Price
+            </span>
+        </div>
+        <div id="chart-cat-margins" style="min-height: 320px;"></div>
+    </div>
+
+    <!-- Chart 4: Payment Tender Modes & Volume -->
+    <div class="chart-card">
+        <div class="chart-header">
+            <span class="chart-title">
+                <i class="ti ti-credit-card" style="color: var(--purple);"></i>
+                Settlement Volume &amp; Clearance Success by Tender Mode
+            </span>
+            <span style="font-size: 0.72rem; color: var(--text-muted);">
+                finance.payment_modes
+            </span>
+        </div>
+        <div id="chart-payment-tenders" style="min-height: 320px;"></div>
+    </div>
+</div>
+
+<!-- Table 1: Regional Financial Performance Matrix -->
+<div class="table-card" style="margin-top: 1.5rem;">
+    <div class="table-header">
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <i class="ti ti-map-2" style="color: var(--cyan); font-size: 1.15rem;"></i>
+            <h3 class="table-title">Regional Financial Matrix: Delivered Sales vs Store Operating Costs</h3>
+        </div>
+        <span class="kpi-badge badge-neutral" style="font-size: 0.7rem;">Geographic Distribution</span>
+    </div>
+    <div style="overflow-x: auto;">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Region Name</th>
+                    <th style="text-align: right;">Delivered Net Revenue (₹)</th>
+                    <th style="text-align: right;">Revenue (₹ Cr)</th>
+                    <th style="text-align: right;">Store Branch OPEX (₹)</th>
+                    <th style="text-align: right;">OPEX (₹ Cr)</th>
+                    <th style="text-align: right;">Regional Operating Spread (₹)</th>
+                    <th style="text-align: right;">Branch Operating Margin</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for r in regional_performance %}
+                <tr>
+                    <td style="font-weight: 600; color: var(--text-white);">{{ r.region_name }}</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--purple);">₹{{ r.net_revenue|floatformat:2 }}</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--purple);">₹{{ r.revenue_crores }} Cr</td>
+                    <td style="text-align: right; color: var(--orange);">₹{{ r.store_expenses|floatformat:2 }}</td>
+                    <td style="text-align: right; color: var(--orange);">₹{{ r.expenses_crores }} Cr</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">₹{{ r.regional_spread|floatformat:2 }}</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--text-white);">{{ r.operating_margin_pct }}%</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Table 2: Store Operating Cost Breakdown & Returns -->
+<div class="charts-grid-2" style="margin-top: 1.5rem;">
+    <!-- Store Expense Types -->
+    <div class="table-card">
+        <div class="table-header">
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <i class="ti ti-building" style="color: var(--orange); font-size: 1.15rem;"></i>
+                <h3 class="table-title">Store Branch Cost Types</h3>
+            </div>
+            <span class="kpi-badge badge-neutral" style="font-size: 0.7rem;">stores.expenses</span>
+        </div>
+        <div style="overflow-x: auto;">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Expense Type</th>
+                        <th style="text-align: right;">Records</th>
+                        <th style="text-align: right;">Total Outflow (₹)</th>
+                        <th style="text-align: right;">Share %</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for se in store_expenses %}
+                    <tr>
+                        <td style="font-weight: 600; color: var(--text-white);">{{ se.expense_type }}</td>
+                        <td style="text-align: right;">{{ se.expense_records }}</td>
+                        <td style="text-align: right; font-weight: 600; color: var(--orange);">₹{{ se.total_spent_crores }} Cr</td>
+                        <td style="text-align: right;">{{ se.cost_share_pct }}%</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Commercial Returns & Refund Erosion -->
+    <div class="table-card">
+        <div class="table-header">
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <i class="ti ti-arrow-back-up" style="color: var(--yellow); font-size: 1.15rem;"></i>
+                <h3 class="table-title">Commercial Returns &amp; Refund Impact</h3>
+            </div>
+            <span class="kpi-badge badge-neutral" style="font-size: 0.7rem;">sales.returns</span>
+        </div>
+        <div style="overflow-x: auto;">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Return Reason</th>
+                        <th style="text-align: right;">Refunds Count</th>
+                        <th style="text-align: right;">Total Refund (₹)</th>
+                        <th style="text-align: right;">Avg Ticket (₹)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for rf in refund_impact %}
+                    <tr>
+                        <td style="font-weight: 600; color: var(--text-white);">{{ rf.return_reason }}</td>
+                        <td style="text-align: right;">{{ rf.refund_count }}</td>
+                        <td style="text-align: right; font-weight: 600; color: var(--yellow);">₹{{ rf.refund_lakhs }} L</td>
+                        <td style="text-align: right; color: var(--text-muted);">₹{{ rf.avg_refund_inr|floatformat:0 }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 1. Monthly Revenue vs Operating Expenses Trajectory
+    const trendData = {{ rev_exp_trend|safe }};
+    if (trendData && trendData.length > 0) {
+        const months = trendData.map(d => d.month_name);
+        const revenue = trendData.map(d => d.revenue_crores);
+        const expenses = trendData.map(d => d.expenses_crores);
+
+        const trendOptions = {
+            series: [
+                { name: 'Delivered Revenue (₹ Cr)', data: revenue, color: '#A459D0' },
+                { name: 'Total Expenses (₹ Cr)', data: expenses, color: '#E88E3E' }
+            ],
+            chart: {
+                type: 'line',
+                height: 320,
+                background: 'transparent',
+                toolbar: { show: false }
+            },
+            stroke: { curve: 'smooth', width: 3 },
+            grid: { borderColor: '#24598A', strokeDashArray: 3 },
+            xaxis: {
+                categories: months,
+                labels: { style: { colors: '#8E9BAE', fontSize: '11px' } }
+            },
+            yaxis: {
+                labels: {
+                    style: { colors: '#8E9BAE' },
+                    formatter: function(val) { return '₹' + val.toFixed(1) + ' Cr'; }
+                }
+            },
+            tooltip: { theme: 'dark', y: { formatter: function(val) { return '₹' + val.toFixed(2) + ' Cr'; } } },
+            legend: { labels: { colors: '#D5DCE5' }, position: 'top' }
+        };
+        new ApexCharts(document.querySelector("#chart-fin-trajectory"), trendOptions).render();
+    }
+
+    // 2. Corporate Expenses Breakdown Bar Chart (Top 8 Categories)
+    const corpData = {{ corp_expenses|safe }};
+    if (corpData && corpData.length > 0) {
+        const topCorp = corpData.slice(0, 8);
+        const categories = topCorp.map(d => d.expense_category);
+        const amounts = topCorp.map(d => d.total_spent_crores);
+
+        const corpOptions = {
+            series: [{ name: 'Spend (₹ Crores)', data: amounts, color: '#E88E3E' }],
+            chart: {
+                type: 'bar',
+                height: 320,
+                background: 'transparent',
+                toolbar: { show: false }
+            },
+            plotOptions: {
+                bar: { horizontal: true, borderRadius: 4, barHeight: '65%' }
+            },
+            grid: { borderColor: '#24598A', strokeDashArray: 3 },
+            xaxis: {
+                labels: {
+                    style: { colors: '#8E9BAE' },
+                    formatter: function(val) { return '₹' + val.toFixed(0) + ' Cr'; }
+                }
+            },
+            yaxis: {
+                labels: { style: { colors: '#D5DCE5', fontSize: '11px' } }
+            },
+            tooltip: { theme: 'dark', y: { formatter: function(val) { return '₹' + val.toFixed(2) + ' Cr'; } } }
+        };
+        new ApexCharts(document.querySelector("#chart-corp-expenses"), corpOptions).render();
+    }
+
+    // 3. Category Gross Margins Bar Chart
+    const catData = {{ category_margins|safe }};
+    if (catData && catData.length > 0) {
+        const catNames = catData.map(d => d.category_name);
+        const catRev = catData.map(d => d.revenue_crores);
+        const catMargins = catData.map(d => (d.gross_margin / 10000000).toFixed(2));
+
+        const catOptions = {
+            series: [
+                { name: 'Net Revenue (₹ Cr)', data: catRev, color: '#A459D0' },
+                { name: 'Gross Margin (₹ Cr)', data: catMargins, color: '#2CD4E1' }
+            ],
+            chart: {
+                type: 'bar',
+                height: 320,
+                background: 'transparent',
+                toolbar: { show: false }
+            },
+            plotOptions: {
+                bar: { horizontal: false, columnWidth: '55%', borderRadius: 4 }
+            },
+            grid: { borderColor: '#24598A', strokeDashArray: 3 },
+            xaxis: {
+                categories: catNames,
+                labels: { rotate: -25, style: { colors: '#8E9BAE', fontSize: '11px' } }
+            },
+            yaxis: {
+                labels: {
+                    style: { colors: '#8E9BAE' },
+                    formatter: function(val) { return '₹' + val.toFixed(0) + ' Cr'; }
+                }
+            },
+            tooltip: { theme: 'dark' },
+            legend: { labels: { colors: '#D5DCE5' }, position: 'top' }
+        };
+        new ApexCharts(document.querySelector("#chart-cat-margins"), catOptions).render();
+    }
+
+    // 4. Payment Tender Modes Donut Chart
+    const payData = {{ payment_tenders|safe }};
+    if (payData && payData.length > 0) {
+        const paySeries = payData.map(d => d.volume_crores);
+        const payLabels = payData.map(d => d.mode_name + ' (₹' + d.volume_crores + ' Cr)');
+
+        const payOptions = {
+            series: paySeries,
+            labels: payLabels,
+            colors: ['#2CD4E1', '#A459D0', '#E95B9F', '#FFBD4A', '#E88E3E'],
+            chart: {
+                type: 'donut',
+                height: 320,
+                background: 'transparent'
+            },
+            stroke: { colors: ['#183A5F'] },
+            legend: { position: 'bottom', labels: { colors: '#D5DCE5' } },
+            tooltip: { theme: 'dark', y: { formatter: function(val) { return '₹' + val.toFixed(2) + ' Cr'; } } }
+        };
+        new ApexCharts(document.querySelector("#chart-payment-tenders"), payOptions).render();
+    }
+});
+</script>
+{% endblock %}

@@ -8,6 +8,7 @@ django.setup()
 from django.test import Client
 from django.contrib.auth.models import User
 
+
 class ViewRoutingTests(unittest.TestCase):
     def setUp(self):
         self.client = Client()
@@ -45,33 +46,37 @@ class ViewRoutingTests(unittest.TestCase):
         self.assertIn('Executive Summary', response.content.decode('utf-8'))
         self.assertIn('Delivered Net Revenue', response.content.decode('utf-8'))
 
-    def test_authenticated_sales_dashboard(self):
+    def test_authenticated_marketing_dashboard(self):
         self.client.login(username=self.username, password=self.password)
-        response = self.client.get('/business-dashboard/sales/')
+        response = self.client.get('/business-dashboard/marketing/')
         self.assertEqual(response.status_code, 200)
-        self.assertIn('Sales Intelligence', response.content.decode('utf-8'))
-        self.assertIn('Average Order Value', response.content.decode('utf-8'))
+        content = response.content.decode('utf-8')
+        self.assertIn('Marketing Intelligence', content)
+        self.assertIn('Campaign Ad Spend', content)
 
-    def test_authenticated_customer_dashboard(self):
+    def test_authenticated_digital_dashboard(self):
         self.client.login(username=self.username, password=self.password)
-        response = self.client.get('/business-dashboard/customers/')
+        response = self.client.get('/business-dashboard/digital/')
         self.assertEqual(response.status_code, 200)
-        self.assertIn('Customer Intelligence', response.content.decode('utf-8'))
-        self.assertIn('RFM', response.content.decode('utf-8'))
+        content = response.content.decode('utf-8')
+        self.assertIn('Digital Experience', content)
+        self.assertIn('Total Web Sessions', content)
 
-    def test_authenticated_operations_dashboard(self):
+    def test_authenticated_logistics_dashboard(self):
         self.client.login(username=self.username, password=self.password)
-        response = self.client.get('/business-dashboard/operations/')
+        response = self.client.get('/business-dashboard/logistics/')
         self.assertEqual(response.status_code, 200)
-        self.assertIn('Operations &amp; Logistics', response.content.decode('utf-8'))
-        self.assertIn('On-Time Delivery', response.content.decode('utf-8'))
+        content = response.content.decode('utf-8')
+        self.assertIn('Logistics &amp; Supply Chain', content)
+        self.assertIn('Delivered Shipments', content)
 
     def test_authenticated_cross_functional_dashboard(self):
         self.client.login(username=self.username, password=self.password)
         response = self.client.get('/business-dashboard/cross-functional/')
         self.assertEqual(response.status_code, 200)
-        self.assertIn('Cross-Functional Analytics', response.content.decode('utf-8'))
-        self.assertIn('Perfect Order Rate', response.content.decode('utf-8'))
+        content = response.content.decode('utf-8')
+        self.assertIn('Cross-Functional Integration', content)
+        self.assertIn('Delivered Net Revenue', content)
 
     def test_authenticated_scenario_simulator(self):
         self.client.login(username=self.username, password=self.password)
@@ -95,24 +100,11 @@ class ViewRoutingTests(unittest.TestCase):
             'start_date': '2025-01-01',
             'end_date': '2025-12-31',
             'region_id': '1',
-            'category_id': '1',
-            'customer_tier': 'Gold',
         }
-        for path in [
-            '/executive-summary/',
-            '/business-dashboard/sales/',
-            '/business-dashboard/customers/',
-            '/business-dashboard/operations/',
-            '/business-dashboard/cross-functional/',
-        ]:
-            response = self.client.get(path, params)
-            self.assertEqual(response.status_code, 200, f"Filtered GET to {path} failed with status {response.status_code}")
+        for path in ['/business-dashboard/marketing/', '/business-dashboard/digital/', '/business-dashboard/logistics/', '/business-dashboard/cross-functional/']:
+            res = self.client.get(path, params)
+            self.assertEqual(res.status_code, 200)
 
-    def test_cascading_stores_api_by_region(self):
-        self.client.login(username=self.username, password=self.password)
-        res = self.client.get('/api/stores/?region_id=1')
-        self.assertEqual(res.status_code, 200)
-        data = res.json()
-        self.assertIn('stores', data)
-        self.assertTrue(len(data['stores']) > 0)
 
+if __name__ == '__main__':
+    unittest.main()

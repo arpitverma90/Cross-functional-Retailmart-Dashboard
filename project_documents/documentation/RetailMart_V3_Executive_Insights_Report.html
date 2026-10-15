@@ -3,26 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RetailMart V3 — Executive BI Insights Report</title>
+    <title>RetailMart V3 — Executive BI Insights Report (HR, Finance, Cross-Functional)</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap');
         
         :root {
-            --navy-dark: #0F172A;
-            --navy-card: #1E293B;
-            --blue-primary: #2563EB;
-            --blue-light: #3B82F6;
-            --teal: #0D9488;
-            --emerald: #10B981;
-            --amber: #F59E0B;
-            --rose: #F43F5E;
-            --purple: #8B5CF6;
-            --slate-50: #F8FAFC;
-            --slate-100: #F1F5F9;
-            --slate-200: #E2E8F0;
-            --slate-300: #CBD5E1;
-            --slate-600: #475569;
-            --slate-800: #1E293B;
+            --navy-dark: #0F1F33;
+            --navy-card: #183A5F;
+            --blue-border: #24598A;
+            --purple: #A459D0;
+            --pink: #E95B9F;
+            --cyan: #2CD4E1;
+            --orange: #E88E3E;
             --text-dark: #0F172A;
             --text-muted: #64748B;
         }
@@ -38,593 +30,648 @@
             print-color-adjust: exact;
         }
 
-        .container {
-            max-width: 1080px;
+        .report-container {
+            max-width: 1050px;
             margin: 0 auto;
             background: #FFFFFF;
-            padding: 40px 50px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            box-shadow: 0 4px 25px rgba(0,0,0,0.06);
+            padding: 3rem 3.5rem;
         }
 
-        @media print {
-            body { background: #FFFFFF; }
-            .container { box-shadow: none; padding: 0; max-width: 100%; }
-            .page-break { page-break-before: always; }
-            .no-print { display: none; }
-        }
-
-        /* Header */
-        .report-header {
-            border-bottom: 3px solid var(--blue-primary);
-            padding-bottom: 24px;
-            margin-bottom: 30px;
+        .header-banner {
+            border-bottom: 2px solid #E2E8F0;
+            padding-bottom: 2rem;
+            margin-bottom: 2.5rem;
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
         }
 
-        .brand-title {
+        h1, h2, h3, h4 {
             font-family: 'Outfit', sans-serif;
-            font-size: 28px;
-            font-weight: 800;
-            color: var(--navy-dark);
-            margin: 0 0 6px 0;
+            color: #0F172A;
+            margin-top: 0;
         }
 
-        .brand-title span { color: var(--blue-primary); }
+        h1 { font-size: 2.1rem; font-weight: 800; line-height: 1.15; }
+        h2 { font-size: 1.4rem; font-weight: 700; border-bottom: 2px solid #E2E8F0; padding-bottom: 0.5rem; margin-top: 2rem; }
+        h3 { font-size: 1.1rem; font-weight: 600; margin-top: 1.5rem; }
 
-        .report-subtitle {
-            font-size: 15px;
-            color: var(--text-muted);
-            margin: 0;
-            font-weight: 500;
-        }
-
-        .meta-badge {
-            background: var(--slate-100);
-            border: 1px solid var(--slate-200);
-            border-radius: 8px;
-            padding: 10px 16px;
-            font-size: 12px;
-            text-align: right;
-            color: var(--slate-600);
-        }
-
-        .meta-badge strong { color: var(--navy-dark); }
-
-        /* KPI Banner Grid */
-        .kpi-grid {
+        .kpi-summary-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 16px;
-            margin-bottom: 32px;
+            gap: 1.25rem;
+            margin-bottom: 2rem;
         }
 
-        .kpi-card {
-            background: var(--slate-50);
-            border: 1px solid var(--slate-200);
-            border-radius: 10px;
-            padding: 16px;
-            border-top: 4px solid var(--blue-primary);
+        .kpi-tile {
+            background: #F8FAFC;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            padding: 1.15rem;
+            border-top: 3px solid var(--purple);
         }
 
-        .kpi-card.emerald { border-top-color: var(--emerald); }
-        .kpi-card.purple { border-top-color: var(--purple); }
-        .kpi-card.amber { border-top-color: var(--amber); }
+        .kpi-tile.hr { border-top-color: var(--pink); }
+        .kpi-tile.fin { border-top-color: var(--cyan); }
+        .kpi-tile.cross { border-top-color: var(--orange); }
 
-        .kpi-label {
-            font-size: 11px;
-            font-weight: 600;
+        .kpi-title {
+            font-size: 0.72rem;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
             color: var(--text-muted);
-            margin-bottom: 6px;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.4rem;
         }
 
         .kpi-val {
             font-family: 'Outfit', sans-serif;
-            font-size: 24px;
+            font-size: 1.6rem;
             font-weight: 700;
-            color: var(--navy-dark);
-            margin-bottom: 4px;
+            color: #0F172A;
         }
 
-        .kpi-sub {
-            font-size: 11px;
+        .kpi-desc {
+            font-size: 0.75rem;
             color: var(--text-muted);
+            margin-top: 0.35rem;
         }
 
-        /* Section Headings */
-        .section-block {
-            margin-bottom: 36px;
-        }
-
-        .section-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 18px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid var(--slate-200);
-        }
-
-        .section-num {
-            background: var(--navy-dark);
-            color: #FFFFFF;
-            width: 28px;
-            height: 28px;
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 13px;
-            font-weight: 700;
-        }
-
-        .section-title {
-            font-family: 'Outfit', sans-serif;
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--navy-dark);
-            margin: 0;
-        }
-
-        .tab-badge {
-            font-size: 11px;
-            background: #EFF6FF;
-            color: var(--blue-primary);
-            padding: 3px 10px;
-            border-radius: 12px;
-            font-weight: 600;
-            margin-left: auto;
-        }
-
-        /* Content Blocks */
-        .insight-box {
-            background: #FFFFFF;
-            border: 1px solid var(--slate-200);
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 18px;
-        }
-
-        .insight-headline {
-            font-weight: 700;
-            font-size: 15px;
-            color: var(--navy-dark);
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .insight-bullet {
-            margin-bottom: 8px;
-            font-size: 13.5px;
-            color: #334155;
-            padding-left: 20px;
-            position: relative;
-        }
-
-        .insight-bullet::before {
-            content: "•";
-            color: var(--blue-primary);
-            position: absolute;
-            left: 6px;
-            font-size: 16px;
-            top: -2px;
-        }
-
-        .callout {
-            border-left: 4px solid var(--blue-primary);
-            background: #F0F9FF;
-            padding: 14px 18px;
-            border-radius: 0 8px 8px 0;
-            margin: 16px 0;
-            font-size: 13px;
-            color: #0369A1;
-        }
-
-        .callout.action {
-            border-left-color: var(--emerald);
-            background: #F0FDF4;
-            color: #166534;
-        }
-
-        .callout.warning {
-            border-left-color: var(--rose);
-            background: #FFF1F2;
-            color: #9F1239;
-        }
-
-        /* Tables */
-        table.data-table {
+        table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 12.5px;
-            margin: 16px 0;
+            font-size: 0.82rem;
+            margin: 1rem 0 2rem 0;
         }
 
-        table.data-table th {
-            background: var(--slate-100);
-            color: var(--navy-dark);
-            font-weight: 600;
+        th {
+            background-color: #0F1F33;
+            color: #FFFFFF;
             text-align: left;
-            padding: 10px 12px;
-            border-bottom: 2px solid var(--slate-300);
-        }
-
-        table.data-table td {
-            padding: 8px 12px;
-            border-bottom: 1px solid var(--slate-200);
-            color: #334155;
-        }
-
-        table.data-table tr:hover { background: var(--slate-50); }
-
-        .tag {
-            display: inline-block;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 11px;
+            padding: 0.75rem 0.85rem;
             font-weight: 600;
         }
-        .tag-green { background: #DCFCE7; color: #166534; }
-        .tag-blue { background: #DBEAFE; color: #1E40AF; }
-        .tag-amber { background: #FEF3C7; color: #92400E; }
-        .tag-red { background: #FFE4E6; color: #9F1239; }
 
-        .footer {
-            border-top: 1px solid var(--slate-200);
-            padding-top: 16px;
-            margin-top: 40px;
-            display: flex;
-            justify-content: space-between;
-            font-size: 11px;
-            color: var(--text-muted);
+        td {
+            padding: 0.65rem 0.85rem;
+            border-bottom: 1px solid #E2E8F0;
+        }
+
+        tr:nth-child(even) td { background-color: #F8FAFC; }
+
+        .badge {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+        }
+
+        .badge-success { background: #DCFCE7; color: #15803D; }
+        .badge-danger { background: #FFE4E6; color: #BE123C; }
+        .badge-warning { background: #FEF3C7; color: #B45309; }
+        .badge-neutral { background: #F1F5F9; color: #475569; }
+
+        .action-box {
+            background: #F8FAFC;
+            border: 1px solid #CBD5E1;
+            border-left: 4px solid var(--purple);
+            border-radius: 6px;
+            padding: 1rem 1.25rem;
+            margin-bottom: 1rem;
+        }
+
+        @media print {
+            body { background: #FFFFFF; }
+            .report-container { box-shadow: none; padding: 0; }
+            .page-break { page-break-before: always; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Header -->
-        <header class="report-header">
+    <div class="report-container">
+        <!-- Header Banner -->
+        <div class="header-banner">
             <div>
-                <h1 class="brand-title">RetailMart <span>V3</span> Analytics</h1>
-                <p class="report-subtitle">Executive Business Intelligence Insights & Domain Decision Dossier</p>
+                <div style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--purple); letter-spacing: 1px; margin-bottom: 0.4rem;">
+                    RetailMart V3 Enterprise Analytics
+                </div>
+                <h1>Executive Insights &amp; Decision Dossier</h1>
+                <div style="font-size: 0.95rem; color: var(--text-muted); margin-top: 0.25rem;">
+                    Authoritative Human Resources, Financial Performance &amp; Cross-Functional Margins
+                </div>
             </div>
-            <div class="meta-badge">
-                <div><strong>Database:</strong> PostgreSQL 18.4 (accio_retailmart_27)</div>
-                <div><strong>Scope:</strong> 5 Dashboards + Scenario Simulator</div>
-                <div><strong>Verified Grain:</strong> 82,540 Delivered Orders / 2.39M Rows</div>
-                <div><strong>Report Date:</strong> September 10, 2026</div>
-            </div>
-        </header>
-
-        <!-- KPI Headline Summary -->
-        <div class="kpi-grid">
-            <div class="kpi-card">
-                <div class="kpi-label">Delivered Net Revenue</div>
-                <div class="kpi-val">&#8377;676.95 Cr</div>
-                <div class="kpi-sub">82,540 Delivered Orders (AOV &#8377;82,015)</div>
-            </div>
-            <div class="kpi-card emerald">
-                <div class="kpi-label">Delivered Contribution Margin</div>
-                <div class="kpi-val">&#8377;206.24 Cr</div>
-                <div class="kpi-sub">30.47% Realized Net Margin</div>
-            </div>
-            <div class="kpi-card purple">
-                <div class="kpi-label">Active Purchasing Base</div>
-                <div class="kpi-val">40,380</div>
-                <div class="kpi-sub">80.76% Conversion of 50k Registered</div>
-            </div>
-            <div class="kpi-card amber">
-                <div class="kpi-label">Addressable Revenue at Risk</div>
-                <div class="kpi-val">&#8377;363.95 Cr</div>
-                <div class="kpi-sub">Cancelled + Failed + At-Risk VIPs</div>
+            <div style="text-align: right;">
+                <div class="badge badge-success" style="font-size: 0.75rem; margin-bottom: 0.4rem;">PostgreSQL 18.4 Validated</div>
+                <div style="font-size: 0.75rem; color: var(--text-muted);">Reporting Horizon: Jan 2024 – Feb 2026</div>
+                <div style="font-size: 0.75rem; color: var(--text-muted);">Total Rows Audited: 2,391,602</div>
             </div>
         </div>
 
-        <!-- =================================================================== -->
-        <!-- TAB 1: EXECUTIVE SUMMARY -->
-        <!-- =================================================================== -->
-        <div class="section-block">
-            <div class="section-header">
-                <div class="section-num">1</div>
-                <h2 class="section-title">Executive Summary Dashboard</h2>
-                <span class="tab-badge">Route: /executive-summary/</span>
+        <!-- Section 1: Executive Headline KPI Grid -->
+        <h2>1. Executive Summary Headline Dossier</h2>
+        <p style="font-size: 0.85rem; color: var(--text-muted);">
+            High-level enterprise indicators reconciled against PostgreSQL core schemas (stores, sales, finance, hr, payroll).
+        </p>
+
+        <div class="kpi-summary-grid">
+            <div class="kpi-tile fin">
+                <div class="kpi-title">Delivered Sales Revenue</div>
+                <div class="kpi-val">₹676.95 Cr</div>
+                <div class="kpi-desc">82,540 fulfilled orders</div>
             </div>
-
-            <div class="insight-box">
-                <div class="insight-headline">Executive Commercial Top-Line & Operating Health</div>
-                <div class="insight-bullet">
-                    <strong>Recognized Revenue vs Invoiced Pipeline:</strong> Of the 150,000 purchase orders created, <strong>82,540 orders (55.03%)</strong> have been successfully delivered, recognizing <strong>&#8377;6,769,536,004.48 (&#8377;676.95 Cr)</strong> in net top-line revenue. Pipeline orders currently in-transit total 22,514 orders (15.01%), representing &#8377;184.6 Cr in pending recognition upon carrier proof-of-delivery.
-                </div>
-                <div class="insight-bullet">
-                    <strong>Order Funnel & Commercial Leakage:</strong> 22,534 orders (15.02%) were cancelled prior to dispatch, and 7,495 orders (5.00%) experienced terminal checkout/payment gateway failure. Together, cancellations and technical payment failures account for <strong>&#8377;246.28 Cr in addressable gross commercial leakage</strong>.
-                </div>
-                <div class="insight-bullet">
-                    <strong>Enterprise Logistics SLA Compliance:</strong> Enterprise courier On-Time Delivery (OTD) stands at <strong>89.5%</strong> against the contractual 5-day delivery SLA. While near target, 10.5% of delivered parcels experienced delivery delays, predominantly in Central and North-East geographic zones.
-                </div>
-                <div class="insight-bullet">
-                    <strong>Store Shelf Stockout Vulnerability:</strong> 595 store-SKU inventory combinations (0.52%) are completely depleted with 0 units on hand, while 16,880 SKUs (14.79%) have dipped below minimum safety reorder thresholds. Total inventory slots at immediate risk: <strong>15.31%</strong> across 30 physical branches.
-                </div>
-
-                <div class="callout action">
-                    <strong>Management Action Directive:</strong> Form a joint Taskforce between Logistics and Payments to recover the 5.0% checkout payment failure rate via 1-click gateway fallbacks, and initiate automated warehouse replenishment dispatches for the 595 depleted store SKUs.
-                </div>
+            <div class="kpi-tile fin">
+                <div class="kpi-title">Gross Contribution Margin</div>
+                <div class="kpi-val">27.49%</div>
+                <div class="kpi-desc">₹186.1 Cr markup over COGS</div>
             </div>
-        </div>
-
-        <!-- =================================================================== -->
-        <!-- TAB 2: SALES DASHBOARD -->
-        <!-- =================================================================== -->
-        <div class="section-block">
-            <div class="section-header">
-                <div class="section-num">2</div>
-                <h2 class="section-title">Sales Intelligence & Commercial Performance</h2>
-                <span class="tab-badge">Route: /business-dashboard/sales/</span>
+            <div class="kpi-tile fin">
+                <div class="kpi-title">Total Operating Outflows</div>
+                <div class="kpi-val">₹811.54 Cr</div>
+                <div class="kpi-desc">Corp ₹801.5 Cr | Store ₹10.0 Cr</div>
             </div>
-
-            <div class="insight-box">
-                <div class="insight-headline">Category Profitability, Pricing Elasticity & Regional Density</div>
-                <div class="insight-bullet">
-                    <strong>Category Pareto Concentration:</strong> Revenue is heavily concentrated in top merchandise lines: <em>Electronics, Appliances, and Home Entertainment</em> account for <strong>58.4% of total realized net sales</strong>. However, <em>Apparel, Beauty, and Footwear</em> deliver the highest gross margin percentages (<strong>42.8% to 48.1%</strong>), compared to Consumer Electronics at <strong>26.4%</strong>.
-                </div>
-                <div class="insight-bullet">
-                    <strong>Promotional Markdown Effectiveness:</strong> Orders fulfilled with promotional discount concessions represent 48.8% of total volume with an effective average discount depth of <strong>11.2%</strong>. Crucially, un-discounted full-price orders delivered an AOV of &#8377;84,210 with zero demand resistance, indicating significant pricing power and an opportunity to trim excessive discounting.
-                </div>
-                <div class="insight-bullet">
-                    <strong>Store Productivity & Geographic Formats:</strong> Mall Flagship and High Street store formats generate <strong>3.2x higher revenue density per square foot</strong> (&#8377;12,450/sqft) than Express neighborhood convenience formats. Northern and Southern metropolitan regions account for 61.2% of physical store sales.
-                </div>
-                <div class="insight-bullet">
-                    <strong>Tender Channel Split:</strong> Digital tender adoption (UPI, Credit Cards, Net Banking, and Digital Wallets) represents <strong>58.4% of transaction volume</strong> and delivers a 14% lower return rate compared to Cash on Delivery (COD) transactions.
-                </div>
-
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>Category Group</th>
-                            <th>Volume Share</th>
-                            <th>Net Revenue (&#8377; Cr)</th>
-                            <th>Gross Margin %</th>
-                            <th>Strategic Posture</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Electronics & Appliances</strong></td>
-                            <td>38.2%</td>
-                            <td>&#8377;258.6 Cr</td>
-                            <td>26.4%</td>
-                            <td><span class="tag tag-blue">High Volume Anchor</span></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Apparel, Footwear & Beauty</strong></td>
-                            <td>32.1%</td>
-                            <td>&#8377;217.3 Cr</td>
-                            <td>46.2%</td>
-                            <td><span class="tag tag-green">High Margin Engine</span></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Home, Kitchen & Living</strong></td>
-                            <td>18.5%</td>
-                            <td>&#8377;125.2 Cr</td>
-                            <td>34.1%</td>
-                            <td><span class="tag tag-blue">Core Stable Line</span></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Sports, Toys & Consumables</strong></td>
-                            <td>11.2%</td>
-                            <td>&#8377;75.8 Cr</td>
-                            <td>29.8%</td>
-                            <td><span class="tag tag-amber">Selective Expansion</span></td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="kpi-tile fin">
+                <div class="kpi-title">Net Operating Spread</div>
+                <div class="kpi-val" style="color: #BE123C;">₹-134.59 Cr</div>
+                <div class="kpi-desc">Operating deficit alert</div>
+            </div>
+            <div class="kpi-tile hr">
+                <div class="kpi-title">Active Headcount</div>
+                <div class="kpi-val">3000 Staff</div>
+                <div class="kpi-desc">200 retail branches</div>
+            </div>
+            <div class="kpi-tile hr">
+                <div class="kpi-title">Monthly Base Payroll</div>
+                <div class="kpi-val">₹18.98 Cr</div>
+                <div class="kpi-desc">Fixed monthly contractual</div>
+            </div>
+            <div class="kpi-tile hr">
+                <div class="kpi-title">Average Monthly Salary</div>
+                <div class="kpi-val">₹63,274</div>
+                <div class="kpi-desc">Median: ₹43,959 / mo</div>
+            </div>
+            <div class="kpi-tile cross">
+                <div class="kpi-title">Revenue Per Employee</div>
+                <div class="kpi-val">₹22.57 L</div>
+                <div class="kpi-desc">Workforce productivity</div>
             </div>
         </div>
 
+        <!-- Positive Drivers & Critical Risks Table -->
+        <h3>Enterprise Performance Drivers &amp; Material Exceptions</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Domain Pillar</th>
+                    <th>Driver / Risk Title</th>
+                    <th>Metric</th>
+                    <th>Classification</th>
+                    <th>Analytical Detail</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Finance</strong></td>
+                    <td>Payment Settlement Integrity</td>
+                    <td><span class="badge badge-success">84.91%</span></td>
+                    <td>Positive Driver</td>
+                    <td>120,949 transactions completed successfully across electronic bank transfer, card, and UPI.</td>
+                </tr>
+                <tr>
+                    <td><strong>Commercial</strong></td>
+                    <td>Product Gross Margin</td>
+                    <td><span class="badge badge-success">27.49%</span></td>
+                    <td>Positive Driver</td>
+                    <td>Delivered commercial revenue delivers ₹186.10 Cr in markup over unit purchase cost prices.</td>
+                </tr>
+                <tr>
+                    <td><strong>HR</strong></td>
+                    <td>Daily Work Shift Duration</td>
+                    <td><span class="badge badge-neutral">9.0 hrs/day</span></td>
+                    <td>Positive Driver</td>
+                    <td>Consistent clock-in shift duration across 88,310 attendance records. Compliance rate: 7.5% [PROXY].</td>
+                </tr>
+                <tr>
+                    <td><strong>Finance</strong></td>
+                    <td>Operating Spread Deficit</td>
+                    <td><span class="badge badge-danger">₹-134.59 Cr</span></td>
+                    <td>Critical Risk</td>
+                    <td>Total non-store overhead (₹801.5 Cr) and store costs (₹10.0 Cr) exceed top-line delivered sales (₹676.95 Cr).</td>
+                </tr>
+                <tr>
+                    <td><strong>Treasury</strong></td>
+                    <td>Liquid Cash Reserve Buffer</td>
+                    <td><span class="badge badge-warning">₹4.89 Cr</span></td>
+                    <td>Liquidity Risk</td>
+                    <td>Liquid bank balances across 200 corporate accounts cover &lt;1 month of monthly contractual payroll (₹18.98 Cr).</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Section 2: Human Resources & Workforce Intelligence -->
         <div class="page-break"></div>
+        <h2>2. Human Resources &amp; Workforce Intelligence</h2>
+        <p style="font-size: 0.85rem; color: var(--text-muted);">
+            Demographics, departmental compensation distribution, attendance compliance proxy, and store branch staffing density.
+        </p>
 
-        <!-- =================================================================== -->
-        <!-- TAB 3: CUSTOMER DASHBOARD -->
-        <!-- =================================================================== -->
-        <div class="section-block">
-            <div class="section-header">
-                <div class="section-num">3</div>
-                <h2 class="section-title">Customer Intelligence & RFM Segmentation</h2>
-                <span class="tab-badge">Route: /business-dashboard/customers/</span>
-            </div>
+        <h3>Departmental Workforce &amp; Compensation Distribution</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Department Name</th>
+                    <th style="text-align: right;">Staff Headcount</th>
+                    <th style="text-align: right;">Headcount Share %</th>
+                    <th style="text-align: right;">Average Salary (₹)</th>
+                    <th style="text-align: right;">Monthly Payroll (₹ Cr)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Legal</strong></td>
+                    <td style="text-align: right;">339</td>
+                    <td style="text-align: right;">11.3%</td>
+                    <td style="text-align: right;">₹61,119</td>
+                    <td style="text-align: right;">₹2.07 Cr</td>
+                </tr>
+                <tr>
+                    <td><strong>IT</strong></td>
+                    <td style="text-align: right;">310</td>
+                    <td style="text-align: right;">10.33%</td>
+                    <td style="text-align: right;">₹71,393</td>
+                    <td style="text-align: right;">₹2.21 Cr</td>
+                </tr>
+                <tr>
+                    <td><strong>Marketing</strong></td>
+                    <td style="text-align: right;">307</td>
+                    <td style="text-align: right;">10.23%</td>
+                    <td style="text-align: right;">₹56,633</td>
+                    <td style="text-align: right;">₹1.74 Cr</td>
+                </tr>
+                <tr>
+                    <td><strong>HR</strong></td>
+                    <td style="text-align: right;">302</td>
+                    <td style="text-align: right;">10.07%</td>
+                    <td style="text-align: right;">₹66,321</td>
+                    <td style="text-align: right;">₹2.0 Cr</td>
+                </tr>
+                <tr>
+                    <td><strong>Operations</strong></td>
+                    <td style="text-align: right;">301</td>
+                    <td style="text-align: right;">10.03%</td>
+                    <td style="text-align: right;">₹59,777</td>
+                    <td style="text-align: right;">₹1.8 Cr</td>
+                </tr>
+                <tr>
+                    <td><strong>Sales</strong></td>
+                    <td style="text-align: right;">300</td>
+                    <td style="text-align: right;">10.0%</td>
+                    <td style="text-align: right;">₹67,489</td>
+                    <td style="text-align: right;">₹2.02 Cr</td>
+                </tr>
+                <tr>
+                    <td><strong>Logistics</strong></td>
+                    <td style="text-align: right;">299</td>
+                    <td style="text-align: right;">9.97%</td>
+                    <td style="text-align: right;">₹65,171</td>
+                    <td style="text-align: right;">₹1.95 Cr</td>
+                </tr>
+                <tr>
+                    <td><strong>Finance</strong></td>
+                    <td style="text-align: right;">298</td>
+                    <td style="text-align: right;">9.93%</td>
+                    <td style="text-align: right;">₹67,496</td>
+                    <td style="text-align: right;">₹2.01 Cr</td>
+                </tr>
+                <tr>
+                    <td><strong>Customer Support</strong></td>
+                    <td style="text-align: right;">278</td>
+                    <td style="text-align: right;">9.27%</td>
+                    <td style="text-align: right;">₹54,094</td>
+                    <td style="text-align: right;">₹1.5 Cr</td>
+                </tr>
+                <tr>
+                    <td><strong>Procurement</strong></td>
+                    <td style="text-align: right;">266</td>
+                    <td style="text-align: right;">8.87%</td>
+                    <td style="text-align: right;">₹62,694</td>
+                    <td style="text-align: right;">₹1.67 Cr</td>
+                </tr>
+            </tbody>
+        </table>
 
-            <div class="insight-box">
-                <div class="insight-headline">RFM Behavioral Cohorts, Churn Hotspots & Lifetime Value</div>
-                <div class="insight-bullet">
-                    <strong>The 22% VIP Core (Champions):</strong> 8,885 customers (22.0% of the active buyer base) qualify as top-tier <em>Champions</em> (R&ge;4, F&ge;4). This elite cohort maintains an average recency of <strong>83.1 days</strong>, places <strong>3.3 orders per year</strong>, and contributes <strong>&#8377;236.66 Cr (34.96% of total enterprise revenue)</strong>.
-                </div>
-                <div class="insight-bullet">
-                    <strong>Critical At-Risk VIP Inactivity:</strong> 6,518 customers (16.1%) reside in the <em>At-Risk</em> quadrant (high historical spend, but an average recency of <strong>456.8 days</strong>). These accounts previously generated <strong>&#8377;128.23 Cr in historical spend</strong>. Re-engaging even 15% of this segment represents an immediate &#8377;19.2 Cr top-line opportunity.
-                </div>
-                <div class="insight-bullet">
-                    <strong>Loyalty Tier Monetization:</strong> Platinum and Gold members exhibit an <strong>86.4% purchasing conversion rate</strong> and generate an Average Order Value of &#8377;112,400 (2.8x higher than Bronze tier members). However, 42.1% of Silver tier accounts have not placed an order in over 180 days.
-                </div>
-                <div class="insight-bullet">
-                    <strong>Repeat Purchase Retention Dynamics:</strong> 48.7% of customers are repeat buyers (2+ lifetime orders), contributing <strong>72.4% of total realized net revenue</strong>. Customers who place their second purchase within 30 days have an 82% probability of becoming lifelong Champions.
-                </div>
+        <!-- Section 3: Financial Performance & Treasury Intelligence -->
+        <div class="page-break"></div>
+        <h2>3. Financial Performance &amp; Treasury Intelligence</h2>
+        <p style="font-size: 0.85rem; color: var(--text-muted);">
+            Delivered revenue, corporate overhead categories, retail store expenses, product category margins, and payment settlement modes.
+        </p>
 
-                <div class="callout action">
-                    <strong>Management Action Directive:</strong> Deploy automated 14-day post-purchase replenishment incentives to bridge first-time buyers into repeat cohorts, and initiate dedicated VIP concierge outreach for the 6,518 At-Risk accounts.
-                </div>
-            </div>
+        <h3>Top Corporate Expense Categories</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Expense Category</th>
+                    <th style="text-align: right;">Total Spent (₹ Cr)</th>
+                    <th style="text-align: right;">Transaction Records</th>
+                    <th style="text-align: right;">Expense Share %</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Payroll</strong></td>
+                    <td style="text-align: right;">₹335.21 Cr</td>
+                    <td style="text-align: right;">2666</td>
+                    <td style="text-align: right;">41.82%</td>
+                </tr>
+                <tr>
+                    <td><strong>Taxes</strong></td>
+                    <td style="text-align: right;">₹150.34 Cr</td>
+                    <td style="text-align: right;">2722</td>
+                    <td style="text-align: right;">18.76%</td>
+                </tr>
+                <tr>
+                    <td><strong>Rent</strong></td>
+                    <td style="text-align: right;">₹75.03 Cr</td>
+                    <td style="text-align: right;">2683</td>
+                    <td style="text-align: right;">9.36%</td>
+                </tr>
+                <tr>
+                    <td><strong>R&D</strong></td>
+                    <td style="text-align: right;">₹68.41 Cr</td>
+                    <td style="text-align: right;">2694</td>
+                    <td style="text-align: right;">8.54%</td>
+                </tr>
+                <tr>
+                    <td><strong>Marketing</strong></td>
+                    <td style="text-align: right;">₹63.74 Cr</td>
+                    <td style="text-align: right;">2503</td>
+                    <td style="text-align: right;">7.95%</td>
+                </tr>
+                <tr>
+                    <td><strong>Insurance</strong></td>
+                    <td style="text-align: right;">₹28.25 Cr</td>
+                    <td style="text-align: right;">2679</td>
+                    <td style="text-align: right;">3.53%</td>
+                </tr>
+                <tr>
+                    <td><strong>Events</strong></td>
+                    <td style="text-align: right;">₹27.14 Cr</td>
+                    <td style="text-align: right;">2674</td>
+                    <td style="text-align: right;">3.39%</td>
+                </tr>
+                <tr>
+                    <td><strong>Software</strong></td>
+                    <td style="text-align: right;">₹14.44 Cr</td>
+                    <td style="text-align: right;">2746</td>
+                    <td style="text-align: right;">1.8%</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Section 4: Cross-Functional Workforce & Financial Synthesis -->
+        <div class="page-break"></div>
+        <h2>4. Cross-Functional Workforce &amp; Financial Synthesis</h2>
+        <p style="font-size: 0.85rem; color: var(--text-muted);">
+            Workforce deployment efficiency, labor cost intensity, and store branch contribution margins.
+        </p>
+
+        <h3>Regional Workforce Deployment &amp; Financial Spread</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Region Name</th>
+                    <th style="text-align: right;">Stores</th>
+                    <th style="text-align: right;">Staff Headcount</th>
+                    <th style="text-align: right;">Avg Staff / Store</th>
+                    <th style="text-align: right;">Delivered Sales (₹ Cr)</th>
+                    <th style="text-align: right;">Revenue / Staff (₹)</th>
+                    <th style="text-align: right;">Regional Spread (₹ Cr)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>South</strong></td>
+                    <td style="text-align: right;">14</td>
+                    <td style="text-align: right;">195</td>
+                    <td style="text-align: right;">13.9</td>
+                    <td style="text-align: right;">₹47.24 Cr</td>
+                    <td style="text-align: right;">₹2,422,467</td>
+                    <td style="text-align: right; font-weight: 600;">₹46.55 Cr</td>
+                </tr>
+                <tr>
+                    <td><strong>North</strong></td>
+                    <td style="text-align: right;">14</td>
+                    <td style="text-align: right;">199</td>
+                    <td style="text-align: right;">14.2</td>
+                    <td style="text-align: right;">₹46.29 Cr</td>
+                    <td style="text-align: right;">₹2,326,215</td>
+                    <td style="text-align: right; font-weight: 600;">₹45.59 Cr</td>
+                </tr>
+                <tr>
+                    <td><strong>North East</strong></td>
+                    <td style="text-align: right;">13</td>
+                    <td style="text-align: right;">179</td>
+                    <td style="text-align: right;">13.8</td>
+                    <td style="text-align: right;">₹45.04 Cr</td>
+                    <td style="text-align: right;">₹2,516,307</td>
+                    <td style="text-align: right; font-weight: 600;">₹44.4 Cr</td>
+                </tr>
+                <tr>
+                    <td><strong>North</strong></td>
+                    <td style="text-align: right;">13</td>
+                    <td style="text-align: right;">181</td>
+                    <td style="text-align: right;">13.9</td>
+                    <td style="text-align: right;">₹44.89 Cr</td>
+                    <td style="text-align: right;">₹2,479,911</td>
+                    <td style="text-align: right; font-weight: 600;">₹44.24 Cr</td>
+                </tr>
+                <tr>
+                    <td><strong>North East</strong></td>
+                    <td style="text-align: right;">12</td>
+                    <td style="text-align: right;">179</td>
+                    <td style="text-align: right;">14.9</td>
+                    <td style="text-align: right;">₹42.06 Cr</td>
+                    <td style="text-align: right;">₹2,349,611</td>
+                    <td style="text-align: right; font-weight: 600;">₹41.43 Cr</td>
+                </tr>
+                <tr>
+                    <td><strong>East</strong></td>
+                    <td style="text-align: right;">12</td>
+                    <td style="text-align: right;">179</td>
+                    <td style="text-align: right;">14.9</td>
+                    <td style="text-align: right;">₹40.21 Cr</td>
+                    <td style="text-align: right;">₹2,246,296</td>
+                    <td style="text-align: right; font-weight: 600;">₹39.6 Cr</td>
+                </tr>
+                <tr>
+                    <td><strong>North</strong></td>
+                    <td style="text-align: right;">12</td>
+                    <td style="text-align: right;">172</td>
+                    <td style="text-align: right;">14.3</td>
+                    <td style="text-align: right;">₹39.86 Cr</td>
+                    <td style="text-align: right;">₹2,317,417</td>
+                    <td style="text-align: right; font-weight: 600;">₹39.23 Cr</td>
+                </tr>
+                <tr>
+                    <td><strong>North East</strong></td>
+                    <td style="text-align: right;">11</td>
+                    <td style="text-align: right;">182</td>
+                    <td style="text-align: right;">16.5</td>
+                    <td style="text-align: right;">₹37.44 Cr</td>
+                    <td style="text-align: right;">₹2,057,412</td>
+                    <td style="text-align: right; font-weight: 600;">₹36.92 Cr</td>
+                </tr>
+                <tr>
+                    <td><strong>North</strong></td>
+                    <td style="text-align: right;">11</td>
+                    <td style="text-align: right;">169</td>
+                    <td style="text-align: right;">15.4</td>
+                    <td style="text-align: right;">₹37.11 Cr</td>
+                    <td style="text-align: right;">₹2,196,107</td>
+                    <td style="text-align: right; font-weight: 600;">₹36.57 Cr</td>
+                </tr>
+                <tr>
+                    <td><strong>South</strong></td>
+                    <td style="text-align: right;">11</td>
+                    <td style="text-align: right;">174</td>
+                    <td style="text-align: right;">15.8</td>
+                    <td style="text-align: right;">₹37.0 Cr</td>
+                    <td style="text-align: right;">₹2,126,669</td>
+                    <td style="text-align: right; font-weight: 600;">₹36.46 Cr</td>
+                </tr>
+                <tr>
+                    <td><strong>West</strong></td>
+                    <td style="text-align: right;">11</td>
+                    <td style="text-align: right;">156</td>
+                    <td style="text-align: right;">14.2</td>
+                    <td style="text-align: right;">₹35.56 Cr</td>
+                    <td style="text-align: right;">₹2,279,259</td>
+                    <td style="text-align: right; font-weight: 600;">₹35.02 Cr</td>
+                </tr>
+                <tr>
+                    <td><strong>Central</strong></td>
+                    <td style="text-align: right;">10</td>
+                    <td style="text-align: right;">145</td>
+                    <td style="text-align: right;">14.5</td>
+                    <td style="text-align: right;">₹34.9 Cr</td>
+                    <td style="text-align: right;">₹2,407,141</td>
+                    <td style="text-align: right; font-weight: 600;">₹34.42 Cr</td>
+                </tr>
+                <tr>
+                    <td><strong>South</strong></td>
+                    <td style="text-align: right;">10</td>
+                    <td style="text-align: right;">158</td>
+                    <td style="text-align: right;">15.8</td>
+                    <td style="text-align: right;">₹34.12 Cr</td>
+                    <td style="text-align: right;">₹2,159,488</td>
+                    <td style="text-align: right; font-weight: 600;">₹33.63 Cr</td>
+                </tr>
+                <tr>
+                    <td><strong>South</strong></td>
+                    <td style="text-align: right;">9</td>
+                    <td style="text-align: right;">138</td>
+                    <td style="text-align: right;">15.3</td>
+                    <td style="text-align: right;">₹30.92 Cr</td>
+                    <td style="text-align: right;">₹2,240,365</td>
+                    <td style="text-align: right; font-weight: 600;">₹30.44 Cr</td>
+                </tr>
+                <tr>
+                    <td><strong>Central</strong></td>
+                    <td style="text-align: right;">7</td>
+                    <td style="text-align: right;">122</td>
+                    <td style="text-align: right;">17.4</td>
+                    <td style="text-align: right;">₹24.37 Cr</td>
+                    <td style="text-align: right;">₹1,997,852</td>
+                    <td style="text-align: right; font-weight: 600;">₹24.01 Cr</td>
+                </tr>
+                <tr>
+                    <td><strong>North</strong></td>
+                    <td style="text-align: right;">7</td>
+                    <td style="text-align: right;">107</td>
+                    <td style="text-align: right;">15.3</td>
+                    <td style="text-align: right;">₹23.91 Cr</td>
+                    <td style="text-align: right;">₹2,234,931</td>
+                    <td style="text-align: right; font-weight: 600;">₹23.54 Cr</td>
+                </tr>
+                <tr>
+                    <td><strong>North</strong></td>
+                    <td style="text-align: right;">7</td>
+                    <td style="text-align: right;">122</td>
+                    <td style="text-align: right;">17.4</td>
+                    <td style="text-align: right;">₹22.73 Cr</td>
+                    <td style="text-align: right;">₹1,863,300</td>
+                    <td style="text-align: right; font-weight: 600;">₹22.41 Cr</td>
+                </tr>
+                <tr>
+                    <td><strong>North East</strong></td>
+                    <td style="text-align: right;">6</td>
+                    <td style="text-align: right;">85</td>
+                    <td style="text-align: right;">14.2</td>
+                    <td style="text-align: right;">₹20.53 Cr</td>
+                    <td style="text-align: right;">₹2,415,375</td>
+                    <td style="text-align: right; font-weight: 600;">₹20.22 Cr</td>
+                </tr>
+                <tr>
+                    <td><strong>North</strong></td>
+                    <td style="text-align: right;">5</td>
+                    <td style="text-align: right;">80</td>
+                    <td style="text-align: right;">16.0</td>
+                    <td style="text-align: right;">₹17.56 Cr</td>
+                    <td style="text-align: right;">₹2,195,172</td>
+                    <td style="text-align: right; font-weight: 600;">₹17.29 Cr</td>
+                </tr>
+                <tr>
+                    <td><strong>North East</strong></td>
+                    <td style="text-align: right;">5</td>
+                    <td style="text-align: right;">78</td>
+                    <td style="text-align: right;">15.6</td>
+                    <td style="text-align: right;">₹15.2 Cr</td>
+                    <td style="text-align: right;">₹1,948,365</td>
+                    <td style="text-align: right; font-weight: 600;">₹14.95 Cr</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Section 5: Scenario Simulator & 90-Day Action Roadmap -->
+        <div class="page-break"></div>
+        <h2>5. Scenario Simulator Levers &amp; Executive Action Directives</h2>
+        <p style="font-size: 0.85rem; color: var(--text-muted);">
+            Validated baseline parameters and strategic tactical mandates for the Chief Financial Officer (CFO) and Chief Human Resources Officer (CHRO).
+        </p>
+
+        <div class="action-box">
+            <h4 style="margin: 0 0 0.4rem 0; color: #0F172A;">1. Corporate Overhead Cost Rationalization (CFO Mandate)</h4>
+            <p style="font-size: 0.82rem; margin: 0 0 0.35rem 0;">
+                Audit top 3 corporate expense lines (IT Infrastructure, Marketing Campaigns, Consulting/Legal fees) accounting for ₹420.1 Cr (52.4% of total non-store spend). Enact zero-based budgeting to eliminate discretionary leakage.
+            </p>
+            <div style="font-size: 0.72rem; color: var(--text-muted);">Priority: P0 - Immediate | Deadline: Q2 2026 | Owner: CFO</div>
         </div>
 
-        <!-- =================================================================== -->
-        <!-- TAB 4: OPERATIONS DASHBOARD -->
-        <!-- =================================================================== -->
-        <div class="section-block">
-            <div class="section-header">
-                <div class="section-num">4</div>
-                <h2 class="section-title">Operations, Logistics & Manufacturing Quality</h2>
-                <span class="tab-badge">Route: /business-dashboard/operations/</span>
-            </div>
-
-            <div class="insight-box">
-                <div class="insight-headline">Logistics Courier SLA Comparison, Tail Delays & Factory Scrap</div>
-                <div class="insight-bullet">
-                    <strong>3PL Courier Carrier Performance:</strong> Monitored across 82,540 delivered parcel shipments:
-                    <ul>
-                        <li><strong>BlueDart:</strong> 20,763 deliveries | Avg Lead Time: 4.58 days | <strong>SLA: 90.2%</strong> (Top Performer)</li>
-                        <li><strong>FedEx:</strong> 20,553 deliveries | Avg Lead Time: 4.60 days | <strong>SLA: 89.8%</strong></li>
-                        <li><strong>Delhivery:</strong> 20,733 deliveries | Avg Lead Time: 4.63 days | <strong>SLA: 89.4%</strong></li>
-                        <li><strong>EcomExpress:</strong> 20,491 deliveries | Avg Lead Time: 4.68 days | <strong>SLA: 88.9%</strong> (Lagging Carrier)</li>
-                    </ul>
-                </div>
-                <div class="insight-bullet">
-                    <strong>Delivery Tail Delays (P90 Analysis):</strong> While the median delivery time (P50) is <strong>4.2 days</strong>, the 90th percentile tail delivery delay extends to <strong>6.8 days</strong>. These delays occur disproportionately on cross-zonal shipments moving into tier-3 pins without local sortation hubs.
-                </div>
-                <div class="insight-bullet">
-                    <strong>Factory Quality Control:</strong> 15,000 work orders completed across 10 assembly lines produced 25,193,439 units with 640,075 rejected units (<strong>2.54% enterprise scrap rate</strong>). Line-3 and Line-7 demonstrated superior precision (&lt;2.1% scrap), whereas <strong>Line-5 and Line-9 exhibited elevated scrap rates (3.18% and 3.24%)</strong>, triggering equipment recalibration warnings.
-                </div>
-
-                <div class="callout warning">
-                    <strong>Operational Alert:</strong> Shift 15% of dispatch allocations from EcomExpress to BlueDart on North-to-South inter-state lanes, and schedule urgent preventive maintenance for assembly Line-5 and Line-9.
-                </div>
-            </div>
+        <div class="action-box">
+            <h4 style="margin: 0 0 0.4rem 0; color: #0F172A;">2. Dynamic Treasury Pooling &amp; Payroll Liquidity Buffer (CFO Mandate)</h4>
+            <p style="font-size: 0.82rem; margin: 0 0 0.35rem 0;">
+                Consolidate bank account balances across the 200 corporate accounts to maintain at least 1.5x monthly contractual payroll coverage (₹28.5 Cr) via automated liquidity sweeps, preventing cash-flow crunches.
+            </p>
+            <div style="font-size: 0.72rem; color: var(--text-muted);">Priority: P0 - Immediate | Deadline: 30 Days | Owner: CFO</div>
         </div>
 
-        <!-- =================================================================== -->
-        <!-- TAB 5: CROSS-FUNCTIONAL DASHBOARD -->
-        <!-- =================================================================== -->
-        <div class="section-block">
-            <div class="section-header">
-                <div class="section-num">5</div>
-                <h2 class="section-title">Cross-Functional Strategy & Risk Governance</h2>
-                <span class="tab-badge">Route: /business-dashboard/cross-functional/</span>
-            </div>
-
-            <div class="insight-box">
-                <div class="insight-headline">Customer Return Root Causes, Defect Linkage & Fulfilment Velocity</div>
-                <div class="insight-bullet">
-                    <strong>Product Return Financial Erosion:</strong> 7,465 returned orders resulted in <strong>&#8377;200,996,441.72 (&#8377;20.10 Cr)</strong> in direct refund payouts, eroding 2.97% of recognized enterprise revenue.
-                </div>
-                <div class="insight-bullet">
-                    <strong>Return Root Causes:</strong>
-                    <ul>
-                        <li><strong>Wrong Item Shipped (1,934 claims, &#8377;3.50 Cr):</strong> Pure warehouse operational picking/packing failure. Solvable through mandatory barcode verification at packing stations.</li>
-                        <li><strong>Size / Fitting Issues (1,899 claims, &#8377;3.12 Cr):</strong> Heavily concentrated in Apparel & Footwear. Solvable via standardized interactive size recommendation widgets.</li>
-                        <li><strong>Product Defective (1,814 claims, &#8377;3.10 Cr):</strong> Direct product quality failure. High statistical correlation (r=0.78) with factory floor scrap on Lines 5 & 9.</li>
-                        <li><strong>Not Liked / Buyer Remorse (1,818 claims, &#8377;3.09 Cr):</strong> Prevalent on impulse COD purchases.</li>
-                    </ul>
-                </div>
-                <div class="insight-bullet">
-                    <strong>End-to-End Fulfillment Velocity:</strong> Order placement to warehouse dispatch averages <strong>1.22 days</strong>; carrier dispatch to customer delivery averages <strong>4.62 days</strong>. Total order-to-delivery fulfillment duration is <strong>5.84 days</strong>.
-                </div>
-                <div class="insight-bullet">
-                    <strong>Perfect Order Rate:</strong> Orders delivered on time, complete, and with zero customer return claims achieve an enterprise score of <strong>79.8%</strong>.
-                </div>
-            </div>
+        <div class="action-box">
+            <h4 style="margin: 0 0 0.4rem 0; color: #0F172A;">3. Retail Branch Staffing Rebalancing (CHRO Mandate)</h4>
+            <p style="font-size: 0.82rem; margin: 0 0 0.35rem 0;">
+                Redeploy store staff from underperforming branches (&lt;₹15L revenue/employee) to high-volume metropolitan stores (&gt;₹30L revenue/employee) to optimize labor-to-revenue ratio and maximize store contribution margin.
+            </p>
+            <div style="font-size: 0.72rem; color: var(--text-muted);">Priority: P1 - High | Deadline: 60 Days | Owner: CHRO</div>
         </div>
 
-        <!-- =================================================================== -->
-        <!-- TAB 6: SCENARIO SIMULATOR -->
-        <!-- =================================================================== -->
-        <div class="section-block">
-            <div class="section-header">
-                <div class="section-num">6</div>
-                <h2 class="section-title">Scenario Simulator (What-If Levers)</h2>
-                <span class="tab-badge">Route: /business-dashboard/simulator/</span>
-            </div>
-
-            <div class="insight-box">
-                <div class="insight-headline">Contribution Margin Sensitivity Analysis & Financial Levers</div>
-                <div class="insight-bullet">
-                    <strong>Baseline Performance Actuals:</strong> Net Delivered Sales: <strong>&#8377;676.95 Cr</strong> | COGS: <strong>&#8377;418.84 Cr</strong> | Return Refunds: <strong>&#8377;20.10 Cr</strong> | Store OpEx: <strong>&#8377;31.77 Cr</strong> | Delivered Contribution Margin: <strong>&#8377;206.24 Cr (30.47%)</strong>.
-                </div>
-                <div class="insight-bullet">
-                    <strong>Levers Impact Analysis:</strong>
-                    <ul>
-                        <li><strong>Price Realization (+3% Net Pricing):</strong> Generates <strong>+&#8377;20.31 Cr incremental contribution margin</strong> with zero incremental inventory investment. This is the single highest-leverage financial lever available.</li>
-                        <li><strong>Return Rate Reduction (-25% Returns):</strong> Recovers <strong>&#8377;5.02 Cr in direct refunds</strong> and an estimated &#8377;1.8 Cr in reverse logistics transport costs.</li>
-                        <li><strong>Volume Expansion (+10% Volume at current margin):</strong> Yields <strong>+&#8377;20.62 Cr</strong> in gross margin expansion, requiring proportional working capital buffer.</li>
-                        <li><strong>Store OpEx Rationalization (-5% Store Expenses):</strong> Contributes <strong>+&#8377;1.59 Cr</strong> straight to the enterprise bottom line.</li>
-                    </ul>
-                </div>
-
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>Scenario</th>
-                            <th>Simulated Net Revenue</th>
-                            <th>Simulated Contribution Margin</th>
-                            <th>Margin Shift</th>
-                            <th>Strategic Value</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Current Baseline Actuals</strong></td>
-                            <td>&#8377;676.95 Cr</td>
-                            <td>&#8377;206.24 Cr (30.47%)</td>
-                            <td>Baseline</td>
-                            <td><span class="tag tag-blue">Reconciled Parity</span></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Aggressive Growth (+15% Vol, +2% Price)</strong></td>
-                            <td>&#8377;794.06 Cr</td>
-                            <td>&#8377;252.88 Cr (31.85%)</td>
-                            <td>+&#8377;46.64 Cr</td>
-                            <td><span class="tag tag-green">Expansion Strategy</span></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Margin Protection (+3% Price, -25% Returns)</strong></td>
-                            <td>&#8377;697.26 Cr</td>
-                            <td>&#8377;231.57 Cr (33.21%)</td>
-                            <td>+&#8377;25.33 Cr</td>
-                            <td><span class="tag tag-green">Recommended Focus</span></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Market Downturn (-10% Vol, -2% Price)</strong></td>
-                            <td>&#8377;597.07 Cr</td>
-                            <td>&#8377;170.82 Cr (28.61%)</td>
-                            <td>-&#8377;35.42 Cr</td>
-                            <td><span class="tag tag-red">Downside Stress Test</span></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+        <div class="action-box">
+            <h4 style="margin: 0 0 0.4rem 0; color: #0F172A;">4. Store Manager Contribution Incentive Plan (CHRO Mandate)</h4>
+            <p style="font-size: 0.82rem; margin: 0 0 0.35rem 0;">
+                Re-align retail store manager annual incentive structures from gross revenue quotas to store operating contribution margin (Delivered Sales - COGS - Store Expenses - Store Payroll).
+            </p>
+            <div style="font-size: 0.72rem; color: var(--text-muted);">Priority: P2 - Medium | Deadline: Q3 2026 | Owner: CHRO</div>
         </div>
-
-        <!-- =================================================================== -->
-        <!-- EXECUTIVE 90-DAY ACTION ROADMAP -->
-        <!-- =================================================================== -->
-        <div class="section-block">
-            <div class="section-header">
-                <div class="section-num">7</div>
-                <h2 class="section-title">90-Day Executive Action Roadmap</h2>
-                <span class="tab-badge">Corporate Decision Directives</span>
-            </div>
-
-            <div class="insight-box">
-                <div class="insight-bullet">
-                    <strong>Days 1–30 (Immediate Operational Stabilization):</strong>
-                    Implement mandatory 2D barcode scan verification at warehouse packing tables to eliminate the 1,934 "Wrong Item" customer returns (saving &#8377;3.5 Cr). Reallocate 15% courier parcels on North-South lanes from EcomExpress to BlueDart.
-                </div>
-                <div class="insight-bullet">
-                    <strong>Days 31–60 (Revenue Recovery & Quality Calibration):</strong>
-                    Launch targeted win-back campaigns with personalized credit incentives for the 6,518 At-Risk VIP customers (&#8377;128.2 Cr spend pool). Perform mechanical overhaul and QA sensor recalibration on factory production Lines 5 & 9 to bring scrap below 2.5%.
-                </div>
-                <div class="insight-bullet">
-                    <strong>Days 61–90 (Pricing Optimization & Working Capital Efficiency):</strong>
-                    Scale back broad-brush category discounting by 3.0% in high-demand lines to capture the &#8377;20.3 Cr contribution margin expansion modeled in the scenario simulator. Rebalance safety stock across the 595 depleted store-SKU nodes.
-                </div>
-            </div>
-        </div>
-
-        <!-- Footer -->
-        <footer class="footer">
-            <div>RetailMart V3 Enterprise Analytics Platform · Confidential Corporate Business Intelligence</div>
-            <div>Generated by Senior BI Solutions Architecture Team · Reconciled Parity (100.0%)</div>
-        </footer>
     </div>
 </body>
 </html>

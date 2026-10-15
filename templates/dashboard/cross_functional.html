@@ -3,177 +3,299 @@
 {% block content %}
 <div class="page-header">
     <div>
-        <h2 class="page-title">Cross-Functional Analytics</h2>
+        <h2 class="page-title">Cross-Functional Workforce &amp; Financial Insights</h2>
         <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem;">
-            End-to-End Interdependencies: Delivery SLAs vs Review Ratings, Factory Alignment, Return Causes &amp; Revenue at Risk
+            Workforce Productivity (Revenue/Employee), Labor Cost Ratio, Store Staffing Efficiency &amp; Regional Contribution
         </div>
+    </div>
+    <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <span class="status-badge badge-neutral" style="font-size: 0.72rem; padding: 0.35rem 0.75rem;">
+            <i class="ti ti-arrows-cross"></i> HR-Finance Unified
+        </span>
+        <span class="status-badge badge-success" style="font-size: 0.72rem; padding: 0.35rem 0.75rem;">
+            <i class="ti ti-chart-arrows"></i> CTE Pre-Aggregated
+        </span>
     </div>
 </div>
 
-<!-- Cross-Functional KPI Cards -->
+<!-- Cross-Functional Headline KPI Cards -->
 <div class="kpi-grid">
-    <div class="kpi-card accent-cyan">
-        <div class="kpi-header">
-            <span class="kpi-title">Perfect Order Rate</span>
-            <span class="kpi-badge badge-positive">Quality SLA</span>
-        </div>
-        <div class="kpi-value">{{ data.perfect_order.perfect_order_rate_pct|floatformat:1 }}%</div>
-        <div class="kpi-subtext">Delivered on-time, zero returns</div>
-    </div>
-
-    <div class="kpi-card accent-orange">
-        <div class="kpi-header">
-            <span class="kpi-title">Gross Revenue at Risk</span>
-            <span class="kpi-badge badge-negative">[PROXY]</span>
-        </div>
-        <div class="kpi-value" id="val-risk">₹{{ data.total_revenue_at_risk|floatformat:0 }}</div>
-        <div class="kpi-subtext">Cancellations, failures &amp; returns</div>
-    </div>
-
+    <!-- Card 1: Revenue Per Employee -->
     <div class="kpi-card accent-purple">
         <div class="kpi-header">
-            <span class="kpi-title">Evaluated Delivered Orders</span>
+            <span class="kpi-title">Revenue Per Employee</span>
+            <span class="status-badge badge-success">Productivity</span>
         </div>
-        <div class="kpi-value">{{ data.perfect_order.total_delivered_orders|default:0 }}</div>
-        <div class="kpi-subtext">Delivered order base</div>
+        <div class="kpi-value">₹{{ data.kpis.rev_per_emp_lakhs }} Lakhs</div>
+        <div class="kpi-subtext">
+            <span>Delivered Revenue / 3,000 Headcount</span>
+        </div>
     </div>
 
-    <div class="kpi-card accent-yellow">
+    <!-- Card 2: Labor Cost to Revenue Ratio -->
+    <div class="kpi-card accent-pink">
         <div class="kpi-header">
-            <span class="kpi-title">Fast Delivery CSAT</span>
+            <span class="kpi-title">Labor Cost to Revenue Ratio</span>
+            <span class="status-badge badge-neutral">Intensity</span>
         </div>
-        <div class="kpi-value" style="color: var(--yellow);">
-            {% for b in data.lead_time_impact %}{% if forloop.first %}{{ b.avg_customer_rating }} / 5.0{% endif %}{% endfor %}
+        <div class="kpi-value">{{ data.kpis.labor_to_revenue_pct }}%</div>
+        <div class="kpi-subtext">
+            <span>Processed Payroll / Delivered Revenue</span>
         </div>
-        <div class="kpi-subtext">1-2 Day delivery rating</div>
+    </div>
+
+    <!-- Card 3: Delivered Net Revenue -->
+    <div class="kpi-card accent-cyan">
+        <div class="kpi-header">
+            <span class="kpi-title">Commercial Delivered Sales</span>
+            <span class="status-badge badge-success">Top-Line</span>
+        </div>
+        <div class="kpi-value">₹{{ data.kpis.revenue_crores }} Cr</div>
+        <div class="kpi-subtext">
+            <span>Fulfilled Sales Volume</span>
+        </div>
+    </div>
+
+    <!-- Card 4: Processed Payroll Outflow -->
+    <div class="kpi-card accent-pink">
+        <div class="kpi-header">
+            <span class="kpi-title">Processed Cash Payroll</span>
+            <span class="status-badge badge-neutral">LTM Payouts</span>
+        </div>
+        <div class="kpi-value">₹{{ data.kpis.processed_payroll_crores }} Cr</div>
+        <div class="kpi-subtext">
+            <span>Bank Cleared Compensation</span>
+        </div>
+    </div>
+
+    <!-- Card 5: Staffing Density -->
+    <div class="kpi-card accent-orange">
+        <div class="kpi-header">
+            <span class="kpi-title">Store Staffing Density</span>
+            <span class="status-badge badge-neutral">Deployment</span>
+        </div>
+        <div class="kpi-value">{{ data.kpis.staffing_density }} Staff</div>
+        <div class="kpi-subtext">
+            <span>Average Employees per Branch</span>
+        </div>
+    </div>
+
+    <!-- Card 6: Store Operating Expenses -->
+    <div class="kpi-card accent-orange">
+        <div class="kpi-header">
+            <span class="kpi-title">Store Branch OPEX</span>
+            <span class="status-badge badge-neutral">Operating</span>
+        </div>
+        <div class="kpi-value">₹{{ data.kpis.store_expenses_crores }} Cr</div>
+        <div class="kpi-subtext">
+            <span>Branch Non-Payroll Expenses</span>
+        </div>
     </div>
 </div>
 
-<!-- Charts Row 1: Delivery Lead Time Impact on CSAT & Revenue at Risk Breakdown -->
-<div class="charts-grid-2">
+<!-- Charts Row: Monthly Cross-Functional Trajectory & Department Cost Allocation -->
+<div class="charts-grid-2" style="margin-top: 1.5rem;">
+    <!-- Chart 1: Revenue vs Payroll vs Store OPEX -->
     <div class="chart-card">
         <div class="chart-header">
             <span class="chart-title">
-                <i class="ti ti-star" style="color: var(--yellow);"></i>
-                Delivery Transit Duration vs Average Customer Rating (CSAT)
+                <i class="ti ti-chart-line" style="color: var(--purple);"></i>
+                Monthly Commercial Revenue vs Processed Payroll &amp; Store Costs (₹ Crores)
             </span>
-            <span class="kpi-badge badge-neutral">SLA Correlation</span>
+            <span style="font-size: 0.72rem; color: var(--text-muted);">
+                Cross-Domain Monthly Pacing
+            </span>
         </div>
-        <div id="chart-cross-csat"></div>
+        <div id="chart-cross-trajectory" style="min-height: 320px;"></div>
     </div>
 
+    <!-- Chart 2: Department Payroll Burden vs Staff Count -->
     <div class="chart-card">
         <div class="chart-header">
             <span class="chart-title">
-                <i class="ti ti-shield-alert" style="color: var(--orange);"></i>
-                Revenue at Risk by Operational Leakage Source
+                <i class="ti ti-chart-bar" style="color: var(--pink);"></i>
+                Department Headcount vs Monthly Compensation Outflow (₹ Crores)
             </span>
-            <span class="kpi-badge badge-neutral">[PROXY] Heuristic</span>
+            <span style="font-size: 0.72rem; color: var(--text-muted);">
+                Organizational Burden
+            </span>
         </div>
-        <div id="chart-cross-risk"></div>
+        <div id="chart-dept-cost" style="min-height: 320px;"></div>
     </div>
 </div>
 
-<!-- Section: Production vs Sales Alignment -->
-<div class="table-card">
-    <div class="chart-header">
-        <span class="chart-title">
-            <i class="ti ti-arrows-exchange" style="color: var(--cyan);"></i>
-            Manufacturing Production vs Realized Commercial Sales Alignment
-        </span>
-        <span class="kpi-badge badge-neutral">Supply-Demand Balancing</span>
+<!-- Table 1: Store Staffing Density vs Delivered Revenue & Contribution -->
+<div class="table-card" style="margin-top: 1.5rem;">
+    <div class="table-header">
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <i class="ti ti-building-store" style="color: var(--cyan); font-size: 1.15rem;"></i>
+            <h3 class="table-title">Store Staffing Efficiency: Delivered Sales vs Branch OPEX &amp; Annual Contribution</h3>
+        </div>
+        <span class="kpi-badge badge-neutral" style="font-size: 0.7rem;">Top 25 Representative Branches</span>
     </div>
-
-    <table class="data-table">
-        <thead>
-            <tr>
-                <th>Product Category</th>
-                <th style="text-align: right;">Units Sold (Delivered)</th>
-                <th style="text-align: right;">Factory Produced Units</th>
-                <th style="text-align: right;">Production Balance (+/-)</th>
-                <th>Supply Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for row in data.mfg_sales_alignment %}
+    <div style="overflow-x: auto;">
+        <table class="data-table">
+            <thead>
                 <tr>
-                    <td style="font-weight: 600; color: var(--text-white);">{{ row.category_name }}</td>
-                    <td style="text-align: right;">{{ row.total_units_sold|default:0 }}</td>
-                    <td style="text-align: right; color: var(--cyan);">{{ row.total_units_manufactured|default:0 }}</td>
-                    <td style="text-align: right; font-weight: 700; {% if row.production_surplus_deficit >= 0 %}color: #34D399;{% else %}color: #F87171;{% endif %}">
-                        {% if row.production_surplus_deficit >= 0 %}+{% endif %}{{ row.production_surplus_deficit }}
-                    </td>
-                    <td>
-                        <span class="kpi-badge {% if row.production_surplus_deficit >= 0 %}badge-positive{% else %}badge-negative{% endif %}">
-                            {% if row.production_surplus_deficit >= 0 %}Surplus Buffer{% else %}Production Deficit{% endif %}
-                        </span>
+                    <th>Store Name</th>
+                    <th>City</th>
+                    <th>Region</th>
+                    <th style="text-align: right;">Staff Headcount</th>
+                    <th style="text-align: right;">Delivered Sales (₹ Cr)</th>
+                    <th style="text-align: right;">Revenue / Staff (₹ L)</th>
+                    <th style="text-align: right;">Store OPEX (₹)</th>
+                    <th style="text-align: right;">Annual Payroll (₹)</th>
+                    <th style="text-align: right;">Annual Contribution (₹ Cr)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for s in data.store_staffing %}
+                <tr>
+                    <td style="font-weight: 600; color: var(--text-white);">{{ s.store_name }}</td>
+                    <td>{{ s.city }}</td>
+                    <td><span class="status-badge badge-neutral">{{ s.region_name }}</span></td>
+                    <td style="text-align: right; font-weight: 600; color: var(--pink);">{{ s.staff_count }} Staff</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--purple);">₹{{ s.revenue_crores }} Cr</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">₹{{ s.rev_per_emp_lakhs }} L</td>
+                    <td style="text-align: right; color: var(--orange);">₹{{ s.store_expenses|floatformat:0 }}</td>
+                    <td style="text-align: right; color: var(--text-light);">₹{{ s.monthly_payroll|floatformat:0 }}</td>
+                    <td style="text-align: right; font-weight: 600; color: {% if s.contribution_crores >= 0 %}var(--cyan){% else %}var(--orange){% endif %};">
+                        ₹{{ s.contribution_crores }} Cr
                     </td>
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
 
-<!-- Return Cost Impact by Reason & Category -->
-<div class="table-card">
-    <div class="chart-header">
-        <span class="chart-title" style="color: var(--orange);">
-            <i class="ti ti-receipt-refund"></i>
-            Customer Return Cost Impact (Category × Root Cause Reason)
-        </span>
-        <span class="kpi-badge badge-neutral">Refund Leakage Analysis</span>
+<!-- Table 2: Regional Cross-Functional Synthesis -->
+<div class="table-card" style="margin-top: 1.5rem;">
+    <div class="table-header">
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <i class="ti ti-map-pin" style="color: var(--purple); font-size: 1.15rem;"></i>
+            <h3 class="table-title">Regional Synthesis: Workforce Deployment vs Financial Spread</h3>
+        </div>
+        <span class="kpi-badge badge-neutral" style="font-size: 0.7rem;">Geographic Aggregation</span>
     </div>
-
-    <table class="data-table">
-        <thead>
-            <tr>
-                <th>Category</th>
-                <th>Return Reason</th>
-                <th style="text-align: right;">Return Count</th>
-                <th style="text-align: right;">Refund Amount (₹)</th>
-                <th style="text-align: right;">Refund (Lakhs)</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for ret in data.returns_by_reason %}
+    <div style="overflow-x: auto;">
+        <table class="data-table">
+            <thead>
                 <tr>
-                    <td style="font-weight: 600; color: var(--text-white);">{{ ret.category_name }}</td>
-                    <td>
-                        <span class="kpi-badge badge-neutral" style="{% if ret.reason == 'Defective' %}border-color: var(--orange); color: var(--orange);{% endif %}">
-                            {{ ret.reason }}
-                        </span>
-                    </td>
-                    <td style="text-align: right;">{{ ret.return_count }}</td>
-                    <td style="text-align: right; color: var(--orange); font-weight: 600;">₹{{ ret.total_refund_cost|floatformat:2 }}</td>
-                    <td style="text-align: right; font-weight: 700;">₹{{ ret.refund_lakhs|floatformat:2 }} L</td>
+                    <th>Region</th>
+                    <th style="text-align: right;">Stores</th>
+                    <th style="text-align: right;">Total Staff</th>
+                    <th style="text-align: right;">Avg Staff / Store</th>
+                    <th style="text-align: right;">Delivered Sales (₹ Cr)</th>
+                    <th style="text-align: right;">Rev / Staff (₹)</th>
+                    <th style="text-align: right;">Store Costs (₹ Cr)</th>
+                    <th style="text-align: right;">Regional Spread (₹ Cr)</th>
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                {% for r in data.regional_synthesis %}
+                <tr>
+                    <td style="font-weight: 600; color: var(--text-white);">{{ r.region_name }}</td>
+                    <td style="text-align: right;">{{ r.store_count }}</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--pink);">{{ r.staff_count }}</td>
+                    <td style="text-align: right;">{{ r.avg_staff_per_store }}</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--purple);">₹{{ r.revenue_crores }} Cr</td>
+                    <td style="text-align: right; color: var(--cyan);">₹{{ r.rev_per_employee|floatformat:0 }}</td>
+                    <td style="text-align: right; color: var(--orange);">₹{{ r.expenses_crores }} Cr</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">₹{{ r.spread_crores }} Cr</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
 {% endblock %}
 
 {% block scripts %}
 <script>
-    document.getElementById('val-risk').textContent = formatINR({{ data.total_revenue_at_risk|default:0 }});
+document.addEventListener('DOMContentLoaded', function() {
+    // 1. Monthly Cross-Functional Trajectory Chart
+    const trajData = {{ data.monthly_trajectory|safe }};
+    if (trajData && trajData.length > 0) {
+        const months = trajData.map(d => d.month_name);
+        const revenue = trajData.map(d => d.revenue_crores);
+        const payroll = trajData.map(d => d.payroll_crores);
+        const storeCosts = trajData.map(d => d.store_exp_crores);
 
-    // 1. Delivery Time vs CSAT Rating Bar Chart
-    const csatData = {{ data.lead_time_impact|safe }};
-    renderBarChart('chart-cross-csat', csatData.map(r => r.transit_bucket), [{
-        name: 'Average Rating (1-5)',
-        data: csatData.map(r => r.avg_customer_rating)
-    }], {
-        colors: [RM_THEME.yellow],
-        height: 280,
-        yFormatter: v => v + ' ★'
-    });
+        const trajOptions = {
+            series: [
+                { name: 'Delivered Revenue (₹ Cr)', type: 'line', data: revenue, color: '#A459D0' },
+                { name: 'Processed Payroll (₹ Cr)', type: 'column', data: payroll, color: '#E95B9F' },
+                { name: 'Store OPEX (₹ Cr)', type: 'column', data: storeCosts, color: '#E88E3E' }
+            ],
+            chart: {
+                height: 320,
+                type: 'line',
+                background: 'transparent',
+                toolbar: { show: false }
+            },
+            stroke: { width: [3, 0, 0], curve: 'smooth' },
+            grid: { borderColor: '#24598A', strokeDashArray: 3 },
+            xaxis: {
+                categories: months,
+                labels: { style: { colors: '#8E9BAE', fontSize: '11px' } }
+            },
+            yaxis: [
+                {
+                    title: { text: 'Delivered Revenue (₹ Cr)', style: { color: '#A459D0' } },
+                    labels: {
+                        style: { colors: '#8E9BAE' },
+                        formatter: function(val) { return '₹' + val.toFixed(0) + ' Cr'; }
+                    }
+                },
+                {
+                    opposite: true,
+                    title: { text: 'Monthly Outflows (₹ Cr)', style: { color: '#2CD4E1' } },
+                    labels: {
+                        style: { colors: '#8E9BAE' },
+                        formatter: function(val) { return '₹' + val.toFixed(1) + ' Cr'; }
+                    }
+                }
+            ],
+            tooltip: { theme: 'dark' },
+            legend: { labels: { colors: '#D5DCE5' }, position: 'top' }
+        };
+        new ApexCharts(document.querySelector("#chart-cross-trajectory"), trajOptions).render();
+    }
 
-    // 2. Revenue at Risk Donut Chart
-    const riskData = {{ data.revenue_at_risk_breakdown|safe }};
-    renderDonutChart('chart-cross-risk', riskData.map(r => r.risk_source), riskData.map(r => Math.round(r.revenue_at_risk)), {
-        colors: [RM_THEME.orange, RM_THEME.yellow, '#F87171'],
-        height: 280,
-        totalLabel: 'Revenue at Risk'
-    });
+    // 2. Department Cost Allocation Chart
+    const deptData = {{ data.department_allocation|safe }};
+    if (deptData && deptData.length > 0) {
+        const depts = deptData.map(d => d.dept_name);
+        const payrollCrores = deptData.map(d => d.payroll_crores);
+        const staff = deptData.map(d => d.staff_count);
+
+        const deptOptions = {
+            series: [
+                { name: 'Monthly Payroll (₹ Cr)', data: payrollCrores, color: '#2CD4E1' },
+                { name: 'Staff Headcount', data: staff, color: '#E95B9F' }
+            ],
+            chart: {
+                type: 'bar',
+                height: 320,
+                background: 'transparent',
+                toolbar: { show: false }
+            },
+            plotOptions: {
+                bar: { horizontal: true, borderRadius: 4, barHeight: '70%' }
+            },
+            grid: { borderColor: '#24598A', strokeDashArray: 3 },
+            xaxis: {
+                labels: { style: { colors: '#8E9BAE' } }
+            },
+            yaxis: {
+                labels: { style: { colors: '#D5DCE5', fontSize: '11px' } }
+            },
+            tooltip: { theme: 'dark' },
+            legend: { labels: { colors: '#D5DCE5' }, position: 'top' }
+        };
+        new ApexCharts(document.querySelector("#chart-dept-cost"), deptOptions).render();
+    }
+});
 </script>
 {% endblock %}

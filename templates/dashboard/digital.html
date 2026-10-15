@@ -1,0 +1,341 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h2 class="page-title">Digital Experience &amp; Journey Dashboard</h2>
+        <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem;">
+            Web Traffic, Session Dynamics, Device Ecosystem, User Behavioral Funnels &amp; Landing Page Velocity
+        </div>
+    </div>
+    <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <div style="font-size: 0.75rem; color: var(--pink); background: rgba(233, 91, 159, 0.1); padding: 0.35rem 0.75rem; border-radius: 6px; border: 1px solid rgba(233, 91, 159, 0.3);">
+            <i class="ti ti-activity"></i> Live Clickstream Analytics
+        </div>
+        <a href="{% url 'download_suite1_pdf' %}" class="status-badge badge-success" style="font-size: 0.72rem; padding: 0.35rem 0.75rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.3rem;">
+            <i class="ti ti-file-type-pdf"></i> Domain Deliverable (PDF)
+        </a>
+    </div>
+</div>
+
+<!-- Digital Headline KPI Cards -->
+<div class="kpi-grid">
+    <div class="kpi-card accent-pink">
+        <div class="kpi-header">
+            <span class="kpi-title">Total Web Sessions</span>
+            <i class="ti ti-device-analytics" style="color: var(--pink);"></i>
+        </div>
+        <div class="kpi-value">{{ kpis.total_sessions|default:0 }}</div>
+        <div class="kpi-subtext">Unique browsing sessions</div>
+    </div>
+
+    <div class="kpi-card accent-cyan">
+        <div class="kpi-header">
+            <span class="kpi-title">Total Page Views</span>
+            <i class="ti ti-browser" style="color: var(--cyan);"></i>
+        </div>
+        <div class="kpi-value">{{ kpis.total_page_views|default:0 }}</div>
+        <div class="kpi-subtext">Aggregated screen impressions</div>
+    </div>
+
+    <div class="kpi-card accent-purple">
+        <div class="kpi-header">
+            <span class="kpi-title">Identified Customers</span>
+            <i class="ti ti-user-check" style="color: var(--purple);"></i>
+        </div>
+        <div class="kpi-value">{{ kpis.identified_customers|default:0 }}</div>
+        <div class="kpi-subtext">Logged-in customer accounts</div>
+    </div>
+
+    <div class="kpi-card accent-cyan">
+        <div class="kpi-header">
+            <span class="kpi-title">Pages per Session</span>
+            <i class="ti ti-arrows-shuffle" style="color: var(--cyan);"></i>
+        </div>
+        <div class="kpi-value">{{ kpis.pages_per_session|floatformat:2 }}</div>
+        <div class="kpi-subtext">Browsing depth intensity</div>
+    </div>
+
+    <div class="kpi-card accent-orange">
+        <div class="kpi-header">
+            <span class="kpi-title">Mobile Traffic Share</span>
+            <i class="ti ti-device-mobile" style="color: var(--orange);"></i>
+        </div>
+        <div class="kpi-value">{{ kpis.mobile_share_pct|floatformat:1 }}%</div>
+        <div class="kpi-subtext">Mobile web penetration</div>
+    </div>
+
+    <div class="kpi-card accent-purple">
+        <div class="kpi-header">
+            <span class="kpi-title">Total User Interactions</span>
+            <i class="ti ti-hand-click" style="color: var(--purple);"></i>
+        </div>
+        <div class="kpi-value">{{ kpis.total_events|default:0 }}</div>
+        <div class="kpi-subtext">{{ kpis.submit_events|default:0 }} form submits</div>
+    </div>
+</div>
+
+<!-- Charts Row 1: Device / OS Breakdown & Monthly Traffic Trend -->
+<div class="charts-grid-2">
+    <div class="chart-card">
+        <div class="chart-header">
+            <span class="chart-title">
+                <i class="ti ti-devices" style="color: var(--pink);"></i>
+                Device &amp; Operating System Traffic Matrix
+            </span>
+        </div>
+        <div id="chart-device-os"></div>
+    </div>
+
+    <div class="chart-card">
+        <div class="chart-header">
+            <span class="chart-title">
+                <i class="ti ti-chart-line" style="color: var(--cyan);"></i>
+                Monthly Web Traffic Velocity (Views vs Sessions)
+            </span>
+        </div>
+        <div id="chart-traffic-trend"></div>
+    </div>
+</div>
+
+<!-- Charts Row 2: Digital Funnel & Element Interactions -->
+<div class="charts-grid-2">
+    <div class="chart-card">
+        <div class="chart-header">
+            <span class="chart-title">
+                <i class="ti ti-filter" style="color: var(--purple);"></i>
+                Digital Conversion Funnel: Product to Checkout
+            </span>
+        </div>
+        <div id="chart-funnel"></div>
+    </div>
+
+    <div class="chart-card">
+        <div class="chart-header">
+            <span class="chart-title">
+                <i class="ti ti-click" style="color: var(--orange);"></i>
+                User Element Interaction Heatmap by UI Component
+            </span>
+        </div>
+        <div id="chart-element-events"></div>
+    </div>
+</div>
+
+<!-- Action Table: Top Landing Pages & URLs -->
+<div class="action-card" style="margin-top: 1.5rem;">
+    <div class="action-header">
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <i class="ti ti-world-www" style="color: var(--cyan);"></i>
+            <h3 style="font-size: 1rem; font-weight: 600; color: var(--text-white);">
+                Top Visited Digital Pages &amp; Product Journeys
+            </h3>
+        </div>
+        <span style="font-size: 0.72rem; color: var(--text-muted);">
+            Ranked by total page view volume
+        </span>
+    </div>
+
+    <div style="overflow-x: auto;">
+        <table class="action-table">
+            <thead>
+                <tr>
+                    <th>Page URL Destination</th>
+                    <th>Total Views</th>
+                    <th>Unique Sessions</th>
+                    <th>Identified Users</th>
+                    <th>Traffic Share (%)</th>
+                    <th>Experience Type</th>
+                    <th>Attribution Link</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in top_pages %}
+                <tr>
+                    <td style="font-family: monospace; color: var(--cyan); font-size: 0.8rem;">{{ p.page_url }}</td>
+                    <td style="font-weight: 600; color: var(--text-white);">{{ p.views_count }}</td>
+                    <td>{{ p.unique_sessions }}</td>
+                    <td>{{ p.unique_customers }}</td>
+                    <td>
+                        <span class="status-badge badge-neutral">
+                            {{ p.share_pct|floatformat:2 }}%
+                        </span>
+                    </td>
+                    <td>
+                        {% if '/product/' in p.page_url %}
+                            <span style="color: var(--purple); font-size: 0.75rem;"><i class="ti ti-box"></i> Product Detail</span>
+                        {% elif p.page_url == '/cart' or p.page_url == '/checkout' %}
+                            <span style="color: var(--pink); font-size: 0.75rem;"><i class="ti ti-shopping-cart"></i> Conversion Funnel</span>
+                        {% else %}
+                            <span style="color: var(--text-muted); font-size: 0.75rem;"><i class="ti ti-home"></i> General Landing</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{% url 'cross_functional_dashboard' %}" class="btn-action" style="padding: 0.2rem 0.5rem; font-size: 0.7rem;">
+                            View Conversion <i class="ti ti-arrow-right"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7" style="text-align: center; color: var(--text-muted); padding: 2rem;">
+                        No page views recorded in selected date range.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // 1. Device & OS Bar Chart
+    const deviceData = {{ device_os|safe }};
+    const dLabels = deviceData.slice(0, 8).map(d => d.device_type + ' (' + d.os + ')');
+    const dValues = deviceData.slice(0, 8).map(d => d.view_count);
+
+    const deviceChartOptions = {
+        series: [{ name: 'Page Views', data: dValues }],
+        chart: {
+            type: 'bar',
+            height: 280,
+            background: 'transparent',
+            toolbar: { show: false }
+        },
+        colors: ['#E95B9F'],
+        plotOptions: {
+            bar: { borderRadius: 4, horizontal: false, columnWidth: '55%' }
+        },
+        xaxis: {
+            categories: dLabels,
+            labels: { style: { colors: '#6F8298', fontFamily: 'Inter', fontSize: '10px' }, rotate: -30 }
+        },
+        yaxis: {
+            labels: {
+                style: { colors: '#6F8298', fontFamily: 'Inter' },
+                formatter: function(v) { return (v / 1000).toFixed(0) + 'k'; }
+            }
+        },
+        grid: { borderColor: '#24598A', strokeDashArray: 3 },
+        tooltip: { theme: 'dark' }
+    };
+    new ApexCharts(document.querySelector("#chart-device-os"), deviceChartOptions).render();
+
+    // 2. Traffic Trend Line Chart
+    const trendData = {{ traffic_trend|safe }};
+    const tMonths = trendData.map(d => d.month_year);
+    const tViews = trendData.map(d => d.page_views);
+    const tSessions = trendData.map(d => d.unique_sessions);
+
+    const trafficTrendOptions = {
+        series: [
+            { name: 'Page Views', data: tViews },
+            { name: 'Unique Sessions', data: tSessions }
+        ],
+        chart: {
+            type: 'area',
+            height: 280,
+            background: 'transparent',
+            toolbar: { show: false }
+        },
+        colors: ['#2CD4E1', '#A459D0'],
+        stroke: { curve: 'smooth', width: 2 },
+        fill: { type: 'gradient', gradient: { opacityFrom: 0.35, opacityTo: 0.05 } },
+        xaxis: {
+            categories: tMonths,
+            labels: { style: { colors: '#6F8298', fontFamily: 'Inter', fontSize: '10px' }, rotate: -45 }
+        },
+        yaxis: {
+            labels: {
+                style: { colors: '#6F8298', fontFamily: 'Inter' },
+                formatter: function(v) { return (v / 1000).toFixed(0) + 'k'; }
+            }
+        },
+        grid: { borderColor: '#24598A', strokeDashArray: 3 },
+        legend: { position: 'top', labels: { colors: '#D5DCE5' }, fontFamily: 'Inter' },
+        tooltip: { theme: 'dark' }
+    };
+    new ApexCharts(document.querySelector("#chart-traffic-trend"), trafficTrendOptions).render();
+
+    // 3. Digital Funnel Horizontal Bar
+    const funnelData = {{ funnel|safe }};
+    const fStages = funnelData.map(d => d.stage);
+    const fCounts = funnelData.map(d => d.count);
+
+    const funnelOptions = {
+        series: [{ name: 'Step Volume', data: fCounts }],
+        chart: {
+            type: 'bar',
+            height: 280,
+            background: 'transparent',
+            toolbar: { show: false }
+        },
+        plotOptions: {
+            bar: {
+                horizontal: true,
+                distributed: true,
+                barHeight: '65%',
+                dataLabels: { position: 'bottom' }
+            }
+        },
+        colors: ['#2CD4E1', '#A459D0', '#E95B9F', '#E88E3E'],
+        xaxis: {
+            categories: fStages,
+            labels: {
+                style: { colors: '#6F8298', fontFamily: 'Inter' },
+                formatter: function(v) { return (v / 1000).toFixed(0) + 'k'; }
+            }
+        },
+        yaxis: {
+            labels: { style: { colors: '#D5DCE5', fontFamily: 'Inter', fontSize: '11px', fontWeight: 600 } }
+        },
+        grid: { borderColor: '#24598A', strokeDashArray: 3 },
+        legend: { show: false },
+        tooltip: {
+            theme: 'dark',
+            y: { formatter: function(v) { return Number(v).toLocaleString() + ' events'; } }
+        }
+    };
+    new ApexCharts(document.querySelector("#chart-funnel"), funnelOptions).render();
+
+    // 4. Element Events Stacked Bar
+    const eventsData = {{ events|safe }};
+    const eElements = eventsData.slice(0, 6).map(d => d.element_id);
+    const eClicks = eventsData.slice(0, 6).map(d => d.click_count);
+    const eSubmits = eventsData.slice(0, 6).map(d => d.submit_count);
+    const eScrolls = eventsData.slice(0, 6).map(d => d.scroll_count);
+    const eHovers = eventsData.slice(0, 6).map(d => d.hover_count);
+
+    const eventOptions = {
+        series: [
+            { name: 'Clicks', data: eClicks },
+            { name: 'Submits', data: eSubmits },
+            { name: 'Scrolls', data: eScrolls },
+            { name: 'Hovers', data: eHovers }
+        ],
+        chart: {
+            type: 'bar',
+            stacked: true,
+            height: 280,
+            background: 'transparent',
+            toolbar: { show: false }
+        },
+        colors: ['#A459D0', '#2CD4E1', '#E88E3E', '#6F8298'],
+        xaxis: {
+            categories: eElements,
+            labels: { style: { colors: '#6F8298', fontFamily: 'Inter', fontSize: '10px' }, rotate: -25 }
+        },
+        yaxis: {
+            labels: {
+                style: { colors: '#6F8298', fontFamily: 'Inter' },
+                formatter: function(v) { return (v / 1000).toFixed(0) + 'k'; }
+            }
+        },
+        grid: { borderColor: '#24598A', strokeDashArray: 3 },
+        legend: { position: 'top', labels: { colors: '#D5DCE5' }, fontFamily: 'Inter' },
+        tooltip: { theme: 'dark' }
+    };
+    new ApexCharts(document.querySelector("#chart-element-events"), eventOptions).render();
+});
+</script>
+{% endblock %}

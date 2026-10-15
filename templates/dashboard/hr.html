@@ -1,0 +1,427 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h2 class="page-title">Human Resources &amp; Workforce Intelligence</h2>
+        <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem;">
+            Workforce Demographics, Compensation Structure, Attendance Compliance &amp; Store Staffing Density
+        </div>
+    </div>
+    <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <span class="status-badge badge-neutral" style="font-size: 0.72rem; padding: 0.35rem 0.75rem;">
+            <i class="ti ti-users"></i> 3,000 Active Staff
+        </span>
+        <span class="status-badge badge-neutral" style="font-size: 0.72rem; padding: 0.35rem 0.75rem;">
+            <i class="ti ti-building-store"></i> {{ kpis.staffed_stores }} Branches
+        </span>
+        <a href="{% url 'download_suite3_pdf' %}" class="status-badge badge-success" style="font-size: 0.72rem; padding: 0.35rem 0.75rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.3rem;">
+            <i class="ti ti-file-type-pdf"></i> Domain Deliverable (PDF)
+        </a>
+    </div>
+</div>
+
+<!-- 8 HR Headline KPI Cards -->
+<div class="kpi-grid">
+    <!-- Headcount -->
+    <div class="kpi-card accent-pink">
+        <div class="kpi-header">
+            <span class="kpi-title">Total Active Workforce</span>
+            <span class="status-badge badge-neutral">100% Active</span>
+        </div>
+        <div class="kpi-value">{{ kpis.total_headcount }} Staff</div>
+        <div class="kpi-subtext">
+            <span>Across {{ kpis.departments_count }} Functional Depts</span>
+        </div>
+    </div>
+
+    <!-- Monthly Base Payroll -->
+    <div class="kpi-card accent-pink">
+        <div class="kpi-header">
+            <span class="kpi-title">Monthly Base Payroll</span>
+            <span class="status-badge badge-neutral">Contractual</span>
+        </div>
+        <div class="kpi-value">₹18.98 Cr</div>
+        <div class="kpi-subtext">
+            <span>₹{{ kpis.monthly_base_payroll|floatformat:0 }} / month</span>
+        </div>
+    </div>
+
+    <!-- Average Salary -->
+    <div class="kpi-card accent-cyan">
+        <div class="kpi-header">
+            <span class="kpi-title">Average Base Salary</span>
+            <span class="status-badge badge-neutral">Mean</span>
+        </div>
+        <div class="kpi-value">₹{{ kpis.avg_salary|floatformat:0 }}</div>
+        <div class="kpi-subtext">
+            <span>Median: ₹{{ kpis.median_salary|floatformat:0 }} / mo</span>
+        </div>
+    </div>
+
+    <!-- Processed Cash Payroll -->
+    <div class="kpi-card accent-purple">
+        <div class="kpi-header">
+            <span class="kpi-title">Processed Payouts (LTM)</span>
+            <span class="status-badge badge-success">Bank Cleared</span>
+        </div>
+        <div class="kpi-value">₹{{ kpis.processed_payroll_crores }} Cr</div>
+        <div class="kpi-subtext">
+            <span>36,000 Disbursement Records</span>
+        </div>
+    </div>
+
+    <!-- Attendance Compliance -->
+    <div class="kpi-card accent-purple">
+        <div class="kpi-header">
+            <span class="kpi-title">Attendance Compliance</span>
+            <span class="status-badge badge-neutral" style="font-size: 0.65rem;">[PROXY]</span>
+        </div>
+        <div class="kpi-value">{{ kpis.attendance_compliance_pct }}%</div>
+        <div class="kpi-subtext">
+            <span>Baseline: 22 Work Days / Month</span>
+        </div>
+    </div>
+
+    <!-- Average Daily Hours -->
+    <div class="kpi-card accent-cyan">
+        <div class="kpi-header">
+            <span class="kpi-title">Average Daily Shift</span>
+            <span class="status-badge badge-neutral">Clock In/Out</span>
+        </div>
+        <div class="kpi-value">{{ kpis.avg_daily_hours }} hrs</div>
+        <div class="kpi-subtext">
+            <span>88,310 Attendance Logs</span>
+        </div>
+    </div>
+
+    <!-- Store Staffing Density -->
+    <div class="kpi-card accent-orange">
+        <div class="kpi-header">
+            <span class="kpi-title">Average Staffing Density</span>
+            <span class="status-badge badge-neutral">Store Network</span>
+        </div>
+        <div class="kpi-value">15.0 Staff</div>
+        <div class="kpi-subtext">
+            <span>Per Retail Store Location</span>
+        </div>
+    </div>
+
+    <!-- Analytical Transparency Note -->
+    <div class="kpi-card accent-orange">
+        <div class="kpi-header">
+            <span class="kpi-title">Data Integrity Note</span>
+            <span class="status-badge badge-warning">Governance</span>
+        </div>
+        <div class="kpi-value" style="font-size: 1.15rem; margin-top: 0.2rem;">Zero Exit Records</div>
+        <div class="kpi-subtext">
+            <span>Attrition rate omitted (no exit data)</span>
+        </div>
+    </div>
+</div>
+
+<!-- Row 1 Charts: Department Breakdown & Shift Duration -->
+<div class="charts-grid-2" style="margin-top: 1.5rem;">
+    <!-- Chart 1: Department Workforce & Payroll Share -->
+    <div class="chart-card">
+        <div class="chart-header">
+            <span class="chart-title">
+                <i class="ti ti-users-group" style="color: var(--pink);"></i>
+                Departmental Workforce Headcount &amp; Monthly Payroll (₹ Lakhs)
+            </span>
+            <span style="font-size: 0.72rem; color: var(--text-muted);">
+                10 Organizational Divisions
+            </span>
+        </div>
+        <div id="chart-dept-headcount" style="min-height: 320px;"></div>
+    </div>
+
+    <!-- Chart 2: Shift Duration Distribution -->
+    <div class="chart-card">
+        <div class="chart-header">
+            <span class="chart-title">
+                <i class="ti ti-clock-hour-4" style="color: var(--cyan);"></i>
+                Shift Duration Distribution (Undertime vs Standard vs Overtime)
+            </span>
+            <span style="font-size: 0.72rem; color: var(--text-muted);">
+                Attendance Epoch Analysis
+            </span>
+        </div>
+        <div id="chart-shift-dist" style="min-height: 320px;"></div>
+    </div>
+</div>
+
+<!-- Row 2 Charts: Attendance Trend & Salary Disbursement Timeline -->
+<div class="charts-grid-2" style="margin-top: 1.5rem;">
+    <!-- Chart 3: Monthly Attendance Compliance Trajectory -->
+    <div class="chart-card">
+        <div class="chart-header">
+            <span class="chart-title">
+                <i class="ti ti-calendar-stats" style="color: var(--purple);"></i>
+                Monthly Attendance Compliance Rate &amp; Daily Work Hours
+            </span>
+            <span style="font-size: 0.72rem; color: var(--text-muted);">
+                vw_hr_attendance_summary
+            </span>
+        </div>
+        <div id="chart-attendance-trend" style="min-height: 320px;"></div>
+    </div>
+
+    <!-- Chart 4: Monthly Salary Disbursements Outflow -->
+    <div class="chart-card">
+        <div class="chart-header">
+            <span class="chart-title">
+                <i class="ti ti-cash" style="color: var(--cyan);"></i>
+                Monthly Processed Payroll Cash Disbursements (₹ Crores)
+            </span>
+            <span style="font-size: 0.72rem; color: var(--text-muted);">
+                hr.salary_history Status='Processed'
+            </span>
+        </div>
+        <div id="chart-salary-disbursements" style="min-height: 320px;"></div>
+    </div>
+</div>
+
+<!-- Row 3 Tables: Compensation Structure Breakdown & Top Staffed Stores -->
+<div class="table-card" style="margin-top: 1.5rem;">
+    <div class="table-header">
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <i class="ti ti-file-spreadsheet" style="color: var(--pink); font-size: 1.15rem;"></i>
+            <h3 class="table-title">Itemized Payroll Compensation Structure by Department</h3>
+        </div>
+        <span class="kpi-badge badge-neutral" style="font-size: 0.7rem;">payroll.pay_slips Detailed Analysis</span>
+    </div>
+    <div style="overflow-x: auto;">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Department</th>
+                    <th style="text-align: right;">Staff Paid</th>
+                    <th style="text-align: right;">Basic Salary (₹)</th>
+                    <th style="text-align: right;">HRA (₹)</th>
+                    <th style="text-align: right;">Allowances (₹)</th>
+                    <th style="text-align: right;">Gross Pay (₹)</th>
+                    <th style="text-align: right;">PF Deductions (₹)</th>
+                    <th style="text-align: right;">Income Tax (₹)</th>
+                    <th style="text-align: right;">Net Pay (₹)</th>
+                    <th style="text-align: right;">Deduction %</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in comp_structure %}
+                <tr>
+                    <td style="font-weight: 600; color: var(--text-white);">{{ row.department }}</td>
+                    <td style="text-align: right;">{{ row.employees_paid }}</td>
+                    <td style="text-align: right;">₹{{ row.total_basic|floatformat:0 }}</td>
+                    <td style="text-align: right;">₹{{ row.total_hra|floatformat:0 }}</td>
+                    <td style="text-align: right;">₹{{ row.total_allowances|floatformat:0 }}</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--purple);">₹{{ row.total_gross|floatformat:0 }}</td>
+                    <td style="text-align: right; color: var(--orange);">₹{{ row.total_pf|floatformat:0 }}</td>
+                    <td style="text-align: right; color: var(--orange);">₹{{ row.total_income_tax|floatformat:0 }}</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--cyan);">₹{{ row.total_net|floatformat:0 }}</td>
+                    <td style="text-align: right;">{{ row.deduction_pct }}%</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="10" style="text-align: center; color: var(--text-muted); padding: 1.5rem;">No payslip data found for active filter range.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Store Staffing Table -->
+<div class="table-card" style="margin-top: 1.5rem;">
+    <div class="table-header">
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <i class="ti ti-building-store" style="color: var(--cyan); font-size: 1.15rem;"></i>
+            <h3 class="table-title">Top Retail Branches by Staffing Density &amp; Compensation</h3>
+        </div>
+        <span class="kpi-badge badge-neutral" style="font-size: 0.7rem;">20 Representative Stores</span>
+    </div>
+    <div style="overflow-x: auto;">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Store ID</th>
+                    <th>Store Name</th>
+                    <th>City</th>
+                    <th>Region</th>
+                    <th style="text-align: right;">Headcount</th>
+                    <th style="text-align: right;">Monthly Payroll (₹)</th>
+                    <th style="text-align: right;">Avg Salary (₹)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for s in store_staffing %}
+                <tr>
+                    <td style="font-family: monospace; color: var(--text-muted);">STR-{{ s.store_id|stringformat:"03d" }}</td>
+                    <td style="font-weight: 600; color: var(--text-white);">{{ s.store_name }}</td>
+                    <td>{{ s.city }}</td>
+                    <td><span class="status-badge badge-neutral">{{ s.region }}</span></td>
+                    <td style="text-align: right; font-weight: 600; color: var(--pink);">{{ s.staff_headcount }} Staff</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--purple);">₹{{ s.monthly_payroll|floatformat:0 }}</td>
+                    <td style="text-align: right; color: var(--cyan);">₹{{ s.avg_salary|floatformat:0 }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 1. Department Workforce & Payroll Bar Chart
+    const deptData = {{ dept_workforce|safe }};
+    if (deptData && deptData.length > 0) {
+        const depts = deptData.map(d => d.department);
+        const staff = deptData.map(d => d.staff_count);
+        const payrollLakhs = deptData.map(d => (d.monthly_payroll / 100000).toFixed(1));
+
+        const deptOptions = {
+            series: [
+                { name: 'Headcount (Staff)', type: 'column', data: staff, color: '#E95B9F' },
+                { name: 'Monthly Payroll (₹ Lakhs)', type: 'line', data: payrollLakhs, color: '#2CD4E1' }
+            ],
+            chart: {
+                height: 320,
+                type: 'line',
+                background: 'transparent',
+                toolbar: { show: false }
+            },
+            stroke: { width: [0, 3], curve: 'smooth' },
+            grid: { borderColor: '#24598A', strokeDashArray: 3 },
+            xaxis: {
+                categories: depts,
+                labels: {
+                    rotate: -35,
+                    style: { colors: '#8E9BAE', fontSize: '11px' }
+                }
+            },
+            yaxis: [
+                {
+                    title: { text: 'Headcount', style: { color: '#E95B9F' } },
+                    labels: { style: { colors: '#8E9BAE' } }
+                },
+                {
+                    opposite: true,
+                    title: { text: 'Payroll (₹ Lakhs)', style: { color: '#2CD4E1' } },
+                    labels: { style: { colors: '#8E9BAE' } }
+                }
+            ],
+            tooltip: { theme: 'dark' },
+            legend: { labels: { colors: '#D5DCE5' }, position: 'top' }
+        };
+        new ApexCharts(document.querySelector("#chart-dept-headcount"), deptOptions).render();
+    }
+
+    // 2. Shift Duration Distribution Donut
+    const shiftData = {{ shift_dist|safe }};
+    if (shiftData && shiftData.length > 0) {
+        const shiftSeries = shiftData.map(d => d.shift_count);
+        const shiftLabels = shiftData.map(d => d.shift_tier + ' (' + d.share_pct + '%)');
+
+        const shiftOptions = {
+            series: shiftSeries,
+            labels: shiftLabels,
+            colors: ['#E88E3E', '#2CD4E1', '#A459D0', '#6F8298'],
+            chart: {
+                type: 'donut',
+                height: 320,
+                background: 'transparent'
+            },
+            stroke: { colors: ['#183A5F'] },
+            legend: { position: 'bottom', labels: { colors: '#D5DCE5' } },
+            tooltip: { theme: 'dark' }
+        };
+        new ApexCharts(document.querySelector("#chart-shift-dist"), shiftOptions).render();
+    }
+
+    // 3. Attendance Compliance Trajectory
+    const attendData = {{ attendance_trend|safe }};
+    if (attendData && attendData.length > 0) {
+        const months = attendData.map(d => d.month_label);
+        const compliance = attendData.map(d => d.avg_attendance_pct);
+        const hours = attendData.map(d => d.avg_hours);
+
+        const attendOptions = {
+            series: [
+                { name: 'Attendance Compliance % [PROXY]', data: compliance, color: '#A459D0' },
+                { name: 'Daily Shift Duration (Hours)', data: hours, color: '#2CD4E1' }
+            ],
+            chart: {
+                height: 320,
+                type: 'line',
+                background: 'transparent',
+                toolbar: { show: false }
+            },
+            stroke: { curve: 'smooth', width: 3 },
+            grid: { borderColor: '#24598A', strokeDashArray: 3 },
+            xaxis: {
+                categories: months,
+                labels: { style: { colors: '#8E9BAE', fontSize: '11px' } }
+            },
+            yaxis: [
+                {
+                    title: { text: 'Compliance %', style: { color: '#A459D0' } },
+                    labels: { style: { colors: '#8E9BAE' } },
+                    min: 80,
+                    max: 100
+                },
+                {
+                    opposite: true,
+                    title: { text: 'Daily Hours', style: { color: '#2CD4E1' } },
+                    labels: { style: { colors: '#8E9BAE' } },
+                    min: 7,
+                    max: 11
+                }
+            ],
+            tooltip: { theme: 'dark' },
+            legend: { labels: { colors: '#D5DCE5' }, position: 'top' }
+        };
+        new ApexCharts(document.querySelector("#chart-attendance-trend"), attendOptions).render();
+    }
+
+    // 4. Monthly Salary Disbursements Outflow Area Chart
+    const disburseData = {{ disbursement_trend|safe }};
+    if (disburseData && disburseData.length > 0) {
+        const dMonths = disburseData.map(d => d.month_name);
+        const dAmounts = disburseData.map(d => d.amount_crores);
+
+        const disburseOptions = {
+            series: [{ name: 'Bank Payouts (₹ Cr)', data: dAmounts, color: '#2CD4E1' }],
+            chart: {
+                type: 'area',
+                height: 320,
+                background: 'transparent',
+                toolbar: { show: false }
+            },
+            fill: {
+                type: 'gradient',
+                gradient: { shadeIntensity: 1, opacityFrom: 0.45, opacityTo: 0.05, stops: [0, 90, 100] }
+            },
+            stroke: { curve: 'smooth', width: 3 },
+            grid: { borderColor: '#24598A', strokeDashArray: 3 },
+            xaxis: {
+                categories: dMonths,
+                labels: { style: { colors: '#8E9BAE', fontSize: '11px' } }
+            },
+            yaxis: {
+                labels: {
+                    style: { colors: '#8E9BAE' },
+                    formatter: function(val) { return '₹' + val.toFixed(1) + ' Cr'; }
+                }
+            },
+            tooltip: {
+                theme: 'dark',
+                y: { formatter: function(val) { return '₹' + val.toFixed(2) + ' Cr'; } }
+            }
+        };
+        new ApexCharts(document.querySelector("#chart-salary-disbursements"), disburseOptions).render();
+    }
+});
+</script>
+{% endblock %}

@@ -81,29 +81,29 @@
 
         <div class="filter-divider"></div>
 
-        <!-- Category & Tier -->
+        <!-- HR & Finance Segmentation -->
         <div class="filter-section-title">
-            <i class="ti ti-layers-intersect"></i> Segmentation
+            <i class="ti ti-building"></i> Organization & Cost Center
         </div>
         <div class="filter-field">
-            <label for="filter-category">Product Category</label>
-            <select id="filter-category" name="category_id" class="filter-select">
-                <option value="">All Categories ({{ filter_options.categories|length }})</option>
-                {% for c in filter_options.categories %}
-                    <option value="{{ c.category_id }}" {% if filters.category_id == c.category_id %}selected{% endif %}>
-                        {{ c.category_name }}
+            <label for="filter-department">HR Department</label>
+            <select id="filter-department" name="dept_id" class="filter-select">
+                <option value="">All Departments ({{ filter_options.departments|length }})</option>
+                {% for d in filter_options.departments %}
+                    <option value="{{ d.dept_id }}" {% if filters.dept_id == d.dept_id %}selected{% endif %}>
+                        {{ d.dept_name }}
                     </option>
                 {% endfor %}
             </select>
         </div>
 
         <div class="filter-field">
-            <label for="filter-tier">Customer Tier</label>
-            <select id="filter-tier" name="customer_tier" class="filter-select">
-                <option value="">All Tiers</option>
-                {% for t in filter_options.tiers %}
-                    <option value="{{ t.tier_name }}" {% if filters.customer_tier == t.tier_name %}selected{% endif %}>
-                        {{ t.tier_name }}
+            <label for="filter-expense-cat">Expense Category</label>
+            <select id="filter-expense-cat" name="exp_cat_id" class="filter-select">
+                <option value="">All Expense Types ({{ filter_options.expense_categories|length }})</option>
+                {% for e in filter_options.expense_categories %}
+                    <option value="{{ e.exp_cat_id }}" {% if filters.exp_cat_id == e.exp_cat_id %}selected{% endif %}>
+                        {{ e.category_name }}
                     </option>
                 {% endfor %}
             </select>

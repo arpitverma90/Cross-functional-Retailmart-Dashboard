@@ -86,3 +86,81 @@ def download_insights_html(request):
             content_type='text/html; charset=utf-8'
         )
     raise Http404("HTML Insights report not found.")
+
+
+# --- Suite 1 Deliverables: Marketing, Digital & Logistics ---
+def download_suite1_pdf(request):
+    """Download Suite 1 (Marketing, Digital, Logistics) Deliverable as PDF."""
+    pdf_path = os.path.join(settings.BASE_DIR, 'project_documents', 'documentation', 'RetailMart_V3_Marketing_Digital_Logistics_Deliverable.pdf')
+    if os.path.exists(pdf_path):
+        return FileResponse(open(pdf_path, 'rb'), as_attachment=True, filename='RetailMart_V3_Marketing_Digital_Logistics_Deliverable.pdf', content_type='application/pdf')
+    raise Http404("Suite 1 PDF deliverable not found.")
+
+
+def download_suite1_word(request):
+    """Download Suite 1 (Marketing, Digital, Logistics) Deliverable as Word (.docx)."""
+    docx_path = os.path.join(settings.BASE_DIR, 'project_documents', 'documentation', 'RetailMart_V3_Marketing_Digital_Logistics_Deliverable.docx')
+    if os.path.exists(docx_path):
+        return FileResponse(open(docx_path, 'rb'), as_attachment=True, filename='RetailMart_V3_Marketing_Digital_Logistics_Deliverable.docx', content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+    raise Http404("Suite 1 Word deliverable not found.")
+
+
+def download_suite1_html(request):
+    """Download or view Suite 1 (Marketing, Digital, Logistics) Deliverable as HTML."""
+    html_path = os.path.join(settings.BASE_DIR, 'project_documents', 'documentation', 'RetailMart_V3_Marketing_Digital_Logistics_Deliverable.html')
+    if os.path.exists(html_path):
+        as_attachment = request.GET.get('attachment', 'false').lower() == 'true'
+        return FileResponse(open(html_path, 'rb'), as_attachment=as_attachment, filename='RetailMart_V3_Marketing_Digital_Logistics_Deliverable.html', content_type='text/html; charset=utf-8')
+    raise Http404("Suite 1 HTML deliverable not found.")
+
+
+# --- Suite 2 Deliverables: Sales, Customer & Operations ---
+def download_suite2_pdf(request):
+    """Download Suite 2 (Sales, Customer, Operations) Deliverable as PDF."""
+    pdf_path = os.path.join(settings.BASE_DIR, 'project_documents', 'documentation', 'RetailMart_V3_Sales_Customer_Operations_Deliverable.pdf')
+    if os.path.exists(pdf_path):
+        return FileResponse(open(pdf_path, 'rb'), as_attachment=True, filename='RetailMart_V3_Sales_Customer_Operations_Deliverable.pdf', content_type='application/pdf')
+    raise Http404("Suite 2 PDF deliverable not found.")
+
+
+def download_suite2_word(request):
+    """Download Suite 2 (Sales, Customer, Operations) Deliverable as Word (.docx)."""
+    docx_path = os.path.join(settings.BASE_DIR, 'project_documents', 'documentation', 'RetailMart_V3_Sales_Customer_Operations_Deliverable.docx')
+    if os.path.exists(docx_path):
+        return FileResponse(open(docx_path, 'rb'), as_attachment=True, filename='RetailMart_V3_Sales_Customer_Operations_Deliverable.docx', content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+    raise Http404("Suite 2 Word deliverable not found.")
+
+
+def download_suite2_html(request):
+    """Download or view Suite 2 (Sales, Customer, Operations) Deliverable as HTML."""
+    html_path = os.path.join(settings.BASE_DIR, 'project_documents', 'documentation', 'RetailMart_V3_Sales_Customer_Operations_Deliverable.html')
+    if os.path.exists(html_path):
+        as_attachment = request.GET.get('attachment', 'false').lower() == 'true'
+        return FileResponse(open(html_path, 'rb'), as_attachment=as_attachment, filename='RetailMart_V3_Sales_Customer_Operations_Deliverable.html', content_type='text/html; charset=utf-8')
+    raise Http404("Suite 2 HTML deliverable not found.")
+
+
+# --- Suite 3 Deliverables: HR & Finance Governance ---
+def download_suite3_pdf(request):
+    """Download Suite 3 (HR & Finance) Deliverable as PDF."""
+    pdf_path = os.path.join(settings.BASE_DIR, 'project_documents', 'documentation', 'RetailMart_V3_HR_Finance_Deliverable.pdf')
+    if os.path.exists(pdf_path):
+        return FileResponse(open(pdf_path, 'rb'), as_attachment=True, filename='RetailMart_V3_HR_Finance_Deliverable.pdf', content_type='application/pdf')
+    raise Http404("Suite 3 PDF deliverable not found.")
+
+
+def download_suite3_word(request):
+    """Download Suite 3 (HR & Finance) Deliverable as Word (.docx)."""
+    docx_path = os.path.join(settings.BASE_DIR, 'project_documents', 'documentation', 'RetailMart_V3_HR_Finance_Deliverable.docx')
+    if os.path.exists(docx_path):
+        return FileResponse(open(docx_path, 'rb'), as_attachment=True, filename='RetailMart_V3_HR_Finance_Deliverable.docx', content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+    raise Http404("Suite 3 Word deliverable not found.")
+
+
+def download_suite3_html(request):
+    """Download or view Suite 3 (HR & Finance) Deliverable as HTML."""
+    html_path = os.path.join(settings.BASE_DIR, 'project_documents', 'documentation', 'RetailMart_V3_HR_Finance_Deliverable.html')
+    if os.path.exists(html_path):
+        as_attachment = request.GET.get('attachment', 'false').lower() == 'true'
+        return FileResponse(open(html_path, 'rb'), as_attachment=as_attachment, filename='RetailMart_V3_HR_Finance_Deliverable.html', content_type='text/html; charset=utf-8')
+    raise Http404("Suite 3 HTML deliverable not found.")

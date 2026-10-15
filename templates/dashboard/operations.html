@@ -3,209 +3,250 @@
 {% block content %}
 <div class="page-header">
     <div>
-        <h2 class="page-title">Operations &amp; Logistics Dashboard</h2>
+        <h2 class="page-title">Operations, Inventory &amp; Manufacturing Quality</h2>
         <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem;">
-            Order Fulfilment, Carrier SLAs, Store &amp; DC Inventory, Factory Quality, and Branch Productivity
+            Store Stock Health, Out-of-Stock Vulnerability, Factory Work Orders &amp; Scrap Quality Analysis
         </div>
+    </div>
+    <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <span class="status-badge badge-neutral" style="font-size: 0.72rem; padding: 0.35rem 0.75rem;">
+            <i class="ti ti-boxes"></i> {{ kpis.total_inventory_slots }} Inventory Slots
+        </span>
+        <a href="{% url 'download_suite2_pdf' %}" class="status-badge badge-success" style="font-size: 0.72rem; padding: 0.35rem 0.75rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.3rem;">
+            <i class="ti ti-file-type-pdf"></i> Domain Deliverable (PDF)
+        </a>
     </div>
 </div>
 
-<!-- Operations KPI Cards -->
+<!-- 6 Operations Headline KPI Cards -->
 <div class="kpi-grid">
     <div class="kpi-card accent-cyan">
         <div class="kpi-header">
-            <span class="kpi-title">Total Dispatched Parcels</span>
+            <span class="kpi-title">Total Inventory Slots</span>
+            <span class="status-badge badge-neutral">SKU x Store</span>
         </div>
-        <div class="kpi-value">{{ data.shipment_summary.total_shipments|default:0 }}</div>
-        <div class="kpi-subtext">Customer outbound shipments</div>
+        <div class="kpi-value">{{ kpis.total_inventory_slots }}</div>
+        <div class="kpi-subtext">Active store shelf allocations</div>
     </div>
 
-    <div class="kpi-card accent-cyan">
+    <div class="kpi-card accent-pink">
         <div class="kpi-header">
-            <span class="kpi-title">On-Time Delivery SLA</span>
-            <span class="kpi-badge {% if data.shipment_summary.overall_on_time_sla_pct >= 90 %}badge-positive{% else %}badge-negative{% endif %}">
-                {{ data.shipment_summary.overall_on_time_sla_pct|floatformat:1 }}%
-            </span>
+            <span class="kpi-title">Out of Stock (OOS)</span>
+            <span class="status-badge badge-warning">Zero Stock</span>
         </div>
-        <div class="kpi-value">{{ data.shipment_summary.overall_on_time_sla_pct|floatformat:1 }}%</div>
-        <div class="kpi-subtext">Delivered &le; 5 days window</div>
-    </div>
-
-    <div class="kpi-card accent-cyan">
-        <div class="kpi-header">
-            <span class="kpi-title">Average Lead Time</span>
-        </div>
-        <div class="kpi-value">{{ data.shipment_summary.avg_transit_days|floatformat:1 }} Days</div>
-        <div class="kpi-subtext">Average parcel transit speed</div>
-    </div>
-
-    <div class="kpi-card accent-yellow">
-        <div class="kpi-header">
-            <span class="kpi-title">Out-of-Stock Store SKUs</span>
-            <span class="kpi-badge badge-negative">{{ data.inventory_summary.out_of_stock_slots }}</span>
-        </div>
-        <div class="kpi-value" style="color: var(--yellow);">{{ data.inventory_summary.out_of_stock_slots }}</div>
-        <div class="kpi-subtext">Zero units on shelf</div>
+        <div class="kpi-value">{{ kpis.out_of_stock_skus }}</div>
+        <div class="kpi-subtext">Stockout stock loss exposure</div>
     </div>
 
     <div class="kpi-card accent-orange">
         <div class="kpi-header">
-            <span class="kpi-title">In-Transit Carrier Parcels</span>
+            <span class="kpi-title">Low Stock Reorders</span>
+            <span class="status-badge badge-neutral">&le; Reorder Point</span>
         </div>
-        <div class="kpi-value">{{ data.shipment_summary.pending_transit_count|default:0 }}</div>
-        <div class="kpi-subtext">Dispatched, awaiting delivery</div>
+        <div class="kpi-value">{{ kpis.low_stock_skus }}</div>
+        <div class="kpi-subtext">Pending replenishment</div>
+    </div>
+
+    <div class="kpi-card accent-purple">
+        <div class="kpi-header">
+            <span class="kpi-title">Factory Work Orders</span>
+            <span class="status-badge badge-neutral">Production</span>
+        </div>
+        <div class="kpi-value">{{ kpis.total_work_orders }}</div>
+        <div class="kpi-subtext">Completed manufacturing runs</div>
+    </div>
+
+    <div class="kpi-card accent-yellow">
+        <div class="kpi-header">
+            <span class="kpi-title">Finished Goods Produced</span>
+            <span class="status-badge badge-neutral">Units</span>
+        </div>
+        <div class="kpi-value">{{ kpis.total_produced_units }}</div>
+        <div class="kpi-subtext">Gross manufactured output</div>
+    </div>
+
+    <div class="kpi-card accent-cyan">
+        <div class="kpi-header">
+            <span class="kpi-title">Quality Scrap Rate</span>
+            <span class="status-badge badge-success">Defects</span>
+        </div>
+        <div class="kpi-value">{{ kpis.scrap_rate_pct|floatformat:2 }}%</div>
+        <div class="kpi-subtext">{{ kpis.total_rejected_units }} rejected units</div>
     </div>
 </div>
 
-<!-- Charts Row 1: Courier Comparison SLA & Transit Days -->
+<!-- Charts Row 1: Inventory Health & Factory Quality Scrap -->
 <div class="charts-grid-2">
     <div class="chart-card">
         <div class="chart-header">
             <span class="chart-title">
-                <i class="ti ti-truck" style="color: var(--cyan);"></i>
-                Carrier SLA Compliance Rate (&le; 5 Days)
+                <i class="ti ti-chart-pie" style="color: var(--cyan);"></i>
+                Store Inventory Stock Health Distribution
             </span>
-            <span class="kpi-badge badge-neutral">Logistics Carrier Matrix</span>
         </div>
-        <div id="chart-courier-sla"></div>
+        <div id="chart-inventory-health"></div>
     </div>
 
     <div class="chart-card">
         <div class="chart-header">
             <span class="chart-title">
-                <i class="ti ti-clock-hour-4" style="color: var(--orange);"></i>
-                Average Delivery Transit Duration (Days)
+                <i class="ti ti-tool" style="color: var(--pink);"></i>
+                Factory Scrap Rate % Across Production Lines
             </span>
         </div>
-        <div id="chart-courier-transit"></div>
+        <div id="chart-scrap-rate"></div>
     </div>
 </div>
 
-<!-- Section: Factory Quality & Scrap Rejection -->
-<div class="table-card">
-    <div class="chart-header">
-        <span class="chart-title">
-            <i class="ti ti-building-factory-2" style="color: var(--cyan);"></i>
-            Manufacturing Assembly Line Efficiency &amp; Scrap Rejection
+<!-- Regional Inventory Vulnerability Table -->
+<div class="action-card" style="margin-top: 1.5rem;">
+    <div class="action-header">
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <i class="ti ti-map-pin" style="color: var(--orange);"></i>
+            <h3 style="font-size: 1rem; font-weight: 600; color: var(--text-white);">
+                Regional Store Inventory Stockout Vulnerability
+            </h3>
+        </div>
+        <span style="font-size: 0.72rem; color: var(--text-muted);">
+            Ranked by regional at-risk stock percentage
         </span>
-        <span class="kpi-badge badge-neutral">Production Quality Control</span>
     </div>
 
-    <table class="data-table">
-        <thead>
-            <tr>
-                <th>Line ID</th>
-                <th>Assembly Line Name</th>
-                <th style="text-align: right;">Batches Executed</th>
-                <th style="text-align: right;">Total Units Produced</th>
-                <th style="text-align: right;">Scrapped Units</th>
-                <th style="text-align: right;">Scrap Rejection Rate</th>
-                <th>Quality Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for line in data.mfg_lines %}
+    <div style="overflow-x: auto;">
+        <table class="action-table">
+            <thead>
                 <tr>
-                    <td style="color: var(--text-muted); font-family: monospace;">#{{ line.line_id }}</td>
-                    <td style="font-weight: 600; color: var(--text-white);">{{ line.line_name }}</td>
-                    <td style="text-align: right;">{{ line.total_batches }}</td>
-                    <td style="text-align: right;">{{ line.total_produced }}</td>
-                    <td style="text-align: right; color: var(--orange);">{{ line.total_rejected }}</td>
-                    <td style="text-align: right; font-weight: 700;">{{ line.rejection_rate_pct }}%</td>
+                    <th>Region Name</th>
+                    <th>Active Stores</th>
+                    <th>Total Inventory Slots</th>
+                    <th>Out of Stock (OOS)</th>
+                    <th>Low Stock Reorders</th>
+                    <th>At-Risk Vulnerability (%)</th>
+                    <th>Operational Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for r in regional_risk %}
+                <tr>
+                    <td style="font-weight: 600; color: var(--text-white);">{{ r.region_name }}</td>
+                    <td>{{ r.active_stores }} Stores</td>
+                    <td>{{ r.total_inventory_slots }}</td>
+                    <td style="font-weight: 600; color: #F43F5E;">{{ r.out_of_stock_count }}</td>
+                    <td style="color: #FBBF24;">{{ r.low_stock_count }}</td>
                     <td>
-                        <span class="kpi-badge {% if line.rejection_rate_pct <= 3.0 %}badge-positive{% else %}badge-negative{% endif %}">
-                            {% if line.rejection_rate_pct <= 3.0 %}Optimal (&le; 3%){% else %}High Scrap (&gt; 3%){% endif %}
+                        <span class="status-badge {% if r.regional_at_risk_pct > 20 %}badge-warning{% else %}badge-neutral{% endif %}">
+                            {{ r.regional_at_risk_pct }}%
                         </span>
                     </td>
+                    <td>
+                        {% if r.regional_at_risk_pct > 20 %}
+                        <span style="color: #F43F5E; font-size: 0.75rem; font-weight: 600;">Replenish Priority</span>
+                        {% else %}
+                        <span style="color: #10B981; font-size: 0.75rem;">Healthy Buffer</span>
+                        {% endif %}
+                    </td>
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
-
-<!-- Section: Regional Warehouses & Inbound Freight -->
-<div class="charts-grid-2">
-    <div class="table-card" style="margin-bottom: 0;">
-        <div class="chart-header">
-            <span class="chart-title">
-                <i class="ti ti-building-warehouse" style="color: var(--purple);"></i>
-                Central Warehouses (Distribution Centers)
-            </span>
-        </div>
-        <table class="data-table">
-            <thead>
-                <tr>
-                    <th>Warehouse</th>
-                    <th>City / Region</th>
-                    <th style="text-align: right;">Capacity (sqft)</th>
-                    <th style="text-align: right;">Inbound Units</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for w in data.warehouses %}
-                    <tr>
-                        <td style="font-weight: 600; color: var(--text-white);">{{ w.warehouse_name }}</td>
-                        <td>{{ w.location_city }} ({{ w.region }})</td>
-                        <td style="text-align: right;">{{ w.capacity_sqft }} sqft</td>
-                        <td style="text-align: right; color: var(--cyan);">{{ w.total_inbound_units }}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-
-    <div class="table-card" style="margin-bottom: 0;">
-        <div class="chart-header">
-            <span class="chart-title">
-                <i class="ti ti-building-store" style="color: var(--yellow);"></i>
-                Top Store Operations &amp; Labor Density
-            </span>
-        </div>
-        <table class="data-table">
-            <thead>
-                <tr>
-                    <th>Store Name</th>
-                    <th>City</th>
-                    <th style="text-align: right;">Staff</th>
-                    <th style="text-align: right;">Sales / Sqft</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for st in data.top_productive_stores|slice:":5" %}
-                    <tr>
-                        <td style="font-weight: 600; color: var(--text-white);">{{ st.store_name }}</td>
-                        <td>{{ st.city }}</td>
-                        <td style="text-align: right;">{{ st.employee_count }} staff</td>
-                        <td style="text-align: right; color: var(--purple); font-weight: 700;">₹{{ st.sales_per_sqft }}</td>
-                    </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
 </div>
-{% endblock %}
 
-{% block scripts %}
+<!-- Manufacturing Quality Production Lines Table -->
+<div class="action-card" style="margin-top: 1.5rem;">
+    <div class="action-header">
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <i class="ti ti-settings-cog" style="color: var(--purple);"></i>
+            <h3 style="font-size: 1rem; font-weight: 600; color: var(--text-white);">
+                Manufacturing Plant Production Lines &amp; Quality Inspection
+            </h3>
+        </div>
+        <span style="font-size: 0.72rem; color: var(--text-muted);">
+            Batch work order yields and defect scrap rates
+        </span>
+    </div>
+
+    <div style="overflow-x: auto;">
+        <table class="action-table">
+            <thead>
+                <tr>
+                    <th>Line ID</th>
+                    <th>Line Name</th>
+                    <th>Supervisor</th>
+                    <th>Batches Run</th>
+                    <th>Total Produced</th>
+                    <th>Total Rejected</th>
+                    <th>Scrap Rate (%)</th>
+                    <th>QA Benchmark</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for l in lines %}
+                <tr>
+                    <td style="font-weight: 600; color: var(--cyan);">#{{ l.line_id }}</td>
+                    <td style="font-weight: 600; color: var(--text-white);">{{ l.line_name }}</td>
+                    <td style="color: var(--text-muted);">{{ l.supervisor_name }}</td>
+                    <td>{{ l.batches_completed }}</td>
+                    <td>{{ l.total_units_produced }}</td>
+                    <td style="color: #F43F5E; font-weight: 600;">{{ l.total_units_rejected }}</td>
+                    <td>
+                        <span class="status-badge {% if l.scrap_rate_pct < 2.5 %}badge-success{% else %}badge-warning{% endif %}">
+                            {{ l.scrap_rate_pct|floatformat:2 }}%
+                        </span>
+                    </td>
+                    <td>
+                        {% if l.scrap_rate_pct <= 2.5 %}
+                        <span style="color: #10B981; font-size: 0.75rem;">&check; Within Tolerance</span>
+                        {% else %}
+                        <span style="color: #F59E0B; font-size: 0.75rem;">&excl; Calibration Required</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
 <script>
-    // 1. Courier SLA Horizontal Bar Chart
-    const courierData = {{ data.couriers|safe }};
-    renderHorizontalBarChart('chart-courier-sla', courierData.map(c => c.courier_name), [{
-        name: 'SLA Compliance (%)',
-        data: courierData.map(c => c.on_time_sla_pct)
-    }], {
-        colors: [RM_THEME.cyan],
-        height: 260,
-        xFormatter: v => v + '%'
-    });
+document.addEventListener("DOMContentLoaded", function() {
+    const healthData = {{ health_json|safe }};
+    const hLabels = healthData.map(d => d.status);
+    const hSeries = healthData.map(d => d.slots);
 
-    // 2. Courier Transit Time Bar Chart
-    renderBarChart('chart-courier-transit', courierData.map(c => c.courier_name), [{
-        name: 'Average Lead Time (Days)',
-        data: courierData.map(c => c.avg_lead_days)
-    }], {
-        colors: [RM_THEME.orange],
-        height: 260,
-        yFormatter: v => v + ' days'
-    });
+    const healthChartOptions = {
+        series: hSeries,
+        chart: { type: 'donut', height: 280, background: 'transparent' },
+        labels: hLabels,
+        colors: ['#F43F5E', '#FFBD4A', '#2CD4E1', '#A459D0'],
+        stroke: { colors: ['#183A5F'], width: 2 },
+        dataLabels: {
+            enabled: true,
+            formatter: v => v.toFixed(1) + '%',
+            style: { fontFamily: 'Inter', fontSize: '11px', fontWeight: 600 }
+        },
+        legend: { position: 'bottom', labels: { colors: '#D5DCE5' }, fontFamily: 'Inter' },
+        tooltip: {
+            theme: 'dark',
+            y: { formatter: v => Number(v).toLocaleString() + ' slots' }
+        }
+    };
+    new ApexCharts(document.querySelector("#chart-inventory-health"), healthChartOptions).render();
+
+    const lineData = {{ line_json|safe }};
+    const lLabels = lineData.map(d => d.line);
+    const lScrap = lineData.map(d => d.scrap_pct.toFixed(2));
+
+    const lineChartOptions = {
+        series: [{ name: 'Scrap Rate (%)', data: lScrap }],
+        chart: { type: 'bar', height: 280, background: 'transparent', toolbar: { show: false } },
+        colors: ['#E95B9F'],
+        xaxis: { categories: lLabels, labels: { style: { colors: '#6F8298', fontFamily: 'Inter', fontSize: '10px' }, rotate: -25 } },
+        yaxis: { labels: { style: { colors: '#6F8298', fontFamily: 'Inter' }, formatter: v => v + '%' } },
+        grid: { borderColor: '#24598A', strokeDashArray: 3 },
+        tooltip: { theme: 'dark' }
+    };
+    new ApexCharts(document.querySelector("#chart-scrap-rate"), lineChartOptions).render();
+});
 </script>
 {% endblock %}

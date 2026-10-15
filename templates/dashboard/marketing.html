@@ -1,0 +1,334 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h2 class="page-title">Marketing Intelligence Dashboard</h2>
+        <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem;">
+            Paid &amp; Owned Media Acquisition, Multi-Platform Ad Spend, Campaign Pacing &amp; Email Engagement
+        </div>
+    </div>
+    <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <div style="font-size: 0.75rem; color: var(--cyan); background: rgba(44, 212, 225, 0.1); padding: 0.35rem 0.75rem; border-radius: 6px; border: 1px solid rgba(44, 212, 225, 0.3);">
+            <i class="ti ti-calendar-time"></i> Active Window: {{ filters.start_date|default:"All Historical" }} to {{ filters.end_date|default:"Current" }}
+        </div>
+        <a href="{% url 'download_suite1_pdf' %}" class="status-badge badge-success" style="font-size: 0.72rem; padding: 0.35rem 0.75rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.3rem;">
+            <i class="ti ti-file-type-pdf"></i> Domain Deliverable (PDF)
+        </a>
+    </div>
+</div>
+
+<!-- Marketing Headline KPI Cards -->
+<div class="kpi-grid">
+    <div class="kpi-card accent-orange">
+        <div class="kpi-header">
+            <span class="kpi-title">Total Campaign Ad Spend</span>
+            <i class="ti ti-currency-rupee" style="color: var(--orange);"></i>
+        </div>
+        <div class="kpi-value">₹{{ kpis.total_spend|floatformat:2 }}</div>
+        <div class="kpi-subtext">Across 5 paid platforms</div>
+    </div>
+
+    <div class="kpi-card accent-purple">
+        <div class="kpi-header">
+            <span class="kpi-title">Authorized Budget</span>
+            <i class="ti ti-wallet" style="color: var(--purple);"></i>
+        </div>
+        <div class="kpi-value">₹{{ kpis.total_budget|floatformat:2 }}</div>
+        <div class="kpi-subtext">{{ kpis.total_campaigns }} active initiatives</div>
+    </div>
+
+    <div class="kpi-card accent-cyan">
+        <div class="kpi-header">
+            <span class="kpi-title">Budget Utilization</span>
+            <i class="ti ti-chart-pie" style="color: var(--cyan);"></i>
+        </div>
+        <div class="kpi-value">{{ kpis.budget_utilization|floatformat:1 }}%</div>
+        <div class="kpi-subtext">Pacing vs budget cap</div>
+    </div>
+
+    <div class="kpi-card accent-pink">
+        <div class="kpi-header">
+            <span class="kpi-title">Emails Delivered</span>
+            <i class="ti ti-mail" style="color: var(--pink);"></i>
+        </div>
+        <div class="kpi-value">{{ kpis.total_sent|default:0 }}</div>
+        <div class="kpi-subtext">Outbound customer comms</div>
+    </div>
+
+    <div class="kpi-card accent-cyan">
+        <div class="kpi-header">
+            <span class="kpi-title">Email Open Rate</span>
+            <i class="ti ti-mail-opened" style="color: var(--cyan);"></i>
+        </div>
+        <div class="kpi-value">{{ kpis.open_rate|floatformat:1 }}%</div>
+        <div class="kpi-subtext">{{ kpis.total_opened|default:0 }} opened emails</div>
+    </div>
+
+    <div class="kpi-card accent-purple">
+        <div class="kpi-header">
+            <span class="kpi-title">Email Click-Through Rate</span>
+            <i class="ti ti-cursor-text" style="color: var(--purple);"></i>
+        </div>
+        <div class="kpi-value">{{ kpis.ctr|floatformat:1 }}%</div>
+        <div class="kpi-subtext">CTR on opened volume</div>
+    </div>
+</div>
+
+<!-- Charts Row 1: Platform Spend Mix & Monthly Spend Trajectory -->
+<div class="charts-grid-2">
+    <div class="chart-card">
+        <div class="chart-header">
+            <span class="chart-title">
+                <i class="ti ti-brand-facebook" style="color: var(--pink);"></i>
+                Ad Spend Allocation by Platform (₹)
+            </span>
+        </div>
+        <div id="chart-platform-spend"></div>
+    </div>
+
+    <div class="chart-card">
+        <div class="chart-header">
+            <span class="chart-title">
+                <i class="ti ti-chart-line" style="color: var(--orange);"></i>
+                Monthly Ad Spend Trajectory by Platform
+            </span>
+        </div>
+        <div id="chart-spend-trend"></div>
+    </div>
+</div>
+
+<!-- Charts Row 2: Email Engagement Pacing & Top Campaigns Pacing -->
+<div class="charts-grid-2">
+    <div class="chart-card">
+        <div class="chart-header">
+            <span class="chart-title">
+                <i class="ti ti-mail-fast" style="color: var(--cyan);"></i>
+                Email Marketing Performance: Open &amp; Click Rates (%)
+            </span>
+        </div>
+        <div id="chart-email-trend"></div>
+    </div>
+
+    <div class="chart-card">
+        <div class="chart-header">
+            <span class="chart-title">
+                <i class="ti ti-target-arrow" style="color: var(--purple);"></i>
+                Top 10 Campaigns by Spend &amp; Budget Pacing
+            </span>
+        </div>
+        <div id="chart-campaign-pacing"></div>
+    </div>
+</div>
+
+<!-- Action Table: Top Campaigns Detailed Drilldown -->
+<div class="action-card" style="margin-top: 1.5rem;">
+    <div class="action-header">
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <i class="ti ti-list-details" style="color: var(--cyan);"></i>
+            <h3 style="font-size: 1rem; font-weight: 600; color: var(--text-white);">
+                Marketing Campaign Portfolio Performance &amp; Utilization
+            </h3>
+        </div>
+        <span style="font-size: 0.72rem; color: var(--text-muted);">
+            Ranked by total historical spend
+        </span>
+    </div>
+
+    <div style="overflow-x: auto;">
+        <table class="action-table">
+            <thead>
+                <tr>
+                    <th>Campaign ID</th>
+                    <th>Campaign Initiative Name</th>
+                    <th>Date Window</th>
+                    <th>Authorized Budget</th>
+                    <th>Realized Spend</th>
+                    <th>Pacing (%)</th>
+                    <th>Platform Reach</th>
+                    <th>Status Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for c in top_campaigns %}
+                <tr>
+                    <td style="font-weight: 600; color: var(--cyan);">#{{ c.campaign_id }}</td>
+                    <td style="color: var(--text-white); font-weight: 500;">{{ c.campaign_name }}</td>
+                    <td style="color: var(--text-muted); font-size: 0.75rem;">{{ c.start_date }} to {{ c.end_date }}</td>
+                    <td>₹{{ c.budget|floatformat:2 }}</td>
+                    <td style="color: var(--orange); font-weight: 600;">₹{{ c.total_spend|floatformat:2 }}</td>
+                    <td>
+                        <span class="status-badge {% if c.utilization_pct > 20 %}badge-success{% else %}badge-neutral{% endif %}">
+                            {{ c.utilization_pct|floatformat:1 }}%
+                        </span>
+                    </td>
+                    <td>{{ c.platform_reach }} Platforms</td>
+                    <td>
+                        <a href="{% url 'cross_functional_dashboard' %}" class="btn-action" style="padding: 0.2rem 0.5rem; font-size: 0.7rem;">
+                            View Commercial Yield <i class="ti ti-arrow-right"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="8" style="text-align: center; color: var(--text-muted); padding: 2rem;">
+                        No campaign records found matching current date filter.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // 1. Platform Spend Donut Chart
+    const platformData = {{ platform_spend|safe }};
+    const pLabels = platformData.map(d => d.platform);
+    const pSeries = platformData.map(d => parseFloat(d.total_amount) || 0);
+
+    const platformChartOptions = {
+        series: pSeries,
+        chart: {
+            type: 'donut',
+            height: 280,
+            background: 'transparent'
+        },
+        labels: pLabels,
+        colors: ['#A459D0', '#2CD4E1', '#E95B9F', '#E88E3E', '#FFBD4A'],
+        stroke: { colors: ['#183A5F'], width: 2 },
+        dataLabels: {
+            enabled: true,
+            formatter: function(val) { return val.toFixed(1) + '%'; },
+            style: { fontFamily: 'Inter', fontSize: '11px', fontWeight: 600 }
+        },
+        legend: {
+            position: 'bottom',
+            labels: { colors: '#D5DCE5' },
+            fontFamily: 'Inter'
+        },
+        tooltip: {
+            theme: 'dark',
+            y: {
+                formatter: function(val) { return '₹' + Number(val).toLocaleString(); }
+            }
+        }
+    };
+    new ApexCharts(document.querySelector("#chart-platform-spend"), platformChartOptions).render();
+
+    // 2. Monthly Spend Trend by Platform
+    const trendData = {{ spend_trend|safe }};
+    const tCategories = trendData.map(d => d.month_year);
+    const fbSpend = trendData.map(d => parseFloat(d.facebook_spend) || 0);
+    const googSpend = trendData.map(d => parseFloat(d.google_spend) || 0);
+    const twSpend = trendData.map(d => parseFloat(d.twitter_spend) || 0);
+    const liSpend = trendData.map(d => parseFloat(d.linkedin_spend) || 0);
+    const igSpend = trendData.map(d => parseFloat(d.instagram_spend) || 0);
+
+    const spendTrendOptions = {
+        series: [
+            { name: 'Facebook', data: fbSpend },
+            { name: 'Google', data: googSpend },
+            { name: 'Twitter', data: twSpend },
+            { name: 'LinkedIn', data: liSpend },
+            { name: 'Instagram', data: igSpend }
+        ],
+        chart: {
+            type: 'bar',
+            stacked: true,
+            height: 280,
+            background: 'transparent',
+            toolbar: { show: false }
+        },
+        colors: ['#A459D0', '#2CD4E1', '#E88E3E', '#FFBD4A', '#E95B9F'],
+        xaxis: {
+            categories: tCategories,
+            labels: { style: { colors: '#6F8298', fontFamily: 'Inter', fontSize: '10px' }, rotate: -45 }
+        },
+        yaxis: {
+            labels: {
+                style: { colors: '#6F8298', fontFamily: 'Inter' },
+                formatter: function(v) { return '₹' + (v / 1000).toFixed(0) + 'k'; }
+            }
+        },
+        grid: { borderColor: '#24598A', strokeDashArray: 3 },
+        legend: { position: 'top', labels: { colors: '#D5DCE5' }, fontFamily: 'Inter' },
+        tooltip: { theme: 'dark', y: { formatter: function(v) { return '₹' + Number(v).toLocaleString(); } } }
+    };
+    new ApexCharts(document.querySelector("#chart-spend-trend"), spendTrendOptions).render();
+
+    // 3. Email Performance Rates (%)
+    const emailData = {{ email_trend|safe }};
+    const eMonths = emailData.map(d => d.month_year);
+    const eOpenRate = emailData.map(d => parseFloat(d.open_rate) || 0);
+    const eClickRate = emailData.map(d => parseFloat(d.click_rate) || 0);
+
+    const emailOptions = {
+        series: [
+            { name: 'Open Rate (%)', data: eOpenRate },
+            { name: 'Click-Through Rate (%)', data: eClickRate }
+        ],
+        chart: {
+            type: 'line',
+            height: 280,
+            background: 'transparent',
+            toolbar: { show: false }
+        },
+        stroke: { width: [3, 3], curve: 'smooth' },
+        colors: ['#2CD4E1', '#A459D0'],
+        xaxis: {
+            categories: eMonths,
+            labels: { style: { colors: '#6F8298', fontFamily: 'Inter', fontSize: '10px' }, rotate: -45 }
+        },
+        yaxis: {
+            max: 100,
+            labels: {
+                style: { colors: '#6F8298', fontFamily: 'Inter' },
+                formatter: function(v) { return v.toFixed(0) + '%'; }
+            }
+        },
+        grid: { borderColor: '#24598A', strokeDashArray: 3 },
+        legend: { position: 'top', labels: { colors: '#D5DCE5' }, fontFamily: 'Inter' },
+        tooltip: { theme: 'dark', y: { formatter: function(v) { return v.toFixed(2) + '%'; } } }
+    };
+    new ApexCharts(document.querySelector("#chart-email-trend"), emailOptions).render();
+
+    // 4. Campaign Pacing Top 10
+    const campData = {{ top_campaigns|safe }};
+    const cNames = campData.map(d => d.campaign_name.substring(0, 18) + '...');
+    const cSpend = campData.map(d => parseFloat(d.total_spend) || 0);
+    const cBudget = campData.map(d => parseFloat(d.budget) || 0);
+
+    const campOptions = {
+        series: [
+            { name: 'Realized Spend', data: cSpend },
+            { name: 'Authorized Budget', data: cBudget }
+        ],
+        chart: {
+            type: 'bar',
+            height: 280,
+            background: 'transparent',
+            toolbar: { show: false }
+        },
+        plotOptions: {
+            bar: { horizontal: true, barHeight: '60%' }
+        },
+        colors: ['#E88E3E', '#24598A'],
+        xaxis: {
+            labels: {
+                style: { colors: '#6F8298', fontFamily: 'Inter' },
+                formatter: function(v) { return '₹' + (v / 1000).toFixed(0) + 'k'; }
+            }
+        },
+        yaxis: {
+            labels: { style: { colors: '#D5DCE5', fontFamily: 'Inter', fontSize: '11px' } }
+        },
+        grid: { borderColor: '#24598A', strokeDashArray: 3 },
+        legend: { position: 'top', labels: { colors: '#D5DCE5' }, fontFamily: 'Inter' },
+        tooltip: { theme: 'dark', y: { formatter: function(v) { return '₹' + Number(v).toLocaleString(); } } }
+    };
+    new ApexCharts(document.querySelector("#chart-campaign-pacing"), campOptions).render();
+});
+</script>
+{% endblock %}

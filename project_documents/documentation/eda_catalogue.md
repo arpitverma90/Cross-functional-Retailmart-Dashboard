@@ -1,67 +1,72 @@
-# RetailMart V3 - Comprehensive EDA Catalogue
-## Management-Focused Exploratory Data Analysis Specifications
+# RetailMart V3 - Exploratory Data Analysis (EDA) Catalogue (HR & Finance Dedicated)
+## In-Depth Management Investigation Queries
+
+This catalogue defines exploratory data analysis queries and investigative deep-dives across Departmental salary compression, Attendance presenteeism patterns, Monthly operating jaws, Store efficiency quartiles, Cash transfer failures, and Statutory tax burdens.
 
 ---
 
-### EDA Item 1: Seasonality & Monthly Revenue Velocity
-- **EDA Question**: How has monthly net sales revenue and order volume evolved across the 26-month operating history, and what seasonal inflection points exist?
-- **Domain & Purpose**: Executive Summary & Sales — evaluates top-line commercial trajectory and identifies peak vs lean demand cycles.
-- **Tables, Columns & Join**: `sales.orders` (`order_date`, `net_total`, `order_status`) joined with `core.dim_date` (`date_key`).
-- **Method**: Time-series monthly aggregation with MoM and YoY percentage delta calculations using `LAG()` window functions.
-- **Time Grain**: Monthly (2024-01 to 2026-02).
-- **Suggested Visual**: Dual-axis line and bar chart (ApexCharts combo: bars for delivered order volume, purple line for net revenue).
-- **Expected Insight**: Reveal holiday demand surges (e.g., Q4/festive quarters) and recent momentum heading into 2026.
-- **Expected Decision**: Supply chain procurement and inventory buffer adjustments ahead of high-volume seasonal quarters.
-- **Feasibility & Limitation**: **Directly Feasible**; requires standard `WHERE order_status = 'Delivered'` filter.
+### EDA 5.1: Departmental Salary Compression & Outlier Variance
+- **EDA Question**: Does salary compression or extreme pay inequality exist within specific departments?
+- **Domain and Purpose**: HR Analytics — audits pay equity, interquartile range (IQR), and salary dispersion across organizational divisions.
+- **Tables, Columns and Join**: `stores.employees e JOIN core.dim_department d ON e.dept_id = d.dept_id`
+- **Method**: Statistical dispersion analysis (Min, P25, Median, P75, Max, IQR spread).
+- **Time Grain**: Cross-sectional snapshot
+- **Suggested Visual**: Box-and-whisker plot or statistical summary table.
+- **Expected Insight**: Identification of departments with high wage compression or wide outlier spreads.
+- **Expected Decision**: Adjust compensation bands to maintain competitive and equitable pay structures.
+- **Feasibility and Limitation**: Fully feasible on verified `stores.employees.salary` data.
 
----
+### EDA 5.2: Attendance Presenteeism & Clock-In Dispersion Patterns
+- **EDA Question**: At what hours do retail employees predominantly clock in, and how does shift length vary by arrival time?
+- **Domain and Purpose**: HR Analytics — examines peak arrival times and punctuality distribution.
+- **Tables, Columns and Join**: `hr.attendance` (check_in, check_out)
+- **Method**: Hourly frequency segmentation and duration averaging.
+- **Time Grain**: Hourly clock-in grain
+- **Suggested Visual**: Hourly bar distribution chart.
+- **Expected Insight**: Distribution of shifts across early morning, standard morning, and afternoon openings.
+- **Expected Decision**: Align store opening rosters with observed employee clock-in patterns.
+- **Feasibility and Limitation**: Fully feasible; records with null check-in/out excluded.
 
-### EDA Item 2: Product Category Contribution & Pricing Power
-- **EDA Question**: Which product categories generate the highest net revenue and gross margins, and how does average selling price correlate with sales volume?
-- **Domain & Purpose**: Sales Dashboard — identifies high-yield merchandise lines versus commoditized low-margin categories.
-- **Tables, Columns & Join**: `sales.order_items` (`quantity`, `net_amount`, `prod_id`) $\bowtie$ `products.products` (`price`, `cost_price`) $\bowtie$ `core.dim_brand` $\bowtie$ `core.dim_category` (`category_name`).
-- **Method**: Cross-sectional category Pareto aggregation and margin percentage computation.
-- **Time Grain**: Full historical dataset and trailing 12 months.
-- **Suggested Visual**: Horizontal bar chart of Category Revenue sorted descending, paired with a margin percentage bubble overlay.
-- **Expected Insight**: Highlights the top 3 categories that drive over 60% of total revenue.
-- **Expected Decision**: Reallocate vendor merchandising budgets and shelf space toward categories with both high velocity and strong margin.
-- **Feasibility & Limitation**: **Directly Feasible**; requires joins from `order_items` to `products` and `dim_brand` to `dim_category`.
+### EDA 5.3: Monthly Revenue vs. Operating Expenses Operating Jaw Analysis
+- **EDA Question**: Are operating costs growing faster than commercial sales revenue over time?
+- **Domain and Purpose**: Finance Analytics — evaluates operating leverage and jaw spread (Revenue Growth % - OPEX Growth %).
+- **Tables, Columns and Join**: CTE combining `sales.orders`, `finance.expenses`, and `stores.expenses` by month.
+- **Method**: Time-series cohort comparison and Month-over-Month (MoM) delta analysis.
+- **Time Grain**: Monthly grain (2024 to 2026)
+- **Suggested Visual**: Dual-axis line chart tracking Revenue vs. OPEX growth with jaw spread bars.
+- **Expected Insight**: Pinpoints periods where expense inflation eroded operating margins.
+- **Expected Decision**: Impose immediate discretionary spending freezes when operating jaws turn negative.
+- **Feasibility and Limitation**: Derivable from validated orders and expense records.
 
----
+### EDA 5.4: Store Efficiency Quartile Analysis: Staff vs. Sales Outliers
+- **EDA Question**: Which retail stores deliver top-tier sales productivity per worker, and which lag in the bottom quartile?
+- **Domain and Purpose**: Cross-Functional Analytics — classifies 200 retail stores into efficiency quartiles based on revenue per employee.
+- **Tables, Columns and Join**: `stores.stores s LEFT JOIN stores.employees e ON s.store_id = e.store_id LEFT JOIN sales.orders o ON s.store_id = o.store_id`
+- **Method**: NTILE(4) quartile segmentation based on revenue per head.
+- **Time Grain**: Portfolio-level aggregate
+- **Suggested Visual**: Quartile comparison cards and scatter plot (Staff vs. Sales).
+- **Expected Insight**: Clear demarcation between high-efficiency flagship stores and low-productivity outliers.
+- **Expected Decision**: Deploy store excellence teams to bottom-quartile branches to overhaul operations.
+- **Feasibility and Limitation**: Fully supported by pre-aggregated store sales and employee counts.
 
-### EDA Item 3: RFM Customer Deciles & Churn Probability
-- **EDA Question**: What proportion of the customer base qualifies as high-value 'Champions' vs 'At-Risk' churn candidates, and what is their relative revenue impact?
-- **Domain & Purpose**: Customer Dashboard — drives customer lifetime value optimization and prevents churn among top spenders.
-- **Tables, Columns & Join**: `sales.orders` (`cust_id`, `order_date`, `net_total`) $\bowtie$ `customers.customers` (`tier`).
-- **Method**: Recency, Frequency, Monetary quintile scoring (`NTILE(5)`) anchored to current operating date `2026-02-26`.
-- **Time Grain**: Customer lifecycle view.
-- **Suggested Visual**: Scatter/bubble matrix (X-axis: Recency days, Y-axis: Frequency, Bubble size: Total net spend, Color: RFM Segment).
-- **Expected Insight**: Pinpoints high-spending VIP customers who have not placed an order in over 90 days.
-- **Expected Decision**: Automated high-priority alerts to customer success and dedicated retention promotional campaigns.
-- **Feasibility & Limitation**: **Derivable**; churn probability is a heuristic proxy based on recency inactivity.
+### EDA 5.5: Cash Liquidity Risk & Inter-Account Failure Investigation
+- **EDA Question**: What accounts are involved in failed inter-account transfers, and what is the monetary exposure?
+- **Domain and Purpose**: Finance Analytics — investigates banking transfer rejections to safeguard corporate liquidity.
+- **Tables, Columns and Join**: `finance.transfer_log t JOIN finance.accounts a1 ON t.from_account = a1.account_id JOIN finance.accounts a2 ON t.to_account = a2.account_id WHERE status = 'Failed'`
+- **Method**: Exception filtering and transaction ranking.
+- **Time Grain**: Transaction event grain
+- **Suggested Visual**: Exception audit table with highlighted failure amounts.
+- **Expected Insight**: Isolates high-value failed transfers and source/target account holders.
+- **Expected Decision**: Instruct treasury desk to re-authenticate credentials or rectify routing details.
+- **Feasibility and Limitation**: Directly available in `finance.transfer_log`.
 
----
-
-### EDA Item 4: Courier SLA Lead Time & Delivery Reliability
-- **EDA Question**: Which courier partners meet the $\le 5$-day transit SLA, and where are the primary parcel delivery bottlenecks geographically?
-- **Domain & Purpose**: Operations Dashboard — evaluates logistics carrier contracts and regional delivery efficiency.
-- **Tables, Columns & Join**: `sales.shipments` (`courier_name`, `shipped_date`, `delivered_date`, `status`) $\bowtie$ `sales.orders` $\bowtie$ `stores.stores` $\bowtie$ `core.dim_region` (`region_name`).
-- **Method**: Transit duration distribution analysis, percentile lead times (P50, P90), and SLA breach percentages.
-- **Time Grain**: Monthly and overall carrier performance.
-- **Suggested Visual**: Multi-bar chart comparing SLA compliance % alongside average lead time in days by courier.
-- **Expected Insight**: Reveals carriers with chronic delivery delays in specific geographical zones.
-- **Expected Decision**: Enforce contractual SLA penalty clauses or adjust carrier allocation weighting.
-- **Feasibility & Limitation**: **Directly Feasible**; calculated on delivered parcels where `delivered_date` is not null.
-
----
-
-### EDA Item 5: Factory Quality Rejection vs Product Return Rates
-- **EDA Question**: Is there a direct statistical correlation between manufacturing scrap/rejection rates on the shop floor and subsequent customer product return rates for defective merchandise?
-- **Domain & Purpose**: Cross-Functional Dashboard — bridges factory production operations with downstream customer satisfaction.
-- **Tables, Columns & Join**: `manufacture.work_orders` (`product_id`, `rejected_quantity`, `quantity_produced`) $\bowtie$ `products.products` $\bowtie$ `sales.returns` (`reason = 'Defective'`).
-- **Method**: Bivariate correlation and category defect-rate alignment.
-- **Time Grain**: Production batch and return quarterly cycles.
-- **Suggested Visual**: Side-by-side comparative bar chart or dual scatter plot linking factory scrap rate to defect return rate.
-- **Expected Insight**: Identifies whether customer return spikes are triggered by production assembly flaws or transit damage.
-- **Expected Decision**: Root-cause preventive engineering on offending assembly lines and stricter pre-shipment QA checks.
-- **Feasibility & Limitation**: **Derivable**; work orders track manufactured SKU runs while returns specify defective items.
+### EDA 5.6: Effective Statutory Tax Burden across Salary Tranches
+- **EDA Question**: Does the effective income tax deduction rate scale progressively across employee compensation tiers?
+- **Domain and Purpose**: HR & Finance Analytics — audits tax withholding progressivity across entry, mid, senior, and executive pay bands.
+- **Tables, Columns and Join**: `payroll.pay_slips` (gross_salary, income_tax)
+- **Method**: Income tier segmentation and effective tax rate calculation (`Income Tax / Gross Salary * 100`).
+- **Time Grain**: Annual/Monthly payslip grain
+- **Suggested Visual**: Progressive bar chart showing effective tax rate by compensation bracket.
+- **Expected Insight**: Verifies statutory tax progression across employee compensation bands.
+- **Expected Decision**: Validate payroll withholding algorithms against statutory income tax slabs.
+- **Feasibility and Limitation**: Directly calculated from itemized payslip records.\n

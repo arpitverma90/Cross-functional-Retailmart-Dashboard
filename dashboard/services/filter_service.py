@@ -5,7 +5,7 @@ DEFAULT_START_DATE = "2024-01-01"
 DEFAULT_END_DATE = "2026-02-26"
 
 def get_filter_options(selected_region=None):
-    """Retrieve dynamic filter options from PostgreSQL."""
+    """Retrieve dynamic filter options from PostgreSQL for HR & Finance domains."""
     regions = execute_query("""
         SELECT region_id, region_name, state 
         FROM core.dim_region 
@@ -20,24 +20,23 @@ def get_filter_options(selected_region=None):
     store_sql += " ORDER BY store_name;"
     stores = execute_query(store_sql, store_params)
     
-    categories = execute_query("""
-        SELECT category_id, category_name 
-        FROM core.dim_category 
-        ORDER BY category_name;
+    departments = execute_query("""
+        SELECT dept_id, dept_name 
+        FROM core.dim_department 
+        ORDER BY dept_name;
     """)
-    
-    tiers = execute_query("""
-        SELECT DISTINCT tier AS tier_name 
-        FROM customers.customers 
-        WHERE tier IS NOT NULL 
-        ORDER BY tier;
+
+    expense_categories = execute_query("""
+        SELECT exp_cat_id, category_name 
+        FROM core.dim_expense_category 
+        ORDER BY category_name;
     """)
     
     return {
         'regions': regions,
         'stores': stores,
-        'categories': categories,
-        'tiers': tiers,
+        'departments': departments,
+        'expense_categories': expense_categories,
         'min_date': DEFAULT_START_DATE,
         'max_date': DEFAULT_END_DATE,
     }
@@ -49,8 +48,8 @@ def parse_filters(request):
     end_date = request.GET.get('end_date', DEFAULT_END_DATE)
     region_id = request.GET.get('region_id')
     store_id = request.GET.get('store_id')
-    category_id = request.GET.get('category_id')
-    customer_tier = request.GET.get('customer_tier')
+    dept_id = request.GET.get('dept_id')
+    exp_cat_id = request.GET.get('exp_cat_id')
     
     # Validation
     try:
@@ -65,16 +64,16 @@ def parse_filters(request):
         
     cleaned_region = int(region_id) if region_id and region_id.isdigit() else None
     cleaned_store = int(store_id) if store_id and store_id.isdigit() else None
-    cleaned_category = int(category_id) if category_id and category_id.isdigit() else None
-    cleaned_tier = customer_tier.strip() if customer_tier and customer_tier in ['Bronze', 'Silver', 'Gold', 'Platinum'] else None
+    cleaned_dept = int(dept_id) if dept_id and dept_id.isdigit() else None
+    cleaned_exp_cat = int(exp_cat_id) if exp_cat_id and exp_cat_id.isdigit() else None
     
     return {
         'start_date': start_date,
         'end_date': end_date,
         'region_id': cleaned_region,
         'store_id': cleaned_store,
-        'category_id': cleaned_category,
-        'customer_tier': cleaned_tier,
+        'dept_id': cleaned_dept,
+        'exp_cat_id': cleaned_exp_cat,
     }
 
 
@@ -97,19 +96,47 @@ def build_sales_where_clause(filters, alias="o"):
     elif filters.get('region_id'):
         conditions.append(f"{alias}.store_id IN (SELECT store_id FROM stores.stores WHERE region_id = %s)")
         params.append(filters['region_id'])
-        
-    if filters.get('customer_tier'):
-        conditions.append(f"{alias}.cust_id IN (SELECT customer_id FROM customers.customers WHERE tier = %s)")
-        params.append(filters['customer_tier'])
-        
-    if filters.get('category_id'):
-        conditions.append(f"""EXISTS (
-            SELECT 1 FROM sales.order_items oi_filter
-            JOIN products.products p_filter ON oi_filter.prod_id = p_filter.product_id
-            JOIN core.dim_brand b_filter ON p_filter.brand_id = b_filter.brand_id
-            WHERE oi_filter.order_id = {alias}.order_id AND b_filter.category_id = %s
-        )""")
-        params.append(filters['category_id'])
-        
     where_sql = " AND ".join(conditions)
     return f"WHERE {where_sql}" if where_sql else "", params
+
+
+def build_employee_where_clause(filters, alias="e"):
+    """Build dynamic WHERE conditions for stores.employees queries."""
+    conditions = []
+    params = []
+
+    if filters.get('dept_id'):
+        conditions.append(f"{alias}.dept_id = %s")
+        params.append(filters['dept_id'])
+
+    if filters.get('store_id'):
+        conditions.append(f"{alias}.store_id = %s")
+        params.append(filters['store_id'])
+    elif filters.get('region_id'):
+        conditions.append(f"{alias}.store_id IN (SELECT store_id FROM stores.stores WHERE region_id = %s)")
+        params.append(filters['region_id'])
+
+    where_sql = " AND ".join(conditions)
+    return f"WHERE {where_sql}" if where_sql else "", params
+
+
+def build_expense_where_clause(filters, alias="e"):
+    """Build dynamic WHERE conditions for finance.expenses queries."""
+    conditions = []
+    params = []
+
+    if filters.get('start_date'):
+        conditions.append(f"{alias}.expense_date >= %s")
+        params.append(filters['start_date'])
+
+    if filters.get('end_date'):
+        conditions.append(f"{alias}.expense_date <= %s")
+        params.append(filters['end_date'])
+
+    if filters.get('exp_cat_id'):
+        conditions.append(f"{alias}.exp_cat_id = %s")
+        params.append(filters['exp_cat_id'])
+
+    where_sql = " AND ".join(conditions)
+    return f"WHERE {where_sql}" if where_sql else "", params
+
