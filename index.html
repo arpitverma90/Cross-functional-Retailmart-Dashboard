@@ -3374,8 +3374,15 @@
 
             // Trigger window resize so ApexCharts correctly size
             window.dispatchEvent(new Event('resize'));
-            setTimeout(function() { window.dispatchEvent(new Event('resize')); }, 60);
-            setTimeout(function() { window.dispatchEvent(new Event('resize')); }, 200);
+            setTimeout(function() { 
+                window.dispatchEvent(new Event('resize')); 
+                if (typeof refreshTabCharts === 'function') {
+                    refreshTabCharts(tabId);
+                }
+            }, 60);
+            setTimeout(function() { 
+                window.dispatchEvent(new Event('resize')); 
+            }, 250);
         }
 
         // Deliverables Dropdown toggle
@@ -3490,6 +3497,26 @@
             applyFilters();
         }
 
+        // Safe Chart Updater Helper
+        function safeUpdateChart(chartId, series, options) {
+            try {
+                if (!window.appCharts || !window.appCharts[chartId]) return;
+                const chart = window.appCharts[chartId];
+                if (options) {
+                    chart.updateOptions(options, false, true);
+                }
+                if (series) {
+                    chart.updateSeries(series, true);
+                }
+            } catch (err) {
+                console.warn('safeUpdateChart notice [' + chartId + ']:', err);
+            }
+        }
+
+        // Global Store of Last Filter State
+        window.lastFilterState = null;
+
+        // Core Filter Application Engine
         function applyFilters() {
             const startInput = document.getElementById('filter-start-date');
             const endInput = document.getElementById('filter-end-date');
@@ -3509,8 +3536,11 @@
             const endYM = endDate.substring(0, 7);
 
             // 1. Filter Months
-            const allMonths = window.rmData.monthly_sales || [];
-            const selectedMonths = allMonths.filter(m => m.ym >= startYM && m.ym <= endYM);
+            const allMonths = (window.rmData && window.rmData.monthly_sales) ? window.rmData.monthly_sales : [];
+            let selectedMonths = allMonths.filter(m => m.ym >= startYM && m.ym <= endYM);
+            if (!selectedMonths.length) {
+                selectedMonths = allMonths;
+            }
             const totalBaseMonths = allMonths.length || 26;
             const selectedMonthsCount = selectedMonths.length || 1;
 
@@ -3519,7 +3549,7 @@
             const dateRevRatio = selectedMonthsRev / baseRevTotal;
 
             // 2. Filter Stores in Scope
-            const allStores = window.rmData.stores || [];
+            const allStores = (window.rmData && window.rmData.stores) ? window.rmData.stores : [];
             let storesInScope = allStores;
 
             if (storeVal) {
@@ -3537,10 +3567,10 @@
 
             // 3. Compute Aggregates & Scaling
             const isFullStoreScope = (storesInScope.length === allStores.length);
-            const baseStoreRevSum = allStores.reduce((acc, s) => acc + Number(s.net_revenue), 0);
+            const baseStoreRevSum = allStores.reduce((acc, s) => acc + Number(s.net_revenue), 0) || 1;
             const scopedStoresRevRaw = storesInScope.reduce((acc, s) => acc + Number(s.net_revenue), 0);
-            const geoRevRatio = isFullStoreScope ? 1.0 : (scopedStoresRevRaw / (baseStoreRevSum || 1));
-            const scaleFactor = Math.max(0.01, dateRevRatio * geoRevRatio);
+            const geoRevRatio = isFullStoreScope ? 1.0 : (scopedStoresRevRaw / baseStoreRevSum);
+            const scaleFactor = Math.max(0.005, dateRevRatio * geoRevRatio);
 
             const totalDeliveredSales = baseRevTotal * scaleFactor;
             const totalStoresCount = storesInScope.length;
@@ -3553,7 +3583,7 @@
             if (isFullStoreScope) totalMonthlyPayroll = 189820814.0;
 
             if (deptVal) {
-                const depts = window.rmData.departments || [];
+                const depts = (window.rmData && window.rmData.departments) ? window.rmData.departments : [];
                 const targetDept = depts.find(d => String(d.dept_id) === String(deptVal));
                 if (targetDept) {
                     totalStaff = targetDept.staff_count;
@@ -3561,7 +3591,7 @@
                 }
             }
 
-            const totalStoreOpex = (storesInScope.reduce((acc, s) => acc + Number(s.store_expenses), 0) || 100369598.57) * (isFullStoreScope ? 1.0 : 1.0) * dateRevRatio;
+            const totalStoreOpex = (storesInScope.reduce((acc, s) => acc + Number(s.store_expenses), 0) || 100369598.57) * dateRevRatio;
             const totalProcessedPayroll = (180347191.90 * geoRevRatio * dateRevRatio);
 
             const revPerEmpLakhs = totalStaff > 0 ? ((totalDeliveredSales / totalStaff) / 100000) : 0;
@@ -3572,7 +3602,7 @@
             const baseExpenses = 8115400000.0;
             let totalExpenses = baseExpenses * geoRevRatio * dateRevRatio;
             if (expVal) {
-                const expCats = window.rmData.expense_categories || [];
+                const expCats = (window.rmData && window.rmData.expense_categories) ? window.rmData.expense_categories : [];
                 const targetCat = expCats.find(c => String(c.exp_cat_id) === String(expVal));
                 if (targetCat) {
                     totalExpenses = Number(targetCat.total_amount) * geoRevRatio * dateRevRatio;
@@ -3580,6 +3610,24 @@
             }
             const grossMargin = totalDeliveredSales * 0.2749;
             const netSpread = grossMargin - totalExpenses;
+
+            // Cache Filter State
+            window.lastFilterState = {
+                scaleFactor,
+                geoRevRatio,
+                dateRevRatio,
+                selectedMonths,
+                totalDeliveredSales,
+                grossMargin,
+                totalExpenses,
+                totalStoreOpex,
+                netSpread,
+                totalStaff,
+                totalMonthlyPayroll,
+                isFullStoreScope,
+                deptVal,
+                storesInScope
+            };
 
             // 4. Update ALL DOMAIN KPIS IN DOM
             // Cross-Functional Tab KPIs
@@ -3782,211 +3830,8 @@
                 </tr>`).join('');
             }
 
-            // 7. Update ALL DOMAIN CHARTS
-            const filteredMonthNames = selectedMonths.map(m => m.month_name);
-            const filteredMonthSales = selectedMonths.map(m => Number((m.revenue_crores * geoRevRatio).toFixed(2)));
-            const filteredMonthExpenses = selectedMonths.map(m => Number((30.0 * geoRevRatio).toFixed(2)));
-
-            try {
-                // Cross-Functional Trajectory
-                if (window.appCharts['chart-cross-trajectory']) {
-                    window.appCharts['chart-cross-trajectory'].updateOptions({ xaxis: { categories: filteredMonthNames } }, false, true);
-                    window.appCharts['chart-cross-trajectory'].updateSeries([
-                        { name: 'Delivered Revenue (₹ Cr)', type: 'line', data: filteredMonthSales, color: '#A459D0' },
-                        { name: 'Processed Payroll (₹ Cr)', type: 'column', data: filteredMonthSales.map(v => Number((v * 0.0266).toFixed(2))), color: '#E95B9F' },
-                        { name: 'Store OPEX (₹ Cr)', type: 'column', data: filteredMonthSales.map(v => Number((v * 0.0148).toFixed(2))), color: '#E88E3E' }
-                    ]);
-                }
-
-                // Executive Trajectory
-                if (window.appCharts['chart-exec-trajectory']) {
-                    window.appCharts['chart-exec-trajectory'].updateOptions({ xaxis: { categories: filteredMonthNames } }, false, true);
-                    window.appCharts['chart-exec-trajectory'].updateSeries([
-                        { name: 'Delivered Revenue (₹ Cr)', data: filteredMonthSales },
-                        { name: 'Total Operating Expenses (₹ Cr)', data: filteredMonthExpenses },
-                        { name: 'Operating Net Spread (₹ Cr)', data: filteredMonthSales.map((v, i) => Number((v - filteredMonthExpenses[i]).toFixed(2))) }
-                    ]);
-                }
-
-                // Department Allocation Chart
-                if (window.appCharts['chart-dept-cost'] && window.cfData && window.cfData.department_allocation) {
-                    let deptItems = window.cfData.department_allocation;
-                    if (deptVal) {
-                        const deptNum = parseInt(deptVal);
-                        deptItems = deptItems.filter((d, idx) => (idx + 1) === deptNum || String(d.dept_id) === String(deptVal));
-                    }
-                    window.appCharts['chart-dept-cost'].updateOptions({ xaxis: { categories: deptItems.map(d => d.dept_name) } }, false, true);
-                    window.appCharts['chart-dept-cost'].updateSeries([
-                        { name: 'Monthly Payroll (₹ Cr)', data: deptItems.map(d => Number((d.payroll_crores * geoRevRatio).toFixed(2))), color: '#2CD4E1' },
-                        { name: 'Staff Headcount', data: deptItems.map(d => Math.round(d.staff_count * (isFullStoreScope ? 1 : geoRevRatio))), color: '#E95B9F' }
-                    ]);
-                }
-
-                // Sales Trend Chart
-                if (window.appCharts['chart-sales-trend']) {
-                    window.appCharts['chart-sales-trend'].updateOptions({ xaxis: { categories: filteredMonthNames } }, false, true);
-                    window.appCharts['chart-sales-trend'].updateSeries([
-                        { name: 'Net Revenue (₹ Cr)', data: filteredMonthSales }
-                    ]);
-                }
-
-                // Sales Categories
-                if (window.appCharts['chart-sales-category']) {
-                    window.appCharts['chart-sales-category'].updateSeries([
-                        Number((284.15 * scaleFactor).toFixed(2)),
-                        Number((148.90 * scaleFactor).toFixed(2)),
-                        Number((115.40 * scaleFactor).toFixed(2)),
-                        Number((82.50 * scaleFactor).toFixed(2)),
-                        Number((46.00 * scaleFactor).toFixed(2))
-                    ]);
-                }
-
-                // Sales Brands
-                if (window.appCharts['chart-sales-brands']) {
-                    window.appCharts['chart-sales-brands'].updateSeries([
-                        { name: 'Delivered Sales (₹ Cr)', data: [39.59, 38.66, 35.69, 34.82, 33.15, 31.90, 29.45, 27.80].map(v => Number((v * scaleFactor).toFixed(2))) }
-                    ]);
-                }
-
-                // Sales Basket Tiers
-                if (window.appCharts['chart-sales-tiers']) {
-                    window.appCharts['chart-sales-tiers'].updateSeries([
-                        { name: 'Delivered Orders', data: [12480, 24820, 32140, 10850, 2250].map(v => Math.round(v * scaleFactor)) }
-                    ]);
-                }
-
-                // Marketing Spend Trend
-                if (window.appCharts['chart-spend-trend']) {
-                    window.appCharts['chart-spend-trend'].updateOptions({ xaxis: { categories: filteredMonthNames } }, false, true);
-                    window.appCharts['chart-spend-trend'].updateSeries([
-                        { name: 'Paid Ad Spend (₹ Lakhs)', data: selectedMonths.map(m => Number((Number(m.revenue_crores) * 0.152 * geoRevRatio).toFixed(2))) }
-                    ]);
-                }
-
-                // Marketing Campaign Pacing
-                if (window.appCharts['chart-campaign-pacing']) {
-                    const pacingMonths = filteredMonthNames.slice(-8);
-                    const pacingSales = filteredMonthSales.slice(-8);
-                    window.appCharts['chart-campaign-pacing'].updateOptions({ xaxis: { categories: pacingMonths } }, false, true);
-                    window.appCharts['chart-campaign-pacing'].updateSeries([
-                        { name: 'Authorized Budget (₹ L)', data: pacingSales.map(v => Number((v * 1.8).toFixed(1))) },
-                        { name: 'Realized Spend (₹ L)', data: pacingSales.map(v => Number((v * 0.15).toFixed(1))) }
-                    ]);
-                }
-
-                // Digital Traffic Trajectory
-                if (window.appCharts['chart-traffic-trend']) {
-                    window.appCharts['chart-traffic-trend'].updateOptions({ xaxis: { categories: filteredMonthNames } }, false, true);
-                    window.appCharts['chart-traffic-trend'].updateSeries([
-                        { name: 'Web Sessions', data: selectedMonths.map(m => Math.round(m.revenue_crores * 146 * geoRevRatio)) },
-                        { name: 'App Sessions', data: selectedMonths.map(m => Math.round(m.revenue_crores * 220 * geoRevRatio)) }
-                    ]);
-                }
-
-                // Digital Funnel
-                if (window.appCharts['chart-funnel']) {
-                    window.appCharts['chart-funnel'].updateSeries([
-                        { name: 'Step Volume', data: [99320, 74250, 28410, 14205, 10420].map(v => Math.round(v * scaleFactor)) }
-                    ]);
-                }
-
-                // Digital Interaction Events
-                if (window.appCharts['chart-element-events']) {
-                    window.appCharts['chart-element-events'].updateSeries([
-                        { name: 'Clicks', data: [42500, 31200, 28900, 24100, 18200, 14500].map(v => Math.round(v * scaleFactor)) },
-                        { name: 'Scrolls', data: [18200, 14500, 22100, 9800, 8400, 11200].map(v => Math.round(v * scaleFactor)) },
-                        { name: 'Submissions', data: [8500, 6200, 3100, 14205, 5200, 2900].map(v => Math.round(v * scaleFactor)) }
-                    ]);
-                }
-
-                // Logistics Courier SLA
-                if (window.appCharts['chart-courier-sla']) {
-                    window.appCharts['chart-courier-sla'].updateSeries([
-                        { name: 'Delivered Volume', type: 'column', data: [28450, 24120, 18900, 11070].map(v => Math.round(v * scaleFactor)) },
-                        { name: 'On-Time SLA %', type: 'line', data: [82.4, 80.1, 78.5, 74.2] }
-                    ]);
-                }
-
-                // Logistics Lead TAT Distribution
-                if (window.appCharts['chart-lead-distribution']) {
-                    window.appCharts['chart-lead-distribution'].updateSeries([
-                        { name: 'Delivered Shipments', data: [12450, 28540, 26120, 11730, 3700].map(v => Math.round(v * scaleFactor)) }
-                    ]);
-                }
-
-                // Customer Retention
-                if (window.appCharts['chart-customer-retention']) {
-                    window.appCharts['chart-customer-retention'].updateOptions({ xaxis: { categories: filteredMonthNames } }, false, true);
-                    window.appCharts['chart-customer-retention'].updateSeries([
-                        { name: 'Active Retained Buyers', data: selectedMonths.map(m => Math.round(m.revenue_crores * 59.6 * geoRevRatio)) },
-                        { name: 'New Cohort Buyers', data: selectedMonths.map(m => Math.round(m.revenue_crores * 24.2 * geoRevRatio)) }
-                    ]);
-                }
-
-                // Customer Tiers
-                if (window.appCharts['chart-cust-tiers']) {
-                    window.appCharts['chart-cust-tiers'].updateSeries([
-                        { name: 'Delivered Spend (₹ Cr)', type: 'column', data: [334.35, 204.02, 104.77, 33.81].map(v => Number((v * scaleFactor).toFixed(2))) },
-                        { name: 'Enrolled Members', type: 'line', data: [24831, 14975, 7668, 2526].map(v => Math.round(v * (isFullStoreScope ? 1 : geoRevRatio))) }
-                    ]);
-                }
-
-                // Operations Stock Health
-                if (window.appCharts['chart-ops-health']) {
-                    window.appCharts['chart-ops-health'].updateSeries([
-                        { name: 'Adequate Stock Slots', data: [18450, 16200, 14100, 19800, 15400, 12728].map(v => Math.round(v * (isFullStoreScope ? 1 : geoRevRatio))) },
-                        { name: 'Low Stock Triggers', data: [2840, 3120, 2450, 3600, 2870, 2000].map(v => Math.round(v * (isFullStoreScope ? 1 : geoRevRatio))) },
-                        { name: 'Zero Stock Stockouts', data: [95, 110, 85, 130, 105, 70].map(v => Math.round(v * (isFullStoreScope ? 1 : geoRevRatio))) }
-                    ]);
-                }
-
-                // HR Payroll Burden Trajectory
-                if (window.appCharts['chart-hr-payroll']) {
-                    window.appCharts['chart-hr-payroll'].updateOptions({ xaxis: { categories: filteredMonthNames } }, false, true);
-                    window.appCharts['chart-hr-payroll'].updateSeries([
-                        { name: 'Monthly Base Payroll (₹ Cr)', data: selectedMonths.map(() => Number((totalMonthlyPayroll / 10000000).toFixed(2))) }
-                    ]);
-                }
-
-                // HR Department Headcount
-                if (window.appCharts['chart-hr-headcount']) {
-                    window.appCharts['chart-hr-headcount'].updateSeries([780, 520, 440, 360, 280, 220, 180, 120, 60, 40].map(v => Math.round(v * (isFullStoreScope ? 1 : geoRevRatio))));
-                }
-
-                // Finance Waterfall
-                if (window.appCharts['chart-fin-waterfall']) {
-                    window.appCharts['chart-fin-waterfall'].updateSeries([
-                        {
-                            name: 'Amount (₹ Cr)',
-                            data: [
-                                Number((totalDeliveredSales / 10000000).toFixed(2)),
-                                -Number((totalDeliveredSales * 0.7251 / 10000000).toFixed(2)),
-                                Number((grossMargin / 10000000).toFixed(2)),
-                                -Number((totalStoreOpex / 10000000).toFixed(2)),
-                                -Number((totalExpenses / 10000000).toFixed(2)),
-                                Number((netSpread / 10000000).toFixed(2))
-                            ]
-                        }
-                    ]);
-                }
-
-                // Finance Corporate Expense Categories
-                if (window.appCharts['chart-fin-corp']) {
-                    window.appCharts['chart-fin-corp'].updateSeries([
-                        { name: 'Expenditure (₹ Cr)', data: [108.45, 85.20, 64.12, 58.90, 52.40, 45.10, 38.60, 32.80].map(v => Number((v * (isFullStoreScope ? 1 : geoRevRatio) * dateRevRatio).toFixed(2))) }
-                    ]);
-                }
-
-                // Finance Category Margins
-                if (window.appCharts['chart-fin-margins']) {
-                    window.appCharts['chart-fin-margins'].updateSeries([
-                        { name: 'Delivered Revenue (₹ Cr)', type: 'column', data: [312.45, 148.60, 105.80, 68.40, 41.70].map(v => Number((v * scaleFactor).toFixed(2))) },
-                        { name: 'Gross Margin (%)', type: 'line', data: [26.2, 34.5, 18.2, 31.4, 38.8] }
-                    ]);
-                }
-            } catch (err) {
-                console.warn('Chart update notice:', err);
-            }
+            // 7. Update ALL 37 DOMAIN CHARTS
+            updateAllDashboardCharts();
 
             // 8. Update Active Filter Banner Chips
             const banner = document.getElementById('active-filter-banner');
@@ -4029,6 +3874,230 @@
             showToast('Filters Applied: ' + totalStoresCount + ' Stores · ' + formatCompactINR(totalDeliveredSales) + ' Scope');
         }
 
+        // Dedicated Function to Update All 37 Charts Based on Cached Filter State
+        function updateAllDashboardCharts() {
+            if (!window.lastFilterState) return;
+            const { scaleFactor, geoRevRatio, dateRevRatio, selectedMonths, totalDeliveredSales, grossMargin, totalExpenses, totalStoreOpex, netSpread, isFullStoreScope, deptVal } = window.lastFilterState;
+
+            const filteredMonthNames = selectedMonths.map(m => m.month_name);
+            const filteredMonthSales = selectedMonths.map(m => Number((m.revenue_crores * geoRevRatio).toFixed(2)));
+            const filteredMonthExpenses = selectedMonths.map(m => Number((30.0 * geoRevRatio).toFixed(2)));
+
+            // (A) Cross-Functional Charts (2)
+            safeUpdateChart('chart-cross-trajectory', [
+                { name: 'Delivered Revenue (₹ Cr)', type: 'line', data: filteredMonthSales, color: '#A459D0' },
+                { name: 'Processed Payroll (₹ Cr)', type: 'column', data: filteredMonthSales.map(v => Number((v * 0.0266).toFixed(2))), color: '#E95B9F' },
+                { name: 'Store OPEX (₹ Cr)', type: 'column', data: filteredMonthSales.map(v => Number((v * 0.0148).toFixed(2))), color: '#E88E3E' }
+            ], { xaxis: { categories: filteredMonthNames } });
+
+            if (window.cfData && window.cfData.department_allocation) {
+                let deptItems = window.cfData.department_allocation;
+                if (deptVal) {
+                    const deptNum = parseInt(deptVal);
+                    deptItems = deptItems.filter((d, idx) => (idx + 1) === deptNum || String(d.dept_id) === String(deptVal));
+                }
+                safeUpdateChart('chart-dept-cost', [
+                    { name: 'Monthly Payroll (₹ Cr)', data: deptItems.map(d => Number((d.payroll_crores * geoRevRatio).toFixed(2))), color: '#2CD4E1' },
+                    { name: 'Staff Headcount', data: deptItems.map(d => Math.round(d.staff_count * (isFullStoreScope ? 1 : geoRevRatio))), color: '#E95B9F' }
+                ], { xaxis: { categories: deptItems.map(d => d.dept_name) } });
+            }
+
+            // (B) Executive Summary Charts (2)
+            safeUpdateChart('chart-exec-trajectory', [
+                { name: 'Delivered Revenue (₹ Cr)', data: filteredMonthSales },
+                { name: 'Total Operating Expenses (₹ Cr)', data: filteredMonthExpenses },
+                { name: 'Operating Net Spread (₹ Cr)', data: filteredMonthSales.map((v, i) => Number((v - filteredMonthExpenses[i]).toFixed(2))) }
+            ], { xaxis: { categories: filteredMonthNames } });
+
+            safeUpdateChart('chart-exec-expense-mix', [
+                Number((totalExpenses / 10000000).toFixed(2)),
+                Number((totalStoreOpex / 10000000).toFixed(2))
+            ]);
+
+            // (C) Marketing Charts (4)
+            safeUpdateChart('chart-platform-spend', [
+                Number((2194510.82 * scaleFactor).toFixed(2)),
+                Number((2070878.68 * scaleFactor).toFixed(2)),
+                Number((2019363.38 * scaleFactor).toFixed(2)),
+                Number((1957549.14 * scaleFactor).toFixed(2)),
+                Number((2060572.39 * scaleFactor).toFixed(2))
+            ]);
+
+            safeUpdateChart('chart-spend-trend', [
+                { name: 'Facebook', data: selectedMonths.map(m => Math.round(Number(m.revenue_crores) * 340 * geoRevRatio)) },
+                { name: 'Google Ads', data: selectedMonths.map(m => Math.round(Number(m.revenue_crores) * 420 * geoRevRatio)) },
+                { name: 'Instagram', data: selectedMonths.map(m => Math.round(Number(m.revenue_crores) * 280 * geoRevRatio)) }
+            ], { xaxis: { categories: filteredMonthNames } });
+
+            safeUpdateChart('chart-email-trend', [
+                { name: 'Open Rate (%)', data: selectedMonths.map((m, i) => Number((30.0 + Math.sin(i * 0.7) * 2.5).toFixed(1))) },
+                { name: 'Click Rate (%)', data: selectedMonths.map((m, i) => Number((4.5 + Math.cos(i * 0.7) * 0.8).toFixed(1))) }
+            ], { xaxis: { categories: filteredMonthNames } });
+
+            safeUpdateChart('chart-campaign-pacing', [
+                { name: 'Realized Spend', data: [425890, 382150, 294600, 248320, 198740, 175400, 154200, 142100].map(v => Math.round(v * scaleFactor)) },
+                { name: 'Authorized Budget', data: [500000, 450000, 350000, 300000, 250000, 200000, 200000, 180000].map(v => Math.round(v * (isFullStoreScope ? 1 : geoRevRatio))) }
+            ]);
+
+            // (D) Digital Charts (4)
+            safeUpdateChart('chart-device-os', [
+                Math.round(59900 * scaleFactor),
+                Math.round(29800 * scaleFactor),
+                Math.round(10300 * scaleFactor)
+            ]);
+
+            safeUpdateChart('chart-traffic-trend', [
+                { name: 'Page Views', data: selectedMonths.map(m => Math.round(m.revenue_crores * 750 * geoRevRatio)) },
+                { name: 'Unique Visitors', data: selectedMonths.map(m => Math.round(m.revenue_crores * 380 * geoRevRatio)) }
+            ], { xaxis: { categories: filteredMonthNames } });
+
+            safeUpdateChart('chart-funnel', [
+                { name: 'Step Volume', data: [99320, 74250, 28410, 14205, 10420].map(v => Math.round(v * scaleFactor)) }
+            ]);
+
+            safeUpdateChart('chart-element-events', [
+                { name: 'Clicks', data: [42500, 31200, 28900, 24100, 18200, 14500].map(v => Math.round(v * scaleFactor)) },
+                { name: 'Scrolls', data: [18200, 14500, 22100, 9800, 8400, 11200].map(v => Math.round(v * scaleFactor)) },
+                { name: 'Submissions', data: [8500, 6200, 3100, 14205, 5200, 2900].map(v => Math.round(v * scaleFactor)) }
+            ]);
+
+            // (E) Logistics Charts (4)
+            safeUpdateChart('chart-courier-sla', [
+                { name: 'Delivered Parcels', type: 'column', data: [24500, 21800, 18900, 10200, 7140].map(v => Math.round(v * scaleFactor)) },
+                { name: 'On-Time SLA %', type: 'line', data: [82.4, 80.1, 78.5, 74.2, 72.8] }
+            ]);
+
+            safeUpdateChart('chart-region-sla', [
+                { name: 'On-Time SLA %', data: [83.4, 81.8, 80.2, 77.5, 76.1] }
+            ]);
+
+            safeUpdateChart('chart-lead-distribution', [
+                { name: 'Delivered Shipments', data: [12450, 28540, 26120, 11730, 3700].map(v => Math.round(v * scaleFactor)) }
+            ]);
+
+            safeUpdateChart('chart-inbound-status', [
+                Math.round(82540 * scaleFactor),
+                Math.round(14210 * scaleFactor),
+                Math.round(4832 * scaleFactor),
+                Math.round(1840 * scaleFactor)
+            ]);
+
+            // (F) Sales Charts (4)
+            safeUpdateChart('chart-sales-category', [
+                { name: 'Net Revenue (₹ Cr)', data: [284.15, 148.90, 115.40, 82.50, 46.00].map(v => Number((v * scaleFactor).toFixed(2))) }
+            ]);
+
+            safeUpdateChart('chart-sales-trend', [
+                { name: 'Delivered Net Sales', data: filteredMonthSales }
+            ], { xaxis: { categories: filteredMonthNames } });
+
+            safeUpdateChart('chart-sales-brands', [
+                { name: 'Delivered Sales (₹ Cr)', data: [39.59, 38.66, 35.69, 34.82, 33.15, 31.90, 29.45, 27.80].map(v => Number((v * scaleFactor).toFixed(2))) }
+            ]);
+
+            safeUpdateChart('chart-sales-tiers', [
+                { name: 'Delivered Orders', data: [12480, 24820, 32140, 10850, 2250].map(v => Math.round(v * scaleFactor)) }
+            ]);
+
+            // (G) Customers Charts (4)
+            safeUpdateChart('chart-rfm-distribution', [
+                Math.round(8885 * scaleFactor),
+                Math.round(11240 * scaleFactor),
+                Math.round(7420 * scaleFactor),
+                Math.round(6518 * scaleFactor),
+                Math.round(6317 * scaleFactor)
+            ]);
+
+            safeUpdateChart('chart-customer-retention', [
+                { name: 'Repeat Order Retention %', data: [100, 78.4, 69.2, 64.2, 59.8, 55.4] }
+            ]);
+
+            safeUpdateChart('chart-cust-tiers', [
+                { name: 'Delivered Spend (₹ Cr)', type: 'column', data: [334.35, 204.02, 104.77, 33.81].map(v => Number((v * scaleFactor).toFixed(2))) },
+                { name: 'Enrolled Members', type: 'line', data: [24831, 14975, 7668, 2526].map(v => Math.round(v * (isFullStoreScope ? 1 : geoRevRatio))) }
+            ]);
+
+            safeUpdateChart('chart-cust-cohorts', [
+                Number((390.48 * scaleFactor).toFixed(2)),
+                Number((129.09 * scaleFactor).toFixed(2)),
+                Number((137.94 * scaleFactor).toFixed(2)),
+                Number((19.43 * scaleFactor).toFixed(2))
+            ]);
+
+            // (H) Operations Charts (4)
+            safeUpdateChart('chart-ops-health', [
+                Number((84.6).toFixed(1)),
+                Number((14.8).toFixed(1)),
+                Number((0.52).toFixed(2))
+            ]);
+
+            safeUpdateChart('chart-ops-scrap', [
+                { name: 'Scrap Rate %', data: [1.8, 2.1, 1.9, 2.4, 3.8, 2.2, 1.7, 2.3, 3.6, 2.0] }
+            ]);
+
+            safeUpdateChart('chart-ops-risk', [
+                { name: 'At-Risk Inventory Rate (%)', data: [15.54, 15.43, 15.35, 15.12, 14.88, 14.62] }
+            ]);
+
+            safeUpdateChart('chart-ops-capacity', [
+                { name: 'Capacity Utilized (%)', data: [88.4, 82.1, 76.5, 79.2, 71.0] }
+            ]);
+
+            // (I) HR Charts (4)
+            safeUpdateChart('chart-hr-headcount', [
+                850, 620, 480, 310, 240, 190, 130, 90, 50, 40
+            ].map(v => Math.round(v * (isFullStoreScope ? 1 : geoRevRatio))));
+
+            safeUpdateChart('chart-hr-payroll', [
+                { name: 'Monthly Payroll (₹ Lakhs)', data: [485, 392, 315, 218, 198, 142, 98, 62, 38, 32].map(v => Number((v * (isFullStoreScope ? 1 : geoRevRatio)).toFixed(1))) }
+            ]);
+
+            safeUpdateChart('chart-hr-shifts', [
+                1275, 852, 558, 315
+            ].map(v => Math.round(v * (isFullStoreScope ? 1 : geoRevRatio))));
+
+            safeUpdateChart('chart-hr-attendance', [
+                { name: 'Attendance Compliance (%)', data: selectedMonths.map((m, i) => Number((94.0 + (i % 3) * 0.5).toFixed(1))) }
+            ], { xaxis: { categories: filteredMonthNames } });
+
+            // (J) Finance Charts (4)
+            safeUpdateChart('chart-fin-waterfall', [
+                {
+                    data: [
+                        { x: 'Net Revenue', y: Number((totalDeliveredSales / 10000000).toFixed(2)) },
+                        { x: 'COGS', y: -Number((totalDeliveredSales * 0.7251 / 10000000).toFixed(2)) },
+                        { x: 'Gross Margin', y: Number((grossMargin / 10000000).toFixed(2)) },
+                        { x: 'Store OPEX', y: -Number((totalStoreOpex / 10000000).toFixed(2)) },
+                        { x: 'Corp OPEX', y: -Number((totalExpenses / 10000000).toFixed(2)) },
+                        { x: 'Operating EBIT', y: Number((netSpread / 10000000).toFixed(2)) }
+                    ]
+                }
+            ]);
+
+            safeUpdateChart('chart-fin-rails', [
+                Number((312.40 * scaleFactor).toFixed(2)),
+                Number((241.10 * scaleFactor).toFixed(2)),
+                Number((92.50 * scaleFactor).toFixed(2)),
+                Number((55.23 * scaleFactor).toFixed(2))
+            ]);
+
+            safeUpdateChart('chart-fin-corp', [
+                { name: 'Expenditure (₹ Cr)', data: [108.45, 85.20, 64.12, 58.90, 52.40, 45.10, 38.60, 32.80].map(v => Number((v * (isFullStoreScope ? 1 : geoRevRatio) * dateRevRatio).toFixed(2))) }
+            ]);
+
+            safeUpdateChart('chart-fin-margins', [
+                { name: 'Delivered Revenue (₹ Cr)', type: 'column', data: [312.45, 148.60, 105.80, 68.40, 41.70].map(v => Number((v * scaleFactor).toFixed(2))) },
+                { name: 'Gross Margin (%)', type: 'line', data: [26.2, 34.5, 18.2, 31.4, 38.8] }
+            ]);
+        }
+
+        // Refresh Charts on Newly Activated Tab
+        function refreshTabCharts(tabId) {
+            if (window.lastFilterState) {
+                updateAllDashboardCharts();
+            }
+        }
+
         // Handle Reset Filters
         function handleResetFilters() {
             const startInput = document.getElementById('filter-start-date');
@@ -4047,7 +4116,7 @@
             // Re-populate all 200 stores in store select
             if (storeSelect) {
                 storeSelect.innerHTML = '<option value="">All Stores (200)</option>';
-                const stores = window.rmData.stores || [];
+                const stores = (window.rmData && window.rmData.stores) ? window.rmData.stores : [];
                 stores.forEach(s => {
                     const opt = document.createElement('option');
                     opt.value = s.store_id;
@@ -4059,12 +4128,13 @@
                 storeSelect.selectedIndex = 0;
             }
 
-            document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+            // Reset quick date preset buttons active class
+            document.querySelectorAll('.preset-btn').forEach(btn => btn.classList.remove('active'));
             const presetAll = document.getElementById('preset-all');
             if (presetAll) presetAll.classList.add('active');
 
             applyFilters();
-            showToast('Filters reset to default 2024-2026 enterprise baseline');
+            showToast('All filters have been reset to baseline defaults.');
         }
 
         function showToast(msg) {
