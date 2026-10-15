@@ -1,12 +1,31 @@
 # Sales, Customer & Operations Analytics Platform (RetailMart V3)
 ## Enterprise BI Engine for Commercial, Customer RFM, Operations, Growth & Governance
 
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-GitHub%20Pages-brightgreen.svg?logo=github)](https://archanak2810.github.io/sales-customer-operations-analytics/)
 [![Python](https://img.shields.io/badge/Python-3.13.2-blue.svg)](https://www.python.org/)
 [![Django](https://img.shields.io/badge/Django-5.1-green.svg)](https://www.djangoproject.com/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-18.4-336791.svg)](https://www.postgresql.org/)
 [![Status](https://img.shields.io/badge/Status-Production--Ready-success.svg)]()
 
+> **🚀 Live Interactive Dashboard**: [https://archanak2810.github.io/sales-customer-operations-analytics/](https://archanak2810.github.io/sales-customer-operations-analytics/)  
+> **💻 Local Full-Stack Server**: `http://127.0.0.1:8000/` (Django 5.1 + PostgreSQL 18 with 2.4M rows)
+
 A high-performance, modular, and secure Enterprise Business Intelligence application built with **Django 5.1** and powered by **PostgreSQL 18** (`accio_retailmart_27`). This platform visualizes and analyzes over **2.4 million rows** across **55 relational tables** within **16 distinct database schemas**, structured into 3 distinct operational domain suites.
+
+---
+
+## 🌐 Deployment Links & Architecture Appropriateness
+
+| Environment | URL / Endpoint | Target Engine | Purpose & Capabilities |
+| :--- | :--- | :--- | :--- |
+| **Live Interactive Web App (Production)** | [Launch Live Dashboard](https://archanak2810.github.io/sales-customer-operations-analytics/) | **GitHub Pages** (HTML5 + ApexCharts.js + Pre-computed PostgreSQL Data) | **Zero-setup client-side BI suite**. Instantly renders all 3 Domain Suites, 6 KPI cards, 8 interactive charts, data tables, what-if scenario simulator, and one-click downloads of all PDF/Word/HTML domain deliverables without requiring PostgreSQL or Python installations. |
+| **Local Full-Stack Enterprise Server** | `http://127.0.0.1:8000/` | **Django 5.1 MTV + PostgreSQL 18** (`accio_retailmart_27`) | **Full relational dynamic query engine**. Executes pushdown SQL aggregation queries, window functions, and live schema inspections directly against the 2.4 million row database across 16 schemas. |
+
+### Why This Deployment Link Is Appropriate
+1. **Instant Accessibility**: GitHub Pages provides 99.99% uptime, zero cold starts, and immediate public access for stakeholders, executives, and evaluators to interact with the full analytics dashboard without installing local database dependencies.
+2. **True Interactive Experience**: The live deployment is not a static screenshot; it is a fully functional web application with interactive tab routing across all 3 domain suites, responsive ApexCharts data tooltips, and a dynamic sensitivity scenario calculator.
+3. **Integrated Deliverable Distribution**: All 9 enterprise deliverables (.pdf, .docx, .html) and master SQL catalogs are directly downloadable from the live navigation bar.
+4. **Complementary Local Full-Stack**: For data engineers and backend developers, the complete Django 5.1 codebase is included in this repository to run the dynamic server locally against live PostgreSQL.
 
 ---
 
